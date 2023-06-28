@@ -1,0 +1,32 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "pipeline": {
+    "build": {
+      "inputs": ["src/**/*.{cjs,mjs,js,jsx,cts,mts,ts,tsx}", "package.json"],
+      "outputs": ["{dist,lib}/**"],
+      "dependsOn": ["^build"]
+    },
+    "clean": {},
+    "coverage": {
+      "inputs": ["src/**/*.{cjs,mjs,js,jsx,cts,mts,ts,tsx}", "test/**/*.{cjs,mjs,js,jsx,cts,mts,ts,tsx}", "package.json"],
+      "outputs": ["coverage/**"],
+      "dependsOn": ["^build"]
+    },
+    "format": {
+      "inputs": ["src/**/*.{cjs,mjs,js,jsx,cts,mts,ts,tsx}", "test/**/*.{cjs,mjs,js,jsx,cts,mts,ts,tsx}", "package.json"],
+      "dependsOn": ["^build"]
+    },
+    "lint": {
+      "inputs": ["src/**/*.{cjs,mjs,js,jsx,cts,mts,ts,tsx}", "test/**/*.{cjs,mjs,js,jsx,cts,mts,ts,tsx}", "package.json"],
+      "dependsOn": ["^build"]
+    },
+    "precommit": {
+      "inputs": ["src/**/*.{cjs,mjs,js,jsx,cts,mts,ts,tsx}", "test/**/*.{cjs,mjs,js,jsx,cts,mts,ts,tsx}", "package.json"],
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "inputs": ["src/**/*.{cjs,mjs,js,jsx,cts,mts,ts,tsx}", "test/**/*.{cjs,mjs,js,jsx,cts,mts,ts,tsx}", "package.json"],
+      "dependsOn": ["^build"]
+    }
+  }
+}

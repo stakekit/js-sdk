@@ -1,0 +1,27 @@
+{
+  "name": "@stakekit/common",
+  "version": "0.0.3",
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "tsc -b .",
+    "lint": "eslint \"src/**/*.ts\"",
+    "test": "exit 0"
+  },
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "devDependencies": {
+    "@types/eslint": "^8",
+    "@types/prettier": "^2",
+    "@typescript-eslint/eslint-plugin": "^5.58.0",
+    "@typescript-eslint/parser": "^5.58.0",
+    "eslint": "^8.38.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.7",
+    "typescript": "4.9.5"
+  }
+}

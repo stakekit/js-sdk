@@ -1,0 +1,44 @@
+{
+  "name": "stakekit-monorepo",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:stakekit/monorepo.git"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run --concurrency=4 build",
+    "clean": "turbo run clean",
+    "coverage": "turbo run --concurrency=4 coverage",
+    "coverage:ci": "turbo run --concurrency=2 coverage -- --maxWorkers=2 --forceExit",
+    "format": "turbo run --concurrency=4 format",
+    "lint": "turbo run --concurrency=4 lint",
+    "postinstall": "husky install",
+    "test": "turbo run --concurrency=4 test",
+    "test:ci": "turbo run --concurrency=2 test",
+    "regen:api-hooks": "yarn workspace @stakekit/api-hooks build && yarn workspace @stakekit/api-hooks orval"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@commitlint/config-lerna-scopes": "^17.4.2",
+    "@types/eslint": "^8",
+    "@types/prettier": "^2",
+    "@typescript-eslint/eslint-plugin": "^5.58.0",
+    "@typescript-eslint/parser": "^5.58.0",
+    "eslint": "^8.38.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.0",
+    "prettier": "^2.8.7",
+    "turbo": "^1.8.3"
+  },
+  "packageManager": "yarn@3.6.0",
+  "resolutions": {
+    "near-ledger-js@^0.2.1": "patch:near-ledger-js@npm%3A0.2.1#./.yarn/patches/near-ledger-js-npm-0.2.1-a65e3608e3.patch",
+    "ed25519-hd-key@^1.3.0": "patch:ed25519-hd-key@npm%3A1.3.0#./.yarn/patches/ed25519-hd-key-npm-1.3.0-248db2e234.patch"
+  }
+}

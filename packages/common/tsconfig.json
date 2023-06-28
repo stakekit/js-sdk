@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "CommonJS",
+    "removeComments": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "incremental": true,
+    "declarationMap": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "target": "ES2021",
+    "outDir": "lib",
+    "exactOptionalPropertyTypes": true,
+    "strictPropertyInitialization": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
