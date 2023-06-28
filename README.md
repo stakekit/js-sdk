@@ -1,3 +1,8 @@
+
+<p align="center">
+  <img src="https://github.com/stakekit/assets/blob/main/logo/sk-logo.png?raw=true" alt="Stakekit's logo"/>
+</p>
+
 # Stakekit Javascript SDKs
 
 ## Packages
