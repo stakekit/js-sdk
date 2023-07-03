@@ -6,7 +6,4 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface UpdateProjectDto {
-  description?: string;
-  name?: string;
-}
+export type ProjectDescription = { [key: string]: any };
