@@ -110,6 +110,7 @@ export const useSKWallet = (): SKWallet => {
             EitherAsync(() =>
               wagmiSendTransaction({
                 ...val,
+                type: "eip1559",
                 nonce: val.nonce + index,
                 gas: val.gasLimit,
                 mode: "prepared",
