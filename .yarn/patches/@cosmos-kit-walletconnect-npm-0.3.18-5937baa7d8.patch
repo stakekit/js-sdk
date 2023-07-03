@@ -1,0 +1,22 @@
+diff --git a/module/client.js b/module/client.js
+index ca16590bb851ecc6988483c5a047ab0c4ddb22ce..7ba4bb33af8b98a4b39da30e9bf1fb7fc8edefb6 100644
+--- a/module/client.js
++++ b/module/client.js
+@@ -162,7 +162,7 @@ export class WCClient {
+     }
+     this.pairings = this.signClient.pairing.getAll({
+       active: true
+-    }).filter(p => p.peerMetadata?.name === this.wcName && p.expiry * 1000 > Date.now() + 1000);
++    }).filter(p => p.expiry * 1000 > Date.now() + 1000);
+     this.logger?.debug('RESTORED PAIRINGS: ', this.pairings);
+   }
+   get pairing() {
+@@ -172,7 +172,7 @@ export class WCClient {
+     if (typeof this.signClient === 'undefined') {
+       throw new Error('WalletConnect is not initialized');
+     }
+-    this.sessions = this.signClient.session.getAll().filter(s => s.peer.metadata.name === this.wcName && s.expiry * 1000 > Date.now() + 1000);
++    this.sessions = this.signClient.session.getAll().filter(s => s.expiry * 1000 > Date.now() + 1000);
+     this.logger?.debug('RESTORED SESSIONS: ', this.sessions);
+   }
+   getSession(namespace, chainId) {

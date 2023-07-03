@@ -2407,7 +2407,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmos-kit/walletconnect@npm:^0.3.18":
+"@cosmos-kit/walletconnect@npm:0.3.18":
   version: 0.3.18
   resolution: "@cosmos-kit/walletconnect@npm:0.3.18"
   dependencies:
@@ -2421,6 +2421,23 @@ __metadata:
     "@cosmjs/amino": ">= 0.28"
     "@cosmjs/proto-signing": ">= 0.28"
   checksum: 78651d303da0a6cb5a744a1724de057ee18bc2e72cc7590a91654adcfcc67db951612993b148999e3946670e4a9252df91088a9e90b1ef0413e05e293980d3c9
+  languageName: node
+  linkType: hard
+
+"@cosmos-kit/walletconnect@patch:@cosmos-kit/walletconnect@npm%3A0.3.18#./.yarn/patches/@cosmos-kit-walletconnect-npm-0.3.18-5937baa7d8.patch::locator=stakekit-monorepo%40workspace%3A.":
+  version: 0.3.18
+  resolution: "@cosmos-kit/walletconnect@patch:@cosmos-kit/walletconnect@npm%3A0.3.18#./.yarn/patches/@cosmos-kit-walletconnect-npm-0.3.18-5937baa7d8.patch::version=0.3.18&hash=61b41c&locator=stakekit-monorepo%40workspace%3A."
+  dependencies:
+    "@babel/runtime": 7.11.2
+    "@cosmos-kit/core": ^1.7.1
+    "@walletconnect/sign-client": ^2.7.2
+    "@walletconnect/types": ^2.7.2
+    "@walletconnect/utils": ^2.7.2
+    events: 3.3.0
+  peerDependencies:
+    "@cosmjs/amino": ">= 0.28"
+    "@cosmjs/proto-signing": ">= 0.28"
+  checksum: 6b25e73602b2a1370c9c8d1c73f02cbac6b8e7337ce35e1e42520579d2fa50ef9b14042cbf9f705c6c3333219cfc6761a1495fd939b26411a01e443d440b9c5e
   languageName: node
   linkType: hard
 
@@ -6096,7 +6113,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rainbow-me/rainbowkit@npm:^1.0.4":
+"@rainbow-me/rainbowkit@npm:1.0.4":
   version: 1.0.4
   resolution: "@rainbow-me/rainbowkit@npm:1.0.4"
   dependencies:
@@ -6112,6 +6129,25 @@ __metadata:
     viem: ~0.3.19 || ^1.0.0
     wagmi: ~1.0.1 || ~1.1.0 || ~1.2.0 || ~1.3.0
   checksum: bb0985ae8a7aa9e15b7c64a669762ce7adc332f009849b4546965c366946462903a75e4fe593565c2430e5a3385fbc7f4ea128c49a96a7f8816b1ccd54a450c4
+  languageName: node
+  linkType: hard
+
+"@rainbow-me/rainbowkit@patch:@rainbow-me/rainbowkit@npm%3A1.0.4#./.yarn/patches/@rainbow-me-rainbowkit-npm-1.0.4-237ad2241c.patch::locator=stakekit-monorepo%40workspace%3A.":
+  version: 1.0.4
+  resolution: "@rainbow-me/rainbowkit@patch:@rainbow-me/rainbowkit@npm%3A1.0.4#./.yarn/patches/@rainbow-me-rainbowkit-npm-1.0.4-237ad2241c.patch::version=1.0.4&hash=af8734&locator=stakekit-monorepo%40workspace%3A."
+  dependencies:
+    "@vanilla-extract/css": 1.9.1
+    "@vanilla-extract/dynamic": 2.0.2
+    "@vanilla-extract/sprinkles": 1.5.0
+    clsx: 1.1.1
+    qrcode: 1.5.0
+    react-remove-scroll: 2.5.4
+  peerDependencies:
+    react: ">=17"
+    react-dom: ">=17"
+    viem: ~0.3.19 || ^1.0.0
+    wagmi: ~1.0.1 || ~1.1.0 || ~1.2.0 || ~1.3.0
+  checksum: 1845096eea26d92c2c6e35bcb732b443e6bbc5f634dc9db98dd5e6e9ec4f5f00afd2e3cf8f135dad5cd928deddfdda66c61d7677497c1d2f07e7ba5e57581534
   languageName: node
   linkType: hard
 
