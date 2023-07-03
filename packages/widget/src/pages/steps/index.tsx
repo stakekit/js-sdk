@@ -179,7 +179,7 @@ export const StepsPage = () => {
                 {state.checkTxStatus.isLoading ? (
                   <Spinner variant={{ color: "inverted" }} />
                 ) : state.checkTxStatus.isError ? (
-                  <XIcon color="white" />
+                  <XIcon color="background" />
                 ) : (
                   <CheckSteps hw={18} />
                 )}
