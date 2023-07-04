@@ -71,6 +71,7 @@ export * from './priceRequestDto';
 export * from './priceResponseDto';
 export * from './project';
 export * from './projectDeletedAt';
+export * from './projectDescription';
 export * from './requiredArgumentDto';
 export * from './requiredArgumentWithNetworkDto';
 export * from './requiredArgumentWithNetworkDtoNetwork';

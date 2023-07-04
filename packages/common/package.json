@@ -1,17 +1,28 @@
 {
   "name": "@stakekit/common",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "tsc -b .",
+    "build": "yarn clean && tsc -b ./tsconfig.cjs.json && tsc -b ./tsconfig.esm.json",
     "lint": "eslint \"src/**/*.ts\"",
     "test": "exit 0"
   },
   "files": [
     "lib"
   ],
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "main": "lib/cjs/index.js",
+  "types": "lib/cjs/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js",
+      "types": "./lib/cjs/index.d.ts"
+    }
+  },
   "devDependencies": {
     "@types/eslint": "^8",
     "@types/prettier": "^2",
