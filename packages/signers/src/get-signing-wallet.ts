@@ -6,32 +6,113 @@ import {
   StakeProgram,
 } from '@solana/web3.js';
 
-import { SignDoc, TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { signTransaction, Transaction } from 'near-api-js/lib/transaction';
-import { getBinanceChainWallet } from './binance';
-import { getCeloWallet } from './celo';
-import {
-  isLedgerOptions,
-  LedgerApps,
-  SigningWallet,
-  WalletOptions,
-} from './constants';
-import { getStargateWallet } from './cosmos';
-import { getEthereumWallet } from './ethereum';
-import { getNearWallet, nearKeyPairToAddress } from './near';
-import {
-  getSolanaStakeAccountDerivationPath,
-  getSolanaWallet,
-  SolanaSigner,
-} from './solana';
-import { getTezosWallet } from './tezos';
-import { incrementDerivationPath } from './utils';
 import {
   CosmosNetworks,
   EvmNetworks,
   Networks,
   cosmosChainConfig,
 } from '@stakekit/common';
+import { Avalanche, Buffer as Buf } from 'avalanche';
+import {
+  EVMInput,
+  Tx as EvmTx,
+  UnsignedTx as UnsignedEvmTx,
+} from 'avalanche/dist/apis/evm';
+import {
+  Tx as PTx,
+  UnsignedTx as UnsignedPtx,
+} from 'avalanche/dist/apis/platformvm';
+import { SigIdx } from 'avalanche/dist/common';
+import { SignDoc, TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { Transaction, signTransaction } from 'near-api-js/lib/transaction';
+import { getAvalancheWallet } from './avalanche';
+import { getBinanceChainWallet } from './binance';
+import { getCeloWallet } from './celo';
+import {
+  LedgerApps,
+  SigningWallet,
+  WalletOptions,
+  isLedgerOptions,
+} from './constants';
+import { getStargateWallet } from './cosmos';
+import { getEthereumWallet } from './ethereum';
+import { getNearWallet, nearKeyPairToAddress } from './near';
+import {
+  SolanaSigner,
+  getSolanaStakeAccountDerivationPath,
+  getSolanaWallet,
+} from './solana';
+import { getTezosWallet } from './tezos';
+import { incrementDerivationPath } from './utils';
+
+const avalancheCSigningWallet = async (
+  options: WalletOptions,
+): Promise<SigningWallet> => {
+  const avalancheWallet = await getAvalancheWallet(new Avalanche(), options);
+  const wallet = await getEthereumWallet(options);
+  return {
+    signTransaction: (tx) => wallet.signTransaction(JSON.parse(tx)),
+    getAddress: () => wallet.getAddress(),
+    getAdditionalAddresses: async () => ({
+      cAddressBech: avalancheWallet?.getCAddressString()!,
+      pAddressBech: avalancheWallet?.getPAddressString()!,
+    }),
+  };
+};
+
+const avalanchePSigningWallet = async (
+  options: WalletOptions,
+): Promise<SigningWallet> => {
+  const wallet = await getAvalancheWallet(new Avalanche(), options);
+  return {
+    signTransaction: async (str) => {
+      const unsignedTx = new UnsignedPtx();
+      unsignedTx.deserialize(JSON.parse(Buffer.from(str, 'hex').toString()));
+
+      console.log(unsignedTx['transaction']);
+
+      const signed: PTx = await wallet!.signP(unsignedTx);
+      return signed.toStringHex();
+    },
+    getAddress: async () => wallet?.ethereumAddress!,
+    getAdditionalAddresses: async () => ({
+      cAddressBech: wallet?.getCAddressString()!,
+      pAddressBech: wallet?.getPAddressString()!,
+    }),
+  };
+};
+
+const avalancheCAtomicSigningWallet = async (
+  options: WalletOptions,
+): Promise<SigningWallet> => {
+  const wallet = await getAvalancheWallet(new Avalanche(), options);
+  return {
+    signTransaction: async (str) => {
+      const { buffer, inputs, sigIdxs } = JSON.parse(str);
+      const unsignedTx = new UnsignedEvmTx();
+      unsignedTx.deserialize(JSON.parse(Buf.from(buffer, 'hex').toString()));
+      const newInput = new EVMInput();
+      newInput.fromBuffer(Buf.from(inputs, 'hex'));
+      const parsedSigIdxs = sigIdxs.map((sigIdxs: string) => {
+        const newSigIdxs = new SigIdx();
+        newSigIdxs.deserialize(JSON.parse(Buf.from(sigIdxs, 'hex').toString()));
+        return newSigIdxs;
+      });
+      //@ts-ignore
+      newInput.sigIdxs.push(...parsedSigIdxs);
+      //@ts-ignore
+      unsignedTx['transaction']['inputs'].push(newInput);
+      const signed: EvmTx = await wallet!.signC(unsignedTx);
+      return signed.toStringHex();
+    },
+    getAddress: async () => wallet?.ethereumAddress!,
+    getAdditionalAddresses: async () => ({
+      cAddressBech: wallet?.getCAddressString()!,
+      pAddressBech: wallet?.getPAddressString()!,
+    }),
+  };
+};
+
 const evmSigningWallet = async (
   options: WalletOptions,
 ): Promise<SigningWallet> => {
@@ -295,6 +376,9 @@ const getters: {
   [Networks.BinanceBeacon]: binanceSigningWallet,
   // [Networks.BinanceBeaconGanges]: binanceSigningWallet,
   [Networks.Binance]: bscSigningWallet,
+  [Networks.AvalancheC]: avalancheCSigningWallet,
+  [Networks.AvalancheCAtomic]: avalancheCAtomicSigningWallet,
+  [Networks.AvalancheP]: avalanchePSigningWallet,
 };
 
 export const getSigningWallet = async (

@@ -5,21 +5,20 @@ import {
   UnsignedTx as UnsignedEvmTx,
 } from 'avalanche/dist/apis/evm';
 import {
-  PlatformVMAPI,
   Tx as PlatformTx,
+  PlatformVMAPI,
   UnsignedTx as UnsignedPlatformTx,
 } from 'avalanche/dist/apis/platformvm';
 import { Serialization } from 'avalanche/dist/utils';
 import { ethers } from 'ethers';
 
 import {
-  getEthereumWallet,
-  isLedgerOptions,
-  LedgerApps,
   LedgerOptions,
   MnemonicWalletOptions,
-  WalletOptions,
   OmniAvalancheLedgerWallet,
+  WalletOptions,
+  getEthereumWallet,
+  isLedgerOptions,
 } from '.';
 
 const serialization = Serialization.getInstance();
@@ -43,14 +42,14 @@ export interface AvalancheKeyChains {
 
 const getLedgerWallet = async (
   avalanche: Avalanche,
-  options: LedgerOptions
+  options: LedgerOptions,
 ): Promise<AvalancheKeyChains | null> => {
   const avalancheWallet = await OmniAvalancheLedgerWallet.fromTransport(
     options.transport,
     {
       ethereum: options.config.Ethereum!.derivationPath,
       avalanche: options.config.Avalanche!.derivationPath,
-    }
+    },
   );
 
   if (!avalancheWallet) {
@@ -68,7 +67,7 @@ const getLedgerWallet = async (
     pAddressBech,
     'bech32',
     avalanche.getHRP(),
-    1
+    1,
   );
 
   return {
@@ -92,7 +91,7 @@ const getLedgerWallet = async (
 
 const getMnemonicWallet = async (
   avalanche: Avalanche,
-  options: MnemonicWalletOptions
+  options: MnemonicWalletOptions,
 ): Promise<AvalancheKeyChains | null> => {
   if (!options.mnemonic) {
     return null;
@@ -130,7 +129,7 @@ const getMnemonicWallet = async (
 
 export const getAvalancheWallet = (
   avalanche: Avalanche,
-  options: WalletOptions | LedgerOptions
+  options: WalletOptions | LedgerOptions,
 ) => {
   if (isLedgerOptions(options)) {
     return getLedgerWallet(avalanche, options);
