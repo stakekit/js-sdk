@@ -16,6 +16,9 @@ import {
 import { mainnet } from "wagmi";
 import { config } from "../../config";
 import { Chain } from "@rainbow-me/rainbowkit";
+import { ledgerFrameWallet } from "./ledger-connector";
+import { getNetworkLogo } from "../../utils";
+import { EvmNetworks } from "@stakekit/common";
 
 export const chains: Chain[] = [
   mainnet,
@@ -23,10 +26,13 @@ export const chains: Chain[] = [
   optimism,
   arbitrum,
   avalanche,
-  { ...celo, iconUrl: "https://cryptologos.cc/logos/celo-celo-logo.svg?v=025" },
+  {
+    ...celo,
+    iconUrl: getNetworkLogo(EvmNetworks.Celo),
+  },
   {
     ...harmonyOne,
-    iconUrl: "https://cryptologos.cc/logos/harmony-one-logo.svg?v=025",
+    iconUrl: getNetworkLogo(EvmNetworks.Harmony),
   },
 ];
 
@@ -34,6 +40,7 @@ export const connector = {
   groupName: "Ethereum",
   wallets: [
     injectedWallet({ chains }),
+    ledgerFrameWallet({ chains: [mainnet], options: {} }),
     walletConnectWallet({
       chains,
       options: {

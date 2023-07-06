@@ -1,13 +1,14 @@
-import { chains as allChains, assets as allAssets } from "chain-registry";
+import { chains as allChains } from "./chains";
 import { CosmosNetworks } from "@stakekit/common";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
 import { WalletConnectWallet, walletConnectInfo } from "./wallet-connect";
-import { Address, Chain, Connector, mainnet } from "wagmi";
+import { Address, Connector, mainnet } from "wagmi";
 import { ChainWalletBase, MainWalletBase } from "@cosmos-kit/core";
 import { EthereumProvider } from "eip1193-provider";
 import { createWalletClient, custom } from "viem";
-import { Wallet } from "@rainbow-me/rainbowkit";
+import { Chain, Wallet } from "@rainbow-me/rainbowkit";
+import { getNetworkLogo } from "../../utils";
 
 type SetKeys<T> = T extends Set<infer U> ? U : never;
 
@@ -28,21 +29,9 @@ export const initialChain: (typeof allChains)[number] = chains.find(
   (c) => c.chain_name === "cosmoshub"
 )!;
 
-export const assets: typeof allAssets = allAssets.filter((asset) =>
-  supportedCosmosNetworks.has(asset.chain_name as SupportedCosmosNetworks)
-);
-
-export const assetSet: Map<
-  (typeof allAssets)[number]["chain_name"],
-  (typeof allAssets)[number]
-> = new Map(assets.map((a) => [a.chain_name, a]));
-
 export const wcWallet = new WalletConnectWallet(walletConnectInfo);
 
 export const wallets = [...keplrWallets, ...leapWallets, wcWallet];
-
-const osmosisLogo =
-  "https://raw.githubusercontent.com/stakekit/assets/main/networks/osmosis.svg";
 
 export const cosmosChainsToWagmiChains = chains.map(
   (c) =>
@@ -51,13 +40,20 @@ export const cosmosChainsToWagmiChains = chains.map(
       id: c.chain_id as unknown as number,
       iconUrl:
         c.chain_name === "osmosis"
-          ? osmosisLogo
+          ? getNetworkLogo(CosmosNetworks.Osmosis)
           : c.logo_URIs?.png ?? c.logo_URIs?.svg ?? "",
       name: c.chain_name,
       network: c.chain_id,
       // TODO: change this
       nativeCurrency: mainnet.nativeCurrency,
-      rpcUrls: mainnet.rpcUrls,
+      rpcUrls: {
+        default: {
+          http: c.apis?.rpc?.map((r) => r.address) ?? [""],
+        },
+        public: {
+          http: c.apis?.rpc?.map((r) => r.address) ?? [""],
+        },
+      },
     } as Chain)
 );
 
@@ -65,7 +61,7 @@ export class CosmosWagmiConnector extends Connector {
   readonly id: string;
   readonly name: string;
 
-  ready = false;
+  ready = true;
 
   chainWallet: Promise<ChainWalletBase>;
 
@@ -78,7 +74,6 @@ export class CosmosWagmiConnector extends Connector {
     this.id = opts.wallet.walletInfo.name;
     this.name = opts.wallet.walletInfo.name;
     this.wallet = opts.wallet;
-    this.ready = true;
 
     this.chainWallet = new Promise((res) => {
       setTimeout(() => {

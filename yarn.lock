@@ -1683,7 +1683,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.10.4, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.22.5, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.10.4, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.19.4, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.22.5, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
   version: 7.22.5
   resolution: "@babel/runtime@npm:7.22.5"
   dependencies:
@@ -1828,15 +1828,6 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.19.4
   checksum: d38d8896a5644df098486c9c86420e5c34645cc1f97723f2edfbf62df89d0ffa47d1a0c275757d6e4c224b45444921935cbf616e639558ddb7e2cfb73770b684
-  languageName: node
-  linkType: hard
-
-"@chain-registry/types@npm:^0.16.0":
-  version: 0.16.0
-  resolution: "@chain-registry/types@npm:0.16.0"
-  dependencies:
-    "@babel/runtime": ^7.21.0
-  checksum: 494c42f494583cd9aa05c0088191864591ac28909c0323fd0d0d6922b2866c3690c59558391ac3843778275ad308845a791019081d0f65d11d72e0d64071d345
   languageName: node
   linkType: hard
 
@@ -2407,7 +2398,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmos-kit/walletconnect@npm:0.3.18":
+"@cosmos-kit/walletconnect@npm:0.3.18, @cosmos-kit/walletconnect@npm:^0.3.18-beta.4":
   version: 0.3.18
   resolution: "@cosmos-kit/walletconnect@npm:0.3.18"
   dependencies:
@@ -5284,6 +5275,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ledgerhq/iframe-provider@npm:^0.4.3":
+  version: 0.4.3
+  resolution: "@ledgerhq/iframe-provider@npm:0.4.3"
+  dependencies:
+    eventemitter3: ^4.0.0
+  checksum: 7dd6cd241c532993c9d37e788ce8b756580d277624fffec220372d6693366527206743985b14e66fe14bc1d843dbf17ef084ea4725501fa408e91bed66ff80f2
+  languageName: node
+  linkType: hard
+
 "@ledgerhq/logs@npm:^5.26.0, @ledgerhq/logs@npm:^5.30.0, @ledgerhq/logs@npm:^5.50.0":
   version: 5.50.0
   resolution: "@ledgerhq/logs@npm:5.50.0"
@@ -6734,6 +6734,8 @@ __metadata:
     "@cosmos-kit/keplr": ^0.33.41
     "@cosmos-kit/leap": ^0.15.11
     "@cosmos-kit/react-lite": ^1.5.1
+    "@cosmos-kit/walletconnect": ^0.3.18-beta.4
+    "@ledgerhq/iframe-provider": ^0.4.3
     "@radix-ui/react-alert-dialog": ^1.0.4
     "@rainbow-me/rainbowkit": ^1.0.4
     "@stakekit/api-hooks": ^0.0.21
@@ -6756,7 +6758,6 @@ __metadata:
     "@vitejs/plugin-react-swc": ^3.3.2
     autoprefixer: ^10.4.14
     bignumber.js: ^9.1.1
-    chain-registry: ^1.15.0
     classnames: ^2.3.2
     cosmjs-types: ^0.8.0
     dotenv: ^16.3.1
@@ -11092,16 +11093,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chain-registry@npm:^1.15.0":
-  version: 1.15.0
-  resolution: "chain-registry@npm:1.15.0"
-  dependencies:
-    "@babel/runtime": ^7.21.0
-    "@chain-registry/types": ^0.16.0
-  checksum: b52766106723b20c9ecdc9e33f3d5bdeca27e973d3b2787125a8ddb0e0d8fd275dc035c4d1f65f6b7ca793748285dd371bd872c68f5531460c8f2e30405fdfdb
-  languageName: node
-  linkType: hard
-
 "chalk@npm:4.1.1":
   version: 4.1.1
   resolution: "chalk@npm:4.1.1"
@@ -14297,7 +14288,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eventemitter3@npm:^4.0.7":
+"eventemitter3@npm:^4.0.0, eventemitter3@npm:^4.0.7":
   version: 4.0.7
   resolution: "eventemitter3@npm:4.0.7"
   checksum: 1875311c42fcfe9c707b2712c32664a245629b42bb0a5a84439762dd0fd637fc54d078155ea83c2af9e0323c9ac13687e03cfba79b03af9f40c89b4960099374

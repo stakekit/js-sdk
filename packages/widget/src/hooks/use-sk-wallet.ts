@@ -64,6 +64,7 @@ export const useSKWallet = (): SKWallet => {
       ).chain((conn) => {
         if (isCosmosConnector(conn)) {
           return getCosmosChainWallet(conn).chain((cw) =>
+            // We need to sign + broadcast as `walletconnect` cosmos client does not support `sendTx`
             EitherAsync(() =>
               cw.client.signDirect!(
                 cw.chainId,
