@@ -19,11 +19,17 @@ export interface TezosAdditionalAddresses {
   tezosPubKey: string;
 }
 
+export interface AvalancheCAdditionalAddresses {
+  cAddressBech: string;
+  pAddressBech: string;
+}
+
 export type AdditionalAddresses =
   | CosmosAdditionalAddresses
   | BinanceAdditionalAddresses
   | SolanaAdditionalAddresses
-  | TezosAdditionalAddresses;
+  | TezosAdditionalAddresses
+  | AvalancheCAdditionalAddresses;
 
 export interface Addresses {
   address: string;

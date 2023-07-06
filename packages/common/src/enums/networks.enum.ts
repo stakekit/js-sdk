@@ -1,5 +1,7 @@
 export enum EvmNetworks {
   AvalancheC = 'avalanche-c', // NEVER USE A DASH FOR NETWORK NAMES
+  AvalancheCAtomic = 'avalanche-c-atomic',
+  AvalancheP = 'avalanche-p',
   Arbitrum = 'arbitrum',
   Binance = 'binance',
   // BinanceTestnet = 'binancetestnet',
