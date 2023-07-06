@@ -5,6 +5,7 @@ import { usePrices } from "./use-prices";
 import { PriceRequestDto } from "@stakekit/api-hooks";
 import { getBaseToken } from "../../domain";
 import { Token } from "@stakekit/common";
+import { tokenToTokenDto } from "../../utils/mappers";
 
 export const useSelectedStakePrice = ({
   selectedStake,
@@ -16,7 +17,7 @@ export const useSelectedStakePrice = ({
       .map((y) => {
         return {
           currency: config.currency,
-          tokenList: [y.token, getBaseToken(y.token as Token)],
+          tokenList: [y.token, tokenToTokenDto(getBaseToken(y.token as Token))],
         };
       })
       .extractNullable();
