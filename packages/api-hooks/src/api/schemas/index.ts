@@ -90,6 +90,7 @@ export * from './submitHashRequestDto';
 export * from './submitRequestDto';
 export * from './submitResponseDto';
 export * from './team';
+export * from './teamCategory';
 export * from './teamContactDetails';
 export * from './teamDeletedAt';
 export * from './teamDto';
