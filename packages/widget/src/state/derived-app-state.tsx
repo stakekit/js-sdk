@@ -25,7 +25,7 @@ const DerivedAppStateContext = createContext<DerivedAppState | undefined>(
 );
 
 export const DerivedAppStateProvider = ({ children }: PropsWithChildren) => {
-  const { selectedStake, stakeAmount } = useAppState();
+  const { selectedStake, selectedValidator, stakeAmount } = useAppState();
 
   const accountBalance = useAccountBalance({ selectedStake });
 
@@ -34,18 +34,23 @@ export const DerivedAppStateProvider = ({ children }: PropsWithChildren) => {
     .mapOrDefault((y) => y.title, "");
 
   const estimatedRewards = useMemo(() => {
-    return selectedStake.map((y) => ({
-      percentage: apyToPercentage(y.apy),
-      yearly: stakeAmount.mapOrDefault(
-        (am) => am.times(y.apy).decimalPlaces(5).toString(),
-        ""
-      ),
-      monthly: stakeAmount.mapOrDefault(
-        (am) => am.times(y.apy).dividedBy(12).decimalPlaces(5).toString(),
-        ""
-      ),
-    }));
-  }, [selectedStake, stakeAmount]);
+    return selectedStake.map((y) => {
+      const apy =
+        selectedValidator.map((v) => v.apr).extractNullable() ?? y.apy;
+
+      return {
+        percentage: apyToPercentage(apy),
+        yearly: stakeAmount.mapOrDefault(
+          (am) => am.times(apy).decimalPlaces(5).toString(),
+          ""
+        ),
+        monthly: stakeAmount.mapOrDefault(
+          (am) => am.times(apy).dividedBy(12).decimalPlaces(5).toString(),
+          ""
+        ),
+      };
+    });
+  }, [selectedStake, selectedValidator, stakeAmount]);
 
   const rewardToken = useMemo(
     () =>

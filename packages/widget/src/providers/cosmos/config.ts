@@ -9,6 +9,8 @@ import { EthereumProvider } from "eip1193-provider";
 import { createWalletClient, custom } from "viem";
 import { Chain, Wallet } from "@rainbow-me/rainbowkit";
 import { getNetworkLogo } from "../../utils";
+import { toBase64 } from "@cosmjs/encoding";
+import { getStorageItem, setStorageItem } from "../../services/local-storage";
 
 type SetKeys<T> = T extends Set<infer U> ? U : never;
 
@@ -101,6 +103,8 @@ export class CosmosWagmiConnector extends Connector {
 
     await cw.connect();
 
+    await this.getAndSavePubKeyToStorage();
+
     return {
       account: cw.address as Address,
       chain: {
@@ -108,6 +112,22 @@ export class CosmosWagmiConnector extends Connector {
         unsupported: false,
       },
     };
+  };
+
+  getAndSavePubKeyToStorage = async () => {
+    if (typeof window === "undefined") return;
+
+    const cw = await this.chainWallet;
+
+    const result = await cw.client?.getAccount?.(cw.chainId);
+
+    if (!result) return;
+
+    const { address, pubkey } = result;
+
+    const prevVal = getStorageItem("skPubKeys").orDefault({}) ?? {};
+
+    setStorageItem("skPubKeys", { ...prevVal, [address]: toBase64(pubkey) });
   };
 
   switchChain = async (chainId: number) => {
@@ -131,7 +151,9 @@ export class CosmosWagmiConnector extends Connector {
     return chain;
   };
 
-  disconnect = async () => (await this.chainWallet).disconnect();
+  disconnect = async () => {
+    (await this.chainWallet).disconnect();
+  };
   getAccount = async () => {
     return (await this.chainWallet).address as Address;
   };
