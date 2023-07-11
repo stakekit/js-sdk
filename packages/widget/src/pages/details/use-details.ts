@@ -100,22 +100,17 @@ export const useDetails = () => {
         y.reduce((acc, curr) => {
           const type = curr.config.type;
 
+          const lowerSearch = deferredStakeSearch?.toLowerCase();
+
           if (
             !deferredStakeSearch ||
-            curr.token.name
-              .toLowerCase()
-              .includes(deferredStakeSearch.toLowerCase()) ||
-            curr.token.symbol
-              .toLowerCase()
-              .includes(deferredStakeSearch.toLowerCase()) ||
+            curr.token.name.toLowerCase().includes(lowerSearch) ||
+            curr.token.symbol.toLowerCase().includes(lowerSearch) ||
+            curr.metadata.name.toLowerCase().includes(lowerSearch) ||
             curr.config.rewardTokens?.some(
               (rt) =>
-                rt.name
-                  .toLowerCase()
-                  .includes(deferredStakeSearch.toLowerCase()) ||
-                rt.symbol
-                  .toLowerCase()
-                  .includes(deferredStakeSearch.toLowerCase())
+                rt.name.toLowerCase().includes(lowerSearch) ||
+                rt.symbol.toLowerCase().includes(lowerSearch)
             )
           ) {
             acc[type].items.push(curr);

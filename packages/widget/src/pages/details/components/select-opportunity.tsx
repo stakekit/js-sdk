@@ -165,9 +165,7 @@ export const SelectOpportunity = ({
                             weight: "bold",
                           }}
                         >
-                          {Maybe.fromNullable(item.config.rewardTokens)
-                            .map((rt) => rt.map((t) => t.name).join(", "))
-                            .orDefault(item.token.name)}
+                          {item.metadata.name}
                         </Text>
                       </Box>
 
