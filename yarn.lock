@@ -6639,7 +6639,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@stakekit/common@^0.0.5, @stakekit/common@workspace:packages/common":
+"@stakekit/common@^0.0.6, @stakekit/common@workspace:packages/common":
   version: 0.0.0-use.local
   resolution: "@stakekit/common@workspace:packages/common"
   dependencies:
@@ -6655,6 +6655,13 @@ __metadata:
     typescript: 4.9.5
   languageName: unknown
   linkType: soft
+
+"@stakekit/common@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "@stakekit/common@npm:0.0.5"
+  checksum: cdc316742e0c70b76f0e6bc19b4af093cc61ed23d674d23b0da9ac916d6065ca97267d9b9d2db7c59c4d3380907cf6aef710d0f546020ca710f022ff5e898305
+  languageName: node
+  linkType: hard
 
 "@stakekit/signers@workspace:packages/signers":
   version: 0.0.0-use.local
@@ -6739,7 +6746,7 @@ __metadata:
     "@radix-ui/react-alert-dialog": ^1.0.4
     "@rainbow-me/rainbowkit": ^1.0.4
     "@stakekit/api-hooks": ^0.0.21
-    "@stakekit/common": ^0.0.5
+    "@stakekit/common": ^0.0.6
     "@tanstack/react-query": ^4.29.19
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^14.0.0
