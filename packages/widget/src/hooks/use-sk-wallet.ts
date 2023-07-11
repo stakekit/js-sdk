@@ -245,8 +245,6 @@ const wagmiNetworkToSKNetwork = (chain: Chain): SKWallet["network"] => {
   if (asCosmosNetwork.startsWith("juno")) return CosmosNetworks.Juno;
   if (asCosmosNetwork.startsWith("kava")) return CosmosNetworks.Kava;
   if (asCosmosNetwork.startsWith("osmosis")) return CosmosNetworks.Osmosis;
-  if (asCosmosNetwork.startsWith("persistence"))
-    return CosmosNetworks.Persistence;
   if (asCosmosNetwork.startsWith("stargaze")) return CosmosNetworks.Stargaze;
 
   return null;
