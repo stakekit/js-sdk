@@ -18,6 +18,7 @@ import { chains as cosmosChains } from "../providers/cosmos/config";
 import { CosmosNetworks, EvmNetworks } from "@stakekit/common";
 import { useQuery } from "@tanstack/react-query";
 import { waitForSec } from "../utils";
+import { getStorageItem } from "../services/local-storage";
 
 export const useSKWallet = (): SKWallet => {
   const {
@@ -64,6 +65,7 @@ export const useSKWallet = (): SKWallet => {
       ).chain((conn) => {
         if (isCosmosConnector(conn)) {
           return getCosmosChainWallet(conn).chain((cw) =>
+            // We need to sign + broadcast as `walletconnect` cosmos client does not support `sendTx`
             EitherAsync(() =>
               cw.client.signDirect!(
                 cw.chainId,
@@ -185,9 +187,30 @@ const getAdditionalAddresses = (
 
 const getCosmosPubKey = (connector: Connector) =>
   getCosmosChainWallet(connector).chain((val) =>
-    EitherAsync(() => val.client.getAccount!(val.chainId))
-      .mapLeft(() => new Error("missing account"))
-      .map((account) => toBase64(account.pubkey))
+    EitherAsync.liftEither(getStorageItem("skPubKeys"))
+      .chain((prevSkPubKeys) => {
+        if (!prevSkPubKeys) return EitherAsync.liftEither(Left(null));
+
+        return EitherAsync(() => connector.getAccount()).chain((acc) => {
+          const skPubKey = prevSkPubKeys[acc];
+
+          if (skPubKey) {
+            return EitherAsync.liftEither(Right(skPubKey));
+          }
+
+          return EitherAsync.liftEither(Left(null));
+        });
+      })
+      .chainLeft(() =>
+        EitherAsync(() => val.client.getAccount!(val.chainId))
+          .mapLeft((e) => {
+            console.log("missing account error: ", e);
+            return new Error("missing account");
+          })
+          .map((account) => {
+            return toBase64(account.pubkey);
+          })
+      )
   );
 
 const getCosmosChainWallet = (connector: Connector | undefined) =>

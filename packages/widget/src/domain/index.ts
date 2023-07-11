@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import { Prices, TokenString } from "./types";
-import { CosmosNetworks, EvmNetworks, Token } from "@stakekit/common";
+import { EvmNetworks, Token } from "@stakekit/common";
 import {
   GasModeValueDto,
   StakeDto,
@@ -9,15 +9,19 @@ import {
 } from "@stakekit/api-hooks";
 import { Override } from "../types";
 import { Left, Right } from "purify-ts";
+import {
+  SupportedCosmosNetworks,
+  supportedCosmosNetworks,
+} from "../providers/cosmos/config";
 
 export const evmNetworksSet = new Set(Object.values(EvmNetworks));
-export const cosmosNetworksSet = new Set(Object.values(CosmosNetworks));
 
 export const isEvmNetwork = (network: string): network is EvmNetworks =>
   evmNetworksSet.has(network.toLowerCase() as EvmNetworks);
 
-export const isCosmosNetwork = (network: string): network is CosmosNetworks =>
-  cosmosNetworksSet.has(network.toLowerCase() as CosmosNetworks);
+export const isCosmosNetwork = (
+  network: string
+): network is SupportedCosmosNetworks => supportedCosmosNetworks.has(network);
 
 export const tokenString = (token: Token): TokenString => {
   return `${token.network}-${token.address?.toLowerCase()}`;
@@ -118,6 +122,4 @@ export const getValidStakeSessionTx = (stakeDto: StakeDto) => {
 };
 
 export const isTxError = (tx: TransactionDto | TransactionStatusResponseDto) =>
-  tx.status === "FAILED" ||
-  tx.status === "BLOCKED" ||
-  tx.status === "NOT_FOUND";
+  tx.status === "FAILED" || tx.status === "BLOCKED";

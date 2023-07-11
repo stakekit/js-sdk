@@ -4,6 +4,8 @@ import { Image } from "../image";
 import { logoContainer, smallLogo } from "./style.css";
 import { Atoms } from "../../../styles";
 import { ImageFallback } from "../image-fallback";
+import { getNetworkLogo } from "../../../utils";
+import { Networks } from "@stakekit/common";
 
 export const TokenIcon = ({
   token,
@@ -31,7 +33,7 @@ export const TokenIcon = ({
       <Box className={logoContainer}>
         <Image
           className={smallLogo}
-          src={`https://raw.githubusercontent.com/stakekit/assets/main/networks/${token.network}.svg`}
+          src={getNetworkLogo(token.network as Networks)}
           fallback={<></>}
           hw={tokenNetworkLogoHw}
         />

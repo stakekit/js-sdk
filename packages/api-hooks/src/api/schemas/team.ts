@@ -7,6 +7,7 @@
  */
 import type { TeamDeletedAt } from './teamDeletedAt';
 import type { TeamContactDetails } from './teamContactDetails';
+import type { TeamCategory } from './teamCategory';
 import type { TeamProviderFeePercentage } from './teamProviderFeePercentage';
 
 export interface Team {
@@ -16,7 +17,7 @@ export interface Team {
   activated: boolean;
   deletedAt: TeamDeletedAt;
   contactDetails: TeamContactDetails;
-  category: string;
+  category: TeamCategory;
   name: string;
   providerFeePercentage: TeamProviderFeePercentage;
 }
