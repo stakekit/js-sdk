@@ -21,6 +21,8 @@ export enum CosmosNetworks {
 }
 
 export enum MiscNetworks {
+  AvalancheCAtomic = 'avalanche-c-atomic',
+  AvalancheP = 'avalanche-p',
   BinanceBeacon = 'binancebeacon',
   Near = 'near',
   Solana = 'solana',

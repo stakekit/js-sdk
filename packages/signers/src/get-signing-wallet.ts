@@ -377,6 +377,8 @@ const getters: {
   // [Networks.BinanceBeaconGanges]: binanceSigningWallet,
   [Networks.Binance]: bscSigningWallet,
   [Networks.AvalancheC]: avalancheCSigningWallet,
+  [Networks.AvalancheCAtomic]: avalancheCAtomicSigningWallet,
+  [Networks.AvalancheP]: avalanchePSigningWallet,
 };
 
 export const getSigningWallet = async (
