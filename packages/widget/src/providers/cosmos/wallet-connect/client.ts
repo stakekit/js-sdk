@@ -10,4 +10,26 @@ export class WalletConnect extends WCClient {
 
     return super.disconnect();
   }
+
+  restorePairings() {
+    if (typeof this.signClient === "undefined") {
+      throw new Error("WalletConnect is not initialized");
+    }
+    this.pairings = this.signClient.pairing
+      .getAll({
+        active: true,
+      })
+      .filter((p) => p.expiry * 1000 > Date.now() + 1000);
+    this.logger?.debug("RESTORED PAIRINGS: ", this.pairings);
+  }
+
+  restoreSessions() {
+    if (typeof this.signClient === "undefined") {
+      throw new Error("WalletConnect is not initialized");
+    }
+    this.sessions = this.signClient.session
+      .getAll()
+      .filter((s) => s.expiry * 1000 > Date.now() + 1000);
+    this.logger?.debug("RESTORED SESSIONS: ", this.sessions);
+  }
 }

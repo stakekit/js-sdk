@@ -40,7 +40,6 @@
   "resolutions": {
     "near-ledger-js@^0.2.1": "patch:near-ledger-js@npm%3A0.2.1#./.yarn/patches/near-ledger-js-npm-0.2.1-a65e3608e3.patch",
     "ed25519-hd-key@^1.3.0": "patch:ed25519-hd-key@npm%3A1.3.0#./.yarn/patches/ed25519-hd-key-npm-1.3.0-248db2e234.patch",
-    "@rainbow-me/rainbowkit@^1.0.4": "patch:@rainbow-me/rainbowkit@npm%3A1.0.4#./.yarn/patches/@rainbow-me-rainbowkit-npm-1.0.4-237ad2241c.patch",
-    "@cosmos-kit/walletconnect@^0.3.18": "patch:@cosmos-kit/walletconnect@npm%3A0.3.18#./.yarn/patches/@cosmos-kit-walletconnect-npm-0.3.18-5937baa7d8.patch"
+    "@rainbow-me/rainbowkit@^1.0.4": "patch:@rainbow-me/rainbowkit@npm%3A1.0.4#./.yarn/patches/@rainbow-me-rainbowkit-npm-1.0.4-237ad2241c.patch"
   }
 }
