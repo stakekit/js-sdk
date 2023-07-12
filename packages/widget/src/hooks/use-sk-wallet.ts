@@ -1,24 +1,26 @@
-import { Chain, Connector, useAccount, useDisconnect, useNetwork } from "wagmi";
-import { useCallback, useMemo } from "react";
-import { Either, EitherAsync, Left, Maybe, Right } from "purify-ts";
+import { decodeSignature } from "@cosmjs/amino";
 import { fromHex, toBase64 } from "@cosmjs/encoding";
-import { unsignedTransactionCodec } from "../pages/steps/types";
+import { AddressWithTokenDtoAdditionalAddresses } from "@stakekit/api-hooks";
+import { CosmosNetworks, EvmNetworks } from "@stakekit/common";
+import { useQuery } from "@tanstack/react-query";
+import { sendTransaction as wagmiSendTransaction } from "@wagmi/core";
+import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { Either, EitherAsync, Left, Maybe, Right } from "purify-ts";
+import { useCallback, useMemo } from "react";
+import { Chain, Connector, useAccount, useDisconnect, useNetwork } from "wagmi";
+import { Hash, SKWallet } from "../domain/types";
 import {
   SendTransactionError,
   TransactionDecodeError,
 } from "../pages/steps/errors";
-import { sendTransaction as wagmiSendTransaction } from "@wagmi/core";
-import { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
-import { decodeSignature } from "@cosmjs/amino";
-import { CosmosWagmiConnector } from "../providers/cosmos/config";
-import { AddressWithTokenDtoAdditionalAddresses } from "@stakekit/api-hooks";
-import { Hash, SKWallet } from "../domain/types";
+import { unsignedTransactionCodec } from "../pages/steps/types";
+import {
+  CosmosWagmiConnector,
+  chains as cosmosChains,
+} from "../providers/cosmos/config";
 import { chains as evmChain } from "../providers/ethereum/config";
-import { chains as cosmosChains } from "../providers/cosmos/config";
-import { CosmosNetworks, EvmNetworks } from "@stakekit/common";
-import { useQuery } from "@tanstack/react-query";
-import { waitForSec } from "../utils";
 import { getStorageItem } from "../services/local-storage";
+import { waitForSec } from "../utils";
 
 export const useSKWallet = (): SKWallet => {
   const {
@@ -245,8 +247,6 @@ const wagmiNetworkToSKNetwork = (chain: Chain): SKWallet["network"] => {
   if (asCosmosNetwork.startsWith("juno")) return CosmosNetworks.Juno;
   if (asCosmosNetwork.startsWith("kava")) return CosmosNetworks.Kava;
   if (asCosmosNetwork.startsWith("osmosis")) return CosmosNetworks.Osmosis;
-  if (asCosmosNetwork.startsWith("persistence"))
-    return CosmosNetworks.Persistence;
   if (asCosmosNetwork.startsWith("stargaze")) return CosmosNetworks.Stargaze;
 
   return null;
