@@ -21,6 +21,7 @@ export const TokenIcon = ({
   return (
     <Box position="relative" marginRight="2" display="flex">
       <Image
+        borderRadius="half"
         hw={tokenLogoHw ?? "9"}
         src={metadata.logoURI ?? token.logoURI}
         fallback={
@@ -32,6 +33,7 @@ export const TokenIcon = ({
       />
       <Box className={logoContainer}>
         <Image
+          borderRadius="half"
           className={smallLogo}
           src={getNetworkLogo(token.network as Networks)}
           fallback={<></>}
