@@ -7,6 +7,7 @@ import {
 } from '@solana/web3.js';
 
 import {
+  AvalancheUnsignedTransactionSerialized,
   CosmosNetworks,
   EvmNetworks,
   Networks,
@@ -15,6 +16,7 @@ import {
 import { Avalanche, Buffer as Buf } from 'avalanche';
 import {
   EVMInput,
+  EVMOutput,
   Tx as EvmTx,
   UnsignedTx as UnsignedEvmTx,
 } from 'avalanche/dist/apis/evm';
@@ -66,10 +68,11 @@ const avalanchePSigningWallet = async (
   const wallet = await getAvalancheWallet(new Avalanche(), options);
   return {
     signTransaction: async (str) => {
-      const unsignedTx = new UnsignedPtx();
-      unsignedTx.deserialize(JSON.parse(Buffer.from(str, 'hex').toString()));
+      const { buffer }: AvalancheUnsignedTransactionSerialized =
+        JSON.parse(str);
 
-      console.log(unsignedTx['transaction']);
+      const unsignedTx = new UnsignedPtx();
+      unsignedTx.deserialize(JSON.parse(Buffer.from(buffer, 'hex').toString()));
 
       const signed: PTx = await wallet!.signP(unsignedTx);
       return signed.toStringHex();
@@ -88,20 +91,45 @@ const avalancheCAtomicSigningWallet = async (
   const wallet = await getAvalancheWallet(new Avalanche(), options);
   return {
     signTransaction: async (str) => {
-      const { buffer, inputs, sigIdxs } = JSON.parse(str);
+      const {
+        buffer,
+        inputs,
+        sigIdxs,
+        outputs,
+      }: AvalancheUnsignedTransactionSerialized = JSON.parse(str);
       const unsignedTx = new UnsignedEvmTx();
       unsignedTx.deserialize(JSON.parse(Buf.from(buffer, 'hex').toString()));
-      const newInput = new EVMInput();
-      newInput.fromBuffer(Buf.from(inputs, 'hex'));
-      const parsedSigIdxs = sigIdxs.map((sigIdxs: string) => {
-        const newSigIdxs = new SigIdx();
-        newSigIdxs.deserialize(JSON.parse(Buf.from(sigIdxs, 'hex').toString()));
-        return newSigIdxs;
-      });
-      //@ts-ignore
-      newInput.sigIdxs.push(...parsedSigIdxs);
-      //@ts-ignore
-      unsignedTx['transaction']['inputs'].push(newInput);
+
+      if (inputs !== undefined && sigIdxs !== undefined) {
+        const newInput = new EVMInput();
+        newInput.fromBuffer(Buf.from(inputs, 'hex'));
+
+        const parsedSigIdxs = sigIdxs.map((sigIdxs: string) => {
+          const newSigIdxs = new SigIdx();
+          newSigIdxs.deserialize(
+            JSON.parse(Buf.from(sigIdxs, 'hex').toString()),
+          );
+          return newSigIdxs;
+        });
+        //@ts-ignore
+        newInput.sigIdxs.push(...parsedSigIdxs);
+
+        //@ts-ignore
+        unsignedTx['transaction']['inputs'].push(newInput);
+      }
+
+      if (outputs !== undefined) {
+        const newOutput = new EVMOutput();
+        newOutput.fromBuffer(Buf.from(outputs, 'hex'));
+
+        //@ts-ignore
+        unsignedTx['transaction']['outs'].push(newOutput);
+        // NOTE: We do this because when serializing, the numIns gets changed.
+        // This way we reset the transaction back to the original state.
+        //@ts-ignore
+        unsignedTx['transaction']['numIns'] = Buffer.alloc(4);
+      }
+
       const signed: EvmTx = await wallet!.signC(unsignedTx);
       return signed.toStringHex();
     },
