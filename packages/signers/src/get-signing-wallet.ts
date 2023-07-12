@@ -91,26 +91,17 @@ const avalancheCAtomicSigningWallet = async (
       const { buffer, inputs, sigIdxs } = JSON.parse(str);
       const unsignedTx = new UnsignedEvmTx();
       unsignedTx.deserialize(JSON.parse(Buf.from(buffer, 'hex').toString()));
-
-      if (inputs !== undefined) {
-        const newInput = new EVMInput();
-        newInput.fromBuffer(Buf.from(inputs, 'hex'));
-        //@ts-ignore
-        unsignedTx['transaction']['inputs'].push(newInput);
-      }
-
-      if (sigIdxs !== undefined) {
-        const parsedSigIdxs = sigIdxs.map((sigIdxs: string) => {
-          const newSigIdxs = new SigIdx();
-          newSigIdxs.deserialize(
-            JSON.parse(Buf.from(sigIdxs, 'hex').toString()),
-          );
-          return newSigIdxs;
-        });
-        //@ts-ignore
-        newInput.sigIdxs.push(...parsedSigIdxs);
-      }
-
+      const newInput = new EVMInput();
+      newInput.fromBuffer(Buf.from(inputs, 'hex'));
+      const parsedSigIdxs = sigIdxs.map((sigIdxs: string) => {
+        const newSigIdxs = new SigIdx();
+        newSigIdxs.deserialize(JSON.parse(Buf.from(sigIdxs, 'hex').toString()));
+        return newSigIdxs;
+      });
+      //@ts-ignore
+      newInput.sigIdxs.push(...parsedSigIdxs);
+      //@ts-ignore
+      unsignedTx['transaction']['inputs'].push(newInput);
       const signed: EvmTx = await wallet!.signC(unsignedTx);
       return signed.toStringHex();
     },
