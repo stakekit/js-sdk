@@ -1,5 +1,7 @@
 export enum EvmNetworks {
   AvalancheC = 'avalanche-c',
+  AvalancheCAtomic = 'avalanche-c-atomic',
+  AvalancheP = 'avalanche-p',
   Arbitrum = 'arbitrum',
   Binance = 'binance',
   Celo = 'celo',
