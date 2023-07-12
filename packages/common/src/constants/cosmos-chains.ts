@@ -1,4 +1,4 @@
-import { CosmosNetworks, Networks, CosmosGasDenom } from '../enums';
+import { CosmosGasDenom, CosmosNetworks, Networks } from '../enums';
 import { CosmosChainConfig } from '../interfaces';
 
 export const cosmosChainConfig: {
@@ -76,20 +76,6 @@ export const cosmosChainConfig: {
 
     validatorAddress: 'junovaloper1hjct6q7npsspsg3dgvzk3sdf89spmlpfpgm64m',
     unbondingPeriodDays: 28,
-  },
-  [Networks.Persistence]: {
-    network: Networks.Persistence,
-    chainId: 'core-1',
-    name: 'Persistence',
-    denom: CosmosGasDenom.XPRT,
-    minimalDenom: CosmosGasDenom.uxprt,
-    decimals: 6,
-    bech32Prefix: 'persistence',
-    coinGeckoId: 'persistence',
-
-    validatorAddress:
-      'persistencevaloper1pght44t99shaeksf73sqxr4xyt4pc4272axq6s',
-    unbondingPeriodDays: 21,
   },
   [Networks.Stargaze]: {
     network: Networks.Stargaze,
