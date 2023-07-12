@@ -34,7 +34,7 @@
     "@solana/buffer-layout": "^4.0.0",
     "@solana/spl-token": "^0.3.4",
     "@solana/web3.js": "1.52.0",
-    "@stakekit/common": "^0.0.5",
+    "@stakekit/common": "^0.0.6",
     "@sushiswap/default-token-list": "^41.4.0",
     "@taquito/ledger-signer": "^17.0.0",
     "@taquito/signer": "^17.0.0",
