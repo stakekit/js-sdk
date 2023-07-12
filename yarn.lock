@@ -6639,10 +6639,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@stakekit/common@npm:^0.0.6":
-  version: 0.0.6
-  resolution: "@stakekit/common@npm:0.0.6"
-  checksum: 8656a67175d9c078e4f4cdcf38422bdc27ec676b07441154f0b9608f0ebd70a054600f8c39a7923c5acd479bc65328cc05a1d024f2a4f9af381e1b143f46dcd9
+"@stakekit/common@npm:^0.0.7":
+  version: 0.0.7
+  resolution: "@stakekit/common@npm:0.0.7"
+  checksum: 7128b20ed6b0dce4be68a39fca1cd2e5d103173df1a40c6a9fab61dc6f558e32e88914765cb1bd5811a58e4ae4d862d3988db5e05f92358e1e5a709cec725149
   languageName: node
   linkType: hard
 
@@ -6688,7 +6688,7 @@ __metadata:
     "@solana/buffer-layout": ^4.0.0
     "@solana/spl-token": ^0.3.4
     "@solana/web3.js": 1.52.0
-    "@stakekit/common": ^0.0.6
+    "@stakekit/common": ^0.0.7
     "@sushiswap/default-token-list": ^41.4.0
     "@taquito/ledger-signer": ^17.0.0
     "@taquito/signer": ^17.0.0
@@ -6746,7 +6746,7 @@ __metadata:
     "@radix-ui/react-alert-dialog": ^1.0.4
     "@rainbow-me/rainbowkit": ^1.0.4
     "@stakekit/api-hooks": ^0.0.21
-    "@stakekit/common": ^0.0.6
+    "@stakekit/common": ^0.0.7
     "@tanstack/react-query": ^4.29.19
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^14.0.0
