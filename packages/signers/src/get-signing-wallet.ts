@@ -68,7 +68,8 @@ const avalanchePSigningWallet = async (
   const wallet = await getAvalancheWallet(new Avalanche(), options);
   return {
     signTransaction: async (str) => {
-      const { buffer } = JSON.parse(str);
+      const { buffer }: AvalancheUnsignedTransactionSerialized =
+        JSON.parse(str);
 
       const unsignedTx = new UnsignedPtx();
       unsignedTx.deserialize(JSON.parse(Buffer.from(buffer, 'hex').toString()));
