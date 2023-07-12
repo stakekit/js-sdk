@@ -8,15 +8,14 @@ export const useFilteredOpportunities = () => {
     query: {
       select(data) {
         return data.filter((o) => {
-          if (!isConnected) return true;
-
-          return (
-            network === o.token.network &&
-            !o.token.network.includes("goerli") &&
+          const defaultFilter =
             !o.args.enter.args?.nfts &&
             o.id !== "binance-bnb-native-staking" &&
-            o.id !== "binance-testnet-bnb-native-staking"
-          );
+            o.id !== "binance-testnet-bnb-native-staking";
+
+          if (!isConnected) return defaultFilter;
+
+          return network === o.token.network && defaultFilter;
         });
       },
     },

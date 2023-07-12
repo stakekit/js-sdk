@@ -233,7 +233,12 @@ export const Details = () => {
         <Divider my="4" />
 
         {isError && (
-          <Box display="flex" alignItems="center" justifyContent="center">
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            marginBottom="6"
+          >
             <Text variant={{ type: "danger" }}>
               {t("shared.something_went_wrong")}
             </Text>

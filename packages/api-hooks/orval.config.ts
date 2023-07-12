@@ -79,7 +79,7 @@ export default defineConfig({
       },
     },
     input: {
-      target: 'http://localhost:3000/api-docs-json',
+      target: 'https://api.stakek.it/api-docs-json',
     },
   },
 });
