@@ -16,9 +16,7 @@ type SetKeys<T> = T extends Set<infer U> ? U : never;
 
 export const supportedCosmosNetworks = new Map([
   ["cosmoshub", "cosmos"],
-  ...Object.values(CosmosNetworks)
-    .filter((val) => val !== CosmosNetworks.Persistence)
-    .map((val) => [val, val] as const),
+  ...Object.values(CosmosNetworks).map((val) => [val, val] as const),
 ]);
 
 export type SupportedCosmosNetworks = SetKeys<typeof supportedCosmosNetworks>;

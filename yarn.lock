@@ -6613,14 +6613,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@stakekit/common@npm:^0.0.8":
-  version: 0.0.8
-  resolution: "@stakekit/common@npm:0.0.8"
-  checksum: 67c624cab7a2d0f5e73c952cb7a44954fc9c0e59e97637c98aeb261600943e940aba5e6ba272d4fed02686584cb50c94e368594328a58d7662eaa2d6a22cb7df
-  languageName: node
-  linkType: hard
-
-"@stakekit/common@workspace:packages/common":
+"@stakekit/common@^0.0.8, @stakekit/common@workspace:packages/common":
   version: 0.0.0-use.local
   resolution: "@stakekit/common@workspace:packages/common"
   dependencies:
