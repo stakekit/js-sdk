@@ -6070,9 +6070,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rainbow-me/rainbowkit@npm:1.0.4":
-  version: 1.0.4
-  resolution: "@rainbow-me/rainbowkit@npm:1.0.4"
+"@rainbow-me/rainbowkit@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "@rainbow-me/rainbowkit@npm:1.0.5"
   dependencies:
     "@vanilla-extract/css": 1.9.1
     "@vanilla-extract/dynamic": 2.0.2
@@ -6085,26 +6085,7 @@ __metadata:
     react-dom: ">=17"
     viem: ~0.3.19 || ^1.0.0
     wagmi: ~1.0.1 || ~1.1.0 || ~1.2.0 || ~1.3.0
-  checksum: bb0985ae8a7aa9e15b7c64a669762ce7adc332f009849b4546965c366946462903a75e4fe593565c2430e5a3385fbc7f4ea128c49a96a7f8816b1ccd54a450c4
-  languageName: node
-  linkType: hard
-
-"@rainbow-me/rainbowkit@patch:@rainbow-me/rainbowkit@npm%3A1.0.4#./.yarn/patches/@rainbow-me-rainbowkit-npm-1.0.4-237ad2241c.patch::locator=stakekit-monorepo%40workspace%3A.":
-  version: 1.0.4
-  resolution: "@rainbow-me/rainbowkit@patch:@rainbow-me/rainbowkit@npm%3A1.0.4#./.yarn/patches/@rainbow-me-rainbowkit-npm-1.0.4-237ad2241c.patch::version=1.0.4&hash=af8734&locator=stakekit-monorepo%40workspace%3A."
-  dependencies:
-    "@vanilla-extract/css": 1.9.1
-    "@vanilla-extract/dynamic": 2.0.2
-    "@vanilla-extract/sprinkles": 1.5.0
-    clsx: 1.1.1
-    qrcode: 1.5.0
-    react-remove-scroll: 2.5.4
-  peerDependencies:
-    react: ">=17"
-    react-dom: ">=17"
-    viem: ~0.3.19 || ^1.0.0
-    wagmi: ~1.0.1 || ~1.1.0 || ~1.2.0 || ~1.3.0
-  checksum: 1845096eea26d92c2c6e35bcb732b443e6bbc5f634dc9db98dd5e6e9ec4f5f00afd2e3cf8f135dad5cd928deddfdda66c61d7677497c1d2f07e7ba5e57581534
+  checksum: fdf9d4f96a95d0045ee94fc879154056214cd2e610340c4476d0bd653988d46be9ad46338ea83d37dad031a304ca53e181dedf81efa7acb5f7213d75ae318e4f
   languageName: node
   linkType: hard
 
@@ -6694,7 +6675,7 @@ __metadata:
     "@cosmos-kit/walletconnect": 0.3.19
     "@ledgerhq/iframe-provider": ^0.4.3
     "@radix-ui/react-alert-dialog": ^1.0.4
-    "@rainbow-me/rainbowkit": ^1.0.4
+    "@rainbow-me/rainbowkit": ^1.0.5
     "@stakekit/api-hooks": ^0.0.21
     "@stakekit/common": ^0.0.8
     "@tanstack/react-query": ^4.29.19

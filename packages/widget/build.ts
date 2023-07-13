@@ -64,11 +64,6 @@ const buildAsStandaloneApp = async () => {
   });
 };
 
-const depsToBundle = new Set([
-  "@cassiozen/usestatemachine",
-  "@rainbow-me/rainbowkit",
-]);
-
 const buildAsPackage = async () => {
   await esbuild.build({
     ...commonConfig,
@@ -85,7 +80,7 @@ const buildAsPackage = async () => {
         setup(build) {
           let filter = /^[^./]|^\.[^./]|^\.\.[^/]/; // Must not start with "/" or "./" or "../"
           build.onResolve({ filter }, (args) =>
-            depsToBundle.has(args.path)
+            args.path === "@cassiozen/usestatemachine"
               ? { external: false, namespace: "usestatemachine" }
               : { external: true, path: args.path }
           );

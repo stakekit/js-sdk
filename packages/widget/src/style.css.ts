@@ -11,7 +11,7 @@ export const container = style({
   borderTopRightRadius: "20px",
   "@media": {
     [minMediaQuery("tablet")]: {
-      height: "670px",
+      minHeight: "670px",
       width: "400px",
       borderRadius: "20px",
     },

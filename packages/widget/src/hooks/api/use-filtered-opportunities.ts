@@ -15,7 +15,11 @@ export const useFilteredOpportunities = () => {
 
           if (!isConnected) return defaultFilter;
 
-          return network === o.token.network && defaultFilter;
+          return (
+            (network === o.token.network ||
+              o.token.network.includes("goerli")) &&
+            defaultFilter
+          );
         });
       },
     },
