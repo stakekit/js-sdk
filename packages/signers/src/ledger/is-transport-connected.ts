@@ -1,9 +1,9 @@
-import Transport from '@ledgerhq/hw-transport';
-import AvaxLedgerApp from '@obsidiansystems/hw-app-avalanche';
 import { ledger as BinanceChain } from '@binance-chain/javascript-sdk';
 import CosmosLedgerApp from '@ledgerhq/hw-app-cosmos';
 import EthLedgerApp from '@ledgerhq/hw-app-eth';
 import SolanaLedgerApp from '@ledgerhq/hw-app-solana';
+import Transport from '@ledgerhq/hw-transport';
+import AvaxLedgerApp from '@obsidiansystems/hw-app-avalanche';
 import {
   HDPathTemplate,
   LedgerSigner as TezosLedgerApp,
@@ -49,6 +49,9 @@ const resolver: {
   },
 };
 
-export function isTransportConnected(transport: Transport, app: LedgerApps) {
+export function isTransportConnected(
+  transport: Transport<string>,
+  app: LedgerApps,
+) {
   return resolver[app](transport);
 }
