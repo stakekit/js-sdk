@@ -1,6 +1,6 @@
 {
   "name": "@stakekit/widget",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "type": "module",
   "main": "./dist/package/index.package.js",
   "types": "./dist/package/types/src/index.package.d.ts",
@@ -65,7 +65,7 @@
     "@cosmos-kit/walletconnect": "0.3.19",
     "@ledgerhq/iframe-provider": "^0.4.3",
     "@radix-ui/react-alert-dialog": "^1.0.4",
-    "@rainbow-me/rainbowkit": "^1.0.4",
+    "@rainbow-me/rainbowkit": "^1.0.5",
     "@stakekit/api-hooks": "^0.0.21",
     "@stakekit/common": "^0.0.8",
     "@tanstack/react-query": "^4.29.19",
