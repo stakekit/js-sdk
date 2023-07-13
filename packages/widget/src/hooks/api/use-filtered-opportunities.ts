@@ -17,7 +17,7 @@ export const useFilteredOpportunities = () => {
 
           return (
             (network === o.token.network ||
-              o.token.network.includes("goerli")) &&
+              `${network}-goerli` === o.token.network) &&
             defaultFilter
           );
         });
