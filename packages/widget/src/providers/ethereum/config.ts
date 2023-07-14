@@ -9,6 +9,7 @@ import {
   arbitrum,
   avalanche,
   celo,
+  goerli,
   harmonyOne,
   optimism,
   polygon,
@@ -34,6 +35,7 @@ export const chains: Chain[] = [
     ...harmonyOne,
     iconUrl: getNetworkLogo(EvmNetworks.Harmony),
   },
+  goerli,
 ];
 
 export const connector = {

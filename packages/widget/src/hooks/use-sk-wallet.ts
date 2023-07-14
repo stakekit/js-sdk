@@ -231,6 +231,7 @@ const getCosmosChainWallet = (connector: Connector | undefined) =>
 const wagmiNetworkToSKNetwork = (chain: Chain): SKWallet["network"] => {
   const asEvmNetwork = chain.network as (typeof evmChain)[number]["network"];
 
+  if (asEvmNetwork === "goerli") return EvmNetworks.EthereumGoerli;
   if (asEvmNetwork === "arbitrum") return EvmNetworks.Arbitrum;
   if (asEvmNetwork === "avalanche") return EvmNetworks.AvalancheC;
   if (asEvmNetwork === "celo") return EvmNetworks.Celo;
