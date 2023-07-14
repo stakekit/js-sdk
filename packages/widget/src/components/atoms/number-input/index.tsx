@@ -21,7 +21,7 @@ export const NumberInput = memo(({ onChange, value }: NumberInputProps) => {
     setLocalState((prevState) => {
       return value.caseOf({
         Just(value) {
-          if (value.isEqualTo(new BigNumber(prevState))) return prevState;
+          if (value.isEqualTo(stringToBigNumber(prevState))) return prevState;
 
           const valStr = value.toPrecision();
           return valStr;
@@ -36,11 +36,13 @@ export const NumberInput = memo(({ onChange, value }: NumberInputProps) => {
   const _onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
 
+    if (!e.target.validity.valid) return;
+
     setLocalState(val);
 
     if (!val) return onChange(Maybe.of(new BigNumber(0)));
 
-    const value = new BigNumber(val);
+    const value = stringToBigNumber(val);
 
     if (value.isNaN()) return;
 
@@ -66,11 +68,17 @@ export const NumberInput = memo(({ onChange, value }: NumberInputProps) => {
         name="stake-amount"
         ref={inputRef}
         data-testid="number-input"
-        type="number"
+        type="text"
         inputMode="decimal"
         className={numberInput}
         value={localState}
         onChange={_onChange}
+        autoComplete="off"
+        autoCorrect="off"
+        spellCheck="false"
+        pattern="^(?!0\d)\d*([.,])?(\d+)?$"
+        minLength={1}
+        maxLength={79}
         onBlur={() => {
           setIsFocused(false);
           if (isZero) setLocalState("0");
@@ -90,3 +98,6 @@ export const NumberInput = memo(({ onChange, value }: NumberInputProps) => {
     </>
   );
 });
+
+const stringToBigNumber = (str: string) =>
+  new BigNumber(str.replace(/,/g, "."));
