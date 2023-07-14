@@ -16,7 +16,6 @@ export const Footer = ({ description }: FooterProps) => {
 
   return (
     <Box
-      flex={1}
       background="backgroundMuted"
       px="6"
       py="6"
