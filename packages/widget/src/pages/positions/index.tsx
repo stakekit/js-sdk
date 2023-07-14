@@ -20,9 +20,8 @@ export const Positions = () => {
   if (!tableData?.length || !dataMap?.size) return null;
 
   return (
-    <Box px="8" id="sk-positions">
+    <Box px="8" id="sk-positions" display={{ mobile: "none", tablet: "block" }}>
       <Box
-        display={{ mobile: "none", tablet: "block" }}
         background="positionsSectionBackgroundColor"
         mx="8"
         my="4"
