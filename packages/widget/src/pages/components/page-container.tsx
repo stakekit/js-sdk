@@ -9,6 +9,7 @@ export const PageContainer = ({ children }: PropsWithChildren) => {
       height="full"
       px="4"
       marginBottom="6"
+      flex={1}
     >
       {children}
     </Box>

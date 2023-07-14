@@ -36,7 +36,9 @@
     "info_3": "Rewards will be automatically credited to your wallet every day",
     "opportunity_search_title": "Select a yield",
     "validator_search_title": "Select validator",
-    "reward_token": "Get {{symbol}} <highlight0>via {{providerName}}</highlight0>"
+    "reward_token": "Get {{symbol}} <highlight0>via {{providerName}}</highlight0>",
+    "tab_earn": "Earn",
+    "tab_positions": "Positions"
   },
   "review": {
     "estimated_reward": "Estimated rewards",
@@ -93,6 +95,8 @@
   },
   "positions": {
     "title": "My Positions",
-    "via": "via {{providerName}}"
+    "via": "via {{providerName}}",
+    "connect_wallet": "Connect wallet",
+    "no_current_positions": "No current positions"
   }
 }

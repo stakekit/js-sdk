@@ -12,6 +12,9 @@ import { SelectOpportunity } from "./components/select-opportunity";
 import { SelectValidator } from "./components/select-validator";
 import { pressAnimation } from "../../components/atoms/button/styles.css";
 import { HelpModal } from "../../components/molecules/help-modal";
+import { Tabs } from "./components/tabs";
+import { useTabTransition } from "./use-tab-transition";
+import { Positions } from "./components/positions";
 
 export const Details = () => {
   const {
@@ -43,9 +46,14 @@ export const Details = () => {
     onStakeEnterIsLoading,
     selectedStakeYieldType,
     isFetching,
+    selectedTab,
+    onTabPress,
   } = useDetails();
 
   const { t } = useTranslation();
+
+  const { transitioningTab, onAnimationEnd, transitionClassName } =
+    useTabTransition(selectedTab);
 
   const earnYearly = estimatedRewards.mapOrDefault(
     (e) => `${e.yearly} ${symbol}`,
@@ -65,210 +73,268 @@ export const Details = () => {
   return (
     <>
       <PageContainer>
-        <Box>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Box display="flex" alignItems="center">
-              <Text variant={{ size: "xsmall" }}>{title}</Text>
-              {isFetching && (
-                <Box display="flex" marginLeft="2">
-                  <Spinner />
-                </Box>
-              )}
-            </Box>
+        <Box display="flex" flexDirection="column" gap="1">
+          <Tabs onTabPress={onTabPress} selectedTab={selectedTab} />
 
-            {selectedStakeYieldType && (
-              <HelpModal type={selectedStakeYieldType} />
-            )}
-          </Box>
+          <Divider />
+        </Box>
 
+        {transitioningTab === "earn" && (
           <Box
-            background="stakeSectionBackground"
-            borderRadius="xl"
+            className={transitionClassName}
+            onAnimationEnd={onAnimationEnd}
             marginTop="2"
-            py="4"
-            px="4"
           >
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Box minWidth="0" display="flex" marginRight="2" flex={1}>
-                <NumberInput
-                  onChange={onStakeAmountChange}
-                  value={stakeAmount}
-                />
+            <Box>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <Box display="flex" alignItems="center">
+                  <Text variant={{ size: "xsmall" }}>{title}</Text>
+                  {isFetching && (
+                    <Box display="flex" marginLeft="2">
+                      <Spinner />
+                    </Box>
+                  )}
+                </Box>
+
+                {selectedStakeYieldType && (
+                  <HelpModal type={selectedStakeYieldType} />
+                )}
               </Box>
 
-              <Box display="flex" justifyContent="center" alignItems="center">
-                <SelectOpportunity
-                  onItemSelect={onItemSelect}
-                  onSearch={onSearch}
-                  selectedStake={selectedStake}
-                  selectedStakeData={selectedStakeData}
-                  onSelectOpportunityClose={onSelectOpportunityClose}
-                />
-              </Box>
-            </Box>
-
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              marginTop="2"
-              flexWrap="wrap"
-            >
-              <Box flex={1}>
-                <Text
-                  variant={{ size: "xsmall", type: "muted", weight: "normal" }}
+              <Box
+                background="stakeSectionBackground"
+                borderRadius="xl"
+                marginTop="2"
+                py="4"
+                px="4"
+              >
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
                 >
-                  {formattedPrice}
-                </Text>
+                  <Box minWidth="0" display="flex" marginRight="2" flex={1}>
+                    <NumberInput
+                      onChange={onStakeAmountChange}
+                      value={stakeAmount}
+                    />
+                  </Box>
+
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <SelectOpportunity
+                      onItemSelect={onItemSelect}
+                      onSearch={onSearch}
+                      selectedStake={selectedStake}
+                      selectedStakeData={selectedStakeData}
+                      onSelectOpportunityClose={onSelectOpportunityClose}
+                    />
+                  </Box>
+                </Box>
+
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  marginTop="2"
+                  flexWrap="wrap"
+                >
+                  <Box flex={1}>
+                    <Text
+                      variant={{
+                        size: "xsmall",
+                        type: "muted",
+                        weight: "normal",
+                      }}
+                    >
+                      {formattedPrice}
+                    </Text>
+                  </Box>
+
+                  <Box
+                    display="flex"
+                    justifyContent="flex-end"
+                    alignItems="center"
+                  >
+                    {accountBalanceIsFetching ? (
+                      <Spinner />
+                    ) : (
+                      <Text
+                        variant={{
+                          size: "xsmall",
+                          type:
+                            isBellowLimit || isOverLimit ? "danger" : "muted",
+                          weight: "normal",
+                        }}
+                      >
+                        {availableTokens
+                          ? `${availableTokens} ${t("shared.available")}`
+                          : ""}
+                      </Text>
+                    )}
+                    <Box
+                      as="button"
+                      borderRadius="xl"
+                      background="background"
+                      px="2"
+                      py="1"
+                      marginLeft="2"
+                      onClick={onMaxClick}
+                      className={pressAnimation}
+                    >
+                      <Text
+                        variant={{
+                          size: "xsmall",
+                          weight: "semibold",
+                          type: "accent",
+                        }}
+                      >
+                        {t("shared.max")}
+                      </Text>
+                    </Box>
+                  </Box>
+                </Box>
               </Box>
 
-              <Box display="flex" justifyContent="flex-end" alignItems="center">
-                {accountBalanceIsFetching ? (
-                  <Spinner />
-                ) : (
+              <SelectValidator
+                onValidatorSelect={onValidatorSelect}
+                selectedValidator={selectedValidator}
+                validators={validators}
+              />
+
+              <Box display="flex" flexDirection="column" gap="1">
+                <RewardTokenDetails rewardToken={rewardToken} />
+
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  marginTop="3"
+                  data-testid="estimated-reward__percent"
+                >
+                  <Text variant={{ size: "small" }}>
+                    {t("details.estimated_reward")}
+                  </Text>
+                  <Text variant={{ size: "small" }}>{earnPercentage}</Text>
+                </Box>
+
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  data-testid="estimated-reward__yearly"
+                >
                   <Text
                     variant={{
                       size: "xsmall",
-                      type: isBellowLimit || isOverLimit ? "danger" : "muted",
+                      type: "muted",
                       weight: "normal",
                     }}
                   >
-                    {availableTokens
-                      ? `${availableTokens} ${t("shared.available")}`
-                      : ""}
+                    {t("shared.yearly")}
                   </Text>
-                )}
+                  <Text
+                    variant={{
+                      size: "xsmall",
+                      type: "muted",
+                      weight: "normal",
+                    }}
+                  >
+                    {earnYearly}
+                  </Text>
+                </Box>
+
                 <Box
-                  as="button"
-                  borderRadius="xl"
-                  background="background"
-                  px="2"
-                  py="1"
-                  marginLeft="2"
-                  onClick={onMaxClick}
-                  className={pressAnimation}
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  data-testid="estimated-reward__monthly"
                 >
                   <Text
                     variant={{
                       size: "xsmall",
-                      weight: "semibold",
-                      type: "accent",
+                      type: "muted",
+                      weight: "normal",
                     }}
                   >
-                    {t("shared.max")}
+                    {t("shared.monthly")}
+                  </Text>
+                  <Text
+                    variant={{
+                      size: "xsmall",
+                      type: "muted",
+                      weight: "normal",
+                    }}
+                  >
+                    {earnMonthly}
                   </Text>
                 </Box>
               </Box>
             </Box>
-          </Box>
 
-          <SelectValidator
-            onValidatorSelect={onValidatorSelect}
-            selectedValidator={selectedValidator}
-            validators={validators}
-          />
+            <Divider my="4" />
 
-          <Box display="flex" flexDirection="column" gap="1">
-            <RewardTokenDetails rewardToken={rewardToken} />
+            {isError && (
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                marginBottom="6"
+              >
+                <Text variant={{ type: "danger" }}>
+                  {t("shared.something_went_wrong")}
+                </Text>
+              </Box>
+            )}
 
             <Box
+              flex={1}
               display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              marginTop="3"
-              data-testid="estimated-reward__percent"
+              justifyContent="flex-end"
+              flexDirection="column"
             >
-              <Text variant={{ size: "small" }}>
-                {t("details.estimated_reward")}
-              </Text>
-              <Text variant={{ size: "small" }}>{earnPercentage}</Text>
+              <Button
+                disabled={buttonDisabled}
+                isLoading={onStakeEnterIsLoading}
+                onClick={onClick}
+                variant={{
+                  color:
+                    buttonDisabled || onStakeEnterIsLoading
+                      ? "disabled"
+                      : "primary",
+                  animation: "press",
+                }}
+              >
+                {buttonText}
+              </Button>
             </Box>
-
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              data-testid="estimated-reward__yearly"
-            >
-              <Text
-                variant={{ size: "xsmall", type: "muted", weight: "normal" }}
-              >
-                {t("shared.yearly")}
-              </Text>
-              <Text
-                variant={{ size: "xsmall", type: "muted", weight: "normal" }}
-              >
-                {earnYearly}
-              </Text>
-            </Box>
-
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              data-testid="estimated-reward__monthly"
-            >
-              <Text
-                variant={{ size: "xsmall", type: "muted", weight: "normal" }}
-              >
-                {t("shared.monthly")}
-              </Text>
-              <Text
-                variant={{ size: "xsmall", type: "muted", weight: "normal" }}
-              >
-                {earnMonthly}
-              </Text>
-            </Box>
-          </Box>
-        </Box>
-
-        <Divider my="4" />
-
-        {isError && (
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            marginBottom="6"
-          >
-            <Text variant={{ type: "danger" }}>
-              {t("shared.something_went_wrong")}
-            </Text>
           </Box>
         )}
 
-        <Box
-          flex={1}
-          display="flex"
-          justifyContent="flex-end"
-          flexDirection="column"
-        >
-          <Button
-            disabled={buttonDisabled}
-            isLoading={onStakeEnterIsLoading}
-            onClick={onClick}
-            variant={{
-              color:
-                buttonDisabled || onStakeEnterIsLoading
-                  ? "disabled"
-                  : "primary",
-              animation: "press",
-            }}
+        {transitioningTab === "positions" && (
+          <Box
+            display="flex"
+            flex={1}
+            className={transitionClassName}
+            onAnimationEnd={onAnimationEnd}
           >
-            {buttonText}
-          </Button>
-        </Box>
+            <Positions />
+          </Box>
+        )}
       </PageContainer>
 
-      <Footer {...footerItems} />
+      {transitioningTab === "earn" && (
+        <Box className={transitionClassName} onAnimationEnd={onAnimationEnd}>
+          <Footer {...footerItems} />
+        </Box>
+      )}
     </>
   );
 };

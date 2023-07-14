@@ -1,4 +1,4 @@
-import { createVar, style } from "@vanilla-extract/css";
+import { createVar, keyframes, style } from "@vanilla-extract/css";
 import { atoms } from "../../styles";
 
 export const tokenLogo = style({
@@ -23,3 +23,37 @@ export const validatorSelectContainer = style([
   defaultColorContainer,
   atoms({ marginRight: "2" }),
 ]);
+
+const fadeInAnimation = keyframes({
+  from: {
+    opacity: "0",
+    transform: "translate(-20px, 0)",
+  },
+  to: {
+    opacity: "1",
+    transform: "translate(0px, 0px)",
+  },
+});
+
+const fadeOutAnimation = keyframes({
+  from: {
+    opacity: "1",
+    transform: "translate(0px, 0px)",
+  },
+  to: {
+    transform: "translate(-20px, 0)",
+    opacity: "0",
+  },
+});
+
+export const fadeIn = style({
+  animationDuration: "0.15s",
+  animationName: fadeInAnimation,
+  animationFillMode: "forwards",
+});
+
+export const fadeOut = style({
+  animationDuration: "0.15s",
+  animationName: fadeOutAnimation,
+  animationFillMode: "forwards",
+});

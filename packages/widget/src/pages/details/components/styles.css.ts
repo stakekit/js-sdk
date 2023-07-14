@@ -18,3 +18,8 @@ export const hideScrollbar = style({
     width: 0,
   },
 });
+
+export const tab = style({
+  cursor: "pointer",
+  userSelect: "none",
+});
