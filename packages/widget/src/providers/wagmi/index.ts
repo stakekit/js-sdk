@@ -8,7 +8,6 @@ import {
   connector as cosmosConnector,
   cosmosChainsToWagmiChains,
 } from "../cosmos/config";
-import { isRNWebViewContext } from "../../utils";
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 
 export const { chains, publicClient, webSocketPublicClient } = configureChains(
@@ -17,7 +16,7 @@ export const { chains, publicClient, webSocketPublicClient } = configureChains(
 );
 
 export const wagmiConfig = createConfig({
-  autoConnect: !isRNWebViewContext(),
+  autoConnect: true,
   connectors: connectorsForWallets([ethConnector, cosmosConnector]),
   publicClient,
   webSocketPublicClient,
