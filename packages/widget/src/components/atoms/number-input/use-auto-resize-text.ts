@@ -63,7 +63,9 @@ const scale = ({
 const convertRemToPixels = (rem: number) =>
   rem *
   parseFloat(
-    document ? getComputedStyle(document.documentElement).fontSize : "0"
+    typeof window === "undefined"
+      ? "0"
+      : getComputedStyle(document.documentElement).fontSize
   );
 
 const getDescendingFontSizes = (el: HTMLElement) =>

@@ -5,7 +5,7 @@ export const useRootElement = () => {
   const [rootElement, setRootElement] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
-    if (!document) return;
+    if (typeof window === "undefined") return;
 
     setRootElement(document.querySelector(rootSelector) as HTMLElement);
   }, []);
