@@ -6,7 +6,7 @@ export const useToggleTheme = () => {
   const scheme = usePrefersColorScheme();
 
   useLayoutEffect(() => {
-    if (!document) return;
+    if (typeof window === "undefined") return;
 
     if (scheme === "dark") {
       document.body.classList.remove(themes.light);
