@@ -105,27 +105,22 @@ export const useSKWallet = (): SKWallet => {
               console.log(e);
               return new TransactionDecodeError();
             })
-        )
-          .map((val) => {
-            console.log({ val: val });
-            return val;
-          })
-          .chain((val) =>
-            EitherAsync(() =>
-              wagmiSendTransaction({
-                ...val,
-                type: "eip1559",
-                nonce: val.nonce + index,
-                gas: val.gasLimit,
-                mode: "prepared",
-              })
-            )
-              .mapLeft((e) => {
-                console.log(e);
-                return new SendTransactionError();
-              })
-              .map((val) => ({ hash: val.hash as Hash }))
-          );
+        ).chain((val) =>
+          EitherAsync(() =>
+            wagmiSendTransaction({
+              ...val,
+              type: "eip1559",
+              nonce: val.nonce + index,
+              gas: val.gasLimit,
+              mode: "prepared",
+            })
+          )
+            .mapLeft((e) => {
+              console.log(e);
+              return new SendTransactionError();
+            })
+            .map((val) => ({ hash: val.hash as Hash }))
+        );
       }),
     [network, connector, isConnected]
   );

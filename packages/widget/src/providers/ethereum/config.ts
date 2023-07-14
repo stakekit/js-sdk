@@ -18,7 +18,7 @@ import { mainnet } from "wagmi";
 import { config } from "../../config";
 import { Chain } from "@rainbow-me/rainbowkit";
 import { ledgerFrameWallet } from "./ledger-connector";
-import { getNetworkLogo } from "../../utils";
+import { getNetworkLogo, isMobile } from "../../utils";
 import { EvmNetworks } from "@stakekit/common";
 
 export const chains: Chain[] = [
@@ -41,7 +41,7 @@ export const chains: Chain[] = [
 export const connector = {
   groupName: "Ethereum",
   wallets: [
-    injectedWallet({ chains }),
+    injectedWallet({ chains, shimDisconnect: !isMobile() }),
     ledgerFrameWallet({ chains: [mainnet], options: {} }),
     walletConnectWallet({
       chains,

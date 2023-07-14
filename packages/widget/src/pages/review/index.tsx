@@ -102,6 +102,7 @@ export const ReviewPage = () => {
           display="flex"
           justifyContent="flex-end"
           flexDirection="column"
+          marginTop="5"
         >
           <Button
             onClick={onClick}
