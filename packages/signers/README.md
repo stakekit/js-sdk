@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The StakeKit Signers is a package that allows you to create a signing wallet from a mnemonic or ledger app and sign transactions.
+The StakeKit Signers is a package that allows you to create a signing wallet instance from a mnemonic phrase or ledger app and sign transactions.
 
 In addition to that, you can provide a custom derivation path for your mnemonic phrase and get different wallets derived from it, from different types of wallet mechanisms, such as MetaMask, Omni, Phantom or Keplr.
 
