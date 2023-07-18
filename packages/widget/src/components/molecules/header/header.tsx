@@ -8,6 +8,9 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { container, parentButton, titleStyle } from "./styles.css";
 import classNames from "classnames";
 import { HelpModal } from "../help-modal";
+import { isMobile } from "../../../utils";
+
+const mobile = isMobile();
 
 export const Header = () => {
   const location = useLocation();
@@ -23,7 +26,11 @@ export const Header = () => {
 
   const logout = useLogout();
 
-  const onXPress = () => logout();
+  const onXPress = () => {
+    if (isMobile()) return;
+
+    logout();
+  };
 
   return (
     <Box
@@ -139,8 +146,12 @@ export const Header = () => {
         }}
       </ConnectButton.Custom>
 
-      <Box as="button" hw="6" onClick={onXPress}>
-        <XIcon />
+      <Box>
+        {!mobile && (
+          <Box as="button" hw="6" onClick={onXPress}>
+            <XIcon />
+          </Box>
+        )}
       </Box>
     </Box>
   );

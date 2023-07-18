@@ -105,27 +105,22 @@ export const useSKWallet = (): SKWallet => {
               console.log(e);
               return new TransactionDecodeError();
             })
-        )
-          .map((val) => {
-            console.log({ val: val });
-            return val;
-          })
-          .chain((val) =>
-            EitherAsync(() =>
-              wagmiSendTransaction({
-                ...val,
-                type: "eip1559",
-                nonce: val.nonce + index,
-                gas: val.gasLimit,
-                mode: "prepared",
-              })
-            )
-              .mapLeft((e) => {
-                console.log(e);
-                return new SendTransactionError();
-              })
-              .map((val) => ({ hash: val.hash as Hash }))
-          );
+        ).chain((val) =>
+          EitherAsync(() =>
+            wagmiSendTransaction({
+              ...val,
+              type: "eip1559",
+              nonce: val.nonce + index,
+              gas: val.gasLimit,
+              mode: "prepared",
+            })
+          )
+            .mapLeft((e) => {
+              console.log(e);
+              return new SendTransactionError();
+            })
+            .map((val) => ({ hash: val.hash as Hash }))
+        );
       }),
     [network, connector, isConnected]
   );
@@ -231,6 +226,7 @@ const getCosmosChainWallet = (connector: Connector | undefined) =>
 const wagmiNetworkToSKNetwork = (chain: Chain): SKWallet["network"] => {
   const asEvmNetwork = chain.network as (typeof evmChain)[number]["network"];
 
+  if (asEvmNetwork === "goerli") return EvmNetworks.EthereumGoerli;
   if (asEvmNetwork === "arbitrum") return EvmNetworks.Arbitrum;
   if (asEvmNetwork === "avalanche") return EvmNetworks.AvalancheC;
   if (asEvmNetwork === "celo") return EvmNetworks.Celo;
