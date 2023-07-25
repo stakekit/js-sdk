@@ -1,16 +1,15 @@
 import { useEffect } from "react";
-import { useAppState } from "../../state";
 import { useNavigate } from "react-router-dom";
 import { useStepsMachine } from "./use-steps-machine";
+import { StakeDto } from "@stakekit/api-hooks";
+import { Maybe } from "purify-ts";
 
-export const useSteps = () => {
-  const { stakeSession } = useAppState();
-
+export const useSteps = (session: Maybe<StakeDto>) => {
   const navigate = useNavigate();
 
   const [machine, send] = useStepsMachine();
 
-  const id = stakeSession.map((val) => val.id).extractNullable();
+  const id = session.map((val) => val.id).extractNullable();
 
   /**
    * Start sign + check tx on mount
@@ -33,7 +32,10 @@ export const useSteps = () => {
 
   useEffect(() => {
     if (machine.value === "done") {
-      navigate("/complete", { state: { urls: machine.context.urls } });
+      navigate("../complete", {
+        state: { urls: machine.context.urls },
+        relative: "path",
+      });
     }
   }, [machine.context.urls, machine.value, navigate]);
 

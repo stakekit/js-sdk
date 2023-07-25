@@ -29,7 +29,7 @@ export const responsiveProperties = {
   paddingBottom: vars.space,
   paddingRight: vars.space,
   paddingLeft: vars.space,
-  alignItems: ["flex-start", "flex-end", "center"],
+  alignItems: ["flex-start", "flex-end", "center", "stretch"],
   justifyContent: ["flex-start", "flex-end", "center", "space-between"],
   flexDirection: ["row", "column", "row-reverse", "column-reverse"],
   flexWrap: ["wrap", "nowrap"],
@@ -37,6 +37,8 @@ export const responsiveProperties = {
   width: vars.space,
   minWidth: vars.space,
   minHeight: vars.space,
+  maxWidth: vars.space,
+  maxHeight: vars.space,
 } as const;
 
 export type ResponsiveProperties = keyof typeof responsiveProperties;

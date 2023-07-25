@@ -23,7 +23,6 @@ import { useSKWallet } from "../../hooks/use-sk-wallet";
 import { useMutation } from "@tanstack/react-query";
 import { useStakeEnterAndTxsConstruct } from "../../hooks/api/use-stake-enter-and-txs-construct";
 import { useNetworkGas } from "../../hooks/api/use-network-gas";
-import { TabsProps } from "./components/tabs";
 
 export const useDetails = () => {
   const {
@@ -38,11 +37,6 @@ export const useDetails = () => {
     gasModeValue,
   } = useAppState();
   const appDispatch = useAppDispatch();
-
-  const [selectedTab, setSelectedTab] = useState<"earn" | "positions">("earn");
-
-  const onTabPress: TabsProps["onTabPress"] = (selected) =>
-    setSelectedTab(selected);
 
   const gasParameters = useNetworkGas(selectedStake);
 
@@ -245,7 +239,7 @@ export const useDetails = () => {
     accountBalanceIsFetching ||
     pricesState.isFetching ||
     onStakeEnter.isLoading ||
-    stakeValidators.isLoading;
+    stakeValidators.isInitialLoading;
 
   const buttonDisabled =
     isConnected &&
@@ -256,7 +250,7 @@ export const useDetails = () => {
       stakeAmount.map((sa) => sa.isZero()).orDefault(true) ||
       gasParameters.isLoading ||
       onStakeEnter.isLoading ||
-      stakeValidators.isLoading);
+      stakeValidators.isInitialLoading);
 
   return {
     availableTokens,
@@ -287,7 +281,5 @@ export const useDetails = () => {
     onSelectOpportunityClose,
     onStakeEnterIsLoading: onStakeEnter.isLoading,
     selectedStakeYieldType,
-    selectedTab,
-    onTabPress,
   };
 };

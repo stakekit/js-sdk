@@ -4,18 +4,30 @@ import { PageContainer } from "../components";
 import { CheckCircleIcon } from "../../components/atoms/icons/check-circle";
 import { useComplete } from "./use-complete";
 import { TokenIcon } from "../../components/atoms/token-icon";
+import { useAppState } from "../../state";
+import { TokenDto, YieldMetadataDto } from "@stakekit/api-hooks";
+import { useUnstakeOrClaimState } from "../../state/unstake";
+import { useMatch, useParams } from "react-router-dom";
+import { usePositionData } from "../../hooks/use-position-data";
+import BigNumber from "bignumber.js";
+import { formatTokenBalance } from "../../utils";
 
-export const CompletePage = () => {
+type Props = {
+  token: TokenDto | null;
+  metadata: YieldMetadataDto | null;
+  network: string;
+  amount: string;
+};
+
+const CompletePage = ({ amount, metadata, network, token }: Props) => {
   const { t } = useTranslation();
 
   const {
-    amount,
-    network,
-    token,
-    metadata,
     rewardTokenDetails,
     onClick,
     onViewTransactionClick,
+    unstakeMatch,
+    claimMatch,
   } = useComplete();
 
   return (
@@ -45,10 +57,17 @@ export const CompletePage = () => {
             </Box>
           )}
           <Heading variant={{ level: "h3" }}>
-            {t("complete.successfully_staked", {
-              amount,
-              tokenNetwork: network,
-            })}
+            {t(
+              unstakeMatch
+                ? "complete.successfully_unstaked"
+                : claimMatch
+                ? "complete.successfully_claimed"
+                : "complete.successfully_staked",
+              {
+                amount,
+                tokenNetwork: network,
+              }
+            )}
           </Heading>
 
           {rewardTokenDetails && (
@@ -96,5 +115,58 @@ export const CompletePage = () => {
         </Box>
       </Box>
     </PageContainer>
+  );
+};
+
+export const StakeCompletePage = () => {
+  const { stakeAmount, selectedStake } = useAppState();
+
+  const token = selectedStake.map((y) => y.token).extractNullable();
+  const metadata = selectedStake.map((y) => y.metadata).extractNullable();
+
+  const network = selectedStake.mapOrDefault((y) => y.token.symbol, "");
+
+  const amount = stakeAmount.mapOrDefault((a) => a.toString(), "");
+
+  return (
+    <CompletePage
+      token={token}
+      metadata={metadata}
+      network={network}
+      amount={amount}
+    />
+  );
+};
+
+export const UnstakeOrClaimCompletePage = () => {
+  const { unstake, claim } = useUnstakeOrClaimState();
+
+  const claimMatch = useMatch("claim/:integrationId/complete");
+
+  const integrationId = useParams<{ integrationId: string }>().integrationId!;
+
+  const { position } = usePositionData(integrationId);
+
+  const token = position.map((p) => p.balanceData.token).extractNullable();
+  const metadata = position
+    .map((p) => p.integrationData.metadata)
+    .extractNullable();
+  const network = token?.symbol ?? "";
+  const amount = claimMatch
+    ? claim.mapOrDefault(
+        (val) => formatTokenBalance(new BigNumber(val.amount), 6),
+        ""
+      )
+    : unstake
+        .chain((u) => u.amount)
+        .mapOrDefault((a) => formatTokenBalance(a, 6), "");
+
+  return (
+    <CompletePage
+      token={token}
+      metadata={metadata}
+      network={network}
+      amount={amount}
+    />
   );
 };

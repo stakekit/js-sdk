@@ -9,6 +9,7 @@ import { EVMProvider } from "./ethereum/provider";
 import { CosmosProvider } from "./cosmos/provider";
 import { ThemeWrapper } from "./theme-wrapper";
 import { useSettings } from "./settings";
+import { LocationTransitionProvider } from "./location-transition";
 
 export const Providers = ({ children }: PropsWithChildren) => {
   const { apiKey } = useSettings();
@@ -37,7 +38,11 @@ export const Providers = ({ children }: PropsWithChildren) => {
               <MemoryRouter>
                 <AppStateProvider>
                   <DerivedAppStateProvider>
-                    <ThemeWrapper>{children}</ThemeWrapper>
+                    <ThemeWrapper>
+                      <LocationTransitionProvider>
+                        {children}
+                      </LocationTransitionProvider>
+                    </ThemeWrapper>
                   </DerivedAppStateProvider>
                 </AppStateProvider>
               </MemoryRouter>

@@ -103,7 +103,7 @@ export const fontSizesContract = {
 };
 
 export const fontSizes: typeof fontSizesContract = {
-  xs: "0.7rem",
+  xs: "0.625rem",
   sm: "0.875rem",
   md: "1rem",
   lg: "1.125rem",
@@ -181,15 +181,15 @@ export const textsContract: {
 
 export const texts: typeof textsContract = {
   standard: {
-    mobile: { fontSize: fontSizes["lg"] },
-    tablet: { fontSize: fontSizes["lg"] },
-  },
-  small: {
     mobile: { fontSize: fontSizes["md"] },
     tablet: { fontSize: fontSizes["md"] },
   },
-  xsmall: {
+  small: {
     mobile: { fontSize: fontSizes["sm"] },
     tablet: { fontSize: fontSizes["sm"] },
+  },
+  xsmall: {
+    mobile: { fontSize: fontSizes["xs"] },
+    tablet: { fontSize: fontSizes["xs"] },
   },
 };

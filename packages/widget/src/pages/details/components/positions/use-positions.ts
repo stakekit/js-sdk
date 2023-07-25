@@ -1,67 +1,18 @@
-import {
-  YieldBalanceWithIntegrationIdRequestDto,
-  useStakeGetMultipleIntegrationBalances,
-} from "@stakekit/api-hooks";
-import { useMemo } from "react";
-import { Maybe } from "purify-ts";
-import { useFilteredOpportunities } from "../../../../hooks/api/use-filtered-opportunities";
-import { useSKWallet } from "../../../../hooks/use-sk-wallet";
+import { usePositionsData } from "../../../../hooks/use-positions-data";
+import { createSelector } from "reselect";
 
 export const usePositions = () => {
-  const { data } = useFilteredOpportunities();
+  const { positionsData, isLoading } = usePositionsData();
 
-  const dataMap = useMemo(
-    () =>
-      Maybe.fromNullable(data)
-        .map(
-          (integrations) => new Map(integrations.map((val) => [val.id, val]))
-        )
-        .extractNullable(),
-    [data]
-  );
-
-  const { address, additionalAddresses } = useSKWallet();
-
-  const yieldBalanceWithIntegrationIdRequestDto = useMemo(
-    () =>
-      Maybe.fromNullable(data)
-        .chain((integrations) =>
-          Maybe.fromNullable(address).map((addr) => ({ integrations, addr }))
-        )
-        .map(({ addr, integrations }) =>
-          integrations
-            .filter((int) => int.config.type !== "vault") // TODO: TEMP!
-            .map(
-              (int): YieldBalanceWithIntegrationIdRequestDto => ({
-                addresses: {
-                  address: addr,
-                  additionalAddresses: additionalAddresses ?? undefined,
-                },
-                integrationId: int.id,
-              })
-            )
-        )
-        .orDefault([]),
-    [data, address, additionalAddresses]
-  );
-
-  const stakeGetMultipleIntegrationBalances =
-    useStakeGetMultipleIntegrationBalances(
-      yieldBalanceWithIntegrationIdRequestDto,
-      { query: { enabled: !!yieldBalanceWithIntegrationIdRequestDto.length } }
-    );
-
-  const tableData = useMemo(
-    () =>
-      stakeGetMultipleIntegrationBalances.data?.flatMap((val) =>
-        val.balances.map((b) => ({ ...val, ...b }))
-      ),
-    [stakeGetMultipleIntegrationBalances.data]
-  );
+  const tableData = positionsDataSelector(positionsData);
 
   return {
-    isLoading: stakeGetMultipleIntegrationBalances.isInitialLoading,
+    isLoading,
     tableData,
-    dataMap,
   };
 };
+
+const positionsDataSelector = createSelector(
+  (data: ReturnType<typeof usePositionsData>["positionsData"]) => data,
+  (data) => [...data.values()].filter((p) => p.balanceData.type !== "available")
+);

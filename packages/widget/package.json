@@ -83,7 +83,8 @@
     "purify-ts": "^2.0.1",
     "react-i18next": "^13.0.1",
     "react-router-dom": "^6.14.0",
-    "react-virtuoso": "^4.3.11"
+    "react-virtuoso": "^4.3.11",
+    "reselect": "^4.1.8"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",

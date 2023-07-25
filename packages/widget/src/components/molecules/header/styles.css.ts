@@ -19,3 +19,10 @@ export const parentButton = style({
   pointerEvents: "none",
   userSelect: "none",
 });
+
+export const parentContainer = style({
+  display: "grid",
+  gridTemplateColumns: "minmax(50px, auto) 1fr minmax(50px, auto)",
+  alignItems: "center",
+  justifyContent: "center",
+});

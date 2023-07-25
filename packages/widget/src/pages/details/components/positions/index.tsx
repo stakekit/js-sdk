@@ -2,33 +2,27 @@ import { Virtuoso } from "react-virtuoso";
 import { Box, Spinner, Text } from "../../../../components";
 import { usePositions } from "./use-positions";
 import { ListItem } from "../../../../components/atoms/list/list-item";
-import { apyToPercentage } from "../../../../utils";
+import { apyToPercentage, formatTokenBalance } from "../../../../utils";
 import { TokenIcon } from "../../../../components/atoms/token-icon";
 import { useTranslation } from "react-i18next";
-import { messageContainer, virtuosoContainer } from "./style.css";
+import {
+  claimRewardsContainer,
+  messageContainer,
+  virtuosoContainer,
+} from "./style.css";
 import BigNumber from "bignumber.js";
 import { useSKWallet } from "../../../../hooks/use-sk-wallet";
+import { SKLink } from "../../../../components/atoms/link";
 
 export const Positions = () => {
-  const { dataMap, tableData, isLoading } = usePositions();
+  const { tableData, isLoading } = usePositions();
 
   const { isConnected } = useSKWallet();
 
   const { t } = useTranslation();
 
-  console.log({
-    tableData,
-    dataMap,
-  });
-
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      marginTop="2"
-      flex={1}
-    >
+    <Box display="flex" justifyContent="center" marginTop="2" flex={1}>
       {isLoading && (
         <Box className={messageContainer}>
           <Box display="flex">
@@ -51,74 +45,99 @@ export const Positions = () => {
         </Box>
       ) : null}
 
-      {tableData?.length && dataMap?.size && (
+      {!!tableData?.length && (
         <Virtuoso
           className={virtuosoContainer}
+          style={{ height: "auto" }}
           data={tableData}
           itemContent={(_index, item) => {
-            const opData = dataMap.get(item.integrationId);
+            const amount = new BigNumber(item.balanceData.amount);
 
-            if (!opData || !item.balances.length) return null;
-
-            const amount = new BigNumber(item.amount);
+            const hasRewards = item.balanceData.pendingActions.some(
+              (a) => a.type === "CLAIM_REWARDS"
+            );
 
             return (
-              <Box my="2">
-                <ListItem>
-                  <Box
-                    display="flex"
-                    justifyContent="flex-start"
-                    alignItems="center"
-                  >
-                    <TokenIcon metadata={opData.metadata} token={item.token} />
+              <SKLink
+                relative="path"
+                to={`../positions/${item.metaData.integrationId}`}
+              >
+                <Box my="2">
+                  <ListItem>
+                    <Box
+                      display="flex"
+                      justifyContent="flex-start"
+                      alignItems="center"
+                    >
+                      <TokenIcon
+                        metadata={item.integrationData.metadata}
+                        token={item.balanceData.token}
+                      />
+
+                      <Box
+                        display="flex"
+                        flexDirection="column"
+                        justifyContent="center"
+                        alignItems="flex-start"
+                      >
+                        <Box
+                          display="flex"
+                          justifyContent="center"
+                          alignItems="center"
+                          gap="1"
+                        >
+                          <Text variant={{ size: "small" }}>
+                            {item.balanceData.token.symbol}
+                          </Text>
+
+                          {hasRewards && (
+                            <Box className={claimRewardsContainer}>
+                              <Text variant={{ size: "xsmall", type: "white" }}>
+                                {t("positions.claim_rewards")}
+                              </Text>
+                            </Box>
+                          )}
+                        </Box>
+                        <Text
+                          variant={{
+                            size: "small",
+                            type: "muted",
+                            weight: "normal",
+                          }}
+                        >
+                          {t("positions.via", {
+                            providerName:
+                              item.integrationData.metadata.provider?.name,
+                          })}
+                        </Text>
+                      </Box>
+                    </Box>
 
                     <Box
                       display="flex"
-                      flexDirection="column"
                       justifyContent="center"
-                      alignItems="flex-start"
+                      alignItems="flex-end"
+                      flexDirection="column"
                     >
-                      <Text variant={{ size: "small" }}>
-                        {item.token.symbol}
+                      <Text variant={{ size: "small", weight: "normal" }}>
+                        {apyToPercentage(item.integrationData.apy)}%
                       </Text>
-                      <Text
-                        variant={{
-                          size: "xsmall",
-                          type: "muted",
-                          weight: "normal",
-                        }}
-                      >
-                        {t("positions.via", {
-                          providerName: opData.metadata.provider?.name,
-                        })}
-                      </Text>
+                      {item.balanceData.amount && (
+                        <Text
+                          variant={{
+                            size: "small",
+                            weight: "normal",
+                            type: "muted",
+                          }}
+                        >
+                          {formatTokenBalance(amount, 6)}{" "}
+                          {item.balanceData.token.symbol}
+                        </Text>
+                      )}
                     </Box>
-                  </Box>
-
-                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="flex-end"
-                    flexDirection="column"
-                  >
-                    <Text variant={{ size: "small", weight: "normal" }}>
-                      {apyToPercentage(opData.apy)}%
-                    </Text>
-                    {item.amount && (
-                      <Text
-                        variant={{
-                          size: "xsmall",
-                          weight: "normal",
-                          type: "muted",
-                        }}
-                      >
-                        {amount.isEqualTo(0) ? 0 : amount.toFixed(6).toString()}{" "}
-                        {item.token.symbol}
-                      </Text>
-                    )}
-                  </Box>
-                </ListItem>
-              </Box>
+                  </ListItem>
+                </Box>
+              </SKLink>
             );
           }}
         />
