@@ -165,6 +165,16 @@ export const usePositionDetails = () => {
     [position]
   );
 
+  // set initial unstake amount to 0
+  useEffect(() => {
+    unstake.ifNothing(() => {
+      dispatch({
+        type: "unstake/amount/change",
+        data: { integrationId, amount: Maybe.of(new BigNumber(0)) },
+      });
+    });
+  }, [dispatch, integrationId, unstake]);
+
   // If changing unstake amount is not allowed, set `unstakeAmount` to staked amount
   // If `unstakeAmount` is less then min or greater than max, set in bounds
   useEffect(() => {
