@@ -329,7 +329,7 @@ export const usePositionDetails = () => {
     });
   });
 
-  const isValid = unstake
+  const unstakeAmountValid = unstake
     .chain((u) => u.amount)
     .mapOrDefault(
       (a) =>
@@ -390,8 +390,16 @@ export const usePositionDetails = () => {
     });
   });
 
+  const unstakeAvailable = position.mapOrDefault(
+    (p) => p.integrationData.status.exit,
+    false
+  );
+
   const unstakeDisabled =
-    !isValid || onStakeExit.isLoading || onClaim.isLoading;
+    !unstakeAmountValid ||
+    onStakeExit.isLoading ||
+    onClaim.isLoading ||
+    !unstakeAvailable;
 
   const onUnstakeClick = () => {
     onStakeExit

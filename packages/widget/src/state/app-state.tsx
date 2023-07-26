@@ -12,7 +12,7 @@ import {
 import { getGasEstimateTotal, getMaxStakeAmount } from "../domain";
 import { useAccountBalance } from "../hooks";
 import { Actions, ExtraData, State } from "./types";
-import { useFilteredOpportunities } from "../hooks/api/use-filtered-opportunities";
+import { useStakeEnterEnabledOpportunities } from "../hooks/api/use-filtered-opportunities";
 import { config } from "../config";
 import { StakeRequestDto, useStakeGetValidators } from "@stakekit/api-hooks";
 import { useStakeEnterAndTxsConstruct } from "../hooks/api/use-stake-enter-and-txs-construct";
@@ -81,13 +81,18 @@ export const AppStateProvider = ({ children }: { children: ReactNode }) => {
 
   const { address, additionalAddresses } = useSKWallet();
 
-  const opportunities = useFilteredOpportunities();
+  const opportunities = useStakeEnterEnabledOpportunities();
 
   // set initial stake opportunity
   useEffect(() => {
-    if (opportunities.data?.length) {
-      dispatch({ type: "stake/select", data: opportunities.data[0] });
-    }
+    Maybe.fromNullable(opportunities.data)
+      .chain((val) => List.find((o) => o.status.enter, val))
+      .ifJust((val) =>
+        dispatch({
+          type: "stake/select",
+          data: val,
+        })
+      );
   }, [address, opportunities.data]);
 
   const selectedStakeId = selectedStake.mapOrDefault((s) => s.id, "");

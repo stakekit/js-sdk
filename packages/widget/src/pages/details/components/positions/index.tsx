@@ -22,7 +22,7 @@ export const Positions = () => {
   const { t } = useTranslation();
 
   return (
-    <Box display="flex" justifyContent="center" marginTop="2" flex={1}>
+    <Box display="flex" justifyContent="center" flex={1}>
       {isLoading && (
         <Box className={messageContainer}>
           <Box display="flex">

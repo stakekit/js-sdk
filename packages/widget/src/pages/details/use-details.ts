@@ -15,7 +15,7 @@ import { useSelectedStakePrice } from "../../hooks";
 import { useDerivedAppState } from "../../state";
 import { useAppDispatch, useAppState } from "../../state/app-state";
 import { formatTokenBalance } from "../../utils";
-import { useFilteredOpportunities } from "../../hooks/api/use-filtered-opportunities";
+import { useStakeEnterEnabledOpportunities } from "../../hooks/api/use-filtered-opportunities";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { SelectedStakeData } from "./types";
 import { Token } from "@stakekit/common";
@@ -49,7 +49,7 @@ export const useDetails = () => {
   const { estimatedRewards, accountBalanceIsFetching, yieldType, rewardToken } =
     useDerivedAppState();
 
-  const opportunities = useFilteredOpportunities();
+  const opportunities = useStakeEnterEnabledOpportunities();
 
   const pricesState = useSelectedStakePrice({ selectedStake });
 

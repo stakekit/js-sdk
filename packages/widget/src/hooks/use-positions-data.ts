@@ -1,5 +1,5 @@
 import { Maybe } from "purify-ts";
-import { useFilteredOpportunities } from "./api/use-filtered-opportunities";
+import { useStakeExitEnabledOpportunities } from "./api/use-filtered-opportunities";
 import { useSKWallet } from "./use-sk-wallet";
 import {
   YieldBalanceWithIntegrationIdRequestDto,
@@ -11,7 +11,7 @@ import { createSelector } from "reselect";
 import { SKWallet } from "../domain/types";
 
 export const usePositionsData = () => {
-  const filteredOpportunities = useFilteredOpportunities();
+  const filteredOpportunities = useStakeExitEnabledOpportunities();
 
   const { address, additionalAddresses } = useSKWallet();
 

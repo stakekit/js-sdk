@@ -132,7 +132,7 @@ export const EarnPage = () => {
   return (
     <>
       <PageContainer>
-        <Box marginTop="2">
+        <Box>
           <Box>
             <Box
               display="flex"
