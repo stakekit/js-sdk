@@ -41,7 +41,7 @@ export const Header = () => {
   };
 
   return (
-    <Box className={parentContainer} py="4">
+    <Box className={parentContainer} paddingTop="4" paddingBottom="1">
       {showBack ? (
         <Box
           as="button"
@@ -54,7 +54,9 @@ export const Header = () => {
           <CaretLeftIcon />
         </Box>
       ) : (
-        <HelpModal type="main" />
+        <Box hw="7">
+          <HelpModal type="main" />
+        </Box>
       )}
 
       <Box display="flex" justifyContent="center" alignItems="center">

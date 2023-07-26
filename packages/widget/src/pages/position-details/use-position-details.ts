@@ -338,6 +338,11 @@ export const usePositionDetails = () => {
             .toEither(new Error("missing claimAvailableRewards"))
             .map((car) => ({ sb, car }))
         )
+        .chain((val) =>
+          rewardsBalance
+            .toEither(new Error("missing rewardsBalance"))
+            .map((rb) => ({ ...val, rb }))
+        )
     )
       .chain((val) =>
         EitherAsync(() => transactionGetGasForNetwork(val.sb.token.network))
@@ -359,7 +364,7 @@ export const usePositionDetails = () => {
             pendingActionRequestDto: {
               args: {
                 validatorAddress: val.sb.validatorAddress,
-                amount: val.sb.amount,
+                amount: val.rb.amount,
               },
               integrationId,
               passthrough: val.car.passthrough,

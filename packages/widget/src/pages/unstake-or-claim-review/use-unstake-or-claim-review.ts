@@ -52,7 +52,9 @@ export const useUnstakeOrClaimReview = () => {
 
   const navigate = useNavigate();
 
-  const { stakeExitTxGas } = useUnstakeOrClaimState();
+  const { stakeExitTxGas, claimTxGas } = useUnstakeOrClaimState();
+
+  const txGas = claimMatch ? claimTxGas : stakeExitTxGas;
 
   const pricesState = usePrices({
     currency: config.currency,
@@ -68,7 +70,12 @@ export const useUnstakeOrClaimReview = () => {
         .chain((p) =>
           Maybe.fromNullable(pricesState.data).map((prices) => ({ prices, p }))
         )
-        .chain((val) => stakeExitTxGas.map((gas) => ({ ...val, gas })))
+        .chain((val) =>
+          txGas.map((gas) => ({
+            ...val,
+            gas,
+          }))
+        )
         .map(({ prices, p, gas }) =>
           getTokenPriceInUSD({
             amount: gas.toString(),
@@ -76,7 +83,7 @@ export const useUnstakeOrClaimReview = () => {
             token: getBaseToken(p.balanceData.token as Token),
           })
         ),
-    [position, pricesState.data, stakeExitTxGas]
+    [position, pricesState.data, txGas]
   );
 
   const tokenNetwork = position.mapOrDefault(
@@ -86,7 +93,7 @@ export const useUnstakeOrClaimReview = () => {
 
   const fee = useMemo(
     () =>
-      stakeExitTxGas
+      txGas
         .chain((setg) => gasFeeInUSD.map((gfiu) => ({ setg, gfiu })))
         .mapOrDefault(
           ({ gfiu, setg }) =>
@@ -96,7 +103,7 @@ export const useUnstakeOrClaimReview = () => {
             )})`,
           ""
         ),
-    [gasFeeInUSD, stakeExitTxGas, tokenNetwork]
+    [gasFeeInUSD, txGas, tokenNetwork]
   );
 
   const onClick = () => {

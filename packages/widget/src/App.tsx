@@ -32,6 +32,7 @@ import { UnstakeOrClaimReviewPage } from "./pages/unstake-or-claim-review";
 import { UnstakeOrClaimContextProvider } from "./state/unstake";
 import { StakeCheck } from "./pages/cheks/stake-check";
 import { UnstakeOrClaimCheck } from "./pages/cheks/unstake-or-claim-check";
+import { ConnectedCheck } from "./pages/cheks/connected-check";
 
 const Widget = () => {
   useToggleTheme();
@@ -57,39 +58,47 @@ const Widget = () => {
             <Route path="positions" element={<PositionsPage />} />
           </Route>
 
-          <Route element={<StakeCheck />}>
-            <Route path="review" element={<ReviewPage />} />
-            <Route path="steps" element={<StakeStepsPage />} />
-            <Route path="complete" element={<StakeCompletePage />} />
-          </Route>
-
-          <Route
-            element={
-              <UnstakeOrClaimContextProvider>
-                <Outlet />
-              </UnstakeOrClaimContextProvider>
-            }
-          >
-            <Route
-              path="positions/:integrationId"
-              element={<PositionDetails />}
-            />
-            <Route
-              path="unstake/:integrationId"
-              element={<UnstakeOrClaimCheck />}
-            >
-              <Route path="review" element={<UnstakeOrClaimReviewPage />} />
-              <Route path="steps" element={<UnstakeOrClaimStepsPage />} />
-              <Route path="complete" element={<UnstakeOrClaimCompletePage />} />
+          <Route element={<ConnectedCheck />}>
+            <Route element={<StakeCheck />}>
+              <Route path="review" element={<ReviewPage />} />
+              <Route path="steps" element={<StakeStepsPage />} />
+              <Route path="complete" element={<StakeCompletePage />} />R
             </Route>
 
             <Route
-              path="claim/:integrationId"
-              element={<UnstakeOrClaimCheck />}
+              element={
+                <UnstakeOrClaimContextProvider>
+                  <Outlet />
+                </UnstakeOrClaimContextProvider>
+              }
             >
-              <Route path="review" element={<UnstakeOrClaimReviewPage />} />
-              <Route path="steps" element={<UnstakeOrClaimStepsPage />} />
-              <Route path="complete" element={<UnstakeOrClaimCompletePage />} />
+              <Route
+                path="positions/:integrationId"
+                element={<PositionDetails />}
+              />
+              <Route
+                path="unstake/:integrationId"
+                element={<UnstakeOrClaimCheck />}
+              >
+                <Route path="review" element={<UnstakeOrClaimReviewPage />} />
+                <Route path="steps" element={<UnstakeOrClaimStepsPage />} />
+                <Route
+                  path="complete"
+                  element={<UnstakeOrClaimCompletePage />}
+                />
+              </Route>
+
+              <Route
+                path="claim/:integrationId"
+                element={<UnstakeOrClaimCheck />}
+              >
+                <Route path="review" element={<UnstakeOrClaimReviewPage />} />
+                <Route path="steps" element={<UnstakeOrClaimStepsPage />} />
+                <Route
+                  path="complete"
+                  element={<UnstakeOrClaimCompletePage />}
+                />
+              </Route>
             </Route>
           </Route>
 

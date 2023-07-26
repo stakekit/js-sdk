@@ -49,15 +49,15 @@ export const Details = () => {
 
   return (
     <Box flex={1} display="flex" flexDirection="column">
-      <Box>
+      <Box marginBottom="1">
         <Tabs
           onTabPress={onTabPress}
           selectedTab={selectedTab}
           hasPendingRewards={hasPendingRewards}
         />
-
-        <Divider />
       </Box>
+
+      <Divider />
 
       <Box
         display="flex"

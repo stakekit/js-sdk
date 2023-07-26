@@ -47,6 +47,7 @@ type State = {
 
 type ExtraData = {
   stakeExitTxGas: Maybe<BigNumber>;
+  claimTxGas: Maybe<BigNumber>;
   unstakeSession: Maybe<StakeDto>;
   pendingActionSession: Maybe<StakeDto>;
 };
@@ -107,6 +108,15 @@ export const UnstakeOrClaimContextProvider = ({
     );
   }, [stakeExitAndTxsConstruct.data]);
 
+  const claimTxGas = useMemo(() => {
+    return Maybe.fromNullable(pendingActionAndTxsConstruct.data).map((val) =>
+      val.transactionConstructRes.reduce(
+        (acc, val) => acc.plus(new BigNumber(val.gasEstimate?.amount ?? 0)),
+        new BigNumber(0)
+      )
+    );
+  }, [pendingActionAndTxsConstruct.data]);
+
   const value: State & ExtraData = useMemo(
     () => ({
       stakeExitTxGas,
@@ -114,6 +124,7 @@ export const UnstakeOrClaimContextProvider = ({
       pendingActionSession,
       unstake: state.unstake,
       claim: state.claim,
+      claimTxGas,
     }),
     [
       stakeExitTxGas,
@@ -121,6 +132,7 @@ export const UnstakeOrClaimContextProvider = ({
       state.unstake,
       unstakeSession,
       pendingActionSession,
+      claimTxGas,
     ]
   );
 
