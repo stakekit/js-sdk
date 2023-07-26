@@ -28,6 +28,7 @@ const CompletePage = ({ amount, metadata, network, token }: Props) => {
     onViewTransactionClick,
     unstakeMatch,
     claimMatch,
+    hasUrs,
   } = useComplete();
 
   return (
@@ -88,26 +89,28 @@ const CompletePage = ({ amount, metadata, network, token }: Props) => {
             </Box>
           )}
 
-          <Box
-            marginTop="4"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            as="button"
-            onClick={onViewTransactionClick}
-          >
+          {hasUrs && (
             <Box
-              marginRight="1"
+              marginTop="4"
               display="flex"
               justifyContent="center"
               alignItems="center"
+              as="button"
+              onClick={onViewTransactionClick}
             >
-              <CheckCircleIcon width={22} height={22} />
+              <Box
+                marginRight="1"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <CheckCircleIcon width={22} height={22} />
+              </Box>
+              <Text variant={{ type: "muted", size: "small" }}>
+                {t("complete.view_transaction")}
+              </Text>
             </Box>
-            <Text variant={{ type: "muted", size: "small" }}>
-              {t("complete.view_transaction")}
-            </Text>
-          </Box>
+          )}
         </Box>
 
         <Box display="flex" alignItems="flex-end">

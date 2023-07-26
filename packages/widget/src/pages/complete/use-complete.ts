@@ -37,5 +37,6 @@ export const useComplete = () => {
     onViewTransactionClick,
     unstakeMatch,
     claimMatch,
+    hasUrs: !!urls?.length,
   };
 };
