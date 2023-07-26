@@ -10,6 +10,16 @@ type SelectorInputData = {
   network: SKWallet["network"];
 };
 
+export const useFilteredOpportunities = () => {
+  const { network, isConnected } = useSKWallet();
+
+  return useOpportunities({
+    query: {
+      select: (data) => defaultFiltered({ data, isConnected, network }),
+    },
+  });
+};
+
 export const useStakeEnterEnabledOpportunities = () => {
   const { network, isConnected } = useSKWallet();
 
@@ -17,17 +27,6 @@ export const useStakeEnterEnabledOpportunities = () => {
     query: {
       select: (data) =>
         stakeEnterEnabledFiltered({ data, isConnected, network }),
-    },
-  });
-};
-
-export const useStakeExitEnabledOpportunities = () => {
-  const { network, isConnected } = useSKWallet();
-
-  return useOpportunities({
-    query: {
-      select: (data) =>
-        stakeExitEnabledFiltered({ data, isConnected, network }),
     },
   });
 };
@@ -55,18 +54,18 @@ const selectData = (val: SelectorInputData) => val.data;
 const selectConnected = (val: SelectorInputData) => val.isConnected;
 const selectNetwork = (val: SelectorInputData) => val.network;
 
+const defaultFiltered = createSelector(
+  selectData,
+  selectConnected,
+  selectNetwork,
+  (data, isConnected, network) =>
+    data.filter((o) => skFilter({ o, isConnected, network }))
+);
+
 const stakeEnterEnabledFiltered = createSelector(
   selectData,
   selectConnected,
   selectNetwork,
   (data, isConnected, network) =>
     data.filter((o) => skFilter({ o, isConnected, network }) && o.status.enter)
-);
-
-const stakeExitEnabledFiltered = createSelector(
-  selectData,
-  selectConnected,
-  selectNetwork,
-  (data, isConnected, network) =>
-    data.filter((o) => skFilter({ o, isConnected, network }) && o.status.exit)
 );

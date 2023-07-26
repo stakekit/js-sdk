@@ -27,7 +27,9 @@ export const Details = () => {
 
   const hasPendingRewards = useMemo(
     () =>
-      [...positionsData.values()].some((p) => p.balanceData.type === "rewards"),
+      [...positionsData.values()].some((p) =>
+        p.balanceData.balances.some((b) => b.type === "rewards")
+      ),
     [positionsData]
   );
 

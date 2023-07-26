@@ -26,7 +26,7 @@ export const useUnstakeOrClaimReview = () => {
   const stakedBalance = useMemo(
     () =>
       position.chain((p) =>
-        List.find((b) => b.type === "staked", p.metaData.balances)
+        List.find((b) => b.type === "staked", p.balanceData.balances)
       ),
     [position]
   );
@@ -80,14 +80,14 @@ export const useUnstakeOrClaimReview = () => {
           getTokenPriceInUSD({
             amount: gas.toString(),
             prices,
-            token: getBaseToken(p.balanceData.token as Token),
+            token: getBaseToken(p.integrationData.token as Token),
           })
         ),
     [position, pricesState.data, txGas]
   );
 
   const tokenNetwork = position.mapOrDefault(
-    (p) => p.balanceData.token.network,
+    (p) => p.integrationData.token.network,
     ""
   );
 

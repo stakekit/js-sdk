@@ -1,5 +1,5 @@
 import { Maybe } from "purify-ts";
-import { useStakeExitEnabledOpportunities } from "./api/use-filtered-opportunities";
+import { useFilteredOpportunities } from "./api/use-filtered-opportunities";
 import { useSKWallet } from "./use-sk-wallet";
 import {
   YieldBalanceWithIntegrationIdRequestDto,
@@ -11,7 +11,7 @@ import { createSelector } from "reselect";
 import { SKWallet } from "../domain/types";
 
 export const usePositionsData = () => {
-  const filteredOpportunities = useStakeExitEnabledOpportunities();
+  const filteredOpportunities = useFilteredOpportunities();
 
   const { address, additionalAddresses } = useSKWallet();
 
@@ -91,12 +91,9 @@ const positionsDataSelector = createSelector(
   (balancesData, opportunitiesMap) =>
     balancesData.reduce(
       (acc, val) => {
-        val.balances.forEach((b) => {
-          acc.set(val.integrationId, {
-            metaData: val,
-            balanceData: b,
-            integrationData: opportunitiesMap.get(val.integrationId)!,
-          });
+        acc.set(val.integrationId, {
+          integrationData: opportunitiesMap.get(val.integrationId)!,
+          balanceData: val,
         });
 
         return acc;
@@ -104,8 +101,7 @@ const positionsDataSelector = createSelector(
       new Map<
         YieldBalancesWithIntegrationIdDto["integrationId"],
         {
-          metaData: (typeof balancesData)[number];
-          balanceData: (typeof balancesData)[number]["balances"][number];
+          balanceData: (typeof balancesData)[number];
           integrationData: YieldOpportunityDto;
         }
       >()

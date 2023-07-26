@@ -31,13 +31,13 @@ export const UnstakeOrClaimReviewPage = () => {
                 {claimMatch ? t("review.claim") : ut}
               </Heading>
               <TokenIcon
-                token={p.balanceData.token}
+                token={p.integrationData.token}
                 metadata={p.integrationData.metadata}
               />
             </Box>
 
             <Heading variant={{ level: "h1" }}>
-              {ua} {p.balanceData.token.symbol}
+              {ua} {p.integrationData.token.symbol}
             </Heading>
           </Box>
 
@@ -49,7 +49,7 @@ export const UnstakeOrClaimReviewPage = () => {
               rewardToken={Maybe.of({
                 logoUri: p.integrationData.metadata.provider.logoURI,
                 providerName: p.integrationData.metadata.provider.name,
-                symbol: p.balanceData.token.symbol,
+                symbol: p.integrationData.token.symbol,
               })}
             />
           )}

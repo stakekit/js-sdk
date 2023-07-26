@@ -150,7 +150,7 @@ export const UnstakeOrClaimCompletePage = () => {
 
   const { position } = usePositionData(integrationId);
 
-  const token = position.map((p) => p.balanceData.token).extractNullable();
+  const token = position.map((p) => p.integrationData.token).extractNullable();
   const metadata = position
     .map((p) => p.integrationData.metadata)
     .extractNullable();

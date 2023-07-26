@@ -60,7 +60,7 @@ export const usePositionDetails = () => {
   const stakedBalance = useMemo(
     () =>
       position.chain((p) =>
-        List.find((b) => b.type === "staked", p.metaData.balances)
+        List.find((b) => b.type === "staked", p.balanceData.balances)
       ),
     [position]
   );
@@ -68,7 +68,7 @@ export const usePositionDetails = () => {
   const rewardsBalance = useMemo(
     () =>
       position.chain((p) =>
-        List.find((b) => b.type === "rewards", p.metaData.balances)
+        List.find((b) => b.type === "rewards", p.balanceData.balances)
       ),
     [position]
   );
@@ -284,15 +284,13 @@ export const usePositionDetails = () => {
       )
       .chain((val) =>
         EitherAsync.liftEither(
-          position
+          stakedBalance
             .toEither(Error("missing position"))
-            .map((p) => ({ ...val, p }))
+            .map((sb) => ({ ...val, sb }))
         )
       )
       .chain((val) =>
-        EitherAsync(() =>
-          transactionGetGasForNetwork(val.p.balanceData.token.network)
-        )
+        EitherAsync(() => transactionGetGasForNetwork(val.sb.token.network))
           .chainLeft(async () => Right(null))
           .map((gas) => ({
             ...val,
@@ -304,18 +302,18 @@ export const usePositionDetails = () => {
               : null,
           }))
       )
-      .chain((val) => {
+      .chain(({ addr, amount, gas, sb, u }) => {
         return EitherAsync(() =>
           stakeExitAndTxsConstruct.mutateAsync({
-            gasModeValue: val.gas ?? undefined,
+            gasModeValue: gas ?? undefined,
             stakeRequestDto: {
               args: {
-                amount: val.amount.toString(),
-                validatorAddress: val.p.balanceData.validatorAddress,
+                amount: amount.toString(),
+                validatorAddress: sb.validatorAddress,
               },
-              integrationId: val.u.integrationId,
+              integrationId: u.integrationId,
               addresses: {
-                address: val.addr,
+                address: addr,
                 additionalAddresses: additionalAddresses ?? undefined,
               },
             },
