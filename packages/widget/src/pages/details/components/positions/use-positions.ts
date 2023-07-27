@@ -20,7 +20,11 @@ const positionsDataSelector = createSelector(
       return p.balanceData.balances.some((b) => {
         const amount = new BigNumber(b.amount);
 
-        return !amount.isZero() && !amount.isNaN() && b.type === "staked";
+        return (
+          !amount.isZero() &&
+          !amount.isNaN() &&
+          (b.type === "staked" || b.type === "available")
+        );
       });
     })
 );

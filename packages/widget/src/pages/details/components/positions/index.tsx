@@ -54,17 +54,19 @@ export const Positions = () => {
             const stakedBalance = item.balanceData.balances.find(
               (b) => b.type === "staked"
             );
-            const rewardsBalance = item.balanceData.balances.find(
-              (b) => b.type === "rewards"
+            const availableBalance = item.balanceData.balances.find(
+              (b) => b.type === "available"
             );
 
-            if (!stakedBalance) return null;
+            const balance = stakedBalance ?? availableBalance;
 
-            const amount = new BigNumber(stakedBalance.amount);
+            if (!balance) return null;
 
-            const hasRewards = rewardsBalance?.pendingActions.some(
-              (a) => a.type === "CLAIM_REWARDS"
-            );
+            const amount = new BigNumber(balance.amount);
+
+            const hasRewards = item.balanceData.balances
+              .find((b) => b.type === "rewards")
+              ?.pendingActions.some((a) => a.type === "CLAIM_REWARDS");
 
             return (
               <SKLink
@@ -80,7 +82,7 @@ export const Positions = () => {
                     >
                       <TokenIcon
                         metadata={item.integrationData.metadata}
-                        token={stakedBalance.token}
+                        token={balance.token}
                       />
 
                       <Box
@@ -96,7 +98,7 @@ export const Positions = () => {
                           gap="1"
                         >
                           <Text variant={{ size: "small" }}>
-                            {stakedBalance.token.symbol}
+                            {balance.token.symbol}
                           </Text>
 
                           {hasRewards && (
@@ -131,7 +133,7 @@ export const Positions = () => {
                       <Text variant={{ size: "small", weight: "normal" }}>
                         {apyToPercentage(item.integrationData.apy)}%
                       </Text>
-                      {stakedBalance.amount && (
+                      {balance.amount && (
                         <Text
                           variant={{
                             size: "small",
@@ -139,8 +141,7 @@ export const Positions = () => {
                             type: "muted",
                           }}
                         >
-                          {formatTokenBalance(amount, 6)}{" "}
-                          {stakedBalance.token.symbol}
+                          {formatTokenBalance(amount, 6)} {balance.token.symbol}
                         </Text>
                       )}
                     </Box>

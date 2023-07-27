@@ -24,7 +24,7 @@ export const PositionDetails = () => {
   const {
     isLoading,
     position,
-    stakedBalance,
+    balance,
     stakeType,
     stakedPrice,
     rewardsBalance,
@@ -57,10 +57,10 @@ export const PositionDetails = () => {
 
       {!isLoading &&
         position
-          .chain((p) => stakedBalance.map((sb) => ({ sb, p })))
+          .chain((p) => balance.map((b) => ({ b, p })))
           .chain((val) => stakeType.map((st) => ({ ...val, st })))
           .chain((val) => stakedPrice.map((sp) => ({ ...val, sp })))
-          .map(({ p, sb, st, sp }) => (
+          .map(({ p, b, st, sp }) => (
             <Box flex={1} display="flex" flexDirection="column">
               <Box display="flex" justifyContent="center" alignItems="center">
                 <TokenIcon
@@ -151,8 +151,8 @@ export const PositionDetails = () => {
                 >
                   <Text variant={{ weight: "normal" }}>{st}</Text>
                   <Text variant={{ type: "muted", weight: "normal" }}>
-                    {formatTokenBalance(new BigNumber(sb.amount ?? 0), 6)}{" "}
-                    {sb.token.symbol} (${formatTokenBalance(sp, 2)})
+                    {formatTokenBalance(new BigNumber(b.amount ?? 0), 6)}{" "}
+                    {b.token.symbol} (${formatTokenBalance(sp, 2)})
                   </Text>
                 </Box>
 
@@ -254,12 +254,12 @@ export const PositionDetails = () => {
                   ))
                   .extractNullable()}
                 {hasUnstakeAction
-                  .chain(() => stakedBalance.map((sb) => ({ sb })))
+                  .chain(() => balance.map((b) => ({ b })))
                   .chain((val) => unstakeText.map((ut) => ({ ...val, ut })))
                   .chain((val) =>
                     canChangeAmount.map((cca) => ({ ...val, cca }))
                   )
-                  .map(({ sb, ut, cca }) => (
+                  .map(({ b, ut, cca }) => (
                     <Box
                       background="stakeSectionBackground"
                       borderRadius="xl"
@@ -342,9 +342,9 @@ export const PositionDetails = () => {
                             }}
                           >
                             {`${formatTokenBalance(
-                              new BigNumber(sb.amount ?? 0),
+                              new BigNumber(b.amount ?? 0),
                               6
-                            )} ${sb.token.symbol} ${t(
+                            )} ${b.token.symbol} ${t(
                               "position_details.available"
                             )}`}
                           </Text>

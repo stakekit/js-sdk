@@ -5,12 +5,13 @@ import { config } from "../../config";
 import { getBaseToken, getTokenPriceInUSD } from "../../domain";
 import { Token } from "@stakekit/common";
 import { tokenToTokenDto } from "../../utils/mappers";
-import { List, Maybe } from "purify-ts";
+import { Maybe } from "purify-ts";
 import { formatTokenBalance } from "../../utils";
 import { useUnstakeOrClaimState } from "../../state/unstake";
 import { usePositionData } from "../../hooks/use-position-data";
 import { useTranslation } from "react-i18next";
 import BigNumber from "bignumber.js";
+import { useStakedOrLiquidBalance } from "../../hooks/use-staked-or-liquid-balance";
 
 export const useUnstakeOrClaimReview = () => {
   const integrationId = useParams<{ integrationId: string }>().integrationId!;
@@ -23,13 +24,7 @@ export const useUnstakeOrClaimReview = () => {
 
   const { t } = useTranslation();
 
-  const stakedBalance = useMemo(
-    () =>
-      position.chain((p) =>
-        List.find((b) => b.type === "staked", p.balanceData.balances)
-      ),
-    [position]
-  );
+  const balance = useStakedOrLiquidBalance(position);
 
   const amount = claimMatch
     ? pendingActionSession.map((val) =>
@@ -58,7 +53,7 @@ export const useUnstakeOrClaimReview = () => {
 
   const pricesState = usePrices({
     currency: config.currency,
-    tokenList: stakedBalance.mapOrDefault(
+    tokenList: balance.mapOrDefault(
       (sb) => [sb.token, tokenToTokenDto(getBaseToken(sb.token as Token))],
       []
     ),
@@ -114,7 +109,6 @@ export const useUnstakeOrClaimReview = () => {
     text,
     amount,
     position,
-    stakedBalance,
     onClick,
     fee,
     claimMatch,

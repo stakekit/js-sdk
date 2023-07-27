@@ -27,6 +27,7 @@ import {
   useUnstakeOrClaimState,
 } from "../../state/unstake";
 import { usePendingActionAndTxsConstruct } from "../../hooks/api/use-pending-action-and-txs-construct";
+import { useStakedOrLiquidBalance } from "../../hooks/use-staked-or-liquid-balance";
 
 export const usePositionDetails = () => {
   const { unstake } = useUnstakeOrClaimState();
@@ -57,13 +58,7 @@ export const usePositionDetails = () => {
     }
   });
 
-  const stakedBalance = useMemo(
-    () =>
-      position.chain((p) =>
-        List.find((b) => b.type === "staked", p.balanceData.balances)
-      ),
-    [position]
-  );
+  const balance = useStakedOrLiquidBalance(position);
 
   const rewardsBalance = useMemo(
     () =>
@@ -74,7 +69,7 @@ export const usePositionDetails = () => {
   );
 
   const prices = usePrices(
-    stakedBalance
+    balance
       .map((sb): PriceRequestDto => {
         return {
           currency: config.currency,
@@ -89,7 +84,7 @@ export const usePositionDetails = () => {
 
   const stakedPrice = useMemo(
     () =>
-      stakedBalance
+      balance
         .chain((sb) => Maybe.fromNullable(prices.data).map((p) => ({ p, sb })))
         .map(({ p, sb }) =>
           getTokenPriceInUSD({
@@ -98,7 +93,7 @@ export const usePositionDetails = () => {
             token: sb.token as Token,
           })
         ),
-    [prices.data, stakedBalance]
+    [prices.data, balance]
   );
 
   const rewardsPrice = useMemo(
@@ -178,7 +173,7 @@ export const usePositionDetails = () => {
   // If changing unstake amount is not allowed, set `unstakeAmount` to staked amount
   // If `unstakeAmount` is less then min or greater than max, set in bounds
   useEffect(() => {
-    stakedBalance
+    balance
       .chain((sb) => unstakeAmount.map((ua) => ({ sb, ua })))
       .chain((val) => canChangeAmount.map((cca) => ({ ...val, cca })))
       .ifJust(({ sb, ua, cca }) => {
@@ -208,7 +203,7 @@ export const usePositionDetails = () => {
     integrationId,
     maxUnstakeAmount,
     minUnstakeAmount,
-    stakedBalance,
+    balance,
     unstakeAmount,
   ]);
 
@@ -220,7 +215,7 @@ export const usePositionDetails = () => {
   };
 
   const unstakeFormattedAmount = Maybe.fromNullable(prices.data)
-    .chain((prices) => stakedBalance.map((sb) => ({ sb, prices })))
+    .chain((prices) => balance.map((sb) => ({ sb, prices })))
     .chain((val) => unstakeAmount.map((sa) => ({ ...val, sa })))
     .map((val) =>
       getTokenPriceInUSD({
@@ -232,7 +227,7 @@ export const usePositionDetails = () => {
     .mapOrDefault((v) => `$${formatTokenBalance(v, 2)}`, "");
 
   const onMaxClick = () => {
-    stakedBalance
+    balance
       .chain((sb) => position.map((p) => ({ p, sb })))
       .ifJust(({ p, sb }) => {
         const gasEstimateTotalWithPercFix = gasEstimateTotal.multipliedBy(
@@ -284,7 +279,7 @@ export const usePositionDetails = () => {
       )
       .chain((val) =>
         EitherAsync.liftEither(
-          stakedBalance
+          balance
             .toEither(Error("missing position"))
             .map((sb) => ({ ...val, sb }))
         )
@@ -339,7 +334,7 @@ export const usePositionDetails = () => {
 
   const onClaim = useMutation(async () => {
     const res = await EitherAsync.liftEither(
-      stakedBalance
+      balance
         .toEither(new Error("missing staked balance"))
         .chain((sb) =>
           claimAvailableRewards
@@ -420,7 +415,7 @@ export const usePositionDetails = () => {
   return {
     position,
     stakeType,
-    stakedBalance,
+    balance,
     stakedPrice,
     rewardsBalance,
     rewardsPrice,
