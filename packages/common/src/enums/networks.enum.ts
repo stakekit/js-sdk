@@ -20,6 +20,9 @@ export enum CosmosNetworks {
   Kava = 'kava',
   Osmosis = 'osmosis',
   Stargaze = 'stargaze',
+  Onomy = 'onomy',
+  Persistence = 'persistence',
+  Axelar = 'axelar',
 }
 
 export enum MiscNetworks {
