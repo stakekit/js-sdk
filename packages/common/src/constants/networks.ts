@@ -17,6 +17,9 @@ export const NetworkToCoinGeckoPlatformId: { [x in Networks]?: string } = {
   [Networks.Tezos]: 'tezos',
   [Networks.Stargaze]: 'stargaze',
   [Networks.Juno]: 'juno-network',
+  [Networks.Persistence]: 'persistence',
+  [Networks.Axelar]: 'axelar',
+  [Networks.Onomy]: 'onomy-protocol',
 };
 
 export const ChainIds: { [x in Networks]?: string } = {
@@ -39,4 +42,7 @@ export const ChainIds: { [x in Networks]?: string } = {
   [Networks.Stargaze]: 'stargaze-1',
   [Networks.Osmosis]: 'osmosis-1',
   [Networks.Tezos]: 'NetXdQprcVkpaWU',
+  [Networks.Persistence]: 'core-1',
+  [Networks.Axelar]: 'axelar-dojo-1',
+  [Networks.Onomy]: 'onomy-mainnet-1',
 };

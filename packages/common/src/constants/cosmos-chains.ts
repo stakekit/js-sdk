@@ -13,11 +13,6 @@ export const cosmosChainConfig: {
     decimals: 6,
     bech32Prefix: 'akash',
     coinGeckoId: 'akash-network',
-
-    // https://figment.io/protocols/akash/
-    validatorAddress: 'akashvaloper1mp0t9f4lpgu2tqa2maxk3vp8kugn8meyua86fh',
-
-    unbondingPeriodDays: 21,
   },
   [Networks.Cosmos]: {
     network: Networks.Cosmos,
@@ -28,12 +23,6 @@ export const cosmosChainConfig: {
     decimals: 6,
     bech32Prefix: 'cosmos',
     coinGeckoId: 'cosmos',
-
-    // https://figment.io/protocols/cosmos/
-    validatorAddress: 'cosmosvaloper1hjct6q7npsspsg3dgvzk3sdf89spmlpfdn6m9d',
-    figmentTransactionSearchUri: 'cosmos--search.datahub.figment.io',
-
-    unbondingPeriodDays: 21,
   },
   [Networks.Kava]: {
     network: Networks.Kava,
@@ -44,11 +33,6 @@ export const cosmosChainConfig: {
     decimals: 6,
     bech32Prefix: 'kava',
     coinGeckoId: 'kava',
-
-    // https://figment.io/protocols/kava/
-    validatorAddress: 'kavavaloper1xhxzmj8fvkqn76knay9x2chfra826369dhdu2c',
-
-    unbondingPeriodDays: 21,
   },
   [Networks.Osmosis]: {
     network: Networks.Osmosis,
@@ -59,10 +43,6 @@ export const cosmosChainConfig: {
     decimals: 6,
     bech32Prefix: 'osmo',
     coinGeckoId: 'osmosis',
-
-    // https://figment.io/protocols/osmosis/
-    validatorAddress: 'osmovaloper1hjct6q7npsspsg3dgvzk3sdf89spmlpf6t4agt',
-    unbondingPeriodDays: 14,
   },
   [Networks.Juno]: {
     network: Networks.Juno,
@@ -73,9 +53,6 @@ export const cosmosChainConfig: {
     decimals: 6,
     bech32Prefix: 'juno',
     coinGeckoId: 'juno-network',
-
-    validatorAddress: 'junovaloper1hjct6q7npsspsg3dgvzk3sdf89spmlpfpgm64m',
-    unbondingPeriodDays: 28,
   },
   [Networks.Stargaze]: {
     network: Networks.Stargaze,
@@ -86,8 +63,35 @@ export const cosmosChainConfig: {
     decimals: 6,
     bech32Prefix: 'stars',
     coinGeckoId: 'stargaze',
-    // https://figment.io/protocols/stargaze/
-    validatorAddress: 'starsvaloper13htkxk8nw6qwhfdugllp8ldtgt5nm80xf679h5',
-    unbondingPeriodDays: 14,
+  },
+  [Networks.Persistence]: {
+    network: Networks.Persistence,
+    chainId: 'core-1',
+    name: 'Persistence',
+    denom: CosmosGasDenom.XPRT,
+    minimalDenom: CosmosGasDenom.uxprt,
+    decimals: 6,
+    bech32Prefix: 'persistence',
+    coinGeckoId: 'persistence',
+  },
+  [Networks.Axelar]: {
+    network: Networks.Axelar,
+    chainId: 'axelar-dojo-1',
+    name: 'Axelar',
+    denom: CosmosGasDenom.AXL,
+    minimalDenom: CosmosGasDenom.uaxl,
+    decimals: 6,
+    bech32Prefix: 'axelar',
+    coinGeckoId: 'axelar',
+  },
+  [Networks.Onomy]: {
+    network: Networks.Onomy,
+    chainId: 'onomy-mainnet-1',
+    name: 'Onomy',
+    denom: CosmosGasDenom.NOM,
+    minimalDenom: CosmosGasDenom.anom,
+    decimals: 6,
+    bech32Prefix: 'onomy',
+    coinGeckoId: 'onomy-protocol',
   },
 };

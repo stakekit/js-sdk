@@ -8,8 +8,5 @@ export interface CosmosChainConfig {
   minimalDenom: string;
   decimals: number;
   bech32Prefix: string;
-  coinGeckoId?: string;
-  validatorAddress: string;
-  unbondingPeriodDays: number;
-  figmentTransactionSearchUri?: string;
+  coinGeckoId: string;
 }

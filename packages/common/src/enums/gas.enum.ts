@@ -25,4 +25,8 @@ export enum CosmosGasDenom {
   uxprt = 'uxprt',
   STARS = 'STARS',
   ustars = 'ustars',
+  AXL = 'AXL',
+  uaxl = 'uaxl',
+  NOM = 'NOM',
+  anom = 'anom',
 }
