@@ -8,5 +8,5 @@ export interface CosmosChainConfig {
   minimalDenom: string;
   decimals: number;
   bech32Prefix: string;
-  coinGeckoId?: string;
+  coinGeckoId: string;
 }
