@@ -23,6 +23,7 @@ export enum CosmosNetworks {
   Onomy = 'onomy',
   Persistence = 'persistence',
   Axelar = 'axelar',
+  Quicksilver = 'quicksilver',
 }
 
 export enum MiscNetworks {
