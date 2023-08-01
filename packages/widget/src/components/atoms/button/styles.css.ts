@@ -26,7 +26,6 @@ export const buttonStyle = recipe({
       border: "none",
       fontSize: "md",
       fontWeight: "primaryButton",
-      minHeight: "buttonMinHeight",
     }),
   ],
 
@@ -98,11 +97,17 @@ export const buttonStyle = recipe({
       none: {},
       press: [pressAnimation],
     },
+
+    size: {
+      small: atoms({ minHeight: "12" }),
+      regular: atoms({ minHeight: "buttonMinHeight" }),
+    },
   },
 
   defaultVariants: {
     color: "primary",
     animation: "press",
+    size: "regular",
   },
 });
 

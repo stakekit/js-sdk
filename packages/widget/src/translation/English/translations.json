@@ -36,12 +36,15 @@
     "info_3": "Rewards will be automatically credited to your wallet every day",
     "opportunity_search_title": "Select a yield",
     "validator_search_title": "Select validator",
-    "reward_token": "Get {{symbol}} <highlight0>via {{providerName}}</highlight0>"
+    "reward_token": "Get {{symbol}} <highlight0>via {{providerName}}</highlight0>",
+    "tab_earn": "Earn",
+    "tab_positions": "Positions"
   },
   "review": {
     "estimated_reward": "Estimated rewards",
     "estimated_gas_fee": "Estimated gas fee",
     "wallet_fee": "{{wallet}} fee",
+    "claim": "Claim",
     "terms_of_use": "By clicking confirm & stake your agree to <underline0>Terms of Use</underline0> and understand the Risk Disclosures",
     "amount_and_earn": "<highlight0>{{amount}}</highlight0> <highlight1>{{tokenNetwork}}</highlight1> & earn <highlight3>{{interestRate}}</highlight3>%"
   },
@@ -62,6 +65,8 @@
   },
   "complete": {
     "successfully_staked": "Successfully staked {{amount}} {{tokenNetwork}}",
+    "successfully_unstaked": "Successfully unstaked {{amount}} {{tokenNetwork}}",
+    "successfully_claimed": "Successfully claimed {{amount}} {{tokenNetwork}}",
     "view_transaction": "View transaction",
     "via": "via {{providerName}}"
   },
@@ -93,6 +98,28 @@
   },
   "positions": {
     "title": "My Positions",
-    "via": "via {{providerName}}"
+    "via": "via {{providerName}}",
+    "connect_wallet": "Connect wallet",
+    "no_current_positions": "No current positions",
+    "claim_rewards": "Claim rewards"
+  },
+  "position_details": {
+    "liquid_staked": "Liquid staked",
+    "staked": "Staked",
+    "deposited": "Deposited",
+    "via": "via {{providerName}}",
+    "rewards": "Rewards",
+    "available_to_claim": "<bold>{{amount}} {{symbol}}</bold> available to claim",
+    "claim": "Claim",
+    "unstake": "Unstake",
+    "withdraw": "Withdraw",
+    "available": "available"
+  },
+  "unstake_review": {
+    "terms_of_use": "By clicking confirm & stake your agree to <underline0>Terms of Use</underline0> and understand the Risk Disclosures",
+    "unstake_from": "Unstake from {{providerName}}"
+  },
+  "claim_review": {
+    "claim_from": "Claim from {{providerName}}"
   }
 }

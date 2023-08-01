@@ -57,7 +57,7 @@ export const ReviewPage = () => {
           </Heading>
 
           <Box marginTop="1">
-            <Text variant={{ size: "xsmall", type: "muted", weight: "normal" }}>
+            <Text variant={{ size: "small", type: "muted", weight: "normal" }}>
               {t("review.estimated_reward")}
             </Text>
           </Box>
@@ -114,7 +114,7 @@ export const ReviewPage = () => {
       </PageContainer>
 
       <Box background="backgroundMuted" px="6" py="6">
-        <Text variant={{ size: "xsmall", weight: "normal", type: "muted" }}>
+        <Text variant={{ size: "small", weight: "normal", type: "muted" }}>
           <Trans
             i18nKey="review.terms_of_use"
             components={{

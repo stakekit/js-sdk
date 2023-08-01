@@ -4,54 +4,103 @@ import "./styles/theme/global.css";
 import "./translation";
 import ReactDOM from "react-dom/client";
 import { ComponentProps } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Location, Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { useToggleTheme } from "./hooks";
 import { container } from "./style.css";
-import { CompletePage, StepsPage, ReviewPage, Layout, Details } from "./pages";
-import { useAppState } from "./state";
+import {
+  ReviewPage,
+  Layout,
+  Details,
+  PositionsPage,
+  EarnPage,
+  StakeStepsPage,
+  UnstakeOrClaimStepsPage,
+  UnstakeOrClaimCompletePage,
+  StakeCompletePage,
+} from "./pages";
 import { Box } from "./components";
 import { useWebViewConnectMachine } from "./hooks/use-webview-connect-machine";
-import { useLocationTransitionAnimation } from "./hooks/use-location-transition-animation";
-import { Positions } from "./pages/positions";
 import { Providers } from "./providers";
 import {
   SettingsContextProvider,
   SettingsContextType,
 } from "./providers/settings";
 import classNames from "classnames";
+import { PositionDetails } from "./pages/position-details";
+import { useLocationTransition } from "./providers/location-transition";
+import { UnstakeOrClaimReviewPage } from "./pages/unstake-or-claim-review";
+import { UnstakeOrClaimContextProvider } from "./state/unstake";
+import { StakeCheck } from "./pages/cheks/stake-check";
+import { UnstakeOrClaimCheck } from "./pages/cheks/unstake-or-claim-check";
+import { ConnectedCheck } from "./pages/cheks/connected-check";
 
 const Widget = () => {
   useToggleTheme();
 
-  const { selectedStake, stakeAmount } = useAppState();
-
-  const isDetailsComplete = selectedStake
-    .chain(() => stakeAmount.map((a) => !a.isZero() && !a.isNaN()))
-    .extractNullable();
-
   useWebViewConnectMachine();
 
-  const { displayLocation, transitionClassName, onAnimationEnd } =
-    useLocationTransitionAnimation();
+  const { location, displayLocation, transitionClassName, onAnimationEnd } =
+    useLocationTransition();
 
   return (
     <Box
       background="background"
-      className={classNames([container, transitionClassName])}
+      className={classNames([
+        container,
+        shouldAnimate(displayLocation, location) && transitionClassName,
+      ])}
       onAnimationEnd={onAnimationEnd}
     >
       <Routes location={displayLocation}>
-        <Route path="/" element={<Layout />}>
-          <Route path="/" element={<Details />} />
-          {isDetailsComplete ? (
-            <>
-              <Route path="/review" element={<ReviewPage />} />
-              <Route path="/steps" element={<StepsPage />} />
-              <Route path="/complete" element={<CompletePage />} />
-            </>
-          ) : (
-            <Route path="*" element={<Navigate to="/" replace />} />
-          )}
+        <Route element={<Layout />}>
+          <Route element={<Details />}>
+            <Route index element={<EarnPage />} />
+            <Route path="positions" element={<PositionsPage />} />
+          </Route>
+
+          <Route element={<ConnectedCheck />}>
+            <Route element={<StakeCheck />}>
+              <Route path="review" element={<ReviewPage />} />
+              <Route path="steps" element={<StakeStepsPage />} />
+              <Route path="complete" element={<StakeCompletePage />} />R
+            </Route>
+
+            <Route
+              element={
+                <UnstakeOrClaimContextProvider>
+                  <Outlet />
+                </UnstakeOrClaimContextProvider>
+              }
+            >
+              <Route
+                path="positions/:integrationId"
+                element={<PositionDetails />}
+              />
+              <Route
+                path="unstake/:integrationId"
+                element={<UnstakeOrClaimCheck />}
+              >
+                <Route path="review" element={<UnstakeOrClaimReviewPage />} />
+                <Route path="steps" element={<UnstakeOrClaimStepsPage />} />
+                <Route
+                  path="complete"
+                  element={<UnstakeOrClaimCompletePage />}
+                />
+              </Route>
+
+              <Route
+                path="claim/:integrationId"
+                element={<UnstakeOrClaimCheck />}
+              >
+                <Route path="review" element={<UnstakeOrClaimReviewPage />} />
+                <Route path="steps" element={<UnstakeOrClaimStepsPage />} />
+                <Route
+                  path="complete"
+                  element={<UnstakeOrClaimCompletePage />}
+                />
+              </Route>
+            </Route>
+          </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
@@ -60,17 +109,11 @@ const Widget = () => {
   );
 };
 
-export const SKApp = ({
-  withPositions = true,
-  ...rest
-}: {
-  withPositions?: boolean;
-} & SettingsContextType) => {
+export const SKApp = (props: SettingsContextType) => {
   return (
-    <SettingsContextProvider {...rest}>
+    <SettingsContextProvider {...props}>
       <Providers>
         <Widget />
-        {withPositions && <Positions />}
       </Providers>
     </SettingsContextProvider>
   );
@@ -86,4 +129,13 @@ export const renderSKWidget = ({
 
   const root = ReactDOM.createRoot(container);
   root.render(<SKApp {...rest} />);
+};
+
+const shouldAnimate = (prevLocation: Location, nextLocation: Location) => {
+  return (
+    (nextLocation.pathname !== "/" && nextLocation.pathname !== "/positions") ||
+    (prevLocation.pathname !== "/" &&
+      prevLocation.pathname !== "/positions" &&
+      (nextLocation.pathname === "/" || nextLocation.pathname === "/positions"))
+  );
 };

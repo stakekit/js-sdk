@@ -10,7 +10,7 @@ export type OutletContext = [
 export const Layout = () => {
   return (
     <>
-      <Box px="4" marginBottom="4">
+      <Box px="4" marginBottom="1">
         <Header />
       </Box>
 
