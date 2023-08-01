@@ -29,4 +29,6 @@ export enum CosmosGasDenom {
   uaxl = 'uaxl',
   NOM = 'NOM',
   anom = 'anom',
+  QCK = 'QCK',
+  uqck = 'uqck',
 }

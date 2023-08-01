@@ -67,7 +67,7 @@
     "@radix-ui/react-alert-dialog": "^1.0.4",
     "@rainbow-me/rainbowkit": "^1.0.7",
     "@stakekit/api-hooks": "^0.0.21",
-    "@stakekit/common": "^0.0.8",
+    "@stakekit/common": "^0.0.10",
     "@tanstack/react-query": "^4.32.0",
     "@vanilla-extract/css": "^1.12.0",
     "@vanilla-extract/dynamic": "^2.0.3",
