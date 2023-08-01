@@ -94,4 +94,14 @@ export const cosmosChainConfig: {
     bech32Prefix: 'onomy',
     coinGeckoId: 'onomy-protocol',
   },
+  [Networks.Quicksilver]: {
+    network: Networks.Quicksilver,
+    chainId: 'quicksilver-2',
+    name: 'Quicksilver',
+    denom: CosmosGasDenom.QCK,
+    minimalDenom: CosmosGasDenom.uqck,
+    decimals: 6,
+    bech32Prefix: 'quick',
+    coinGeckoId: 'quicksilver',
+  },
 };
