@@ -1,5 +1,10 @@
 import { priceResponseDtoToPrices } from "../../utils/mappers";
-import { PriceRequestDto, useTokenGetTokenPrices } from "@stakekit/api-hooks";
+import {
+  PriceRequestDto,
+  PriceResponseDto,
+  useTokenGetTokenPrices,
+} from "@stakekit/api-hooks";
+import { createSelector } from "reselect";
 
 const defaultParam: PriceRequestDto = {
   currency: "USD",
@@ -8,13 +13,18 @@ const defaultParam: PriceRequestDto = {
   ],
 };
 
+const pricesSelector = createSelector(
+  (val: PriceResponseDto) => val,
+  (val) => priceResponseDtoToPrices(val)
+);
+
 export const usePrices = (
   priceRequestDto: PriceRequestDto | null | undefined
 ) => {
   const pricesState = useTokenGetTokenPrices(priceRequestDto ?? defaultParam, {
     query: {
       enabled: !!priceRequestDto,
-      select: (data) => priceResponseDtoToPrices(data),
+      select: pricesSelector,
     },
   });
 

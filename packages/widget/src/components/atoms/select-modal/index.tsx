@@ -9,19 +9,14 @@ import {
   useState,
 } from "react";
 import { Content, Overlay, Portal, Root } from "@radix-ui/react-alert-dialog";
-import {
-  container,
-  content,
-  itemContainer,
-  noOutline,
-  overlay,
-} from "./styles.css";
+import { container, content, noOutline, overlay } from "./styles.css";
 import { Box } from "../box";
 import { Text } from "../typography";
 import { SearchIcon, XIcon } from "../icons";
 import { Divider } from "../divider";
 import { useSavedRef } from "../../../hooks";
 import { useRootElement } from "../../../hooks/use-root-element";
+import { ListItem } from "../list/list-item";
 
 export type SelectModalProps = PropsWithChildren<{
   title?: string;
@@ -136,6 +131,7 @@ export const SelectModal = ({
                 <Box marginTop="2">
                   <Divider />
                 </Box>
+
                 {children}
               </Box>
             </Content>
@@ -162,9 +158,5 @@ export const SelectModalItem = ({
     onItemClick();
   };
 
-  return (
-    <Box className={itemContainer} onClick={onClick} data-testid={testId}>
-      {children}
-    </Box>
-  );
+  return <ListItem onClick={onClick}>{children}</ListItem>;
 };

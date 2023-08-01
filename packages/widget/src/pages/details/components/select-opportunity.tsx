@@ -179,7 +179,7 @@ export const SelectOpportunity = ({
                     <Box display="flex" marginTop="1" flexWrap="wrap" gap="1">
                       <Text
                         variant={{
-                          size: "xsmall",
+                          size: "small",
                           type: "muted",
                         }}
                       >
@@ -197,7 +197,7 @@ export const SelectOpportunity = ({
                           >
                             <Text
                               variant={{
-                                size: "xsmall",
+                                size: "small",
                                 type: "muted",
                               }}
                             >

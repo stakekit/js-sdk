@@ -11,9 +11,14 @@ import {
   stepsBeforeMuted,
 } from "./styles.css";
 import cls from "classnames";
+import { useAppState } from "../../state";
+import { Maybe } from "purify-ts";
+import { StakeDto } from "@stakekit/api-hooks";
+import { useUnstakeOrClaimState } from "../../state/unstake";
+import { useMatch } from "react-router-dom";
 
-export const StepsPage = () => {
-  const { state, onClick } = useSteps();
+const StepsPage = ({ session }: { session: Maybe<StakeDto> }) => {
+  const { state, onClick } = useSteps(session);
 
   const { t } = useTranslation();
 
@@ -266,5 +271,21 @@ export const StepsPage = () => {
         </Button>
       </Box>
     </PageContainer>
+  );
+};
+
+export const StakeStepsPage = () => {
+  const { stakeSession } = useAppState();
+
+  return <StepsPage session={stakeSession} />;
+};
+
+export const UnstakeOrClaimStepsPage = () => {
+  const { unstakeSession, pendingActionSession } = useUnstakeOrClaimState();
+
+  const claimMatch = useMatch("claim/:integrationId/steps");
+
+  return (
+    <StepsPage session={claimMatch ? pendingActionSession : unstakeSession} />
   );
 };

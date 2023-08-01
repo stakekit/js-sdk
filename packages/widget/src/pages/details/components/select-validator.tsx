@@ -57,7 +57,7 @@ export const SelectValidator = ({
                             name={sv.name}
                             tokenLogoHw="5"
                             textVariant={{
-                              size: "xsmall",
+                              size: "small",
                               type: "white",
                               weight: "bold",
                             }}
@@ -67,7 +67,7 @@ export const SelectValidator = ({
                     />
                     <Text
                       className={breakWord}
-                      variant={{ weight: "bold", size: "xsmall" }}
+                      variant={{ weight: "bold", size: "small" }}
                     >
                       {t("details.staked_via", {
                         validator: sv.name,
@@ -103,7 +103,7 @@ export const SelectValidator = ({
                           name={item.name}
                           tokenLogoHw="9"
                           textVariant={{
-                            size: "xsmall",
+                            size: "small",
                             type: "white",
                             weight: "bold",
                           }}

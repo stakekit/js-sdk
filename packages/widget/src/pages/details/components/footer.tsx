@@ -31,7 +31,7 @@ export const Footer = ({ description }: FooterProps) => {
           <Text
             variant={{
               type: "muted",
-              size: "xsmall",
+              size: "small",
             }}
           >
             {description}
@@ -46,7 +46,7 @@ export const Footer = ({ description }: FooterProps) => {
         <Text
           variant={{
             type: "muted",
-            size: "xsmall",
+            size: "small",
           }}
         >
           {t("details.info_2")}
@@ -60,7 +60,7 @@ export const Footer = ({ description }: FooterProps) => {
         <Text
           variant={{
             type: "muted",
-            size: "xsmall",
+            size: "small",
           }}
         >
           {t("details.info_3")}

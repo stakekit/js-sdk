@@ -4,7 +4,7 @@ export const config = {
   apiUrl: import.meta.env.VITE_API_URL,
   apiKey: import.meta.env.VITE_API_KEY,
   queryClient: {
-    staleTime: 1000 * 30,
+    staleTime: 1000 * 5,
     cacheTime: 1000 * 30,
   },
   gasEstimatePercentFix: 20,
