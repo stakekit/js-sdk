@@ -6731,7 +6731,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@stakekit/common@^0.0.10, @stakekit/common@workspace:packages/common":
+"@stakekit/common@^0.0.12, @stakekit/common@workspace:packages/common":
   version: 0.0.0-use.local
   resolution: "@stakekit/common@workspace:packages/common"
   dependencies:
@@ -6773,7 +6773,7 @@ __metadata:
     "@solana/buffer-layout": ^4.0.0
     "@solana/spl-token": ^0.3.4
     "@solana/web3.js": 1.52.0
-    "@stakekit/common": ^0.0.10
+    "@stakekit/common": ^0.0.12
     "@sushiswap/default-token-list": ^41.4.0
     "@taquito/ledger-signer": ^17.0.0
     "@taquito/signer": ^17.0.0
@@ -6831,7 +6831,7 @@ __metadata:
     "@radix-ui/react-alert-dialog": ^1.0.4
     "@rainbow-me/rainbowkit": ^1.0.7
     "@stakekit/api-hooks": ^0.0.21
-    "@stakekit/common": ^0.0.10
+    "@stakekit/common": ^0.0.12
     "@tanstack/react-query": ^4.32.0
     "@testing-library/jest-dom": ^5.17.0
     "@testing-library/react": ^14.0.0
