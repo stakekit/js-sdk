@@ -1,0 +1,67 @@
+{
+  "name": "@stakekit/use-inject-provider",
+  "version": "0.0.1",
+  "description": "React hook for injecting a provider into a react-native-webview",
+  "main": "./dist/esm/index.js",
+  "types": "./dist/index.d.ts",
+  "source": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/esm/index.js"
+    }
+  },
+  "files": [
+    "src",
+    "provider",
+    "dist",
+    "!**/.*"
+  ],
+  "keywords": [
+    "stakekit",
+    "use-inject-provider"
+  ],
+  "author": "Petar Todorovic <petar@omni.app> (https://github.com)",
+  "license": "MIT",
+  "scripts": {
+    "lint": "tsc && eslint src && prettier --check ./src",
+    "clean": "rm -rf dist",
+    "build": "yarn clean && tsx ./scripts/build.ts",
+    "format": "prettier --write ./src && prettier --write ./provider"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+    "react-native-webview": "*"
+  },
+  "dependencies": {
+    "@json-rpc-tools/utils": "^1.7.6",
+    "eip1193-provider": "^1.0.1",
+    "events": "^3.3.0",
+    "safe-json-utils": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/eslint": "^8",
+    "@types/events": "^3",
+    "@types/prettier": "^2",
+    "@types/react": "^18.0.27",
+    "esbuild": "^0.17.19",
+    "esbuild-plugin-inline-import": "^1.0.1",
+    "eslint": "^8.40.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-react-app": "^7.0.1",
+    "prettier": "^2.8.8",
+    "react": "^18.2.0",
+    "react-native": "^0.71.8",
+    "react-native-webview": "^12.0.2",
+    "tsup": "^6.7.0",
+    "tsx": "^3.12.6",
+    "typescript": "^5.0.4"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
+}
