@@ -152,7 +152,7 @@ export const cosmosChainConfig: {
     minimalDenom: CosmosGasDenom.uhuahua,
     decimals: 6,
     bech32Prefix: 'chihuahua',
-    coinGeckoId: 'chihuahua-chain',
+    coinGeckoId: 'chihuahua-token',
   },
   [Networks.Comdex]: {
     network: Networks.Comdex,
@@ -176,13 +176,13 @@ export const cosmosChainConfig: {
   },
   [Networks.Cronos]: {
     network: Networks.Cronos,
-    chainId: 'cronosmainnet_25-1',
-    name: 'Cronos',
+    chainId: 'crypto-org-chain-mainnet-1',
+    name: 'Crypto.org Chain',
     denom: CosmosGasDenom.CRO,
     minimalDenom: CosmosGasDenom.basecro,
     decimals: 18,
-    bech32Prefix: 'crc',
-    coinGeckoId: 'cronos',
+    bech32Prefix: 'cro',
+    coinGeckoId: 'crypto-com-chain',
   },
   [Networks.Cudos]: {
     network: Networks.Cudos,
@@ -232,7 +232,7 @@ export const cosmosChainConfig: {
     minimalDenom: CosmosGasDenom.inj,
     decimals: 18,
     bech32Prefix: 'inj',
-    coinGeckoId: 'injective',
+    coinGeckoId: 'injective-protocol',
   },
   [Networks.IRISnet]: {
     network: Networks.IRISnet,
@@ -242,7 +242,7 @@ export const cosmosChainConfig: {
     minimalDenom: CosmosGasDenom.uiris,
     decimals: 6,
     bech32Prefix: 'iaa',
-    coinGeckoId: 'irisnet',
+    coinGeckoId: 'iris-network',
   },
   [Networks.KiNetwork]: {
     network: Networks.KiNetwork,
@@ -278,7 +278,7 @@ export const cosmosChainConfig: {
     network: Networks.OKExChain,
     chainId: 'exchain-66',
     name: 'OKExChain',
-    denom: CosmosGasDenom.okt,
+    denom: CosmosGasDenom.OKT,
     minimalDenom: CosmosGasDenom.aokt,
     decimals: 18,
     bech32Prefix: 'ex',

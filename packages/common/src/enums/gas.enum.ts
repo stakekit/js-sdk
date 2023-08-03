@@ -67,7 +67,7 @@ export enum CosmosGasDenom {
   umars = 'umars',
   NYM = 'NYM',
   unym = 'unym',
-  okt = 'okt',
+  OKT = 'OKT',
   aokt = 'wei',
   REGEN = 'REGEN',
   uregen = 'uregen',
