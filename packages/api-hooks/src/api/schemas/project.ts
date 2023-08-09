@@ -5,15 +5,13 @@
  * StakeKit API documentation
  * OpenAPI spec version: 1.0
  */
-import type { ProjectDeletedAt } from './projectDeletedAt';
-import type { ProjectDescription } from './projectDescription';
 
 export interface Project {
   id: string;
   createdAt: string;
   updatedAt: string;
-  deletedAt: ProjectDeletedAt;
-  description: ProjectDescription;
+  deletedAt: string | null;
+  description: string | null;
   name: string;
   teamId: string;
 }

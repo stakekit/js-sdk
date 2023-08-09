@@ -6,4 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export type AuthUpdateDtoOldPassword = { [key: string]: any };
+export interface AvalancheCAdditionalAddressesDto {
+  cAddressBech: string;
+  pAddressBech: string;
+}

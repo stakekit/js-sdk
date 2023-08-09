@@ -16,4 +16,5 @@ export interface TeamDto {
   createdAt: string;
   contactDetails: TeamDtoContactDetails;
   name: string;
+  serviceConditionsAcceptedAt: string | null;
 }

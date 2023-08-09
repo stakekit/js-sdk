@@ -6,10 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 import type { YieldProviderDto } from './yieldProviderDto';
+import type { TokenDto } from './tokenDto';
 
 export interface YieldMetadataDto {
   name: string;
   logoURI: string;
   description: string;
   provider?: YieldProviderDto;
+  gasFeeToken: TokenDto;
 }

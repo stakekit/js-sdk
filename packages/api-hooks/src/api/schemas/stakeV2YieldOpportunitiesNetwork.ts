@@ -6,10 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type Networks = (typeof Networks)[keyof typeof Networks];
+export type StakeV2YieldOpportunitiesNetwork =
+  (typeof StakeV2YieldOpportunitiesNetwork)[keyof typeof StakeV2YieldOpportunitiesNetwork];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const Networks = {
+export const StakeV2YieldOpportunitiesNetwork = {
   'avalanche-c': 'avalanche-c',
   'avalanche-c-atomic': 'avalanche-c-atomic',
   'avalanche-p': 'avalanche-p',

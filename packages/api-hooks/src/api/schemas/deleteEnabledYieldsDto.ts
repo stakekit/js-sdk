@@ -6,4 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export type KeyDeletedAt = { [key: string]: any };
+export interface DeleteEnabledYieldsDto {
+  integrationIds: string[];
+}
