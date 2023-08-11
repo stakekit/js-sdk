@@ -31,4 +31,6 @@ export const TransactionType = {
   WITHDRAW: 'WITHDRAW',
   CREATE_ACCOUNT: 'CREATE_ACCOUNT',
   REVEAL: 'REVEAL',
+  UTXO_P_TO_C_IMPORT: 'UTXO_P_TO_C_IMPORT',
+  UTXO_C_TO_P_IMPORT: 'UTXO_C_TO_P_IMPORT',
 } as const;

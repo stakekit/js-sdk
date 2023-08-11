@@ -5,11 +5,10 @@
  * StakeKit API documentation
  * OpenAPI spec version: 1.0
  */
-import type { AuthUpdateDtoOldPassword } from './authUpdateDtoOldPassword';
 
 export interface AuthUpdateDto {
   name: string;
   surname: string;
   password: string;
-  oldPassword: AuthUpdateDtoOldPassword;
+  oldPassword: string | null;
 }

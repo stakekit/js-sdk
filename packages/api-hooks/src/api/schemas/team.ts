@@ -5,19 +5,18 @@
  * StakeKit API documentation
  * OpenAPI spec version: 1.0
  */
-import type { TeamDeletedAt } from './teamDeletedAt';
 import type { TeamContactDetails } from './teamContactDetails';
 import type { TeamCategory } from './teamCategory';
-import type { TeamProviderFeePercentage } from './teamProviderFeePercentage';
 
 export interface Team {
   id: string;
   createdAt: string;
   updatedAt: string;
   activated: boolean;
-  deletedAt: TeamDeletedAt;
+  deletedAt: string | null;
   contactDetails: TeamContactDetails;
   category: TeamCategory;
   name: string;
-  providerFeePercentage: TeamProviderFeePercentage;
+  serviceConditionsAcceptedAt: string | null;
+  providerFeePercentage: number | null;
 }

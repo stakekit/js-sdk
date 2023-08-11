@@ -9,9 +9,11 @@ import type { CosmosAdditionalAddressesDto } from './cosmosAdditionalAddressesDt
 import type { BinanceAdditionalAddressesDto } from './binanceAdditionalAddressesDto';
 import type { SolanaAdditionalAddressesDto } from './solanaAdditionalAddressesDto';
 import type { TezosAdditionalAddressesDto } from './tezosAdditionalAddressesDto';
+import type { AvalancheCAdditionalAddressesDto } from './avalancheCAdditionalAddressesDto';
 
 export type AddressWithTokenDtoAdditionalAddresses =
   | CosmosAdditionalAddressesDto
   | BinanceAdditionalAddressesDto
   | SolanaAdditionalAddressesDto
-  | TezosAdditionalAddressesDto;
+  | TezosAdditionalAddressesDto
+  | AvalancheCAdditionalAddressesDto;

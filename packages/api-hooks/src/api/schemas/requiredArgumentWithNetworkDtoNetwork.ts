@@ -12,6 +12,8 @@ export type RequiredArgumentWithNetworkDtoNetwork =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RequiredArgumentWithNetworkDtoNetwork = {
   'avalanche-c': 'avalanche-c',
+  'avalanche-c-atomic': 'avalanche-c-atomic',
+  'avalanche-p': 'avalanche-p',
   arbitrum: 'arbitrum',
   binance: 'binance',
   celo: 'celo',
@@ -27,6 +29,10 @@ export const RequiredArgumentWithNetworkDtoNetwork = {
   kava: 'kava',
   osmosis: 'osmosis',
   stargaze: 'stargaze',
+  onomy: 'onomy',
+  persistence: 'persistence',
+  axelar: 'axelar',
+  quicksilver: 'quicksilver',
   binancebeacon: 'binancebeacon',
   near: 'near',
   solana: 'solana',

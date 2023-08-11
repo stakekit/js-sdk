@@ -24,6 +24,8 @@ import type {
   YieldBalanceRequestDto,
   YieldBalancesWithIntegrationIdDto,
   YieldBalanceWithIntegrationIdRequestDto,
+  StakeV2YieldOpportunities200,
+  StakeV2YieldOpportunitiesParams,
   TransactionDto,
   ConstructTransactionRequestDto,
   SubmitResponseDto,
@@ -737,6 +739,96 @@ export const useStakeGetMultipleIntegrationBalances = <
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = useStakeGetMultipleIntegrationBalancesQueryOptions(
     yieldBalanceWithIntegrationIdRequestDto,
+    options,
+  );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Returns the available yield opportunities (staking, lending, vaults, etc) and associated configuration
+ * @summary Get yield opportunities
+ */
+export const stakeV2YieldOpportunities = (
+  params?: StakeV2YieldOpportunitiesParams,
+  signal?: AbortSignal,
+) => {
+  return api<StakeV2YieldOpportunities200>({
+    url: `/v2/stake/opportunities`,
+    method: 'get',
+    params,
+    signal,
+  });
+};
+
+export const getStakeV2YieldOpportunitiesQueryKey = (
+  params?: StakeV2YieldOpportunitiesParams,
+) => [`/v2/stake/opportunities`, ...(params ? [params] : [])] as const;
+
+export const useStakeV2YieldOpportunitiesQueryOptions = <
+  TData = Awaited<ReturnType<typeof stakeV2YieldOpportunities>>,
+  TError = unknown,
+>(
+  params?: StakeV2YieldOpportunitiesParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof stakeV2YieldOpportunities>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryOptions<
+  Awaited<ReturnType<typeof stakeV2YieldOpportunities>>,
+  TError,
+  TData
+> & { queryKey: QueryKey } => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getStakeV2YieldOpportunitiesQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof stakeV2YieldOpportunities>>
+  > = ({ signal }) => stakeV2YieldOpportunities(params, signal);
+
+  const customOptions = customQueryOptions({
+    ...queryOptions,
+    queryKey,
+    queryFn,
+  });
+
+  return customOptions;
+};
+
+export type StakeV2YieldOpportunitiesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof stakeV2YieldOpportunities>>
+>;
+export type StakeV2YieldOpportunitiesQueryError = unknown;
+
+/**
+ * @summary Get yield opportunities
+ */
+export const useStakeV2YieldOpportunities = <
+  TData = Awaited<ReturnType<typeof stakeV2YieldOpportunities>>,
+  TError = unknown,
+>(
+  params?: StakeV2YieldOpportunitiesParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof stakeV2YieldOpportunities>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useStakeV2YieldOpportunitiesQueryOptions(
+    params,
     options,
   );
 

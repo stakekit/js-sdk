@@ -5,14 +5,13 @@
  * StakeKit API documentation
  * OpenAPI spec version: 1.0
  */
-import type { KeyDeletedAt } from './keyDeletedAt';
 
 export interface Key {
   id: string;
   createdAt: string;
   updatedAt: string;
   apiKey: string;
-  deletedAt: KeyDeletedAt;
+  deletedAt: string | null;
   info: string;
   category: string;
   name: string;

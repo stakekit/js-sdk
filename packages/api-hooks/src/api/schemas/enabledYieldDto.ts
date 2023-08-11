@@ -6,4 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export type ProjectDeletedAt = { [key: string]: any };
+export interface EnabledYieldDto {
+  integrationId: string;
+}
