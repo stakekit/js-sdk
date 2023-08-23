@@ -9,7 +9,6 @@ import type { YieldType } from './yieldType';
 import type { RewardSchedule } from './rewardSchedule';
 import type { TimePeriodDto } from './timePeriodDto';
 import type { RewardClaiming } from './rewardClaiming';
-import type { TokenDto } from './tokenDto';
 import type { YieldRevshareDto } from './yieldRevshareDto';
 import type { YieldFeeDto } from './yieldFeeDto';
 
@@ -20,7 +19,6 @@ export interface YieldConfigDto {
   warmupPeriod: TimePeriodDto;
   withdrawPeriod?: TimePeriodDto;
   rewardClaiming: RewardClaiming;
-  rewardTokens?: TokenDto[];
   defaultValidator?: string;
   minimumStake?: number;
   supportsMultipleValidators?: boolean;

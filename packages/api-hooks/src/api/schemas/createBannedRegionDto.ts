@@ -6,8 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface UpdateProjectDto {
-  autoComplaintBansEnabled?: boolean;
-  description?: string;
-  name?: string;
+export interface CreateBannedRegionDto {
+  country: string;
+  region?: string;
 }

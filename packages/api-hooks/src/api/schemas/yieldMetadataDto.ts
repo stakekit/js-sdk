@@ -14,4 +14,5 @@ export interface YieldMetadataDto {
   description: string;
   provider?: YieldProviderDto;
   gasFeeToken: TokenDto;
+  rewardTokens?: TokenDto[];
 }

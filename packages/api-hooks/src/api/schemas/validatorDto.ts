@@ -10,9 +10,10 @@ export interface ValidatorDto {
   address: string;
   name: string;
   image: string;
-  website: string | null;
-  apr: number | null;
-  commission: number | null;
-  stakedBalance: string | null;
-  votingPower: number | null;
+  website: string;
+  apr: number;
+  commission: number;
+  stakedBalance: string;
+  votingPower: number;
+  preferred: boolean;
 }
