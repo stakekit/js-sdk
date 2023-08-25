@@ -17,6 +17,8 @@ import type {
 import type {
   YieldOpportunityDto,
   ValidatorDto,
+  FavoriteValidatorDto,
+  FavoriteValidatorRequestDto,
   StakeDto,
   StakeRequestDto,
   PendingActionRequestDto,
@@ -26,6 +28,8 @@ import type {
   YieldBalanceWithIntegrationIdRequestDto,
   StakeV2YieldOpportunities200,
   StakeV2YieldOpportunitiesParams,
+  StakeV2GetMyYieldOpportunities200,
+  StakeV2GetMyYieldOpportunitiesParams,
   TransactionDto,
   ConstructTransactionRequestDto,
   SubmitResponseDto,
@@ -295,6 +299,154 @@ export const useStakeGetValidators = <
   query.queryKey = queryOptions.queryKey;
 
   return query;
+};
+
+/**
+ * @summary Add validator to favorites
+ */
+export const stakeAddValidatorToFavorites = (
+  integrationId: string,
+  favoriteValidatorRequestDto: FavoriteValidatorRequestDto,
+) => {
+  return api<FavoriteValidatorDto[]>({
+    url: `/v1/stake/validators/${integrationId}/favorite`,
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    data: favoriteValidatorRequestDto,
+  });
+};
+
+export const useStakeAddValidatorToFavoritesMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof stakeAddValidatorToFavorites>>,
+    TError,
+    { integrationId: string; data: FavoriteValidatorRequestDto },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof stakeAddValidatorToFavorites>>,
+  TError,
+  { integrationId: string; data: FavoriteValidatorRequestDto },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof stakeAddValidatorToFavorites>>,
+    { integrationId: string; data: FavoriteValidatorRequestDto }
+  > = (props) => {
+    const { integrationId, data } = props ?? {};
+
+    return stakeAddValidatorToFavorites(integrationId, data);
+  };
+
+  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
+
+  return customOptions;
+};
+
+export type StakeAddValidatorToFavoritesMutationResult = NonNullable<
+  Awaited<ReturnType<typeof stakeAddValidatorToFavorites>>
+>;
+export type StakeAddValidatorToFavoritesMutationBody =
+  FavoriteValidatorRequestDto;
+export type StakeAddValidatorToFavoritesMutationError = unknown;
+
+/**
+ * @summary Add validator to favorites
+ */
+export const useStakeAddValidatorToFavorites = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof stakeAddValidatorToFavorites>>,
+    TError,
+    { integrationId: string; data: FavoriteValidatorRequestDto },
+    TContext
+  >;
+}) => {
+  const mutationOptions =
+    useStakeAddValidatorToFavoritesMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+
+/**
+ * @summary Remove validator to favorites
+ */
+export const stakeRemoveValidatorFromFavorites = (
+  integrationId: string,
+  favoriteValidatorRequestDto: FavoriteValidatorRequestDto,
+) => {
+  return api<void>({
+    url: `/v1/stake/validators/${integrationId}/favorite`,
+    method: 'delete',
+    headers: { 'Content-Type': 'application/json' },
+    data: favoriteValidatorRequestDto,
+  });
+};
+
+export const useStakeRemoveValidatorFromFavoritesMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof stakeRemoveValidatorFromFavorites>>,
+    TError,
+    { integrationId: string; data: FavoriteValidatorRequestDto },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof stakeRemoveValidatorFromFavorites>>,
+  TError,
+  { integrationId: string; data: FavoriteValidatorRequestDto },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof stakeRemoveValidatorFromFavorites>>,
+    { integrationId: string; data: FavoriteValidatorRequestDto }
+  > = (props) => {
+    const { integrationId, data } = props ?? {};
+
+    return stakeRemoveValidatorFromFavorites(integrationId, data);
+  };
+
+  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
+
+  return customOptions;
+};
+
+export type StakeRemoveValidatorFromFavoritesMutationResult = NonNullable<
+  Awaited<ReturnType<typeof stakeRemoveValidatorFromFavorites>>
+>;
+export type StakeRemoveValidatorFromFavoritesMutationBody =
+  FavoriteValidatorRequestDto;
+export type StakeRemoveValidatorFromFavoritesMutationError = unknown;
+
+/**
+ * @summary Remove validator to favorites
+ */
+export const useStakeRemoveValidatorFromFavorites = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof stakeRemoveValidatorFromFavorites>>,
+    TError,
+    { integrationId: string; data: FavoriteValidatorRequestDto },
+    TContext
+  >;
+}) => {
+  const mutationOptions =
+    useStakeRemoveValidatorFromFavoritesMutationOptions(options);
+
+  return useMutation(mutationOptions);
 };
 
 /**
@@ -828,6 +980,96 @@ export const useStakeV2YieldOpportunities = <
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = useStakeV2YieldOpportunitiesQueryOptions(
+    params,
+    options,
+  );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Returns the available yield opportunities (staking, lending, vaults, etc) and associated configuration
+ * @summary Get my yield opportunities
+ */
+export const stakeV2GetMyYieldOpportunities = (
+  params?: StakeV2GetMyYieldOpportunitiesParams,
+  signal?: AbortSignal,
+) => {
+  return api<StakeV2GetMyYieldOpportunities200>({
+    url: `/v2/stake/opportunities/mine`,
+    method: 'get',
+    params,
+    signal,
+  });
+};
+
+export const getStakeV2GetMyYieldOpportunitiesQueryKey = (
+  params?: StakeV2GetMyYieldOpportunitiesParams,
+) => [`/v2/stake/opportunities/mine`, ...(params ? [params] : [])] as const;
+
+export const useStakeV2GetMyYieldOpportunitiesQueryOptions = <
+  TData = Awaited<ReturnType<typeof stakeV2GetMyYieldOpportunities>>,
+  TError = unknown,
+>(
+  params?: StakeV2GetMyYieldOpportunitiesParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof stakeV2GetMyYieldOpportunities>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryOptions<
+  Awaited<ReturnType<typeof stakeV2GetMyYieldOpportunities>>,
+  TError,
+  TData
+> & { queryKey: QueryKey } => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getStakeV2GetMyYieldOpportunitiesQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof stakeV2GetMyYieldOpportunities>>
+  > = ({ signal }) => stakeV2GetMyYieldOpportunities(params, signal);
+
+  const customOptions = customQueryOptions({
+    ...queryOptions,
+    queryKey,
+    queryFn,
+  });
+
+  return customOptions;
+};
+
+export type StakeV2GetMyYieldOpportunitiesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof stakeV2GetMyYieldOpportunities>>
+>;
+export type StakeV2GetMyYieldOpportunitiesQueryError = unknown;
+
+/**
+ * @summary Get my yield opportunities
+ */
+export const useStakeV2GetMyYieldOpportunities = <
+  TData = Awaited<ReturnType<typeof stakeV2GetMyYieldOpportunities>>,
+  TError = unknown,
+>(
+  params?: StakeV2GetMyYieldOpportunitiesParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof stakeV2GetMyYieldOpportunities>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useStakeV2GetMyYieldOpportunitiesQueryOptions(
     params,
     options,
   );
