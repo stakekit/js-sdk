@@ -90,7 +90,7 @@ export const cosmosChainConfig: {
     name: 'Onomy',
     denom: CosmosGasDenom.NOM,
     minimalDenom: CosmosGasDenom.anom,
-    decimals: 6,
+    decimals: 18,
     bech32Prefix: 'onomy',
     coinGeckoId: 'onomy-protocol',
   },
