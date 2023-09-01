@@ -5,14 +5,14 @@
  * StakeKit API documentation
  * OpenAPI spec version: 1.0
  */
-import type { StakeSessionTypes } from './stakeSessionTypes';
-import type { StakeArgumentOptionsDto } from './stakeArgumentOptionsDto';
+import type { ActionTypes } from './actionTypes';
+import type { ActionArgumentOptionsDto } from './actionArgumentOptionsDto';
 
 export interface PendingActionDto {
   /** The pending action type */
-  type: StakeSessionTypes;
+  type: ActionTypes;
   /** A server generated passthrough that must passed back when pulling the transactions for a given pending action */
   passthrough: string;
   /** Any user chosen options for the pending action. Possible options can be  */
-  args?: StakeArgumentOptionsDto;
+  args?: ActionArgumentOptionsDto;
 }

@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type StakeStatus = (typeof StakeStatus)[keyof typeof StakeStatus];
+export type ActionStatus = (typeof ActionStatus)[keyof typeof ActionStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const StakeStatus = {
+export const ActionStatus = {
   CREATED: 'CREATED',
   WAITING_FOR_NEXT: 'WAITING_FOR_NEXT',
   PROCESSING: 'PROCESSING',

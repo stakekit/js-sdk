@@ -6,10 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 import type { AddressesDto } from './addressesDto';
-import type { StakeArgumentsDto } from './stakeArgumentsDto';
+import type { ActionArgumentsDto } from './actionArgumentsDto';
 
-export interface StakeRequestDto {
+export interface ActionRequestDto {
   integrationId: string;
   addresses: AddressesDto;
-  args: StakeArgumentsDto;
+  args: ActionArgumentsDto;
 }

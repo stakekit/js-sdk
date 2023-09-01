@@ -15,22 +15,8 @@ import type {
   QueryKey,
 } from '@tanstack/react-query';
 import type {
-  YieldOpportunityDto,
-  ValidatorDto,
-  FavoriteValidatorDto,
-  FavoriteValidatorRequestDto,
-  StakeDto,
-  StakeRequestDto,
-  PendingActionRequestDto,
-  YieldBalanceDto,
-  YieldBalanceRequestDto,
-  YieldBalancesWithIntegrationIdDto,
-  YieldBalanceWithIntegrationIdRequestDto,
-  StakeV2YieldOpportunities200,
-  StakeV2YieldOpportunitiesParams,
-  StakeV2GetMyYieldOpportunities200,
-  StakeV2GetMyYieldOpportunitiesParams,
   TransactionDto,
+  GeolocationError,
   ConstructTransactionRequestDto,
   SubmitResponseDto,
   SubmitRequestDto,
@@ -50,1040 +36,6 @@ type AwaitedInput<T> = PromiseLike<T> | T;
 type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
 
 /**
- * Returns the available yield opportunities (staking, lending, vaults, etc) and associated configuration
- * @summary Get yield opportunities
- */
-export const stakeYieldOpportunities = (signal?: AbortSignal) => {
-  return api<YieldOpportunityDto[]>({
-    url: `/v1/stake/opportunities`,
-    method: 'get',
-    signal,
-  });
-};
-
-export const getStakeYieldOpportunitiesQueryKey = () =>
-  [`/v1/stake/opportunities`] as const;
-
-export const useStakeYieldOpportunitiesQueryOptions = <
-  TData = Awaited<ReturnType<typeof stakeYieldOpportunities>>,
-  TError = unknown,
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof stakeYieldOpportunities>>,
-    TError,
-    TData
-  >;
-}): UseQueryOptions<
-  Awaited<ReturnType<typeof stakeYieldOpportunities>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
-  const { query: queryOptions } = options ?? {};
-
-  const queryKey =
-    queryOptions?.queryKey ?? getStakeYieldOpportunitiesQueryKey();
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof stakeYieldOpportunities>>
-  > = ({ signal }) => stakeYieldOpportunities(signal);
-
-  const customOptions = customQueryOptions({
-    ...queryOptions,
-    queryKey,
-    queryFn,
-  });
-
-  return customOptions;
-};
-
-export type StakeYieldOpportunitiesQueryResult = NonNullable<
-  Awaited<ReturnType<typeof stakeYieldOpportunities>>
->;
-export type StakeYieldOpportunitiesQueryError = unknown;
-
-/**
- * @summary Get yield opportunities
- */
-export const useStakeYieldOpportunities = <
-  TData = Awaited<ReturnType<typeof stakeYieldOpportunities>>,
-  TError = unknown,
->(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof stakeYieldOpportunities>>,
-    TError,
-    TData
-  >;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = useStakeYieldOpportunitiesQueryOptions(options);
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-};
-
-/**
- * Returns a yield opportunity
- * @summary Get yield opportunity
- */
-export const stakeYieldOpportunity = (
-  integrationId: string,
-  signal?: AbortSignal,
-) => {
-  return api<YieldOpportunityDto>({
-    url: `/v1/stake/opportunities/${integrationId}`,
-    method: 'get',
-    signal,
-  });
-};
-
-export const getStakeYieldOpportunityQueryKey = (integrationId: string) =>
-  [`/v1/stake/opportunities/${integrationId}`] as const;
-
-export const useStakeYieldOpportunityQueryOptions = <
-  TData = Awaited<ReturnType<typeof stakeYieldOpportunity>>,
-  TError = unknown,
->(
-  integrationId: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof stakeYieldOpportunity>>,
-      TError,
-      TData
-    >;
-  },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof stakeYieldOpportunity>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
-  const { query: queryOptions } = options ?? {};
-
-  const queryKey =
-    queryOptions?.queryKey ?? getStakeYieldOpportunityQueryKey(integrationId);
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof stakeYieldOpportunity>>
-  > = ({ signal }) => stakeYieldOpportunity(integrationId, signal);
-
-  const customOptions = customQueryOptions({
-    ...queryOptions,
-    queryKey,
-    queryFn,
-  });
-
-  return customOptions;
-};
-
-export type StakeYieldOpportunityQueryResult = NonNullable<
-  Awaited<ReturnType<typeof stakeYieldOpportunity>>
->;
-export type StakeYieldOpportunityQueryError = unknown;
-
-/**
- * @summary Get yield opportunity
- */
-export const useStakeYieldOpportunity = <
-  TData = Awaited<ReturnType<typeof stakeYieldOpportunity>>,
-  TError = unknown,
->(
-  integrationId: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof stakeYieldOpportunity>>,
-      TError,
-      TData
-    >;
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = useStakeYieldOpportunityQueryOptions(
-    integrationId,
-    options,
-  );
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-};
-
-/**
- * Returns a list of available validators to specify when providing a `validatorAddress` property.
- * @summary Get validators
- */
-export const stakeGetValidators = (
-  integrationId: string,
-  signal?: AbortSignal,
-) => {
-  return api<ValidatorDto[]>({
-    url: `/v1/stake/validators/${integrationId}`,
-    method: 'get',
-    signal,
-  });
-};
-
-export const getStakeGetValidatorsQueryKey = (integrationId: string) =>
-  [`/v1/stake/validators/${integrationId}`] as const;
-
-export const useStakeGetValidatorsQueryOptions = <
-  TData = Awaited<ReturnType<typeof stakeGetValidators>>,
-  TError = unknown,
->(
-  integrationId: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof stakeGetValidators>>,
-      TError,
-      TData
-    >;
-  },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof stakeGetValidators>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
-  const { query: queryOptions } = options ?? {};
-
-  const queryKey =
-    queryOptions?.queryKey ?? getStakeGetValidatorsQueryKey(integrationId);
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof stakeGetValidators>>
-  > = ({ signal }) => stakeGetValidators(integrationId, signal);
-
-  const customOptions = customQueryOptions({
-    ...queryOptions,
-    queryKey,
-    queryFn,
-  });
-
-  return customOptions;
-};
-
-export type StakeGetValidatorsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof stakeGetValidators>>
->;
-export type StakeGetValidatorsQueryError = unknown;
-
-/**
- * @summary Get validators
- */
-export const useStakeGetValidators = <
-  TData = Awaited<ReturnType<typeof stakeGetValidators>>,
-  TError = unknown,
->(
-  integrationId: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof stakeGetValidators>>,
-      TError,
-      TData
-    >;
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = useStakeGetValidatorsQueryOptions(
-    integrationId,
-    options,
-  );
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-};
-
-/**
- * @summary Add validator to favorites
- */
-export const stakeAddValidatorToFavorites = (
-  integrationId: string,
-  favoriteValidatorRequestDto: FavoriteValidatorRequestDto,
-) => {
-  return api<FavoriteValidatorDto[]>({
-    url: `/v1/stake/validators/${integrationId}/favorite`,
-    method: 'post',
-    headers: { 'Content-Type': 'application/json' },
-    data: favoriteValidatorRequestDto,
-  });
-};
-
-export const useStakeAddValidatorToFavoritesMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof stakeAddValidatorToFavorites>>,
-    TError,
-    { integrationId: string; data: FavoriteValidatorRequestDto },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof stakeAddValidatorToFavorites>>,
-  TError,
-  { integrationId: string; data: FavoriteValidatorRequestDto },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof stakeAddValidatorToFavorites>>,
-    { integrationId: string; data: FavoriteValidatorRequestDto }
-  > = (props) => {
-    const { integrationId, data } = props ?? {};
-
-    return stakeAddValidatorToFavorites(integrationId, data);
-  };
-
-  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
-
-  return customOptions;
-};
-
-export type StakeAddValidatorToFavoritesMutationResult = NonNullable<
-  Awaited<ReturnType<typeof stakeAddValidatorToFavorites>>
->;
-export type StakeAddValidatorToFavoritesMutationBody =
-  FavoriteValidatorRequestDto;
-export type StakeAddValidatorToFavoritesMutationError = unknown;
-
-/**
- * @summary Add validator to favorites
- */
-export const useStakeAddValidatorToFavorites = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof stakeAddValidatorToFavorites>>,
-    TError,
-    { integrationId: string; data: FavoriteValidatorRequestDto },
-    TContext
-  >;
-}) => {
-  const mutationOptions =
-    useStakeAddValidatorToFavoritesMutationOptions(options);
-
-  return useMutation(mutationOptions);
-};
-
-/**
- * @summary Remove validator to favorites
- */
-export const stakeRemoveValidatorFromFavorites = (
-  integrationId: string,
-  favoriteValidatorRequestDto: FavoriteValidatorRequestDto,
-) => {
-  return api<void>({
-    url: `/v1/stake/validators/${integrationId}/favorite`,
-    method: 'delete',
-    headers: { 'Content-Type': 'application/json' },
-    data: favoriteValidatorRequestDto,
-  });
-};
-
-export const useStakeRemoveValidatorFromFavoritesMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof stakeRemoveValidatorFromFavorites>>,
-    TError,
-    { integrationId: string; data: FavoriteValidatorRequestDto },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof stakeRemoveValidatorFromFavorites>>,
-  TError,
-  { integrationId: string; data: FavoriteValidatorRequestDto },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof stakeRemoveValidatorFromFavorites>>,
-    { integrationId: string; data: FavoriteValidatorRequestDto }
-  > = (props) => {
-    const { integrationId, data } = props ?? {};
-
-    return stakeRemoveValidatorFromFavorites(integrationId, data);
-  };
-
-  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
-
-  return customOptions;
-};
-
-export type StakeRemoveValidatorFromFavoritesMutationResult = NonNullable<
-  Awaited<ReturnType<typeof stakeRemoveValidatorFromFavorites>>
->;
-export type StakeRemoveValidatorFromFavoritesMutationBody =
-  FavoriteValidatorRequestDto;
-export type StakeRemoveValidatorFromFavoritesMutationError = unknown;
-
-/**
- * @summary Remove validator to favorites
- */
-export const useStakeRemoveValidatorFromFavorites = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof stakeRemoveValidatorFromFavorites>>,
-    TError,
-    { integrationId: string; data: FavoriteValidatorRequestDto },
-    TContext
-  >;
-}) => {
-  const mutationOptions =
-    useStakeRemoveValidatorFromFavoritesMutationOptions(options);
-
-  return useMutation(mutationOptions);
-};
-
-/**
- * Returns a stake session with associated transactions
- * @summary Get stake session
- */
-export const stakeGetStakeSession = (stakeId: string, signal?: AbortSignal) => {
-  return api<StakeDto>({ url: `/v1/stake/${stakeId}`, method: 'get', signal });
-};
-
-export const getStakeGetStakeSessionQueryKey = (stakeId: string) =>
-  [`/v1/stake/${stakeId}`] as const;
-
-export const useStakeGetStakeSessionQueryOptions = <
-  TData = Awaited<ReturnType<typeof stakeGetStakeSession>>,
-  TError = unknown,
->(
-  stakeId: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof stakeGetStakeSession>>,
-      TError,
-      TData
-    >;
-  },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof stakeGetStakeSession>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
-  const { query: queryOptions } = options ?? {};
-
-  const queryKey =
-    queryOptions?.queryKey ?? getStakeGetStakeSessionQueryKey(stakeId);
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof stakeGetStakeSession>>
-  > = ({ signal }) => stakeGetStakeSession(stakeId, signal);
-
-  const customOptions = customQueryOptions({
-    ...queryOptions,
-    queryKey,
-    queryFn,
-  });
-
-  return customOptions;
-};
-
-export type StakeGetStakeSessionQueryResult = NonNullable<
-  Awaited<ReturnType<typeof stakeGetStakeSession>>
->;
-export type StakeGetStakeSessionQueryError = unknown;
-
-/**
- * @summary Get stake session
- */
-export const useStakeGetStakeSession = <
-  TData = Awaited<ReturnType<typeof stakeGetStakeSession>>,
-  TError = unknown,
->(
-  stakeId: string,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof stakeGetStakeSession>>,
-      TError,
-      TData
-    >;
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = useStakeGetStakeSessionQueryOptions(stakeId, options);
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-};
-
-/**
- * Get the transactions necessary to enter a yield bearing position
- * @summary Create "enter" stake session
- */
-export const stakeEnter = (stakeRequestDto: StakeRequestDto) => {
-  return api<StakeDto>({
-    url: `/v1/stake/enter`,
-    method: 'post',
-    headers: { 'Content-Type': 'application/json' },
-    data: stakeRequestDto,
-  });
-};
-
-export const useStakeEnterMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof stakeEnter>>,
-    TError,
-    { data: StakeRequestDto },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof stakeEnter>>,
-  TError,
-  { data: StakeRequestDto },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof stakeEnter>>,
-    { data: StakeRequestDto }
-  > = (props) => {
-    const { data } = props ?? {};
-
-    return stakeEnter(data);
-  };
-
-  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
-
-  return customOptions;
-};
-
-export type StakeEnterMutationResult = NonNullable<
-  Awaited<ReturnType<typeof stakeEnter>>
->;
-export type StakeEnterMutationBody = StakeRequestDto;
-export type StakeEnterMutationError = unknown;
-
-/**
- * @summary Create "enter" stake session
- */
-export const useStakeEnter = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof stakeEnter>>,
-    TError,
-    { data: StakeRequestDto },
-    TContext
-  >;
-}) => {
-  const mutationOptions = useStakeEnterMutationOptions(options);
-
-  return useMutation(mutationOptions);
-};
-
-/**
- * Get the transactions necessary to exit a yield bearing position
- * @summary Create "exit" stake session
- */
-export const stakeExit = (stakeRequestDto: StakeRequestDto) => {
-  return api<StakeDto>({
-    url: `/v1/stake/exit`,
-    method: 'post',
-    headers: { 'Content-Type': 'application/json' },
-    data: stakeRequestDto,
-  });
-};
-
-export const useStakeExitMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof stakeExit>>,
-    TError,
-    { data: StakeRequestDto },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof stakeExit>>,
-  TError,
-  { data: StakeRequestDto },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof stakeExit>>,
-    { data: StakeRequestDto }
-  > = (props) => {
-    const { data } = props ?? {};
-
-    return stakeExit(data);
-  };
-
-  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
-
-  return customOptions;
-};
-
-export type StakeExitMutationResult = NonNullable<
-  Awaited<ReturnType<typeof stakeExit>>
->;
-export type StakeExitMutationBody = StakeRequestDto;
-export type StakeExitMutationError = unknown;
-
-/**
- * @summary Create "exit" stake session
- */
-export const useStakeExit = <TError = unknown, TContext = unknown>(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof stakeExit>>,
-    TError,
-    { data: StakeRequestDto },
-    TContext
-  >;
-}) => {
-  const mutationOptions = useStakeExitMutationOptions(options);
-
-  return useMutation(mutationOptions);
-};
-
-/**
- * Get the transactions to apply a pending action
- * @summary Create "pending action" stake session
- */
-export const stakePendingActions = (
-  pendingActionRequestDto: PendingActionRequestDto,
-) => {
-  return api<StakeDto>({
-    url: `/v1/stake/pending_action`,
-    method: 'post',
-    headers: { 'Content-Type': 'application/json' },
-    data: pendingActionRequestDto,
-  });
-};
-
-export const useStakePendingActionsMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof stakePendingActions>>,
-    TError,
-    { data: PendingActionRequestDto },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof stakePendingActions>>,
-  TError,
-  { data: PendingActionRequestDto },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof stakePendingActions>>,
-    { data: PendingActionRequestDto }
-  > = (props) => {
-    const { data } = props ?? {};
-
-    return stakePendingActions(data);
-  };
-
-  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
-
-  return customOptions;
-};
-
-export type StakePendingActionsMutationResult = NonNullable<
-  Awaited<ReturnType<typeof stakePendingActions>>
->;
-export type StakePendingActionsMutationBody = PendingActionRequestDto;
-export type StakePendingActionsMutationError = unknown;
-
-/**
- * @summary Create "pending action" stake session
- */
-export const useStakePendingActions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof stakePendingActions>>,
-    TError,
-    { data: PendingActionRequestDto },
-    TContext
-  >;
-}) => {
-  const mutationOptions = useStakePendingActionsMutationOptions(options);
-
-  return useMutation(mutationOptions);
-};
-
-/**
- * Given addresses, returns the available, deposited balance, pending actions and associated configuration for any yield opportunity
- * @summary Get staked balances
- */
-export const stakeGetSingleIntegrationBalances = (
-  integrationId: string,
-  yieldBalanceRequestDto: YieldBalanceRequestDto,
-) => {
-  return api<YieldBalanceDto[]>({
-    url: `/v1/stake/balances/${integrationId}`,
-    method: 'post',
-    headers: { 'Content-Type': 'application/json' },
-    data: yieldBalanceRequestDto,
-  });
-};
-
-export const useStakeGetSingleIntegrationBalancesMutationOptions = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof stakeGetSingleIntegrationBalances>>,
-    TError,
-    { integrationId: string; data: YieldBalanceRequestDto },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof stakeGetSingleIntegrationBalances>>,
-  TError,
-  { integrationId: string; data: YieldBalanceRequestDto },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof stakeGetSingleIntegrationBalances>>,
-    { integrationId: string; data: YieldBalanceRequestDto }
-  > = (props) => {
-    const { integrationId, data } = props ?? {};
-
-    return stakeGetSingleIntegrationBalances(integrationId, data);
-  };
-
-  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
-
-  return customOptions;
-};
-
-export type StakeGetSingleIntegrationBalancesMutationResult = NonNullable<
-  Awaited<ReturnType<typeof stakeGetSingleIntegrationBalances>>
->;
-export type StakeGetSingleIntegrationBalancesMutationBody =
-  YieldBalanceRequestDto;
-export type StakeGetSingleIntegrationBalancesMutationError = unknown;
-
-/**
- * @summary Get staked balances
- */
-export const useStakeGetSingleIntegrationBalances = <
-  TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof stakeGetSingleIntegrationBalances>>,
-    TError,
-    { integrationId: string; data: YieldBalanceRequestDto },
-    TContext
-  >;
-}) => {
-  const mutationOptions =
-    useStakeGetSingleIntegrationBalancesMutationOptions(options);
-
-  return useMutation(mutationOptions);
-};
-
-/**
- * Given addresses and integration ids, returns respective balances and configuration.
- * @summary Get staked balances for multiple yield opportunities
- */
-export const stakeGetMultipleIntegrationBalances = (
-  yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
-) => {
-  return api<YieldBalancesWithIntegrationIdDto[]>({
-    url: `/v1/stake/balances`,
-    method: 'post',
-    headers: { 'Content-Type': 'application/json' },
-    data: yieldBalanceWithIntegrationIdRequestDto,
-  });
-};
-
-export const getStakeGetMultipleIntegrationBalancesQueryKey = (
-  yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
-) => [`/v1/stake/balances`, yieldBalanceWithIntegrationIdRequestDto] as const;
-
-export const useStakeGetMultipleIntegrationBalancesQueryOptions = <
-  TData = Awaited<ReturnType<typeof stakeGetMultipleIntegrationBalances>>,
-  TError = unknown,
->(
-  yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof stakeGetMultipleIntegrationBalances>>,
-      TError,
-      TData
-    >;
-  },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof stakeGetMultipleIntegrationBalances>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
-  const { query: queryOptions } = options ?? {};
-
-  const queryKey =
-    queryOptions?.queryKey ??
-    getStakeGetMultipleIntegrationBalancesQueryKey(
-      yieldBalanceWithIntegrationIdRequestDto,
-    );
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof stakeGetMultipleIntegrationBalances>>
-  > = () =>
-    stakeGetMultipleIntegrationBalances(
-      yieldBalanceWithIntegrationIdRequestDto,
-    );
-
-  const customOptions = customQueryOptions({
-    ...queryOptions,
-    queryKey,
-    queryFn,
-  });
-
-  return customOptions;
-};
-
-export type StakeGetMultipleIntegrationBalancesQueryResult = NonNullable<
-  Awaited<ReturnType<typeof stakeGetMultipleIntegrationBalances>>
->;
-export type StakeGetMultipleIntegrationBalancesQueryError = unknown;
-
-/**
- * @summary Get staked balances for multiple yield opportunities
- */
-export const useStakeGetMultipleIntegrationBalances = <
-  TData = Awaited<ReturnType<typeof stakeGetMultipleIntegrationBalances>>,
-  TError = unknown,
->(
-  yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof stakeGetMultipleIntegrationBalances>>,
-      TError,
-      TData
-    >;
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = useStakeGetMultipleIntegrationBalancesQueryOptions(
-    yieldBalanceWithIntegrationIdRequestDto,
-    options,
-  );
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-};
-
-/**
- * Returns the available yield opportunities (staking, lending, vaults, etc) and associated configuration
- * @summary Get yield opportunities
- */
-export const stakeV2YieldOpportunities = (
-  params?: StakeV2YieldOpportunitiesParams,
-  signal?: AbortSignal,
-) => {
-  return api<StakeV2YieldOpportunities200>({
-    url: `/v2/stake/opportunities`,
-    method: 'get',
-    params,
-    signal,
-  });
-};
-
-export const getStakeV2YieldOpportunitiesQueryKey = (
-  params?: StakeV2YieldOpportunitiesParams,
-) => [`/v2/stake/opportunities`, ...(params ? [params] : [])] as const;
-
-export const useStakeV2YieldOpportunitiesQueryOptions = <
-  TData = Awaited<ReturnType<typeof stakeV2YieldOpportunities>>,
-  TError = unknown,
->(
-  params?: StakeV2YieldOpportunitiesParams,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof stakeV2YieldOpportunities>>,
-      TError,
-      TData
-    >;
-  },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof stakeV2YieldOpportunities>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
-  const { query: queryOptions } = options ?? {};
-
-  const queryKey =
-    queryOptions?.queryKey ?? getStakeV2YieldOpportunitiesQueryKey(params);
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof stakeV2YieldOpportunities>>
-  > = ({ signal }) => stakeV2YieldOpportunities(params, signal);
-
-  const customOptions = customQueryOptions({
-    ...queryOptions,
-    queryKey,
-    queryFn,
-  });
-
-  return customOptions;
-};
-
-export type StakeV2YieldOpportunitiesQueryResult = NonNullable<
-  Awaited<ReturnType<typeof stakeV2YieldOpportunities>>
->;
-export type StakeV2YieldOpportunitiesQueryError = unknown;
-
-/**
- * @summary Get yield opportunities
- */
-export const useStakeV2YieldOpportunities = <
-  TData = Awaited<ReturnType<typeof stakeV2YieldOpportunities>>,
-  TError = unknown,
->(
-  params?: StakeV2YieldOpportunitiesParams,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof stakeV2YieldOpportunities>>,
-      TError,
-      TData
-    >;
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = useStakeV2YieldOpportunitiesQueryOptions(
-    params,
-    options,
-  );
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-};
-
-/**
- * Returns the available yield opportunities (staking, lending, vaults, etc) and associated configuration
- * @summary Get my yield opportunities
- */
-export const stakeV2GetMyYieldOpportunities = (
-  params?: StakeV2GetMyYieldOpportunitiesParams,
-  signal?: AbortSignal,
-) => {
-  return api<StakeV2GetMyYieldOpportunities200>({
-    url: `/v2/stake/opportunities/mine`,
-    method: 'get',
-    params,
-    signal,
-  });
-};
-
-export const getStakeV2GetMyYieldOpportunitiesQueryKey = (
-  params?: StakeV2GetMyYieldOpportunitiesParams,
-) => [`/v2/stake/opportunities/mine`, ...(params ? [params] : [])] as const;
-
-export const useStakeV2GetMyYieldOpportunitiesQueryOptions = <
-  TData = Awaited<ReturnType<typeof stakeV2GetMyYieldOpportunities>>,
-  TError = unknown,
->(
-  params?: StakeV2GetMyYieldOpportunitiesParams,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof stakeV2GetMyYieldOpportunities>>,
-      TError,
-      TData
-    >;
-  },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof stakeV2GetMyYieldOpportunities>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
-  const { query: queryOptions } = options ?? {};
-
-  const queryKey =
-    queryOptions?.queryKey ?? getStakeV2GetMyYieldOpportunitiesQueryKey(params);
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof stakeV2GetMyYieldOpportunities>>
-  > = ({ signal }) => stakeV2GetMyYieldOpportunities(params, signal);
-
-  const customOptions = customQueryOptions({
-    ...queryOptions,
-    queryKey,
-    queryFn,
-  });
-
-  return customOptions;
-};
-
-export type StakeV2GetMyYieldOpportunitiesQueryResult = NonNullable<
-  Awaited<ReturnType<typeof stakeV2GetMyYieldOpportunities>>
->;
-export type StakeV2GetMyYieldOpportunitiesQueryError = unknown;
-
-/**
- * @summary Get my yield opportunities
- */
-export const useStakeV2GetMyYieldOpportunities = <
-  TData = Awaited<ReturnType<typeof stakeV2GetMyYieldOpportunities>>,
-  TError = unknown,
->(
-  params?: StakeV2GetMyYieldOpportunitiesParams,
-  options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof stakeV2GetMyYieldOpportunities>>,
-      TError,
-      TData
-    >;
-  },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = useStakeV2GetMyYieldOpportunitiesQueryOptions(
-    params,
-    options,
-  );
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-};
-
-/**
  * Returns a transaction
  * @summary Get transaction
  */
@@ -1092,18 +44,18 @@ export const transactionGetTransaction = (
   signal?: AbortSignal,
 ) => {
   return api<TransactionDto>({
-    url: `/v1/transaction/${transactionId}`,
+    url: `/v1/transactions/${transactionId}`,
     method: 'get',
     signal,
   });
 };
 
 export const getTransactionGetTransactionQueryKey = (transactionId: string) =>
-  [`/v1/transaction/${transactionId}`] as const;
+  [`/v1/transactions/${transactionId}`] as const;
 
 export const useTransactionGetTransactionQueryOptions = <
   TData = Awaited<ReturnType<typeof transactionGetTransaction>>,
-  TError = unknown,
+  TError = GeolocationError,
 >(
   transactionId: string,
   options?: {
@@ -1140,14 +92,14 @@ export const useTransactionGetTransactionQueryOptions = <
 export type TransactionGetTransactionQueryResult = NonNullable<
   Awaited<ReturnType<typeof transactionGetTransaction>>
 >;
-export type TransactionGetTransactionQueryError = unknown;
+export type TransactionGetTransactionQueryError = GeolocationError;
 
 /**
  * @summary Get transaction
  */
 export const useTransactionGetTransaction = <
   TData = Awaited<ReturnType<typeof transactionGetTransaction>>,
-  TError = unknown,
+  TError = GeolocationError,
 >(
   transactionId: string,
   options?: {
@@ -1181,7 +133,7 @@ export const transactionConstruct = (
   constructTransactionRequestDto: ConstructTransactionRequestDto,
 ) => {
   return api<TransactionDto>({
-    url: `/v1/transaction/${transactionId}`,
+    url: `/v1/transactions/${transactionId}`,
     method: 'patch',
     headers: { 'Content-Type': 'application/json' },
     data: constructTransactionRequestDto,
@@ -1189,7 +141,7 @@ export const transactionConstruct = (
 };
 
 export const useTransactionConstructMutationOptions = <
-  TError = unknown,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1224,13 +176,13 @@ export type TransactionConstructMutationResult = NonNullable<
   Awaited<ReturnType<typeof transactionConstruct>>
 >;
 export type TransactionConstructMutationBody = ConstructTransactionRequestDto;
-export type TransactionConstructMutationError = unknown;
+export type TransactionConstructMutationError = GeolocationError;
 
 /**
  * @summary Construct transaction
  */
 export const useTransactionConstruct = <
-  TError = unknown,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1254,7 +206,7 @@ export const transactionSubmit = (
   submitRequestDto: SubmitRequestDto,
 ) => {
   return api<SubmitResponseDto>({
-    url: `/v1/transaction/${transactionId}/submit`,
+    url: `/v1/transactions/${transactionId}/submit`,
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
     data: submitRequestDto,
@@ -1262,7 +214,7 @@ export const transactionSubmit = (
 };
 
 export const useTransactionSubmitMutationOptions = <
-  TError = unknown,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1297,13 +249,13 @@ export type TransactionSubmitMutationResult = NonNullable<
   Awaited<ReturnType<typeof transactionSubmit>>
 >;
 export type TransactionSubmitMutationBody = SubmitRequestDto;
-export type TransactionSubmitMutationError = unknown;
+export type TransactionSubmitMutationError = GeolocationError;
 
 /**
  * @summary Submit transaction
  */
 export const useTransactionSubmit = <
-  TError = unknown,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1327,7 +279,7 @@ export const transactionSubmitHash = (
   submitHashRequestDto: SubmitHashRequestDto,
 ) => {
   return api<void>({
-    url: `/v1/transaction/${transactionId}/submit_hash`,
+    url: `/v1/transactions/${transactionId}/submit_hash`,
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
     data: submitHashRequestDto,
@@ -1335,7 +287,7 @@ export const transactionSubmitHash = (
 };
 
 export const useTransactionSubmitHashMutationOptions = <
-  TError = unknown,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1370,13 +322,13 @@ export type TransactionSubmitHashMutationResult = NonNullable<
   Awaited<ReturnType<typeof transactionSubmitHash>>
 >;
 export type TransactionSubmitHashMutationBody = SubmitHashRequestDto;
-export type TransactionSubmitHashMutationError = unknown;
+export type TransactionSubmitHashMutationError = GeolocationError;
 
 /**
  * @summary Submit transaction hash
  */
 export const useTransactionSubmitHash = <
-  TError = unknown,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -1400,7 +352,7 @@ export const transactionGetTransactionStatusFromId = (
   signal?: AbortSignal,
 ) => {
   return api<TransactionStatusResponseDto>({
-    url: `/v1/transaction/${transactionId}/status`,
+    url: `/v1/transactions/${transactionId}/status`,
     method: 'get',
     signal,
   });
@@ -1408,11 +360,11 @@ export const transactionGetTransactionStatusFromId = (
 
 export const getTransactionGetTransactionStatusFromIdQueryKey = (
   transactionId: string,
-) => [`/v1/transaction/${transactionId}/status`] as const;
+) => [`/v1/transactions/${transactionId}/status`] as const;
 
 export const useTransactionGetTransactionStatusFromIdQueryOptions = <
   TData = Awaited<ReturnType<typeof transactionGetTransactionStatusFromId>>,
-  TError = unknown,
+  TError = GeolocationError,
 >(
   transactionId: string,
   options?: {
@@ -1450,14 +402,14 @@ export const useTransactionGetTransactionStatusFromIdQueryOptions = <
 export type TransactionGetTransactionStatusFromIdQueryResult = NonNullable<
   Awaited<ReturnType<typeof transactionGetTransactionStatusFromId>>
 >;
-export type TransactionGetTransactionStatusFromIdQueryError = unknown;
+export type TransactionGetTransactionStatusFromIdQueryError = GeolocationError;
 
 /**
  * @summary Get transaction status
  */
 export const useTransactionGetTransactionStatusFromId = <
   TData = Awaited<ReturnType<typeof transactionGetTransactionStatusFromId>>,
-  TError = unknown,
+  TError = GeolocationError,
 >(
   transactionId: string,
   options?: {
@@ -1491,18 +443,18 @@ export const transactionGetGasForNetwork = (
   signal?: AbortSignal,
 ) => {
   return api<GasForNetworkResponseDto>({
-    url: `/v1/transaction/gas/${network}`,
+    url: `/v1/transactions/gas/${network}`,
     method: 'get',
     signal,
   });
 };
 
 export const getTransactionGetGasForNetworkQueryKey = (network: string) =>
-  [`/v1/transaction/gas/${network}`] as const;
+  [`/v1/transactions/gas/${network}`] as const;
 
 export const useTransactionGetGasForNetworkQueryOptions = <
   TData = Awaited<ReturnType<typeof transactionGetGasForNetwork>>,
-  TError = unknown,
+  TError = GeolocationError,
 >(
   network: string,
   options?: {
@@ -1538,14 +490,14 @@ export const useTransactionGetGasForNetworkQueryOptions = <
 export type TransactionGetGasForNetworkQueryResult = NonNullable<
   Awaited<ReturnType<typeof transactionGetGasForNetwork>>
 >;
-export type TransactionGetGasForNetworkQueryError = unknown;
+export type TransactionGetGasForNetworkQueryError = GeolocationError;
 
 /**
  * @summary Get current gas parameters
  */
 export const useTransactionGetGasForNetwork = <
   TData = Awaited<ReturnType<typeof transactionGetGasForNetwork>>,
-  TError = unknown,
+  TError = GeolocationError,
 >(
   network: string,
   options?: {
@@ -1576,7 +528,7 @@ export const useTransactionGetGasForNetwork = <
  */
 export const tokenGetTokenPrices = (priceRequestDto: PriceRequestDto) => {
   return api<PriceResponseDto>({
-    url: `/v1/token/prices`,
+    url: `/v1/tokens/prices`,
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
     data: priceRequestDto,
@@ -1585,7 +537,7 @@ export const tokenGetTokenPrices = (priceRequestDto: PriceRequestDto) => {
 
 export const getTokenGetTokenPricesQueryKey = (
   priceRequestDto: PriceRequestDto,
-) => [`/v1/token/prices`, priceRequestDto] as const;
+) => [`/v1/tokens/prices`, priceRequestDto] as const;
 
 export const useTokenGetTokenPricesQueryOptions = <
   TData = Awaited<ReturnType<typeof tokenGetTokenPrices>>,
@@ -1665,7 +617,7 @@ export const tokenGetTokenBalances = (
   balancesRequestDto: BalancesRequestDto,
 ) => {
   return api<BalanceResponseDto[]>({
-    url: `/v1/token/balances`,
+    url: `/v1/tokens/balances`,
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
     data: balancesRequestDto,
@@ -1674,7 +626,7 @@ export const tokenGetTokenBalances = (
 
 export const getTokenGetTokenBalancesQueryKey = (
   balancesRequestDto: BalancesRequestDto,
-) => [`/v1/token/balances`, balancesRequestDto] as const;
+) => [`/v1/tokens/balances`, balancesRequestDto] as const;
 
 export const useTokenGetTokenBalancesQueryOptions = <
   TData = Awaited<ReturnType<typeof tokenGetTokenBalances>>,

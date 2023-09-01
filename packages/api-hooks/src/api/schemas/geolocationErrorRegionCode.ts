@@ -6,7 +6,4 @@
  * OpenAPI spec version: 1.0
  */
 
-export type StakeV2GetMyYieldOpportunitiesParams = {
-  page?: number;
-  limit?: number;
-};
+export type GeolocationErrorRegionCode = { [key: string]: any };
