@@ -5,14 +5,14 @@
  * StakeKit API documentation
  * OpenAPI spec version: 1.0
  */
-import type { StakeStatus } from './stakeStatus';
-import type { StakeSessionTypes } from './stakeSessionTypes';
+import type { ActionStatus } from './actionStatus';
+import type { ActionTypes } from './actionTypes';
 import type { TransactionDto } from './transactionDto';
 
-export interface StakeDto {
+export interface ActionDto {
   id: string;
-  status: StakeStatus;
-  type: StakeSessionTypes;
+  status: ActionStatus;
+  type: ActionTypes;
   currentStepIndex: number;
   amount: string | null;
   tokenId: string | null;

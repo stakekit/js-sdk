@@ -7,7 +7,7 @@
  */
 import type { ApeNativeArgumentsDto } from './apeNativeArgumentsDto';
 
-export interface StakeArgumentsDto {
+export interface ActionArgumentsDto {
   amount: string;
   validatorAddress?: string;
   duration?: number;

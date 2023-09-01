@@ -79,7 +79,7 @@ export default defineConfig({
       },
     },
     input: {
-      target: 'https://api.stakek.it/api-docs-json',
+      target: 'https://staging-api.stakek.it/api-docs-json',
     },
   },
 });

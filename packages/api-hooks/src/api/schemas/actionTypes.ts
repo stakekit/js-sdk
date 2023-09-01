@@ -6,11 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type StakeSessionTypes =
-  (typeof StakeSessionTypes)[keyof typeof StakeSessionTypes];
+export type ActionTypes = (typeof ActionTypes)[keyof typeof ActionTypes];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const StakeSessionTypes = {
+export const ActionTypes = {
   STAKE: 'STAKE',
   UNSTAKE: 'UNSTAKE',
   CLAIM_REWARDS: 'CLAIM_REWARDS',

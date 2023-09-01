@@ -6,18 +6,16 @@
  * OpenAPI spec version: 1.0
  */
 import type { TokenDto } from './tokenDto';
-import type { YieldConfigDto } from './yieldConfigDto';
-import type { StakeArgumentResponseDto } from './stakeArgumentResponseDto';
+import type { ActionArgumentResponseDto } from './actionArgumentResponseDto';
 import type { YieldStatusResponseDto } from './yieldStatusResponseDto';
 import type { YieldMetadataDto } from './yieldMetadataDto';
 import type { ValidatorDto } from './validatorDto';
 
-export interface YieldOpportunityDto {
+export interface YieldDto {
   /** The yield opportunity ID */
   id: string;
   token: TokenDto;
-  config: YieldConfigDto;
-  args: StakeArgumentResponseDto;
+  args: ActionArgumentResponseDto;
   status: YieldStatusResponseDto;
   apy: number;
   metadata: YieldMetadataDto;
