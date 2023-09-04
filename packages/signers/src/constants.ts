@@ -5,7 +5,8 @@ import { AdditionalAddresses } from '@stakekit/common';
  * "m / purpose' / coin_type' / account' / change / address_index"
  *
  */
-export const keplrPath = (index: number) => `m/44'/118'/0'/0/${index}`;
+export const keplrPath = (index: number, coinType: number = 118) =>
+  `m/44'/${coinType}'/0'/0/${index}`;
 export const phantomPath = (index: number) => `m/44'/501'/${index}'/0'`;
 export const metamaskPath = (index: number) => `m/44'/60'/0'/0/${index}`;
 export const templePath = (index: number) => `m/44'/1729'/${index}'/0'`;
@@ -83,7 +84,7 @@ export enum WalletDomain {
 }
 
 export type WalletDerivationPaths = {
-  [x in WalletDomain]: (index: number) => string | undefined;
+  [x in WalletDomain]: (index: number, coinType?: number) => string | undefined;
 };
 
 const steakwalletDerivationPaths: WalletDerivationPaths = {

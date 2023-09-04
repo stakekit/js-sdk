@@ -182,8 +182,9 @@ const celoSigningWallet = async (
 const cosmosSigningWallet = async (
   prefix: string,
   options: WalletOptions,
+  network: CosmosNetworks,
 ): Promise<SigningWallet> => {
-  const wallet = await getStargateWallet(prefix, options);
+  const wallet = await getStargateWallet(prefix, options, network);
   const [{ address, pubkey }] = await wallet.getAccounts();
 
   return {
@@ -393,7 +394,7 @@ const getters: {
     (accum, n) => ({
       ...accum,
       [n]: (o: WalletOptions) => {
-        return cosmosSigningWallet(cosmosChainConfig[n].bech32Prefix, o);
+        return cosmosSigningWallet(cosmosChainConfig[n].bech32Prefix, o, n);
       },
     }),
     {},
