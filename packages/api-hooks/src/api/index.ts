@@ -15,8 +15,11 @@ import type {
   QueryKey,
 } from '@tanstack/react-query';
 import type {
-  TransactionDto,
+  ActionDto,
   GeolocationError,
+  ActionRequestDto,
+  PendingActionRequestDto,
+  TransactionDto,
   ConstructTransactionRequestDto,
   SubmitResponseDto,
   SubmitRequestDto,
@@ -27,6 +30,16 @@ import type {
   PriceRequestDto,
   BalanceResponseDto,
   BalancesRequestDto,
+  YieldYields200,
+  YieldYieldsParams,
+  YieldBalancesWithIntegrationIdDto,
+  YieldBalanceWithIntegrationIdRequestDto,
+  YieldGetMyYields200,
+  YieldGetMyYieldsParams,
+  YieldDto,
+  ValidatorDto,
+  YieldBalanceDto,
+  YieldBalanceRequestDto,
 } from './schemas';
 import { api } from '../api-client';
 import { customQueryOptions } from '../query-options';
@@ -34,6 +47,300 @@ import { customQueryOptions } from '../query-options';
 type AwaitedInput<T> = PromiseLike<T> | T;
 
 type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
+
+/**
+ * Returns a action with associated transactions
+ * @summary Get action
+ */
+export const actionGetAction = (actionId: string, signal?: AbortSignal) => {
+  return api<ActionDto>({
+    url: `/v1/actions/${actionId}`,
+    method: 'get',
+    signal,
+  });
+};
+
+export const getActionGetActionQueryKey = (actionId: string) =>
+  [`/v1/actions/${actionId}`] as const;
+
+export const useActionGetActionQueryOptions = <
+  TData = Awaited<ReturnType<typeof actionGetAction>>,
+  TError = GeolocationError,
+>(
+  actionId: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof actionGetAction>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryOptions<
+  Awaited<ReturnType<typeof actionGetAction>>,
+  TError,
+  TData
+> & { queryKey: QueryKey } => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getActionGetActionQueryKey(actionId);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof actionGetAction>>> = ({
+    signal,
+  }) => actionGetAction(actionId, signal);
+
+  const customOptions = customQueryOptions({
+    ...queryOptions,
+    queryKey,
+    queryFn,
+  });
+
+  return customOptions;
+};
+
+export type ActionGetActionQueryResult = NonNullable<
+  Awaited<ReturnType<typeof actionGetAction>>
+>;
+export type ActionGetActionQueryError = GeolocationError;
+
+/**
+ * @summary Get action
+ */
+export const useActionGetAction = <
+  TData = Awaited<ReturnType<typeof actionGetAction>>,
+  TError = GeolocationError,
+>(
+  actionId: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof actionGetAction>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useActionGetActionQueryOptions(actionId, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Get the transactions necessary to enter a yield bearing position
+ * @summary Create "enter" action
+ */
+export const actionEnter = (actionRequestDto: ActionRequestDto) => {
+  return api<ActionDto>({
+    url: `/v1/actions/enter`,
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    data: actionRequestDto,
+  });
+};
+
+export const useActionEnterMutationOptions = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof actionEnter>>,
+    TError,
+    { data: ActionRequestDto },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof actionEnter>>,
+  TError,
+  { data: ActionRequestDto },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof actionEnter>>,
+    { data: ActionRequestDto }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return actionEnter(data);
+  };
+
+  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
+
+  return customOptions;
+};
+
+export type ActionEnterMutationResult = NonNullable<
+  Awaited<ReturnType<typeof actionEnter>>
+>;
+export type ActionEnterMutationBody = ActionRequestDto;
+export type ActionEnterMutationError = GeolocationError;
+
+/**
+ * @summary Create "enter" action
+ */
+export const useActionEnter = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof actionEnter>>,
+    TError,
+    { data: ActionRequestDto },
+    TContext
+  >;
+}) => {
+  const mutationOptions = useActionEnterMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+
+/**
+ * Get the transactions necessary to exit a yield bearing position
+ * @summary Create "exit" action
+ */
+export const actionExit = (actionRequestDto: ActionRequestDto) => {
+  return api<ActionDto>({
+    url: `/v1/actions/exit`,
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    data: actionRequestDto,
+  });
+};
+
+export const useActionExitMutationOptions = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof actionExit>>,
+    TError,
+    { data: ActionRequestDto },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof actionExit>>,
+  TError,
+  { data: ActionRequestDto },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof actionExit>>,
+    { data: ActionRequestDto }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return actionExit(data);
+  };
+
+  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
+
+  return customOptions;
+};
+
+export type ActionExitMutationResult = NonNullable<
+  Awaited<ReturnType<typeof actionExit>>
+>;
+export type ActionExitMutationBody = ActionRequestDto;
+export type ActionExitMutationError = GeolocationError;
+
+/**
+ * @summary Create "exit" action
+ */
+export const useActionExit = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof actionExit>>,
+    TError,
+    { data: ActionRequestDto },
+    TContext
+  >;
+}) => {
+  const mutationOptions = useActionExitMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+
+/**
+ * Get the transactions to apply a pending action
+ * @summary Create "pending" action
+ */
+export const actionPending = (
+  pendingActionRequestDto: PendingActionRequestDto,
+) => {
+  return api<ActionDto>({
+    url: `/v1/actions/pending`,
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    data: pendingActionRequestDto,
+  });
+};
+
+export const useActionPendingMutationOptions = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof actionPending>>,
+    TError,
+    { data: PendingActionRequestDto },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof actionPending>>,
+  TError,
+  { data: PendingActionRequestDto },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof actionPending>>,
+    { data: PendingActionRequestDto }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return actionPending(data);
+  };
+
+  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
+
+  return customOptions;
+};
+
+export type ActionPendingMutationResult = NonNullable<
+  Awaited<ReturnType<typeof actionPending>>
+>;
+export type ActionPendingMutationBody = PendingActionRequestDto;
+export type ActionPendingMutationError = GeolocationError;
+
+/**
+ * @summary Create "pending" action
+ */
+export const useActionPending = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof actionPending>>,
+    TError,
+    { data: PendingActionRequestDto },
+    TContext
+  >;
+}) => {
+  const mutationOptions = useActionPendingMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
 
 /**
  * Returns a transaction
@@ -697,4 +1004,497 @@ export const useTokenGetTokenBalances = <
   query.queryKey = queryOptions.queryKey;
 
   return query;
+};
+
+/**
+ * Returns the available yields (staking, lending, vaults, etc) with associated configuration and metadata
+ * @summary Get all yields
+ */
+export const yieldYields = (
+  params?: YieldYieldsParams,
+  signal?: AbortSignal,
+) => {
+  return api<YieldYields200>({
+    url: `/v1/yields`,
+    method: 'get',
+    params,
+    signal,
+  });
+};
+
+export const getYieldYieldsQueryKey = (params?: YieldYieldsParams) =>
+  [`/v1/yields`, ...(params ? [params] : [])] as const;
+
+export const useYieldYieldsQueryOptions = <
+  TData = Awaited<ReturnType<typeof yieldYields>>,
+  TError = unknown,
+>(
+  params?: YieldYieldsParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof yieldYields>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryOptions<Awaited<ReturnType<typeof yieldYields>>, TError, TData> & {
+  queryKey: QueryKey;
+} => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getYieldYieldsQueryKey(params);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof yieldYields>>> = ({
+    signal,
+  }) => yieldYields(params, signal);
+
+  const customOptions = customQueryOptions({
+    ...queryOptions,
+    queryKey,
+    queryFn,
+  });
+
+  return customOptions;
+};
+
+export type YieldYieldsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof yieldYields>>
+>;
+export type YieldYieldsQueryError = unknown;
+
+/**
+ * @summary Get all yields
+ */
+export const useYieldYields = <
+  TData = Awaited<ReturnType<typeof yieldYields>>,
+  TError = unknown,
+>(
+  params?: YieldYieldsParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof yieldYields>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useYieldYieldsQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Given addresses and integration ids, returns respective balances and configuration.
+ * @summary Get staked balances for multiple yields
+ */
+export const yieldGetMultipleYieldBalances = (
+  yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
+) => {
+  return api<YieldBalancesWithIntegrationIdDto[]>({
+    url: `/v1/yields/balances`,
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    data: yieldBalanceWithIntegrationIdRequestDto,
+  });
+};
+
+export const useYieldGetMultipleYieldBalancesMutationOptions = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
+    TError,
+    { data: YieldBalanceWithIntegrationIdRequestDto[] },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
+  TError,
+  { data: YieldBalanceWithIntegrationIdRequestDto[] },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
+    { data: YieldBalanceWithIntegrationIdRequestDto[] }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return yieldGetMultipleYieldBalances(data);
+  };
+
+  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
+
+  return customOptions;
+};
+
+export type YieldGetMultipleYieldBalancesMutationResult = NonNullable<
+  Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>
+>;
+export type YieldGetMultipleYieldBalancesMutationBody =
+  YieldBalanceWithIntegrationIdRequestDto[];
+export type YieldGetMultipleYieldBalancesMutationError = GeolocationError;
+
+/**
+ * @summary Get staked balances for multiple yields
+ */
+export const useYieldGetMultipleYieldBalances = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
+    TError,
+    { data: YieldBalanceWithIntegrationIdRequestDto[] },
+    TContext
+  >;
+}) => {
+  const mutationOptions =
+    useYieldGetMultipleYieldBalancesMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+
+/**
+ * Returns the enabled yields (staking, lending, vaults, etc) with associated configuration and metadata
+ * @summary Get yields enabled in project associated with current API key
+ */
+export const yieldGetMyYields = (
+  params?: YieldGetMyYieldsParams,
+  signal?: AbortSignal,
+) => {
+  return api<YieldGetMyYields200>({
+    url: `/v1/yields/enabled`,
+    method: 'get',
+    params,
+    signal,
+  });
+};
+
+export const getYieldGetMyYieldsQueryKey = (params?: YieldGetMyYieldsParams) =>
+  [`/v1/yields/enabled`, ...(params ? [params] : [])] as const;
+
+export const useYieldGetMyYieldsQueryOptions = <
+  TData = Awaited<ReturnType<typeof yieldGetMyYields>>,
+  TError = unknown,
+>(
+  params?: YieldGetMyYieldsParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof yieldGetMyYields>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryOptions<
+  Awaited<ReturnType<typeof yieldGetMyYields>>,
+  TError,
+  TData
+> & { queryKey: QueryKey } => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getYieldGetMyYieldsQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof yieldGetMyYields>>
+  > = ({ signal }) => yieldGetMyYields(params, signal);
+
+  const customOptions = customQueryOptions({
+    ...queryOptions,
+    queryKey,
+    queryFn,
+  });
+
+  return customOptions;
+};
+
+export type YieldGetMyYieldsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof yieldGetMyYields>>
+>;
+export type YieldGetMyYieldsQueryError = unknown;
+
+/**
+ * @summary Get yields enabled in project associated with current API key
+ */
+export const useYieldGetMyYields = <
+  TData = Awaited<ReturnType<typeof yieldGetMyYields>>,
+  TError = unknown,
+>(
+  params?: YieldGetMyYieldsParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof yieldGetMyYields>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useYieldGetMyYieldsQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Returns a yield that is associated with given integration ID
+ * @summary Get a yield given an integration ID
+ */
+export const yieldYieldOpportunity = (
+  integrationId: string,
+  signal?: AbortSignal,
+) => {
+  return api<YieldDto>({
+    url: `/v1/yields/${integrationId}`,
+    method: 'get',
+    signal,
+  });
+};
+
+export const getYieldYieldOpportunityQueryKey = (integrationId: string) =>
+  [`/v1/yields/${integrationId}`] as const;
+
+export const useYieldYieldOpportunityQueryOptions = <
+  TData = Awaited<ReturnType<typeof yieldYieldOpportunity>>,
+  TError = unknown,
+>(
+  integrationId: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof yieldYieldOpportunity>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryOptions<
+  Awaited<ReturnType<typeof yieldYieldOpportunity>>,
+  TError,
+  TData
+> & { queryKey: QueryKey } => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getYieldYieldOpportunityQueryKey(integrationId);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof yieldYieldOpportunity>>
+  > = ({ signal }) => yieldYieldOpportunity(integrationId, signal);
+
+  const customOptions = customQueryOptions({
+    ...queryOptions,
+    queryKey,
+    queryFn,
+  });
+
+  return customOptions;
+};
+
+export type YieldYieldOpportunityQueryResult = NonNullable<
+  Awaited<ReturnType<typeof yieldYieldOpportunity>>
+>;
+export type YieldYieldOpportunityQueryError = unknown;
+
+/**
+ * @summary Get a yield given an integration ID
+ */
+export const useYieldYieldOpportunity = <
+  TData = Awaited<ReturnType<typeof yieldYieldOpportunity>>,
+  TError = unknown,
+>(
+  integrationId: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof yieldYieldOpportunity>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useYieldYieldOpportunityQueryOptions(
+    integrationId,
+    options,
+  );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Returns a list of available validators to specify when providing a `validatorAddress` property.
+ * @summary Get validators given an integration ID
+ */
+export const yieldGetValidators = (
+  integrationId: string,
+  signal?: AbortSignal,
+) => {
+  return api<ValidatorDto[]>({
+    url: `/v1/yields/${integrationId}/validators`,
+    method: 'get',
+    signal,
+  });
+};
+
+export const getYieldGetValidatorsQueryKey = (integrationId: string) =>
+  [`/v1/yields/${integrationId}/validators`] as const;
+
+export const useYieldGetValidatorsQueryOptions = <
+  TData = Awaited<ReturnType<typeof yieldGetValidators>>,
+  TError = GeolocationError,
+>(
+  integrationId: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof yieldGetValidators>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryOptions<
+  Awaited<ReturnType<typeof yieldGetValidators>>,
+  TError,
+  TData
+> & { queryKey: QueryKey } => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getYieldGetValidatorsQueryKey(integrationId);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof yieldGetValidators>>
+  > = ({ signal }) => yieldGetValidators(integrationId, signal);
+
+  const customOptions = customQueryOptions({
+    ...queryOptions,
+    queryKey,
+    queryFn,
+  });
+
+  return customOptions;
+};
+
+export type YieldGetValidatorsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof yieldGetValidators>>
+>;
+export type YieldGetValidatorsQueryError = GeolocationError;
+
+/**
+ * @summary Get validators given an integration ID
+ */
+export const useYieldGetValidators = <
+  TData = Awaited<ReturnType<typeof yieldGetValidators>>,
+  TError = GeolocationError,
+>(
+  integrationId: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof yieldGetValidators>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useYieldGetValidatorsQueryOptions(
+    integrationId,
+    options,
+  );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Given addresses, returns the available, deposited balance, pending actions and associated configuration for any yield
+ * @summary Get staked balances given an integration ID
+ */
+export const yieldGetSingleYieldBalances = (
+  integrationId: string,
+  yieldBalanceRequestDto: YieldBalanceRequestDto,
+) => {
+  return api<YieldBalanceDto[]>({
+    url: `/v1/yields/${integrationId}/balances`,
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    data: yieldBalanceRequestDto,
+  });
+};
+
+export const useYieldGetSingleYieldBalancesMutationOptions = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
+    TError,
+    { integrationId: string; data: YieldBalanceRequestDto },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
+  TError,
+  { integrationId: string; data: YieldBalanceRequestDto },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
+    { integrationId: string; data: YieldBalanceRequestDto }
+  > = (props) => {
+    const { integrationId, data } = props ?? {};
+
+    return yieldGetSingleYieldBalances(integrationId, data);
+  };
+
+  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
+
+  return customOptions;
+};
+
+export type YieldGetSingleYieldBalancesMutationResult = NonNullable<
+  Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>
+>;
+export type YieldGetSingleYieldBalancesMutationBody = YieldBalanceRequestDto;
+export type YieldGetSingleYieldBalancesMutationError = GeolocationError;
+
+/**
+ * @summary Get staked balances given an integration ID
+ */
+export const useYieldGetSingleYieldBalances = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
+    TError,
+    { integrationId: string; data: YieldBalanceRequestDto },
+    TContext
+  >;
+}) => {
+  const mutationOptions =
+    useYieldGetSingleYieldBalancesMutationOptions(options);
+
+  return useMutation(mutationOptions);
 };
