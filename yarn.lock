@@ -5843,7 +5843,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@stakekit/common@^0.0.13, @stakekit/common@workspace:packages/common":
+"@stakekit/common@^0.0.16, @stakekit/common@workspace:packages/common":
   version: 0.0.0-use.local
   resolution: "@stakekit/common@workspace:packages/common"
   dependencies:
@@ -5885,7 +5885,7 @@ __metadata:
     "@solana/buffer-layout": ^4.0.0
     "@solana/spl-token": ^0.3.4
     "@solana/web3.js": 1.52.0
-    "@stakekit/common": ^0.0.13
+    "@stakekit/common": ^0.0.16
     "@sushiswap/default-token-list": ^41.4.0
     "@taquito/ledger-signer": ^17.0.0
     "@taquito/signer": ^17.0.0
