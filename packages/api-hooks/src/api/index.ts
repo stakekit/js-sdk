@@ -1104,63 +1104,82 @@ export const yieldGetMultipleYieldBalances = (
   });
 };
 
-export const useYieldGetMultipleYieldBalancesMutationOptions = <
+export const getYieldGetMultipleYieldBalancesQueryKey = (
+  yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
+) => [`/v1/yields/balances`, yieldBalanceWithIntegrationIdRequestDto] as const;
+
+export const useYieldGetMultipleYieldBalancesQueryOptions = <
+  TData = Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
   TError = GeolocationError,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
-    TError,
-    { data: YieldBalanceWithIntegrationIdRequestDto[] },
-    TContext
-  >;
-}): UseMutationOptions<
+>(
+  yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryOptions<
   Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
   TError,
-  { data: YieldBalanceWithIntegrationIdRequestDto[] },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
+  TData
+> & { queryKey: QueryKey } => {
+  const { query: queryOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
-    { data: YieldBalanceWithIntegrationIdRequestDto[] }
-  > = (props) => {
-    const { data } = props ?? {};
+  const queryKey =
+    queryOptions?.queryKey ??
+    getYieldGetMultipleYieldBalancesQueryKey(
+      yieldBalanceWithIntegrationIdRequestDto,
+    );
 
-    return yieldGetMultipleYieldBalances(data);
-  };
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>
+  > = () =>
+    yieldGetMultipleYieldBalances(yieldBalanceWithIntegrationIdRequestDto);
 
-  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
+  const customOptions = customQueryOptions({
+    ...queryOptions,
+    queryKey,
+    queryFn,
+  });
 
   return customOptions;
 };
 
-export type YieldGetMultipleYieldBalancesMutationResult = NonNullable<
+export type YieldGetMultipleYieldBalancesQueryResult = NonNullable<
   Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>
 >;
-export type YieldGetMultipleYieldBalancesMutationBody =
-  YieldBalanceWithIntegrationIdRequestDto[];
-export type YieldGetMultipleYieldBalancesMutationError = GeolocationError;
+export type YieldGetMultipleYieldBalancesQueryError = GeolocationError;
 
 /**
  * @summary Get staked balances for multiple yields
  */
 export const useYieldGetMultipleYieldBalances = <
+  TData = Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
   TError = GeolocationError,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
-    TError,
-    { data: YieldBalanceWithIntegrationIdRequestDto[] },
-    TContext
-  >;
-}) => {
-  const mutationOptions =
-    useYieldGetMultipleYieldBalancesMutationOptions(options);
+>(
+  yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useYieldGetMultipleYieldBalancesQueryOptions(
+    yieldBalanceWithIntegrationIdRequestDto,
+    options,
+  );
 
-  return useMutation(mutationOptions);
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
 };
 
 /**

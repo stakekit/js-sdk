@@ -62,7 +62,7 @@ export default defineConfig({
               },
             },
           },
-          StakeController_getMultipleIntegrationBalances: {
+          YieldController_getMultipleYieldBalances: {
             query: {
               useQuery: true,
               queryOptions: {
