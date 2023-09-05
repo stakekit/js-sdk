@@ -51,6 +51,8 @@ export enum CosmosNetworks {
   Teritori = 'teritori',
   TGrade = 'tgrade',
   Umee = 'umee',
+  Coreum = 'coreum',
+  Desmos = 'desmos',
 }
 
 export enum MiscNetworks {
