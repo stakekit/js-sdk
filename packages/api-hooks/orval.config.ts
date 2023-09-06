@@ -19,6 +19,7 @@ export default defineConfig({
       prettier: true,
       clean: true,
       override: {
+        header: false,
         operationName: (operation) =>
           camelCase(operation.operationId?.replace(/controller/i, '') ?? ''),
         mutator: {
