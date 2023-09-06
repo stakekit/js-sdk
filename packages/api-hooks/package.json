@@ -1,7 +1,7 @@
 {
   "name": "@stakekit/api-hooks",
   "description": "React hooks for StakeKit API",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "types": "./dist/index.d.ts",
   "main": "./dist/esm/index.js",
   "exports": {
@@ -37,20 +37,20 @@
     "publish": "yarn npm publish"
   },
   "dependencies": {
-    "@tanstack/react-query": "^4.29.7",
-    "axios": "^1.4.0",
+    "@tanstack/react-query": "^4.33.0",
+    "axios": "^1.5.0",
     "lodash.merge": "^4.6.2"
   },
   "devDependencies": {
     "@types/lodash.merge": "^4",
-    "@types/react": "^18.2.14",
-    "eslint": "^8.40.0",
-    "eslint-config-prettier": "^8.8.0",
+    "@types/react": "^18.2.21",
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-config-react-app": "^7.0.1",
-    "orval": "^6.15.0",
-    "prettier": "^2.8.8",
+    "orval": "^6.17.0",
+    "prettier": "^3.0.3",
     "react": "^18.2.0",
-    "tsup": "^6.7.0",
-    "typescript": "^5.0.4"
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2"
   }
 }
