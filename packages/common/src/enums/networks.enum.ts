@@ -11,7 +11,6 @@ export enum EvmNetworks {
   Harmony = 'harmony',
   Optimism = 'optimism',
   Polygon = 'polygon',
-  Tron = 'tron',
 }
 
 export enum CosmosNetworks {
@@ -61,6 +60,7 @@ export enum MiscNetworks {
   Near = 'near',
   Solana = 'solana',
   Tezos = 'tezos',
+  Tron = 'tron',
 }
 
 export const Networks = { ...EvmNetworks, ...CosmosNetworks, ...MiscNetworks };
