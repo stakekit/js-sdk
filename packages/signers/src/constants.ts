@@ -10,6 +10,7 @@ export const keplrPath = (index: number, coinType: number = 118) =>
 export const phantomPath = (index: number) => `m/44'/501'/${index}'/0'`;
 export const metamaskPath = (index: number) => `m/44'/60'/0'/0/${index}`;
 export const templePath = (index: number) => `m/44'/1729'/${index}'/0'`;
+export const tronPath = (index: number) => `m/44'/195'/0'/0/${index}`;
 
 const nearPath = () => "m/44'/397'/0'";
 const binanceChainPath = () => "m/44'/714'/0'/0/0";
@@ -81,6 +82,7 @@ export enum WalletDomain {
   solana = 'solana',
   binanceChain = 'binanceChain',
   celo = 'celo',
+  tron = 'tron',
 }
 
 export type WalletDerivationPaths = {
@@ -95,6 +97,7 @@ const steakwalletDerivationPaths: WalletDerivationPaths = {
   tezos: () => undefined,
   binanceChain: binanceChainPath,
   celo: celoPath,
+  tron: tronPath,
 };
 
 const omniDerivationPaths: {

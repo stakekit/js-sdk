@@ -11,6 +11,7 @@ export enum EvmNetworks {
   Harmony = 'harmony',
   Optimism = 'optimism',
   Polygon = 'polygon',
+  Tron = 'tron',
 }
 
 export enum CosmosNetworks {

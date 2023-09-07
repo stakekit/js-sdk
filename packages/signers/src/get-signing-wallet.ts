@@ -45,6 +45,7 @@ import {
   getSolanaWallet,
 } from './solana';
 import { getTezosWallet } from './tezos';
+import { getTronWallet } from './tron';
 import { incrementDerivationPath } from './utils';
 
 const avalancheCSigningWallet = async (
@@ -175,6 +176,24 @@ const celoSigningWallet = async (
   return {
     signTransaction: (tx) => wallet.signTransaction(JSON.parse(tx)),
     getAddress: () => wallet.getAddress(),
+    getAdditionalAddresses: async () => ({}),
+  };
+};
+
+const tronSigningWallet = async (
+  options: WalletOptions,
+): Promise<SigningWallet> => {
+  const wallet = await getTronWallet(options);
+
+  return {
+    signTransaction: async (tx) => {
+      const signedTx = await wallet.trx.sign(JSON.parse(tx));
+      return JSON.stringify(signedTx);
+    },
+    getAddress: () => {
+      console.log('wallet', wallet.defaultAddress);
+      return wallet.defaultAddress.hex;
+    },
     getAdditionalAddresses: async () => ({}),
   };
 };
@@ -408,6 +427,7 @@ const getters: {
   [Networks.AvalancheC]: avalancheCSigningWallet,
   [Networks.AvalancheCAtomic]: avalancheCAtomicSigningWallet,
   [Networks.AvalancheP]: avalanchePSigningWallet,
+  [Networks.Tron]: tronSigningWallet,
 };
 
 export const getSigningWallet = async (
