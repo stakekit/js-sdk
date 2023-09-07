@@ -190,10 +190,7 @@ const tronSigningWallet = async (
       const signedTx = await wallet.trx.sign(JSON.parse(tx));
       return JSON.stringify(signedTx);
     },
-    getAddress: () => {
-      console.log('wallet', wallet.defaultAddress);
-      return wallet.defaultAddress.hex;
-    },
+    getAddress: () => wallet.defaultAddress.base58,
     getAdditionalAddresses: async () => ({}),
   };
 };

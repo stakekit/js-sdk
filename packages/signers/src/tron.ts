@@ -19,10 +19,17 @@ export const getTronWallet = async (options: WalletOptions) => {
     walletDerivationPaths[walletType].tron(index),
   ).privateKey;
 
-  const tronWallet = new TronWeb({
-    fullHost: TRON_HOST,
-    privateKey: privateKey.substring(2), // We need to remove 0x from the output above
-  });
+  const HttpProvider = TronWeb.providers.HttpProvider;
+  const fullNode = new HttpProvider(TRON_HOST);
+  const solidityNode = new HttpProvider(TRON_HOST);
+  const eventServer = new HttpProvider(TRON_HOST);
+
+  const tronWallet = new TronWeb(
+    fullNode,
+    solidityNode,
+    eventServer,
+    privateKey.substring(2),
+  );
 
   return tronWallet;
 };
