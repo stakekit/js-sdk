@@ -14,4 +14,5 @@ export interface TransactionDto {
   stepIndex: number;
   error: string | null;
   gasEstimate: TransactionDtoGasEstimate;
+  stakeId: string;
 }

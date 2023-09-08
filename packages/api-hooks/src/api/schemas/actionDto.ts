@@ -4,6 +4,7 @@ import type { TransactionDto } from './transactionDto';
 
 export interface ActionDto {
   id: string;
+  integrationId: string;
   status: ActionStatus;
   type: ActionTypes;
   currentStepIndex: number;
@@ -11,4 +12,5 @@ export interface ActionDto {
   tokenId: string | null;
   validatorAddress: string | null;
   transactions: TransactionDto[];
+  createdAt: string;
 }
