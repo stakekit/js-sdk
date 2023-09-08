@@ -52,6 +52,8 @@ export const RequiredArgumentWithNetworkDtoNetwork = {
   teritori: 'teritori',
   tgrade: 'tgrade',
   umee: 'umee',
+  coreum: 'coreum',
+  desmos: 'desmos',
   binancebeacon: 'binancebeacon',
   near: 'near',
   solana: 'solana',

@@ -6091,7 +6091,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@stakekit/common@^0.0.16, @stakekit/common@workspace:packages/common":
+"@stakekit/common@npm:^0.0.16":
+  version: 0.0.16
+  resolution: "@stakekit/common@npm:0.0.16"
+  checksum: 0fee5af0f90f99b9f1616eae3bfb157ebd90452cff7748fce4c66ab2e0654a33654cd729d925c47e1106fa4cc9a2f339290c6d67eb60a7d73d2276541d911964
+  languageName: node
+  linkType: hard
+
+"@stakekit/common@workspace:packages/common":
   version: 0.0.0-use.local
   resolution: "@stakekit/common@workspace:packages/common"
   dependencies:

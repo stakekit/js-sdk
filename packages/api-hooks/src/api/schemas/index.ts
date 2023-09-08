@@ -82,6 +82,7 @@ export * from './pendingActionRequestDto';
 export * from './priceRequestDto';
 export * from './priceResponseDto';
 export * from './project';
+export * from './reportEntryDto';
 export * from './requiredArgumentDto';
 export * from './requiredArgumentWithNetworkDto';
 export * from './requiredArgumentWithNetworkDtoNetwork';
