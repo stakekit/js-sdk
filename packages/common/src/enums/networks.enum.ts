@@ -60,6 +60,7 @@ export enum MiscNetworks {
   Near = 'near',
   Solana = 'solana',
   Tezos = 'tezos',
+  Tron = 'tron',
 }
 
 export const Networks = { ...EvmNetworks, ...CosmosNetworks, ...MiscNetworks };
