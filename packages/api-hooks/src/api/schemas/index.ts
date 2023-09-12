@@ -129,6 +129,7 @@ export * from './yieldBalanceRequestDto';
 export * from './yieldBalanceScanDto';
 export * from './yieldBalanceWithIntegrationIdRequestDto';
 export * from './yieldBalancesWithIntegrationIdDto';
+export * from './yieldBalancesWithMetadataDto';
 export * from './yieldDto';
 export * from './yieldFeeDto';
 export * from './yieldGetMyYields200';

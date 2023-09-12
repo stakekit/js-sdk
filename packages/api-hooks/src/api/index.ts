@@ -27,6 +27,7 @@ import type {
   YieldYieldsParams,
   YieldBalancesWithIntegrationIdDto,
   YieldBalanceWithIntegrationIdRequestDto,
+  YieldBalancesWithMetadataDto,
   YieldBalanceScanDto,
   YieldGetMyYields200,
   YieldGetMyYieldsParams,
@@ -1183,7 +1184,7 @@ export const useYieldGetMultipleYieldBalances = <
 export const yieldYieldBalancesScan = (
   yieldBalanceScanDto: YieldBalanceScanDto,
 ) => {
-  return api<YieldBalancesWithIntegrationIdDto[]>({
+  return api<YieldBalancesWithMetadataDto[]>({
     url: `/v1/yields/balances/scan`,
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
