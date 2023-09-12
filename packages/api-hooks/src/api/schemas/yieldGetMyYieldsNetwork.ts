@@ -1,8 +1,8 @@
-export type UpdatePayoutAddressDtoNetwork =
-  (typeof UpdatePayoutAddressDtoNetwork)[keyof typeof UpdatePayoutAddressDtoNetwork];
+export type YieldGetMyYieldsNetwork =
+  (typeof YieldGetMyYieldsNetwork)[keyof typeof YieldGetMyYieldsNetwork];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const UpdatePayoutAddressDtoNetwork = {
+export const YieldGetMyYieldsNetwork = {
   'avalanche-c': 'avalanche-c',
   'avalanche-c-atomic': 'avalanche-c-atomic',
   'avalanche-p': 'avalanche-p',

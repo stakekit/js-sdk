@@ -51,6 +51,8 @@ export const Networks = {
   teritori: 'teritori',
   tgrade: 'tgrade',
   umee: 'umee',
+  coreum: 'coreum',
+  desmos: 'desmos',
   binancebeacon: 'binancebeacon',
   near: 'near',
   solana: 'solana',

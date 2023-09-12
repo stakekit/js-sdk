@@ -1,8 +1,8 @@
-export type YieldYieldsSortBy =
-  (typeof YieldYieldsSortBy)[keyof typeof YieldYieldsSortBy];
+export type YieldGetMyYieldsSortBy =
+  (typeof YieldGetMyYieldsSortBy)[keyof typeof YieldGetMyYieldsSortBy];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const YieldYieldsSortBy = {
+export const YieldGetMyYieldsSortBy = {
   name: 'name',
   relevantYieldType: 'relevantYieldType',
   yieldType: 'yieldType',

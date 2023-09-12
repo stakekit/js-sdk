@@ -27,6 +27,8 @@ import type {
   YieldYieldsParams,
   YieldBalancesWithIntegrationIdDto,
   YieldBalanceWithIntegrationIdRequestDto,
+  YieldBalancesWithMetadataDto,
+  YieldBalanceScanDto,
   YieldGetMyYields200,
   YieldGetMyYieldsParams,
   YieldDto,
@@ -1084,7 +1086,7 @@ export const useYieldYields = <
 
 /**
  * Given addresses and integration ids, returns respective balances and configuration.
- * @summary Get staked balances for multiple yields
+ * @summary Get balances for multiple yields
  */
 export const yieldGetMultipleYieldBalances = (
   yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
@@ -1146,7 +1148,7 @@ export type YieldGetMultipleYieldBalancesQueryResult = NonNullable<
 export type YieldGetMultipleYieldBalancesQueryError = GeolocationError;
 
 /**
- * @summary Get staked balances for multiple yields
+ * @summary Get balances for multiple yields
  */
 export const useYieldGetMultipleYieldBalances = <
   TData = Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
@@ -1173,6 +1175,78 @@ export const useYieldGetMultipleYieldBalances = <
   query.queryKey = queryOptions.queryKey;
 
   return query;
+};
+
+/**
+ * Given addresses, return respective balances and configuration.
+ * @summary Search for balances among enabled yields
+ */
+export const yieldYieldBalancesScan = (
+  yieldBalanceScanDto: YieldBalanceScanDto,
+) => {
+  return api<YieldBalancesWithMetadataDto[]>({
+    url: `/v1/yields/balances/scan`,
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    data: yieldBalanceScanDto,
+  });
+};
+
+export const useYieldYieldBalancesScanMutationOptions = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
+    TError,
+    { data: YieldBalanceScanDto },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
+  TError,
+  { data: YieldBalanceScanDto },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
+    { data: YieldBalanceScanDto }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return yieldYieldBalancesScan(data);
+  };
+
+  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
+
+  return customOptions;
+};
+
+export type YieldYieldBalancesScanMutationResult = NonNullable<
+  Awaited<ReturnType<typeof yieldYieldBalancesScan>>
+>;
+export type YieldYieldBalancesScanMutationBody = YieldBalanceScanDto;
+export type YieldYieldBalancesScanMutationError = GeolocationError;
+
+/**
+ * @summary Search for balances among enabled yields
+ */
+export const useYieldYieldBalancesScan = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
+    TError,
+    { data: YieldBalanceScanDto },
+    TContext
+  >;
+}) => {
+  const mutationOptions = useYieldYieldBalancesScanMutationOptions(options);
+
+  return useMutation(mutationOptions);
 };
 
 /**
@@ -1439,7 +1513,7 @@ export const useYieldGetValidators = <
 
 /**
  * Given addresses, returns the available, deposited balance, pending actions and associated configuration for any yield
- * @summary Get staked balances given an integration ID
+ * @summary Get yield balances given an integration ID
  */
 export const yieldGetSingleYieldBalances = (
   integrationId: string,
@@ -1492,7 +1566,7 @@ export type YieldGetSingleYieldBalancesMutationBody = YieldBalanceRequestDto;
 export type YieldGetSingleYieldBalancesMutationError = GeolocationError;
 
 /**
- * @summary Get staked balances given an integration ID
+ * @summary Get yield balances given an integration ID
  */
 export const useYieldGetSingleYieldBalances = <
   TError = GeolocationError,
