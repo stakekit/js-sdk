@@ -5,4 +5,5 @@ export interface ActionArgumentsDto {
   validatorAddress?: string;
   duration?: number;
   nfts?: ApeNativeArgumentsDto;
+  ledgerWalletAPICompatible?: boolean;
 }

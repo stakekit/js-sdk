@@ -4,7 +4,7 @@ export interface Key {
   updatedAt: string;
   apiKey: string;
   deletedAt: string | null;
-  info: string;
+  info: string | null;
   category: string;
   name: string;
   lastUsedAt: string | null;

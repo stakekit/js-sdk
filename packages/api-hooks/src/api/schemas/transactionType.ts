@@ -25,4 +25,5 @@ export const TransactionType = {
   REVEAL: 'REVEAL',
   UTXO_P_TO_C_IMPORT: 'UTXO_P_TO_C_IMPORT',
   UTXO_C_TO_P_IMPORT: 'UTXO_C_TO_P_IMPORT',
+  UNLOCK_LEGACY: 'UNLOCK_LEGACY',
 } as const;
