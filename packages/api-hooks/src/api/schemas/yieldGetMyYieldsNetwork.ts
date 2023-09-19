@@ -58,4 +58,5 @@ export const YieldGetMyYieldsNetwork = {
   near: 'near',
   solana: 'solana',
   tezos: 'tezos',
+  tron: 'tron',
 } as const;

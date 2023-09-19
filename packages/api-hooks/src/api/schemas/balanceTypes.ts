@@ -9,4 +9,5 @@ export const BalanceTypes = {
   preparing: 'preparing',
   rewards: 'rewards',
   locked: 'locked',
+  unlocking: 'unlocking',
 } as const;
