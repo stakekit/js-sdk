@@ -1,7 +1,7 @@
 import type { AddressesDto } from './addressesDto';
 import type { Networks } from './networks';
 
-export interface YieldBalanceScanDto {
+export interface TokenBalanceScanDto {
   addresses: AddressesDto;
   network: Networks;
 }
