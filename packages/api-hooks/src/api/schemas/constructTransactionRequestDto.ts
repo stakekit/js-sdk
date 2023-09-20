@@ -3,4 +3,5 @@ import type { ConstructTransactionRequestDtoGasArgs } from './constructTransacti
 export interface ConstructTransactionRequestDto {
   /** Custom gas properties to request transaction construction with. Can include properties like `gasPrice`, `maxGasPerFee`, etc for EVM chains. */
   gasArgs?: ConstructTransactionRequestDtoGasArgs;
+  ledgerWalletAPICompatible?: boolean;
 }

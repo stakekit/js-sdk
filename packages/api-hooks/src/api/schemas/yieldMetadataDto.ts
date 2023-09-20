@@ -15,6 +15,7 @@ export interface YieldMetadataDto {
   provider?: YieldProviderDto;
   gasFeeToken: TokenDto;
   rewardTokens?: TokenDto[];
+  token: TokenDto;
   type: YieldType;
   rewardSchedule: RewardSchedule;
   cooldownPeriod: TimePeriodDto;

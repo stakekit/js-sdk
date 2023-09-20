@@ -23,14 +23,17 @@ import type {
   PriceRequestDto,
   BalanceResponseDto,
   BalancesRequestDto,
+  TokenBalanceScanResponseDto,
+  TokenBalanceScanDto,
   YieldYields200,
   YieldYieldsParams,
   YieldBalancesWithIntegrationIdDto,
   YieldBalanceWithIntegrationIdRequestDto,
-  YieldBalancesWithMetadataDto,
-  YieldBalanceScanDto,
+  YieldBalanceScanRequestDto,
   YieldGetMyYields200,
   YieldGetMyYieldsParams,
+  ValidatorSearchResultDto,
+  YieldFindValidatorsParams,
   YieldDto,
   ValidatorDto,
   YieldBalanceDto,
@@ -1002,6 +1005,78 @@ export const useTokenGetTokenBalances = <
 };
 
 /**
+ * Returns the balances for specific addresses and token addresses
+ * @summary Get token balances
+ */
+export const tokenTokenBalancesScan = (
+  tokenBalanceScanDto: TokenBalanceScanDto,
+) => {
+  return api<TokenBalanceScanResponseDto[]>({
+    url: `/v1/tokens/balances/scan`,
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    data: tokenBalanceScanDto,
+  });
+};
+
+export const useTokenTokenBalancesScanMutationOptions = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
+    TError,
+    { data: TokenBalanceScanDto },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
+  TError,
+  { data: TokenBalanceScanDto },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
+    { data: TokenBalanceScanDto }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return tokenTokenBalancesScan(data);
+  };
+
+  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
+
+  return customOptions;
+};
+
+export type TokenTokenBalancesScanMutationResult = NonNullable<
+  Awaited<ReturnType<typeof tokenTokenBalancesScan>>
+>;
+export type TokenTokenBalancesScanMutationBody = TokenBalanceScanDto;
+export type TokenTokenBalancesScanMutationError = unknown;
+
+/**
+ * @summary Get token balances
+ */
+export const useTokenTokenBalancesScan = <
+  TError = unknown,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
+    TError,
+    { data: TokenBalanceScanDto },
+    TContext
+  >;
+}) => {
+  const mutationOptions = useTokenTokenBalancesScanMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+
+/**
  * Returns the available yields (staking, lending, vaults, etc) with associated configuration and metadata
  * @summary Get all yields
  */
@@ -1182,13 +1257,13 @@ export const useYieldGetMultipleYieldBalances = <
  * @summary Search for balances among enabled yields
  */
 export const yieldYieldBalancesScan = (
-  yieldBalanceScanDto: YieldBalanceScanDto,
+  yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
 ) => {
-  return api<YieldBalancesWithMetadataDto[]>({
+  return api<YieldBalancesWithIntegrationIdDto[]>({
     url: `/v1/yields/balances/scan`,
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
-    data: yieldBalanceScanDto,
+    data: yieldBalanceScanRequestDto,
   });
 };
 
@@ -1199,20 +1274,20 @@ export const useYieldYieldBalancesScanMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
     TError,
-    { data: YieldBalanceScanDto },
+    { data: YieldBalanceScanRequestDto },
     TContext
   >;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
   TError,
-  { data: YieldBalanceScanDto },
+  { data: YieldBalanceScanRequestDto },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
-    { data: YieldBalanceScanDto }
+    { data: YieldBalanceScanRequestDto }
   > = (props) => {
     const { data } = props ?? {};
 
@@ -1227,7 +1302,7 @@ export const useYieldYieldBalancesScanMutationOptions = <
 export type YieldYieldBalancesScanMutationResult = NonNullable<
   Awaited<ReturnType<typeof yieldYieldBalancesScan>>
 >;
-export type YieldYieldBalancesScanMutationBody = YieldBalanceScanDto;
+export type YieldYieldBalancesScanMutationBody = YieldBalanceScanRequestDto;
 export type YieldYieldBalancesScanMutationError = GeolocationError;
 
 /**
@@ -1240,7 +1315,7 @@ export const useYieldYieldBalancesScan = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
     TError,
-    { data: YieldBalanceScanDto },
+    { data: YieldBalanceScanRequestDto },
     TContext
   >;
 }) => {
@@ -1325,6 +1400,168 @@ export const useYieldGetMyYields = <
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = useYieldGetMyYieldsQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Returns the networks that has enabled yields
+ * @summary Get enabled networks
+ */
+export const yieldGetMyNetworks = (signal?: AbortSignal) => {
+  return api<string[]>({
+    url: `/v1/yields/enabled/networks`,
+    method: 'get',
+    signal,
+  });
+};
+
+export const getYieldGetMyNetworksQueryKey = () =>
+  [`/v1/yields/enabled/networks`] as const;
+
+export const useYieldGetMyNetworksQueryOptions = <
+  TData = Awaited<ReturnType<typeof yieldGetMyNetworks>>,
+  TError = string[],
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof yieldGetMyNetworks>>,
+    TError,
+    TData
+  >;
+}): UseQueryOptions<
+  Awaited<ReturnType<typeof yieldGetMyNetworks>>,
+  TError,
+  TData
+> & { queryKey: QueryKey } => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getYieldGetMyNetworksQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof yieldGetMyNetworks>>
+  > = ({ signal }) => yieldGetMyNetworks(signal);
+
+  const customOptions = customQueryOptions({
+    ...queryOptions,
+    queryKey,
+    queryFn,
+  });
+
+  return customOptions;
+};
+
+export type YieldGetMyNetworksQueryResult = NonNullable<
+  Awaited<ReturnType<typeof yieldGetMyNetworks>>
+>;
+export type YieldGetMyNetworksQueryError = string[];
+
+/**
+ * @summary Get enabled networks
+ */
+export const useYieldGetMyNetworks = <
+  TData = Awaited<ReturnType<typeof yieldGetMyNetworks>>,
+  TError = string[],
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof yieldGetMyNetworks>>,
+    TError,
+    TData
+  >;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useYieldGetMyNetworksQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Returns a list of available validators to specify when providing a `validatorAddress` property.
+ * @summary Get find validators based on query parameter
+ */
+export const yieldFindValidators = (
+  params?: YieldFindValidatorsParams,
+  signal?: AbortSignal,
+) => {
+  return api<ValidatorSearchResultDto[]>({
+    url: `/v1/yields/validators`,
+    method: 'get',
+    params,
+    signal,
+  });
+};
+
+export const getYieldFindValidatorsQueryKey = (
+  params?: YieldFindValidatorsParams,
+) => [`/v1/yields/validators`, ...(params ? [params] : [])] as const;
+
+export const useYieldFindValidatorsQueryOptions = <
+  TData = Awaited<ReturnType<typeof yieldFindValidators>>,
+  TError = GeolocationError,
+>(
+  params?: YieldFindValidatorsParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof yieldFindValidators>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryOptions<
+  Awaited<ReturnType<typeof yieldFindValidators>>,
+  TError,
+  TData
+> & { queryKey: QueryKey } => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getYieldFindValidatorsQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof yieldFindValidators>>
+  > = ({ signal }) => yieldFindValidators(params, signal);
+
+  const customOptions = customQueryOptions({
+    ...queryOptions,
+    queryKey,
+    queryFn,
+  });
+
+  return customOptions;
+};
+
+export type YieldFindValidatorsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof yieldFindValidators>>
+>;
+export type YieldFindValidatorsQueryError = GeolocationError;
+
+/**
+ * @summary Get find validators based on query parameter
+ */
+export const useYieldFindValidators = <
+  TData = Awaited<ReturnType<typeof yieldFindValidators>>,
+  TError = GeolocationError,
+>(
+  params?: YieldFindValidatorsParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof yieldFindValidators>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useYieldFindValidatorsQueryOptions(params, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;
