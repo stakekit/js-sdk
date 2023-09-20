@@ -9,6 +9,20 @@ const indexPath = path.join(apiPath, 'index.ts');
 const apiClientPath = path.join(__dirname, 'src', 'api-client.ts');
 const customQueryOptions = path.join(__dirname, 'src', 'query-options.ts');
 
+const getAsQueryOptions = () => ({
+  query: {
+    useQuery: true,
+    queryOptions: {
+      path: customQueryOptions,
+      name: 'customQueryOptions',
+    },
+    mutationOptions: {
+      path: customQueryOptions,
+      name: 'customQueryOptions',
+    },
+  },
+});
+
 export default defineConfig({
   api: {
     output: {
@@ -37,45 +51,11 @@ export default defineConfig({
           },
         },
         operations: {
-          TokenController_getTokenBalances: {
-            query: {
-              useQuery: true,
-              queryOptions: {
-                path: customQueryOptions,
-                name: 'customQueryOptions',
-              },
-              mutationOptions: {
-                path: customQueryOptions,
-                name: 'customQueryOptions',
-              },
-            },
-          },
-          TokenController_getTokenPrices: {
-            query: {
-              useQuery: true,
-              queryOptions: {
-                path: customQueryOptions,
-                name: 'customQueryOptions',
-              },
-              mutationOptions: {
-                path: customQueryOptions,
-                name: 'customQueryOptions',
-              },
-            },
-          },
-          YieldController_getMultipleYieldBalances: {
-            query: {
-              useQuery: true,
-              queryOptions: {
-                path: customQueryOptions,
-                name: 'customQueryOptions',
-              },
-              mutationOptions: {
-                path: customQueryOptions,
-                name: 'customQueryOptions',
-              },
-            },
-          },
+          TokenController_getTokenBalances: getAsQueryOptions(),
+          TokenController_tokenBalancesScan: getAsQueryOptions(),
+          YieldController_yieldBalancesScan: getAsQueryOptions(),
+          TokenController_getTokenPrices: getAsQueryOptions(),
+          YieldController_getMultipleYieldBalances: getAsQueryOptions(),
         },
       },
     },
