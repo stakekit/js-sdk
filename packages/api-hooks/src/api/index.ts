@@ -1019,61 +1019,79 @@ export const tokenTokenBalancesScan = (
   });
 };
 
-export const useTokenTokenBalancesScanMutationOptions = <
+export const getTokenTokenBalancesScanQueryKey = (
+  tokenBalanceScanDto: TokenBalanceScanDto,
+) => [`/v1/tokens/balances/scan`, tokenBalanceScanDto] as const;
+
+export const useTokenTokenBalancesScanQueryOptions = <
+  TData = Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
   TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
-    TError,
-    { data: TokenBalanceScanDto },
-    TContext
-  >;
-}): UseMutationOptions<
+>(
+  tokenBalanceScanDto: TokenBalanceScanDto,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryOptions<
   Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
   TError,
-  { data: TokenBalanceScanDto },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
+  TData
+> & { queryKey: QueryKey } => {
+  const { query: queryOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
-    { data: TokenBalanceScanDto }
-  > = (props) => {
-    const { data } = props ?? {};
+  const queryKey =
+    queryOptions?.queryKey ??
+    getTokenTokenBalancesScanQueryKey(tokenBalanceScanDto);
 
-    return tokenTokenBalancesScan(data);
-  };
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof tokenTokenBalancesScan>>
+  > = () => tokenTokenBalancesScan(tokenBalanceScanDto);
 
-  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
+  const customOptions = customQueryOptions({
+    ...queryOptions,
+    queryKey,
+    queryFn,
+  });
 
   return customOptions;
 };
 
-export type TokenTokenBalancesScanMutationResult = NonNullable<
+export type TokenTokenBalancesScanQueryResult = NonNullable<
   Awaited<ReturnType<typeof tokenTokenBalancesScan>>
 >;
-export type TokenTokenBalancesScanMutationBody = TokenBalanceScanDto;
-export type TokenTokenBalancesScanMutationError = unknown;
+export type TokenTokenBalancesScanQueryError = unknown;
 
 /**
  * @summary Get token balances
  */
 export const useTokenTokenBalancesScan = <
+  TData = Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
   TError = unknown,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
-    TError,
-    { data: TokenBalanceScanDto },
-    TContext
-  >;
-}) => {
-  const mutationOptions = useTokenTokenBalancesScanMutationOptions(options);
+>(
+  tokenBalanceScanDto: TokenBalanceScanDto,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useTokenTokenBalancesScanQueryOptions(
+    tokenBalanceScanDto,
+    options,
+  );
 
-  return useMutation(mutationOptions);
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
 };
 
 /**
@@ -1267,61 +1285,79 @@ export const yieldYieldBalancesScan = (
   });
 };
 
-export const useYieldYieldBalancesScanMutationOptions = <
+export const getYieldYieldBalancesScanQueryKey = (
+  yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
+) => [`/v1/yields/balances/scan`, yieldBalanceScanRequestDto] as const;
+
+export const useYieldYieldBalancesScanQueryOptions = <
+  TData = Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
   TError = GeolocationError,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
-    TError,
-    { data: YieldBalanceScanRequestDto },
-    TContext
-  >;
-}): UseMutationOptions<
+>(
+  yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryOptions<
   Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
   TError,
-  { data: YieldBalanceScanRequestDto },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
+  TData
+> & { queryKey: QueryKey } => {
+  const { query: queryOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
-    { data: YieldBalanceScanRequestDto }
-  > = (props) => {
-    const { data } = props ?? {};
+  const queryKey =
+    queryOptions?.queryKey ??
+    getYieldYieldBalancesScanQueryKey(yieldBalanceScanRequestDto);
 
-    return yieldYieldBalancesScan(data);
-  };
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof yieldYieldBalancesScan>>
+  > = () => yieldYieldBalancesScan(yieldBalanceScanRequestDto);
 
-  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
+  const customOptions = customQueryOptions({
+    ...queryOptions,
+    queryKey,
+    queryFn,
+  });
 
   return customOptions;
 };
 
-export type YieldYieldBalancesScanMutationResult = NonNullable<
+export type YieldYieldBalancesScanQueryResult = NonNullable<
   Awaited<ReturnType<typeof yieldYieldBalancesScan>>
 >;
-export type YieldYieldBalancesScanMutationBody = YieldBalanceScanRequestDto;
-export type YieldYieldBalancesScanMutationError = GeolocationError;
+export type YieldYieldBalancesScanQueryError = GeolocationError;
 
 /**
  * @summary Search for balances among enabled yields
  */
 export const useYieldYieldBalancesScan = <
+  TData = Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
   TError = GeolocationError,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
-    TError,
-    { data: YieldBalanceScanRequestDto },
-    TContext
-  >;
-}) => {
-  const mutationOptions = useYieldYieldBalancesScanMutationOptions(options);
+>(
+  yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useYieldYieldBalancesScanQueryOptions(
+    yieldBalanceScanRequestDto,
+    options,
+  );
 
-  return useMutation(mutationOptions);
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
 };
 
 /**
