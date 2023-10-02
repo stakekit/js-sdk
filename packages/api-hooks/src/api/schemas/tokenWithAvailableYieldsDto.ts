@@ -1,7 +1,6 @@
 import type { TokenDto } from './tokenDto';
 
-export interface TokenBalanceScanResponseDto {
+export interface TokenWithAvailableYieldsDto {
   token: TokenDto;
   availableYields: string[];
-  amount: string;
 }

@@ -19,6 +19,8 @@ import type {
   SubmitHashRequestDto,
   TransactionStatusResponseDto,
   GasForNetworkResponseDto,
+  TokenWithAvailableYieldsDto,
+  TokenGetTokensParams,
   PriceResponseDto,
   PriceRequestDto,
   BalanceResponseDto,
@@ -828,6 +830,91 @@ export const useTransactionGetGasForNetwork = <
 };
 
 /**
+ * Returns the tokens with available yields
+ * @summary Get all tokens
+ */
+export const tokenGetTokens = (
+  params?: TokenGetTokensParams,
+  signal?: AbortSignal,
+) => {
+  return api<TokenWithAvailableYieldsDto[]>({
+    url: `/v1/tokens`,
+    method: 'get',
+    params,
+    signal,
+  });
+};
+
+export const getTokenGetTokensQueryKey = (params?: TokenGetTokensParams) =>
+  [`/v1/tokens`, ...(params ? [params] : [])] as const;
+
+export const useTokenGetTokensQueryOptions = <
+  TData = Awaited<ReturnType<typeof tokenGetTokens>>,
+  TError = unknown,
+>(
+  params?: TokenGetTokensParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof tokenGetTokens>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryOptions<
+  Awaited<ReturnType<typeof tokenGetTokens>>,
+  TError,
+  TData
+> & { queryKey: QueryKey } => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getTokenGetTokensQueryKey(params);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof tokenGetTokens>>> = ({
+    signal,
+  }) => tokenGetTokens(params, signal);
+
+  const customOptions = customQueryOptions({
+    ...queryOptions,
+    queryKey,
+    queryFn,
+  });
+
+  return customOptions;
+};
+
+export type TokenGetTokensQueryResult = NonNullable<
+  Awaited<ReturnType<typeof tokenGetTokens>>
+>;
+export type TokenGetTokensQueryError = unknown;
+
+/**
+ * @summary Get all tokens
+ */
+export const useTokenGetTokens = <
+  TData = Awaited<ReturnType<typeof tokenGetTokens>>,
+  TError = unknown,
+>(
+  params?: TokenGetTokensParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof tokenGetTokens>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useTokenGetTokensQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
  * Returns the token prices for a specific list of tokens
  * @summary Get token prices
  */
@@ -1005,8 +1092,8 @@ export const useTokenGetTokenBalances = <
 };
 
 /**
- * Returns the balances for specific addresses and token addresses
- * @summary Get token balances
+ * Scans for tokens with balance with available yields
+ * @summary Scan for token balances
  */
 export const tokenTokenBalancesScan = (
   tokenBalanceScanDto: TokenBalanceScanDto,
@@ -1065,7 +1152,7 @@ export type TokenTokenBalancesScanQueryResult = NonNullable<
 export type TokenTokenBalancesScanQueryError = unknown;
 
 /**
- * @summary Get token balances
+ * @summary Scan for token balances
  */
 export const useTokenTokenBalancesScan = <
   TData = Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
@@ -1179,7 +1266,7 @@ export const useYieldYields = <
 
 /**
  * Given addresses and integration ids, returns respective balances and configuration.
- * @summary Get balances for multiple yields
+ * @summary Get multiple yield balances
  */
 export const yieldGetMultipleYieldBalances = (
   yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
@@ -1241,7 +1328,7 @@ export type YieldGetMultipleYieldBalancesQueryResult = NonNullable<
 export type YieldGetMultipleYieldBalancesQueryError = GeolocationError;
 
 /**
- * @summary Get balances for multiple yields
+ * @summary Get multiple yield balances
  */
 export const useYieldGetMultipleYieldBalances = <
   TData = Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
@@ -1271,8 +1358,8 @@ export const useYieldGetMultipleYieldBalances = <
 };
 
 /**
- * Given addresses, return respective balances and configuration.
- * @summary Search for balances among enabled yields
+ * Scans for yield balances among enabled yields.
+ * @summary Scan for yield balances
  */
 export const yieldYieldBalancesScan = (
   yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
@@ -1331,7 +1418,7 @@ export type YieldYieldBalancesScanQueryResult = NonNullable<
 export type YieldYieldBalancesScanQueryError = GeolocationError;
 
 /**
- * @summary Search for balances among enabled yields
+ * @summary Scan for yield balances
  */
 export const useYieldYieldBalancesScan = <
   TData = Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
@@ -1361,8 +1448,8 @@ export const useYieldYieldBalancesScan = <
 };
 
 /**
- * Returns the enabled yields (staking, lending, vaults, etc) with associated configuration and metadata
- * @summary Get yields enabled in project associated with current API key
+ * Returns the enabled yields (staking, lending, vaults, etc) associated with current API key with configuration and metadata
+ * @summary Get enabled yields
  */
 export const yieldGetMyYields = (
   params?: YieldGetMyYieldsParams,
@@ -1420,7 +1507,7 @@ export type YieldGetMyYieldsQueryResult = NonNullable<
 export type YieldGetMyYieldsQueryError = unknown;
 
 /**
- * @summary Get yields enabled in project associated with current API key
+ * @summary Get enabled yields
  */
 export const useYieldGetMyYields = <
   TData = Awaited<ReturnType<typeof yieldGetMyYields>>,
@@ -1523,7 +1610,7 @@ export const useYieldGetMyNetworks = <
 
 /**
  * Returns a list of available validators to specify when providing a `validatorAddress` property.
- * @summary Get find validators based on query parameter
+ * @summary Get validators
  */
 export const yieldFindValidators = (
   params?: YieldFindValidatorsParams,
@@ -1582,7 +1669,7 @@ export type YieldFindValidatorsQueryResult = NonNullable<
 export type YieldFindValidatorsQueryError = GeolocationError;
 
 /**
- * @summary Get find validators based on query parameter
+ * @summary Get validators
  */
 export const useYieldFindValidators = <
   TData = Awaited<ReturnType<typeof yieldFindValidators>>,
