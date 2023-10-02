@@ -104,6 +104,8 @@ export * from './timePeriodDto';
 export * from './tokenBalanceScanDto';
 export * from './tokenBalanceScanResponseDto';
 export * from './tokenDto';
+export * from './tokenGetTokensParams';
+export * from './tokenWithAvailableYieldsDto';
 export * from './transactionDto';
 export * from './transactionDtoGasEstimate';
 export * from './transactionStatus';
