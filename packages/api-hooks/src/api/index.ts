@@ -37,9 +37,12 @@ import type {
   ValidatorSearchResultDto,
   YieldFindValidatorsParams,
   YieldDto,
+  YieldYieldOpportunityParams,
   ValidatorDto,
+  YieldGetValidatorsParams,
   YieldBalanceDto,
   YieldBalanceRequestDto,
+  YieldGetSingleYieldBalancesParams,
 } from './schemas';
 import { api } from '../api-client';
 import { customQueryOptions } from '../query-options';
@@ -1701,23 +1704,28 @@ export const useYieldFindValidators = <
  */
 export const yieldYieldOpportunity = (
   integrationId: string,
+  params?: YieldYieldOpportunityParams,
   signal?: AbortSignal,
 ) => {
   return api<YieldDto>({
     url: `/v1/yields/${integrationId}`,
     method: 'get',
+    params,
     signal,
   });
 };
 
-export const getYieldYieldOpportunityQueryKey = (integrationId: string) =>
-  [`/v1/yields/${integrationId}`] as const;
+export const getYieldYieldOpportunityQueryKey = (
+  integrationId: string,
+  params?: YieldYieldOpportunityParams,
+) => [`/v1/yields/${integrationId}`, ...(params ? [params] : [])] as const;
 
 export const useYieldYieldOpportunityQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldYieldOpportunity>>,
   TError = unknown,
 >(
   integrationId: string,
+  params?: YieldYieldOpportunityParams,
   options?: {
     query?: UseQueryOptions<
       Awaited<ReturnType<typeof yieldYieldOpportunity>>,
@@ -1733,11 +1741,12 @@ export const useYieldYieldOpportunityQueryOptions = <
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
-    queryOptions?.queryKey ?? getYieldYieldOpportunityQueryKey(integrationId);
+    queryOptions?.queryKey ??
+    getYieldYieldOpportunityQueryKey(integrationId, params);
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof yieldYieldOpportunity>>
-  > = ({ signal }) => yieldYieldOpportunity(integrationId, signal);
+  > = ({ signal }) => yieldYieldOpportunity(integrationId, params, signal);
 
   const customOptions = customQueryOptions({
     ...queryOptions,
@@ -1761,6 +1770,7 @@ export const useYieldYieldOpportunity = <
   TError = unknown,
 >(
   integrationId: string,
+  params?: YieldYieldOpportunityParams,
   options?: {
     query?: UseQueryOptions<
       Awaited<ReturnType<typeof yieldYieldOpportunity>>,
@@ -1771,6 +1781,7 @@ export const useYieldYieldOpportunity = <
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = useYieldYieldOpportunityQueryOptions(
     integrationId,
+    params,
     options,
   );
 
@@ -1789,23 +1800,32 @@ export const useYieldYieldOpportunity = <
  */
 export const yieldGetValidators = (
   integrationId: string,
+  params?: YieldGetValidatorsParams,
   signal?: AbortSignal,
 ) => {
   return api<ValidatorDto[]>({
     url: `/v1/yields/${integrationId}/validators`,
     method: 'get',
+    params,
     signal,
   });
 };
 
-export const getYieldGetValidatorsQueryKey = (integrationId: string) =>
-  [`/v1/yields/${integrationId}/validators`] as const;
+export const getYieldGetValidatorsQueryKey = (
+  integrationId: string,
+  params?: YieldGetValidatorsParams,
+) =>
+  [
+    `/v1/yields/${integrationId}/validators`,
+    ...(params ? [params] : []),
+  ] as const;
 
 export const useYieldGetValidatorsQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldGetValidators>>,
   TError = GeolocationError,
 >(
   integrationId: string,
+  params?: YieldGetValidatorsParams,
   options?: {
     query?: UseQueryOptions<
       Awaited<ReturnType<typeof yieldGetValidators>>,
@@ -1821,11 +1841,12 @@ export const useYieldGetValidatorsQueryOptions = <
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
-    queryOptions?.queryKey ?? getYieldGetValidatorsQueryKey(integrationId);
+    queryOptions?.queryKey ??
+    getYieldGetValidatorsQueryKey(integrationId, params);
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof yieldGetValidators>>
-  > = ({ signal }) => yieldGetValidators(integrationId, signal);
+  > = ({ signal }) => yieldGetValidators(integrationId, params, signal);
 
   const customOptions = customQueryOptions({
     ...queryOptions,
@@ -1849,6 +1870,7 @@ export const useYieldGetValidators = <
   TError = GeolocationError,
 >(
   integrationId: string,
+  params?: YieldGetValidatorsParams,
   options?: {
     query?: UseQueryOptions<
       Awaited<ReturnType<typeof yieldGetValidators>>,
@@ -1859,6 +1881,7 @@ export const useYieldGetValidators = <
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = useYieldGetValidatorsQueryOptions(
     integrationId,
+    params,
     options,
   );
 
@@ -1878,12 +1901,14 @@ export const useYieldGetValidators = <
 export const yieldGetSingleYieldBalances = (
   integrationId: string,
   yieldBalanceRequestDto: YieldBalanceRequestDto,
+  params?: YieldGetSingleYieldBalancesParams,
 ) => {
   return api<YieldBalanceDto[]>({
     url: `/v1/yields/${integrationId}/balances`,
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
     data: yieldBalanceRequestDto,
+    params,
   });
 };
 
@@ -1894,24 +1919,36 @@ export const useYieldGetSingleYieldBalancesMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
     TError,
-    { integrationId: string; data: YieldBalanceRequestDto },
+    {
+      integrationId: string;
+      data: YieldBalanceRequestDto;
+      params?: YieldGetSingleYieldBalancesParams;
+    },
     TContext
   >;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
   TError,
-  { integrationId: string; data: YieldBalanceRequestDto },
+  {
+    integrationId: string;
+    data: YieldBalanceRequestDto;
+    params?: YieldGetSingleYieldBalancesParams;
+  },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
-    { integrationId: string; data: YieldBalanceRequestDto }
+    {
+      integrationId: string;
+      data: YieldBalanceRequestDto;
+      params?: YieldGetSingleYieldBalancesParams;
+    }
   > = (props) => {
-    const { integrationId, data } = props ?? {};
+    const { integrationId, data, params } = props ?? {};
 
-    return yieldGetSingleYieldBalances(integrationId, data);
+    return yieldGetSingleYieldBalances(integrationId, data, params);
   };
 
   const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
@@ -1935,7 +1972,11 @@ export const useYieldGetSingleYieldBalances = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
     TError,
-    { integrationId: string; data: YieldBalanceRequestDto },
+    {
+      integrationId: string;
+      data: YieldBalanceRequestDto;
+      params?: YieldGetSingleYieldBalancesParams;
+    },
     TContext
   >;
 }) => {
