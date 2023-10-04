@@ -25,6 +25,7 @@ export interface YieldMetadataDto {
   defaultValidator?: string;
   minimumStake?: number;
   supportsMultipleValidators?: boolean;
+  supportsLedgerWalletApi?: boolean;
   revshare: YieldRevshareDto;
   fee: YieldFeeDto;
 }
