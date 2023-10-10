@@ -1,15 +1,15 @@
-import { Avalanche, Buffer } from 'avalanche/dist';
+import { Avalanche, Buffer } from '@avalabs/avalanchejs';
 import {
   EVMAPI,
   Tx as EvmTx,
   UnsignedTx as UnsignedEvmTx,
-} from 'avalanche/dist/apis/evm';
+} from '@avalabs/avalanchejs/dist/apis/evm';
 import {
   Tx as PlatformTx,
   PlatformVMAPI,
   UnsignedTx as UnsignedPlatformTx,
-} from 'avalanche/dist/apis/platformvm';
-import { Serialization } from 'avalanche/dist/utils';
+} from '@avalabs/avalanchejs/dist/apis/platformvm';
+import { Serialization } from '@avalabs/avalanchejs/dist/utils';
 import { ethers } from 'ethers';
 
 import {

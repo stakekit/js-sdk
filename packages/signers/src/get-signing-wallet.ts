@@ -6,6 +6,18 @@ import {
   StakeProgram,
 } from '@solana/web3.js';
 
+import { Avalanche, Buffer as Buf } from '@avalabs/avalanchejs';
+import {
+  EVMInput,
+  EVMOutput,
+  Tx as EvmTx,
+  UnsignedTx as UnsignedEvmTx,
+} from '@avalabs/avalanchejs/dist/apis/evm';
+import {
+  Tx as PTx,
+  UnsignedTx as UnsignedPtx,
+} from '@avalabs/avalanchejs/dist/apis/platformvm';
+import { SigIdx } from '@avalabs/avalanchejs/dist/common';
 import {
   AvalancheUnsignedTransactionSerialized,
   CosmosNetworks,
@@ -13,18 +25,6 @@ import {
   Networks,
   cosmosChainConfig,
 } from '@stakekit/common';
-import { Avalanche, Buffer as Buf } from 'avalanche';
-import {
-  EVMInput,
-  EVMOutput,
-  Tx as EvmTx,
-  UnsignedTx as UnsignedEvmTx,
-} from 'avalanche/dist/apis/evm';
-import {
-  Tx as PTx,
-  UnsignedTx as UnsignedPtx,
-} from 'avalanche/dist/apis/platformvm';
-import { SigIdx } from 'avalanche/dist/common';
 import { SignDoc, TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { Transaction, signTransaction } from 'near-api-js/lib/transaction';
 import { getAvalancheWallet } from './avalanche';

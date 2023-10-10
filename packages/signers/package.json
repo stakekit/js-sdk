@@ -15,6 +15,7 @@
   "dependencies": {
     "@anchor-protocol/anchor.js": "^5.0.2",
     "@avalabs/avalanche-wallet-sdk": "^0.18.1",
+    "@avalabs/avalanchejs": "^3.17.0",
     "@binance-chain/javascript-sdk": "^4.2.0",
     "@cosmjs/cosmwasm-stargate": "^0.27.1",
     "@cosmjs/stargate": "^0.27.1",
@@ -41,7 +42,6 @@
     "@taquito/taquito": "^17.0.0",
     "@taquito/tzip12": "^17.0.0",
     "@taquito/tzip16": "^17.0.0",
-    "avalanche": "^3.16.0",
     "axios": "0.27.2",
     "bignumber.js": "^9.0.1",
     "bip32": "^2.0.6",
