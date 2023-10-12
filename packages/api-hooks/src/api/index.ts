@@ -31,7 +31,9 @@ import type {
   YieldYieldsParams,
   YieldBalancesWithIntegrationIdDto,
   YieldBalanceWithIntegrationIdRequestDto,
+  YieldGetMultipleYieldBalancesParams,
   YieldBalanceScanRequestDto,
+  YieldYieldBalancesScanParams,
   YieldGetMyYields200,
   YieldGetMyYieldsParams,
   ValidatorSearchResultDto,
@@ -1273,24 +1275,33 @@ export const useYieldYields = <
  */
 export const yieldGetMultipleYieldBalances = (
   yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
+  params?: YieldGetMultipleYieldBalancesParams,
 ) => {
   return api<YieldBalancesWithIntegrationIdDto[]>({
     url: `/v1/yields/balances`,
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
     data: yieldBalanceWithIntegrationIdRequestDto,
+    params,
   });
 };
 
 export const getYieldGetMultipleYieldBalancesQueryKey = (
   yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
-) => [`/v1/yields/balances`, yieldBalanceWithIntegrationIdRequestDto] as const;
+  params?: YieldGetMultipleYieldBalancesParams,
+) =>
+  [
+    `/v1/yields/balances`,
+    ...(params ? [params] : []),
+    yieldBalanceWithIntegrationIdRequestDto,
+  ] as const;
 
 export const useYieldGetMultipleYieldBalancesQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
   TError = GeolocationError,
 >(
   yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
+  params?: YieldGetMultipleYieldBalancesParams,
   options?: {
     query?: UseQueryOptions<
       Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
@@ -1309,12 +1320,16 @@ export const useYieldGetMultipleYieldBalancesQueryOptions = <
     queryOptions?.queryKey ??
     getYieldGetMultipleYieldBalancesQueryKey(
       yieldBalanceWithIntegrationIdRequestDto,
+      params,
     );
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>
   > = () =>
-    yieldGetMultipleYieldBalances(yieldBalanceWithIntegrationIdRequestDto);
+    yieldGetMultipleYieldBalances(
+      yieldBalanceWithIntegrationIdRequestDto,
+      params,
+    );
 
   const customOptions = customQueryOptions({
     ...queryOptions,
@@ -1338,6 +1353,7 @@ export const useYieldGetMultipleYieldBalances = <
   TError = GeolocationError,
 >(
   yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
+  params?: YieldGetMultipleYieldBalancesParams,
   options?: {
     query?: UseQueryOptions<
       Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
@@ -1348,6 +1364,7 @@ export const useYieldGetMultipleYieldBalances = <
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = useYieldGetMultipleYieldBalancesQueryOptions(
     yieldBalanceWithIntegrationIdRequestDto,
+    params,
     options,
   );
 
@@ -1366,24 +1383,33 @@ export const useYieldGetMultipleYieldBalances = <
  */
 export const yieldYieldBalancesScan = (
   yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
+  params?: YieldYieldBalancesScanParams,
 ) => {
   return api<YieldBalancesWithIntegrationIdDto[]>({
     url: `/v1/yields/balances/scan`,
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
     data: yieldBalanceScanRequestDto,
+    params,
   });
 };
 
 export const getYieldYieldBalancesScanQueryKey = (
   yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
-) => [`/v1/yields/balances/scan`, yieldBalanceScanRequestDto] as const;
+  params?: YieldYieldBalancesScanParams,
+) =>
+  [
+    `/v1/yields/balances/scan`,
+    ...(params ? [params] : []),
+    yieldBalanceScanRequestDto,
+  ] as const;
 
 export const useYieldYieldBalancesScanQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
   TError = GeolocationError,
 >(
   yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
+  params?: YieldYieldBalancesScanParams,
   options?: {
     query?: UseQueryOptions<
       Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
@@ -1400,11 +1426,11 @@ export const useYieldYieldBalancesScanQueryOptions = <
 
   const queryKey =
     queryOptions?.queryKey ??
-    getYieldYieldBalancesScanQueryKey(yieldBalanceScanRequestDto);
+    getYieldYieldBalancesScanQueryKey(yieldBalanceScanRequestDto, params);
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof yieldYieldBalancesScan>>
-  > = () => yieldYieldBalancesScan(yieldBalanceScanRequestDto);
+  > = () => yieldYieldBalancesScan(yieldBalanceScanRequestDto, params);
 
   const customOptions = customQueryOptions({
     ...queryOptions,
@@ -1428,6 +1454,7 @@ export const useYieldYieldBalancesScan = <
   TError = GeolocationError,
 >(
   yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
+  params?: YieldYieldBalancesScanParams,
   options?: {
     query?: UseQueryOptions<
       Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
@@ -1438,6 +1465,7 @@ export const useYieldYieldBalancesScan = <
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = useYieldYieldBalancesScanQueryOptions(
     yieldBalanceScanRequestDto,
+    params,
     options,
   );
 

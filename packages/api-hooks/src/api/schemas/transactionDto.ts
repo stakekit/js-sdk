@@ -15,4 +15,5 @@ export interface TransactionDto {
   error: string | null;
   gasEstimate: TransactionDtoGasEstimate;
   stakeId: string;
+  explorerUrl: string | null;
 }
