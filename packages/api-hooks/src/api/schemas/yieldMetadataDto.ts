@@ -18,7 +18,7 @@ export interface YieldMetadataDto {
   token: TokenDto;
   type: YieldType;
   rewardSchedule: RewardSchedule;
-  cooldownPeriod: TimePeriodDto;
+  cooldownPeriod?: TimePeriodDto;
   warmupPeriod: TimePeriodDto;
   withdrawPeriod?: TimePeriodDto;
   rewardClaiming: RewardClaiming;

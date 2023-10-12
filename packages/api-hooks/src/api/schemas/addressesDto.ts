@@ -3,4 +3,5 @@ import type { AddressesDtoAdditionalAddresses } from './addressesDtoAdditionalAd
 export interface AddressesDto {
   address: string;
   additionalAddresses?: AddressesDtoAdditionalAddresses;
+  explorerUrl?: string;
 }
