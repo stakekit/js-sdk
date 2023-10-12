@@ -1940,76 +1940,95 @@ export const yieldGetSingleYieldBalances = (
   });
 };
 
-export const useYieldGetSingleYieldBalancesMutationOptions = <
+export const getYieldGetSingleYieldBalancesQueryKey = (
+  integrationId: string,
+  yieldBalanceRequestDto: YieldBalanceRequestDto,
+  params?: YieldGetSingleYieldBalancesParams,
+) =>
+  [
+    `/v1/yields/${integrationId}/balances`,
+    ...(params ? [params] : []),
+    yieldBalanceRequestDto,
+  ] as const;
+
+export const useYieldGetSingleYieldBalancesQueryOptions = <
+  TData = Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
   TError = GeolocationError,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
-    TError,
-    {
-      integrationId: string;
-      data: YieldBalanceRequestDto;
-      params?: YieldGetSingleYieldBalancesParams;
-    },
-    TContext
-  >;
-}): UseMutationOptions<
+>(
+  integrationId: string,
+  yieldBalanceRequestDto: YieldBalanceRequestDto,
+  params?: YieldGetSingleYieldBalancesParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryOptions<
   Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
   TError,
-  {
-    integrationId: string;
-    data: YieldBalanceRequestDto;
-    params?: YieldGetSingleYieldBalancesParams;
-  },
-  TContext
-> => {
-  const { mutation: mutationOptions } = options ?? {};
+  TData
+> & { queryKey: QueryKey } => {
+  const { query: queryOptions } = options ?? {};
 
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
-    {
-      integrationId: string;
-      data: YieldBalanceRequestDto;
-      params?: YieldGetSingleYieldBalancesParams;
-    }
-  > = (props) => {
-    const { integrationId, data, params } = props ?? {};
+  const queryKey =
+    queryOptions?.queryKey ??
+    getYieldGetSingleYieldBalancesQueryKey(
+      integrationId,
+      yieldBalanceRequestDto,
+      params,
+    );
 
-    return yieldGetSingleYieldBalances(integrationId, data, params);
-  };
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>
+  > = () =>
+    yieldGetSingleYieldBalances(integrationId, yieldBalanceRequestDto, params);
 
-  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
+  const customOptions = customQueryOptions({
+    ...queryOptions,
+    queryKey,
+    queryFn,
+  });
 
   return customOptions;
 };
 
-export type YieldGetSingleYieldBalancesMutationResult = NonNullable<
+export type YieldGetSingleYieldBalancesQueryResult = NonNullable<
   Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>
 >;
-export type YieldGetSingleYieldBalancesMutationBody = YieldBalanceRequestDto;
-export type YieldGetSingleYieldBalancesMutationError = GeolocationError;
+export type YieldGetSingleYieldBalancesQueryError = GeolocationError;
 
 /**
  * @summary Get yield balances given an integration ID
  */
 export const useYieldGetSingleYieldBalances = <
+  TData = Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
   TError = GeolocationError,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
-    TError,
-    {
-      integrationId: string;
-      data: YieldBalanceRequestDto;
-      params?: YieldGetSingleYieldBalancesParams;
-    },
-    TContext
-  >;
-}) => {
-  const mutationOptions =
-    useYieldGetSingleYieldBalancesMutationOptions(options);
+>(
+  integrationId: string,
+  yieldBalanceRequestDto: YieldBalanceRequestDto,
+  params?: YieldGetSingleYieldBalancesParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
+      TError,
+      TData
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useYieldGetSingleYieldBalancesQueryOptions(
+    integrationId,
+    yieldBalanceRequestDto,
+    params,
+    options,
+  );
 
-  return useMutation(mutationOptions);
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
 };

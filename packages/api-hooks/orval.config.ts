@@ -56,6 +56,7 @@ export default defineConfig({
           YieldController_yieldBalancesScan: getAsQueryOptions(),
           TokenController_getTokenPrices: getAsQueryOptions(),
           YieldController_getMultipleYieldBalances: getAsQueryOptions(),
+          YieldController_getSingleYieldBalances: getAsQueryOptions(),
         },
       },
     },
