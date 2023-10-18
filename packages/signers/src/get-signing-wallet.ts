@@ -11,6 +11,7 @@ import {
   CosmosNetworks,
   EvmNetworks,
   Networks,
+  SubstrateNetworks,
   cosmosChainConfig,
 } from '@stakekit/common';
 import { Avalanche, Buffer as Buf } from 'avalanche';
@@ -44,6 +45,7 @@ import {
   getSolanaStakeAccountDerivationPath,
   getSolanaWallet,
 } from './solana';
+import { getSubstrateWallet } from './substrate';
 import { getTezosWallet } from './tezos';
 import { getTronWallet } from './tron';
 import { incrementDerivationPath } from './utils';
@@ -191,6 +193,22 @@ const tronSigningWallet = async (
       return JSON.stringify(signedTx);
     },
     getAddress: () => wallet.defaultAddress.base58,
+    getAdditionalAddresses: async () => ({}),
+  };
+};
+
+const substrateSigningWallet = async (
+  options: WalletOptions,
+  network: SubstrateNetworks,
+): Promise<SigningWallet> => {
+  const wallet = await getSubstrateWallet(options, network);
+
+  return {
+    signTransaction: async (tx) => {
+      const signedTx = wallet.sign(JSON.parse(tx));
+      return JSON.stringify(signedTx);
+    },
+    getAddress: async () => wallet.address,
     getAdditionalAddresses: async () => ({}),
   };
 };
@@ -425,6 +443,15 @@ const getters: {
   [Networks.AvalancheCAtomic]: avalancheCAtomicSigningWallet,
   [Networks.AvalancheP]: avalanchePSigningWallet,
   [Networks.Tron]: tronSigningWallet,
+  ...Object.values(SubstrateNetworks).reduce(
+    (accum, n) => ({
+      ...accum,
+      [n]: (o: WalletOptions) => {
+        return substrateSigningWallet(o, n);
+      },
+    }),
+    {},
+  ),
 };
 
 export const getSigningWallet = async (

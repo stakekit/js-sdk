@@ -1,6 +1,6 @@
 {
   "name": "@stakekit/signers",
-  "version": "0.0.51",
+  "version": "0.0.52",
   "scripts": {
     "clean": "rm -rf lib",
     "lint": "eslint \"src/**/*.ts\"",
@@ -31,10 +31,11 @@
     "@ledgerhq/hw-transport-node-hid": "^6.27.1",
     "@metamask/eth-sig-util": "^4.0.1",
     "@obsidiansystems/hw-app-avalanche": "^0.2.2",
+    "@polkadot/api": "^10.10.1",
     "@solana/buffer-layout": "^4.0.0",
     "@solana/spl-token": "^0.3.4",
     "@solana/web3.js": "1.52.0",
-    "@stakekit/common": "^0.0.17",
+    "@stakekit/common": "^0.0.18",
     "@sushiswap/default-token-list": "^41.4.0",
     "@taquito/ledger-signer": "^17.0.0",
     "@taquito/signer": "^17.0.0",
