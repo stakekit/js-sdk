@@ -11,6 +11,7 @@ export const phantomPath = (index: number) => `m/44'/501'/${index}'/0'`;
 export const metamaskPath = (index: number) => `m/44'/60'/0'/0/${index}`;
 export const templePath = (index: number) => `m/44'/1729'/${index}'/0'`;
 export const tronPath = (index: number) => `m/44'/195'/0'/0/${index}`;
+export const polkadotPath = (index: number) => `///${index}`;
 
 const nearPath = () => "m/44'/397'/0'";
 const binanceChainPath = () => "m/44'/714'/0'/0/0";
@@ -23,6 +24,7 @@ export enum ImportableWallets {
   Steakwallet = 'Steakwallet',
   Omni = 'Omni',
   Temple = 'Temple',
+  Polkadot = 'Polkadot',
 }
 
 export enum LedgerWallet {
@@ -83,6 +85,7 @@ export enum WalletDomain {
   binanceChain = 'binanceChain',
   celo = 'celo',
   tron = 'tron',
+  polkadot = 'polkadot',
 }
 
 export type WalletDerivationPaths = {
@@ -98,6 +101,7 @@ const steakwalletDerivationPaths: WalletDerivationPaths = {
   binanceChain: binanceChainPath,
   celo: celoPath,
   tron: tronPath,
+  polkadot: polkadotPath,
 };
 
 const omniDerivationPaths: {
@@ -124,6 +128,7 @@ export const walletDerivationPaths: {
   [ImportableWallets.Steakwallet]: steakwalletDerivationPaths,
   [ImportableWallets.Omni]: omniDerivationPaths,
   [ImportableWallets.Temple]: createDerivationPaths(templePath),
+  [ImportableWallets.Polkadot]: createDerivationPaths(polkadotPath),
 };
 
 export enum LedgerApps {

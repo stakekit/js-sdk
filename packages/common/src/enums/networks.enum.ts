@@ -55,6 +55,10 @@ export enum CosmosNetworks {
   Desmos = 'desmos',
 }
 
+export enum SubstrateNetworks {
+  Polkadot = 'polkadot',
+}
+
 export enum MiscNetworks {
   BinanceBeacon = 'binancebeacon',
   Near = 'near',
@@ -63,5 +67,14 @@ export enum MiscNetworks {
   Tron = 'tron',
 }
 
-export const Networks = { ...EvmNetworks, ...CosmosNetworks, ...MiscNetworks };
-export type Networks = EvmNetworks | CosmosNetworks | MiscNetworks;
+export const Networks = {
+  ...EvmNetworks,
+  ...CosmosNetworks,
+  ...SubstrateNetworks,
+  ...MiscNetworks,
+};
+export type Networks =
+  | EvmNetworks
+  | CosmosNetworks
+  | SubstrateNetworks
+  | MiscNetworks;

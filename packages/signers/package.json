@@ -31,6 +31,7 @@
     "@ledgerhq/hw-transport-node-hid": "^6.27.1",
     "@metamask/eth-sig-util": "^4.0.1",
     "@obsidiansystems/hw-app-avalanche": "^0.2.2",
+    "@polkadot/api": "^10.10.1",
     "@solana/buffer-layout": "^4.0.0",
     "@solana/spl-token": "^0.3.4",
     "@solana/web3.js": "1.52.0",
