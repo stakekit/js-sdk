@@ -11,7 +11,8 @@ export const phantomPath = (index: number) => `m/44'/501'/${index}'/0'`;
 export const metamaskPath = (index: number) => `m/44'/60'/0'/0/${index}`;
 export const templePath = (index: number) => `m/44'/1729'/${index}'/0'`;
 export const tronPath = (index: number) => `m/44'/195'/0'/0/${index}`;
-export const polkadotPath = (index: number) => `///${index}`;
+export const polkadotPath = (index: number) =>
+  index === 0 ? '' : `//${index - 1}`;
 
 const nearPath = () => "m/44'/397'/0'";
 const binanceChainPath = () => "m/44'/714'/0'/0/0";
