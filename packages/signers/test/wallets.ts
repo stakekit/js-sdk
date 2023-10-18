@@ -1,5 +1,5 @@
-import Avalanche from 'avalanche';
-
+import { Avalanche } from '@avalabs/avalanchejs';
+import { CosmosNetworks } from '@stakekit/common';
 import {
   getAvalancheWallet,
   getBinanceChainWallet,
@@ -32,8 +32,12 @@ export const resolvers = {
     return await wallet.getAddress();
   },
 
-  cosmos: async (prefix: string, options: WalletOptions) => {
-    const wallet = await getStargateWallet(prefix, options);
+  cosmos: async (
+    prefix: string,
+    options: WalletOptions,
+    network: CosmosNetworks,
+  ) => {
+    const wallet = await getStargateWallet(prefix, options, network);
     return (await wallet.getAccounts())[0].address;
   },
 
