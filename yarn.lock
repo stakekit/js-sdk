@@ -6554,6 +6554,7 @@ __metadata:
     "@solana/spl-token": ^0.3.4
     "@solana/web3.js": 1.52.0
     "@stakekit/common": ^0.0.18
+    "@substrate/txwrapper-polkadot": ^7.1.1
     "@sushiswap/default-token-list": ^41.4.0
     "@taquito/ledger-signer": ^17.0.0
     "@taquito/signer": ^17.0.0
@@ -6996,6 +6997,36 @@ __metadata:
   version: 1.43.0
   resolution: "@substrate/ss58-registry@npm:1.43.0"
   checksum: b2ecfd7365b946be2db7e2c5fa1f9136ff840bb2b8e6ffac0f48cd83f01a95c8a0fee1bb744255591bfc1f76766cd834182cde8cbd96e7849549d189c5812b3c
+  languageName: node
+  linkType: hard
+
+"@substrate/txwrapper-core@npm:^7.1.1":
+  version: 7.1.1
+  resolution: "@substrate/txwrapper-core@npm:7.1.1"
+  dependencies:
+    "@polkadot/api": ^10.10.1
+    "@polkadot/keyring": ^12.5.1
+    memoizee: 0.4.15
+  checksum: 1e9ef44885eba2e90d9ed32491db4769a0214a56872e81518750976a10229feb9e43191220f6f440e6c1ba2bdcdcdc8366819870be4d56aa88864562d3c4be42
+  languageName: node
+  linkType: hard
+
+"@substrate/txwrapper-polkadot@npm:^7.1.1":
+  version: 7.1.1
+  resolution: "@substrate/txwrapper-polkadot@npm:7.1.1"
+  dependencies:
+    "@substrate/txwrapper-core": ^7.1.1
+    "@substrate/txwrapper-substrate": ^7.1.1
+  checksum: 82637811aa30e6179bc02c4855759752ba18d8171148dcae118442b77980fe225dc9995328e6eca79da2c2793f20d5f466766db80edde78d3a13d4b121c8fecc
+  languageName: node
+  linkType: hard
+
+"@substrate/txwrapper-substrate@npm:^7.1.1":
+  version: 7.1.1
+  resolution: "@substrate/txwrapper-substrate@npm:7.1.1"
+  dependencies:
+    "@substrate/txwrapper-core": ^7.1.1
+  checksum: 77b42ebc0907a8a33ae72af166c1f0c7f78f55382a3f9771f55fe0e998ff87387ed7b99ccec00b6dd4037277b7046c592fa89d3682ce5b67b40b9b004a91a981
   languageName: node
   linkType: hard
 
@@ -17451,7 +17482,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"memoizee@npm:^0.4.15":
+"memoizee@npm:0.4.15, memoizee@npm:^0.4.15":
   version: 0.4.15
   resolution: "memoizee@npm:0.4.15"
   dependencies:
