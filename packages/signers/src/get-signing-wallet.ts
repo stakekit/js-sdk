@@ -1,11 +1,11 @@
 import { Transaction as BinanceTransaction } from '@binance-chain/javascript-sdk';
 import { fromBase64 } from '@cosmjs/encoding';
 import { isOfflineDirectSigner } from '@cosmjs/proto-signing';
+import { EXTRINSIC_VERSION } from '@polkadot/types/extrinsic/v4/Extrinsic';
 import {
   Transaction as SolanaTransaction,
   StakeProgram,
 } from '@solana/web3.js';
-
 import {
   AvalancheUnsignedTransactionSerialized,
   CosmosNetworks,
@@ -14,6 +14,12 @@ import {
   SubstrateNetworks,
   cosmosChainConfig,
 } from '@stakekit/common';
+import {
+  UnsignedTransaction,
+  construct,
+  createMetadata,
+  getRegistry,
+} from '@substrate/txwrapper-polkadot';
 import { Avalanche, Buffer as Buf } from 'avalanche';
 import {
   EVMInput,
@@ -45,7 +51,7 @@ import {
   getSolanaStakeAccountDerivationPath,
   getSolanaWallet,
 } from './solana';
-import { getSubstrateWallet } from './substrate';
+import { getChainDetails, getSubstrateWallet } from './substrate';
 import { getTezosWallet } from './tezos';
 import { getTronWallet } from './tron';
 import { incrementDerivationPath } from './utils';
@@ -205,8 +211,33 @@ const substrateSigningWallet = async (
 
   return {
     signTransaction: async (tx) => {
-      const signedTx = wallet.sign(JSON.parse(tx));
-      return JSON.stringify(signedTx);
+      const { specName, specVersion, metadataRpc } = await getChainDetails(
+        wallet.address,
+      );
+
+      const registry = getRegistry({
+        chainName: specName,
+        specName,
+        specVersion,
+        metadataRpc,
+      });
+      const unsignedTx = JSON.parse(tx) as UnsignedTransaction;
+
+      const signingPayload = construct.signingPayload(unsignedTx, {
+        registry,
+      });
+      registry.setMetadata(createMetadata(registry, metadataRpc));
+
+      const { signature } = registry
+        .createType('ExtrinsicPayload', signingPayload, {
+          version: EXTRINSIC_VERSION,
+        })
+        .sign(wallet);
+
+      return construct.signedTx(unsignedTx, signature, {
+        metadataRpc: metadataRpc,
+        registry,
+      });
     },
     getAddress: async () => wallet.address,
     getAdditionalAddresses: async () => ({}),

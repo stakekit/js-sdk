@@ -21,9 +21,13 @@ export const getSubstrateWallet = async (
   const derivationPath = walletDerivationPaths[walletType].polkadot(index);
 
   const provider = new WsProvider('wss://rpc.polkadot.io');
-  await ApiPromise.create({ provider });
+  const api = await ApiPromise.create({ provider });
 
   const keyring = new Keyring(getKeyringOptionsFromNetwork(network));
 
-  return keyring.createFromUri(`${mnemonic}${derivationPath}`);
+  const wallet = keyring.createFromUri(`${mnemonic}${derivationPath}`);
+
+  await api.disconnect();
+
+  return wallet;
 };
