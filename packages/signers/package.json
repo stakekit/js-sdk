@@ -1,11 +1,12 @@
 {
   "name": "@stakekit/signers",
-  "version": "0.0.53",
+  "version": "0.0.54",
   "scripts": {
     "clean": "rm -rf lib",
     "lint": "eslint \"src/**/*.ts\"",
     "build": "tsc -b .",
-    "test": "exit 0"
+    "test": "exit 0",
+    "prepublishOnly": "yarn build"
   },
   "files": [
     "lib"

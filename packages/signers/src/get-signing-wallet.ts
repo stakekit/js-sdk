@@ -211,20 +211,22 @@ const substrateSigningWallet = async (
 
   return {
     signTransaction: async (tx) => {
-      const details = await getChainDetails(wallet.address);
+      const { specName, specVersion, metadataRpc } = await getChainDetails(
+        wallet.address,
+      );
 
       const registry = getRegistry({
-        chainName: details.specName,
-        specName: details.specName,
-        specVersion: details.specVersion,
-        metadataRpc: details.metadataRpc,
+        chainName: specName,
+        specName,
+        specVersion,
+        metadataRpc,
       });
       const unsignedTx = JSON.parse(tx) as UnsignedTransaction;
 
       const signingPayload = construct.signingPayload(unsignedTx, {
         registry,
       });
-      registry.setMetadata(createMetadata(registry, details.metadataRpc));
+      registry.setMetadata(createMetadata(registry, metadataRpc));
 
       const { signature } = registry
         .createType('ExtrinsicPayload', signingPayload, {
@@ -233,7 +235,7 @@ const substrateSigningWallet = async (
         .sign(wallet);
 
       return construct.signedTx(unsignedTx, signature, {
-        metadataRpc: details.metadataRpc,
+        metadataRpc: metadataRpc,
         registry,
       });
     },
