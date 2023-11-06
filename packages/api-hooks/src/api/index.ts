@@ -1298,7 +1298,7 @@ export const getYieldGetMultipleYieldBalancesQueryKey = (
 
 export const useYieldGetMultipleYieldBalancesQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
-  TError = GeolocationError,
+  TError = unknown,
 >(
   yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
   params?: YieldGetMultipleYieldBalancesParams,
@@ -1343,14 +1343,14 @@ export const useYieldGetMultipleYieldBalancesQueryOptions = <
 export type YieldGetMultipleYieldBalancesQueryResult = NonNullable<
   Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>
 >;
-export type YieldGetMultipleYieldBalancesQueryError = GeolocationError;
+export type YieldGetMultipleYieldBalancesQueryError = unknown;
 
 /**
  * @summary Get multiple yield balances
  */
 export const useYieldGetMultipleYieldBalances = <
   TData = Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
-  TError = GeolocationError,
+  TError = unknown,
 >(
   yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
   params?: YieldGetMultipleYieldBalancesParams,
@@ -1406,7 +1406,7 @@ export const getYieldYieldBalancesScanQueryKey = (
 
 export const useYieldYieldBalancesScanQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
-  TError = GeolocationError,
+  TError = unknown,
 >(
   yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
   params?: YieldYieldBalancesScanParams,
@@ -1444,14 +1444,14 @@ export const useYieldYieldBalancesScanQueryOptions = <
 export type YieldYieldBalancesScanQueryResult = NonNullable<
   Awaited<ReturnType<typeof yieldYieldBalancesScan>>
 >;
-export type YieldYieldBalancesScanQueryError = GeolocationError;
+export type YieldYieldBalancesScanQueryError = unknown;
 
 /**
  * @summary Scan for yield balances
  */
 export const useYieldYieldBalancesScan = <
   TData = Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
-  TError = GeolocationError,
+  TError = unknown,
 >(
   yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
   params?: YieldYieldBalancesScanParams,
@@ -1661,7 +1661,7 @@ export const getYieldFindValidatorsQueryKey = (
 
 export const useYieldFindValidatorsQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldFindValidators>>,
-  TError = GeolocationError,
+  TError = unknown,
 >(
   params?: YieldFindValidatorsParams,
   options?: {
@@ -1697,14 +1697,14 @@ export const useYieldFindValidatorsQueryOptions = <
 export type YieldFindValidatorsQueryResult = NonNullable<
   Awaited<ReturnType<typeof yieldFindValidators>>
 >;
-export type YieldFindValidatorsQueryError = GeolocationError;
+export type YieldFindValidatorsQueryError = unknown;
 
 /**
  * @summary Get validators
  */
 export const useYieldFindValidators = <
   TData = Awaited<ReturnType<typeof yieldFindValidators>>,
-  TError = GeolocationError,
+  TError = unknown,
 >(
   params?: YieldFindValidatorsParams,
   options?: {
@@ -1850,7 +1850,7 @@ export const getYieldGetValidatorsQueryKey = (
 
 export const useYieldGetValidatorsQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldGetValidators>>,
-  TError = GeolocationError,
+  TError = unknown,
 >(
   integrationId: string,
   params?: YieldGetValidatorsParams,
@@ -1888,14 +1888,14 @@ export const useYieldGetValidatorsQueryOptions = <
 export type YieldGetValidatorsQueryResult = NonNullable<
   Awaited<ReturnType<typeof yieldGetValidators>>
 >;
-export type YieldGetValidatorsQueryError = GeolocationError;
+export type YieldGetValidatorsQueryError = unknown;
 
 /**
  * @summary Get validators given an integration ID
  */
 export const useYieldGetValidators = <
   TData = Awaited<ReturnType<typeof yieldGetValidators>>,
-  TError = GeolocationError,
+  TError = unknown,
 >(
   integrationId: string,
   params?: YieldGetValidatorsParams,
@@ -1953,7 +1953,7 @@ export const getYieldGetSingleYieldBalancesQueryKey = (
 
 export const useYieldGetSingleYieldBalancesQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
-  TError = GeolocationError,
+  TError = unknown,
 >(
   integrationId: string,
   yieldBalanceRequestDto: YieldBalanceRequestDto,
@@ -1997,14 +1997,14 @@ export const useYieldGetSingleYieldBalancesQueryOptions = <
 export type YieldGetSingleYieldBalancesQueryResult = NonNullable<
   Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>
 >;
-export type YieldGetSingleYieldBalancesQueryError = GeolocationError;
+export type YieldGetSingleYieldBalancesQueryError = unknown;
 
 /**
  * @summary Get yield balances given an integration ID
  */
 export const useYieldGetSingleYieldBalances = <
   TData = Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
-  TError = GeolocationError,
+  TError = unknown,
 >(
   integrationId: string,
   yieldBalanceRequestDto: YieldBalanceRequestDto,

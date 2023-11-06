@@ -53,6 +53,7 @@ export const Networks = {
   umee: 'umee',
   coreum: 'coreum',
   desmos: 'desmos',
+  polkadot: 'polkadot',
   binancebeacon: 'binancebeacon',
   near: 'near',
   solana: 'solana',
