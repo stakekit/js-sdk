@@ -13,4 +13,5 @@ export interface YieldDto {
   apy: number;
   metadata: YieldMetadataDto;
   validators: ValidatorDto[];
+  isAvailable: boolean;
 }

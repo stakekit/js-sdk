@@ -54,6 +54,7 @@ export const TokenGetTokensNetwork = {
   umee: 'umee',
   coreum: 'coreum',
   desmos: 'desmos',
+  polkadot: 'polkadot',
   binancebeacon: 'binancebeacon',
   near: 'near',
   solana: 'solana',

@@ -13,7 +13,7 @@ export const YieldProviders = {
   ape: 'ape',
   chainlink: 'chainlink',
   pendle: 'pendle',
-  paraspace: 'paraspace',
+  parax: 'parax',
   'rocket-pool': 'rocket-pool',
   stakewise: 'stakewise',
   'morpho-aave': 'morpho-aave',
