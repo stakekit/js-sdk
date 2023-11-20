@@ -7,5 +7,6 @@ export interface ArgumentOptionsDto {
   amount?: AmountArgumentOptionsDto;
   duration?: DurationArgumentOptionsDto;
   validatorAddress?: RequiredArgumentDto;
+  validatorAddresses?: RequiredArgumentDto;
   nfts?: ApeNativeArgumentOptionsDto[];
 }

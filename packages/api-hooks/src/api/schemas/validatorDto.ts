@@ -8,6 +8,4 @@ export interface ValidatorDto {
   stakedBalance: string;
   votingPower: number;
   preferred: boolean;
-  minRevShare: number;
-  maxRevShare: number;
 }
