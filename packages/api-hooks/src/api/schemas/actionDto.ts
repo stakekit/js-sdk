@@ -11,6 +11,7 @@ export interface ActionDto {
   amount: string | null;
   tokenId: string | null;
   validatorAddress: string | null;
+  validatorAddresses: string[] | null;
   transactions: TransactionDto[];
   createdAt: string;
 }

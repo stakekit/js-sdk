@@ -11,4 +11,5 @@ export interface YieldBalanceDto {
   pendingActions: PendingActionDto[];
   token: TokenDto;
   validatorAddress?: string;
+  validatorAddresses?: string[];
 }

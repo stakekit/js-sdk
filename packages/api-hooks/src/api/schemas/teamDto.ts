@@ -5,6 +5,7 @@ export interface TeamDto {
   id: string;
   activated: boolean;
   adminUser: UserDto;
+  category: string;
   deletedAt: string | null;
   createdAt: string;
   contactDetails: TeamDtoContactDetails;
