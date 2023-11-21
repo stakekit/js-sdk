@@ -212,6 +212,7 @@ const substrateSigningWallet = async (
   return {
     signTransaction: async (tx) => {
       const { specName, specVersion, metadataRpc } = await getChainDetails(
+        network,
         wallet.address,
       );
 

@@ -17,8 +17,11 @@ export const getKeyringOptionsFromNetwork = (
   }
 };
 
-export const getChainDetails = async (address: string) => {
-  const provider = new HttpProvider('https://rpc.polkadot.io');
+export const getChainDetails = async (
+  network: SubstrateNetworks,
+  address: string,
+) => {
+  const provider = new HttpProvider(getSubstrateRpcEndpointByNetwork(network));
   const api = await ApiPromise.create({ provider });
 
   const { block } = await api.rpc.chain.getBlock();
@@ -39,4 +42,17 @@ export const getChainDetails = async (address: string) => {
     transactionVersion: transactionVersion.toNumber(),
     nonce: nonce.toNumber(),
   };
+};
+
+export const getSubstrateRpcEndpointByNetwork = (
+  network: SubstrateNetworks,
+) => {
+  switch (network) {
+    case SubstrateNetworks.Polkadot:
+      return 'https://rpc.polkadot.io';
+    case SubstrateNetworks.Kusama:
+      return 'https://kusama-rpc.polkadot.io';
+    case SubstrateNetworks.Westend:
+      return 'https://westend-rpc.polkadot.io';
+  }
 };

@@ -6,7 +6,10 @@ import {
   isLedgerOptions,
   walletDerivationPaths,
 } from '../constants';
-import { getKeyringOptionsFromNetwork } from './utils';
+import {
+  getKeyringOptionsFromNetwork,
+  getSubstrateRpcEndpointByNetwork,
+} from './utils';
 
 export const getSubstrateWallet = async (
   options: WalletOptions,
@@ -21,7 +24,7 @@ export const getSubstrateWallet = async (
   const { mnemonic, walletType, index } = options;
   const derivationPath = walletDerivationPaths[walletType].polkadot(index);
 
-  const provider = new HttpProvider('https://rpc.polkadot.io');
+  const provider = new HttpProvider(getSubstrateRpcEndpointByNetwork(network));
   const api = await ApiPromise.create({ provider });
 
   const keyring = new Keyring(getKeyringOptionsFromNetwork(network));
