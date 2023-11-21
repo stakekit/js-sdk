@@ -26,9 +26,5 @@ export const getSubstrateWallet = async (
 
   const keyring = new Keyring(getKeyringOptionsFromNetwork(network));
 
-  const wallet = keyring.createFromUri(`${mnemonic}${derivationPath}`);
-
-  await api.disconnect();
-
-  return wallet;
+  return keyring.createFromUri(`${mnemonic}${derivationPath}`);
 };
