@@ -57,6 +57,8 @@ export enum CosmosNetworks {
 
 export enum SubstrateNetworks {
   Polkadot = 'polkadot',
+  Westend = 'westend',
+  Kusama = 'kusama',
 }
 
 export enum MiscNetworks {
