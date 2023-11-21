@@ -1,4 +1,4 @@
-import { ApiPromise, WsProvider } from '@polkadot/api';
+import { ApiPromise, HttpProvider } from '@polkadot/api';
 import { KeyringOptions } from '@polkadot/keyring/types';
 import { SubstrateNetworks } from '@stakekit/common';
 import { GetRegistryOpts } from '@substrate/txwrapper-polkadot';
@@ -6,14 +6,19 @@ import { GetRegistryOpts } from '@substrate/txwrapper-polkadot';
 export const getKeyringOptionsFromNetwork = (
   network: SubstrateNetworks,
 ): KeyringOptions => {
+  // source: https://github.com/paritytech/ss58-registry/blob/main/ss58-registry.json
   switch (network) {
     case SubstrateNetworks.Polkadot:
       return { type: 'sr25519', ss58Format: 0 };
+    case SubstrateNetworks.Kusama:
+      return { type: 'sr25519', ss58Format: 2 };
+    case SubstrateNetworks.Westend:
+      return { type: 'sr25519', ss58Format: 42 };
   }
 };
 
 export const getChainDetails = async (address: string) => {
-  const provider = new WsProvider('wss://rpc.polkadot.io');
+  const provider = new HttpProvider('https://rpc.polkadot.io');
   const api = await ApiPromise.create({ provider });
 
   const { block } = await api.rpc.chain.getBlock();
@@ -23,8 +28,6 @@ export const getChainDetails = async (address: string) => {
   const { specVersion, specName, transactionVersion } =
     await api.rpc.state.getRuntimeVersion();
   const { nonce } = await api.query.system.account(address);
-
-  await api.disconnect();
 
   return {
     block,
