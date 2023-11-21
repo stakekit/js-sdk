@@ -1,5 +1,5 @@
 export interface AmountArgumentOptionsDto {
-  required: boolean;
-  minimum?: number;
   maximum?: number;
+  minimum?: number;
+  required: boolean;
 }

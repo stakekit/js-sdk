@@ -6,8 +6,8 @@ export interface UserDto {
   id: string;
   lastAccessedAt: string | null;
   name: string | null;
-  surname: string | null;
   role: Role;
   serviceConditionsAcceptedAt: string | null;
+  surname: string | null;
   teamId: string;
 }

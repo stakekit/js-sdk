@@ -1,0 +1,13 @@
+diff --git a/dist/index.js b/dist/index.js
+index e63b00e7a016e0272df834a5712d5f5709f63b08..34e8652513f20bcb38b71507f5fb212a7aef6c03 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -2328,7 +2328,7 @@ ${doc}export const ${(0, import_core2.camel)(
+ 
+   const query = ${(0, import_core2.camel)(
+     `${operationPrefix}-${type}`
+-  )}(${queryOptionsVarName}) as ${returnType};
++  )}(${queryOptionsVarName}, (${queryOptionsVarName} as any).queryClient ?? undefined) as ${returnType};
+ 
+   query.queryKey = ${queryOptionsVarName}.queryKey ${isVue(outputClient) ? "as QueryKey" : ""};
+ 

@@ -2,8 +2,8 @@ import type { AddressWithTokenDtoAdditionalAddresses } from './addressWithTokenD
 import type { Networks } from './networks';
 
 export interface AddressWithTokenDto {
-  address: string;
   additionalAddresses?: AddressWithTokenDtoAdditionalAddresses;
+  address: string;
   explorerUrl?: string;
   network: Networks;
   tokenAddress?: string;

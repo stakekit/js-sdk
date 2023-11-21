@@ -1,7 +1,7 @@
-import type { RequiredArgumentWithNetworkDto } from './requiredArgumentWithNetworkDto';
 import type { BinanceAdditionalAddressesStakeArgumentOptionsDto } from './binanceAdditionalAddressesStakeArgumentOptionsDto';
+import type { RequiredArgumentWithNetworkDto } from './requiredArgumentWithNetworkDto';
 
 export interface AddressArgumentsDto {
-  address?: RequiredArgumentWithNetworkDto;
   additionalAddresses?: BinanceAdditionalAddressesStakeArgumentOptionsDto[];
+  address?: RequiredArgumentWithNetworkDto;
 }

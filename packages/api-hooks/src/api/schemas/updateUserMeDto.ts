@@ -1,7 +1,7 @@
 export interface UpdateUserMeDto {
-  serviceConditionsAccepted?: boolean;
   active?: boolean;
-  password?: string;
   name?: string;
+  password?: string;
+  serviceConditionsAccepted?: boolean;
   surname?: string;
 }

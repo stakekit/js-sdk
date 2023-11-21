@@ -1,57 +1,53 @@
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
-  UseQueryOptions,
-  UseMutationOptions,
-  QueryFunction,
   MutationFunction,
-  UseQueryResult,
+  QueryFunction,
   QueryKey,
+  UseMutationOptions,
+  UseQueryOptions,
+  UseQueryResult,
 } from '@tanstack/react-query';
 import type {
   ActionDto,
-  GeolocationError,
   ActionRequestDto,
-  PendingActionRequestDto,
-  TransactionDto,
-  ConstructTransactionRequestDto,
-  SubmitResponseDto,
-  SubmitRequestDto,
-  SubmitHashRequestDto,
-  TransactionStatusResponseDto,
-  GasForNetworkResponseDto,
-  TokenWithAvailableYieldsDto,
-  TokenGetTokensParams,
-  PriceResponseDto,
-  PriceRequestDto,
   BalanceResponseDto,
   BalancesRequestDto,
-  TokenBalanceScanResponseDto,
+  ConstructTransactionRequestDto,
+  GasForNetworkResponseDto,
+  GeolocationError,
+  PendingActionRequestDto,
+  PriceRequestDto,
+  PriceResponseDto,
+  SubmitHashRequestDto,
+  SubmitRequestDto,
+  SubmitResponseDto,
   TokenBalanceScanDto,
-  YieldYields200,
-  YieldYieldsParams,
-  YieldBalancesWithIntegrationIdDto,
-  YieldBalanceWithIntegrationIdRequestDto,
-  YieldGetMultipleYieldBalancesParams,
-  YieldBalanceScanRequestDto,
-  YieldYieldBalancesScanParams,
-  YieldGetMyYields200,
-  YieldGetMyYieldsParams,
-  ValidatorSearchResultDto,
-  YieldFindValidatorsParams,
-  YieldDto,
-  YieldYieldOpportunityParams,
+  TokenBalanceScanResponseDto,
+  TokenGetTokensParams,
+  TokenWithAvailableYieldsDto,
+  TransactionDto,
+  TransactionStatusResponseDto,
   ValidatorDto,
-  YieldGetValidatorsParams,
+  ValidatorSearchResultDto,
   YieldBalanceDto,
   YieldBalanceRequestDto,
+  YieldBalanceScanRequestDto,
+  YieldBalanceWithIntegrationIdRequestDto,
+  YieldBalancesWithIntegrationIdDto,
+  YieldDto,
+  YieldFindValidatorsParams,
+  YieldGetMultipleYieldBalancesParams,
+  YieldGetMyYields200,
+  YieldGetMyYieldsParams,
   YieldGetSingleYieldBalancesParams,
+  YieldGetValidatorsParams,
+  YieldYieldBalancesScanParams,
+  YieldYieldOpportunityParams,
+  YieldYields200,
+  YieldYieldsParams,
 } from './schemas';
 import { api } from '../api-client';
 import { customQueryOptions } from '../query-options';
-
-type AwaitedInput<T> = PromiseLike<T> | T;
-
-type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
 
 /**
  * Returns a action with associated transactions
@@ -65,8 +61,9 @@ export const actionGetAction = (actionId: string, signal?: AbortSignal) => {
   });
 };
 
-export const getActionGetActionQueryKey = (actionId: string) =>
-  [`/v1/actions/${actionId}`] as const;
+export const getActionGetActionQueryKey = (actionId: string) => {
+  return [`/v1/actions/${actionId}`] as const;
+};
 
 export const useActionGetActionQueryOptions = <
   TData = Awaited<ReturnType<typeof actionGetAction>>,
@@ -74,17 +71,15 @@ export const useActionGetActionQueryOptions = <
 >(
   actionId: string,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof actionGetAction>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof actionGetAction>>,
+        TError,
+        TData
+      >
     >;
   },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof actionGetAction>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
+) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
@@ -100,7 +95,11 @@ export const useActionGetActionQueryOptions = <
     queryFn,
   });
 
-  return customOptions;
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof actionGetAction>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
 };
 
 export type ActionGetActionQueryResult = NonNullable<
@@ -117,18 +116,21 @@ export const useActionGetAction = <
 >(
   actionId: string,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof actionGetAction>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof actionGetAction>>,
+        TError,
+        TData
+      >
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = useActionGetActionQueryOptions(actionId, options);
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  const query = useQuery(
+    queryOptions,
+    (queryOptions as any).queryClient ?? undefined,
+  ) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -362,8 +364,9 @@ export const transactionGetTransaction = (
   });
 };
 
-export const getTransactionGetTransactionQueryKey = (transactionId: string) =>
-  [`/v1/transactions/${transactionId}`] as const;
+export const getTransactionGetTransactionQueryKey = (transactionId: string) => {
+  return [`/v1/transactions/${transactionId}`] as const;
+};
 
 export const useTransactionGetTransactionQueryOptions = <
   TData = Awaited<ReturnType<typeof transactionGetTransaction>>,
@@ -371,17 +374,15 @@ export const useTransactionGetTransactionQueryOptions = <
 >(
   transactionId: string,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof transactionGetTransaction>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof transactionGetTransaction>>,
+        TError,
+        TData
+      >
     >;
   },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof transactionGetTransaction>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
+) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
@@ -398,7 +399,11 @@ export const useTransactionGetTransactionQueryOptions = <
     queryFn,
   });
 
-  return customOptions;
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof transactionGetTransaction>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
 };
 
 export type TransactionGetTransactionQueryResult = NonNullable<
@@ -415,10 +420,12 @@ export const useTransactionGetTransaction = <
 >(
   transactionId: string,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof transactionGetTransaction>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof transactionGetTransaction>>,
+        TError,
+        TData
+      >
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
@@ -427,9 +434,10 @@ export const useTransactionGetTransaction = <
     options,
   );
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  const query = useQuery(
+    queryOptions,
+    (queryOptions as any).queryClient ?? undefined,
+  ) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -672,7 +680,9 @@ export const transactionGetTransactionStatusFromId = (
 
 export const getTransactionGetTransactionStatusFromIdQueryKey = (
   transactionId: string,
-) => [`/v1/transactions/${transactionId}/status`] as const;
+) => {
+  return [`/v1/transactions/${transactionId}/status`] as const;
+};
 
 export const useTransactionGetTransactionStatusFromIdQueryOptions = <
   TData = Awaited<ReturnType<typeof transactionGetTransactionStatusFromId>>,
@@ -680,17 +690,15 @@ export const useTransactionGetTransactionStatusFromIdQueryOptions = <
 >(
   transactionId: string,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof transactionGetTransactionStatusFromId>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof transactionGetTransactionStatusFromId>>,
+        TError,
+        TData
+      >
     >;
   },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof transactionGetTransactionStatusFromId>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
+) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
@@ -708,7 +716,11 @@ export const useTransactionGetTransactionStatusFromIdQueryOptions = <
     queryFn,
   });
 
-  return customOptions;
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof transactionGetTransactionStatusFromId>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
 };
 
 export type TransactionGetTransactionStatusFromIdQueryResult = NonNullable<
@@ -725,10 +737,12 @@ export const useTransactionGetTransactionStatusFromId = <
 >(
   transactionId: string,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof transactionGetTransactionStatusFromId>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof transactionGetTransactionStatusFromId>>,
+        TError,
+        TData
+      >
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
@@ -737,9 +751,10 @@ export const useTransactionGetTransactionStatusFromId = <
     options,
   );
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  const query = useQuery(
+    queryOptions,
+    (queryOptions as any).queryClient ?? undefined,
+  ) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -761,8 +776,9 @@ export const transactionGetGasForNetwork = (
   });
 };
 
-export const getTransactionGetGasForNetworkQueryKey = (network: string) =>
-  [`/v1/transactions/gas/${network}`] as const;
+export const getTransactionGetGasForNetworkQueryKey = (network: string) => {
+  return [`/v1/transactions/gas/${network}`] as const;
+};
 
 export const useTransactionGetGasForNetworkQueryOptions = <
   TData = Awaited<ReturnType<typeof transactionGetGasForNetwork>>,
@@ -770,17 +786,15 @@ export const useTransactionGetGasForNetworkQueryOptions = <
 >(
   network: string,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof transactionGetGasForNetwork>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof transactionGetGasForNetwork>>,
+        TError,
+        TData
+      >
     >;
   },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof transactionGetGasForNetwork>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
+) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
@@ -796,7 +810,11 @@ export const useTransactionGetGasForNetworkQueryOptions = <
     queryFn,
   });
 
-  return customOptions;
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof transactionGetGasForNetwork>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
 };
 
 export type TransactionGetGasForNetworkQueryResult = NonNullable<
@@ -813,10 +831,12 @@ export const useTransactionGetGasForNetwork = <
 >(
   network: string,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof transactionGetGasForNetwork>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof transactionGetGasForNetwork>>,
+        TError,
+        TData
+      >
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
@@ -825,9 +845,10 @@ export const useTransactionGetGasForNetwork = <
     options,
   );
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  const query = useQuery(
+    queryOptions,
+    (queryOptions as any).queryClient ?? undefined,
+  ) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -850,8 +871,9 @@ export const tokenGetTokens = (
   });
 };
 
-export const getTokenGetTokensQueryKey = (params?: TokenGetTokensParams) =>
-  [`/v1/tokens`, ...(params ? [params] : [])] as const;
+export const getTokenGetTokensQueryKey = (params?: TokenGetTokensParams) => {
+  return [`/v1/tokens`, ...(params ? [params] : [])] as const;
+};
 
 export const useTokenGetTokensQueryOptions = <
   TData = Awaited<ReturnType<typeof tokenGetTokens>>,
@@ -859,17 +881,11 @@ export const useTokenGetTokensQueryOptions = <
 >(
   params?: TokenGetTokensParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof tokenGetTokens>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof tokenGetTokens>>, TError, TData>
     >;
   },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof tokenGetTokens>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
+) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey = queryOptions?.queryKey ?? getTokenGetTokensQueryKey(params);
@@ -884,7 +900,11 @@ export const useTokenGetTokensQueryOptions = <
     queryFn,
   });
 
-  return customOptions;
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof tokenGetTokens>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
 };
 
 export type TokenGetTokensQueryResult = NonNullable<
@@ -901,18 +921,17 @@ export const useTokenGetTokens = <
 >(
   params?: TokenGetTokensParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof tokenGetTokens>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof tokenGetTokens>>, TError, TData>
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = useTokenGetTokensQueryOptions(params, options);
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  const query = useQuery(
+    queryOptions,
+    (queryOptions as any).queryClient ?? undefined,
+  ) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -934,7 +953,9 @@ export const tokenGetTokenPrices = (priceRequestDto: PriceRequestDto) => {
 
 export const getTokenGetTokenPricesQueryKey = (
   priceRequestDto: PriceRequestDto,
-) => [`/v1/tokens/prices`, priceRequestDto] as const;
+) => {
+  return [`/v1/tokens/prices`, priceRequestDto] as const;
+};
 
 export const useTokenGetTokenPricesQueryOptions = <
   TData = Awaited<ReturnType<typeof tokenGetTokenPrices>>,
@@ -942,17 +963,15 @@ export const useTokenGetTokenPricesQueryOptions = <
 >(
   priceRequestDto: PriceRequestDto,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof tokenGetTokenPrices>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof tokenGetTokenPrices>>,
+        TError,
+        TData
+      >
     >;
   },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof tokenGetTokenPrices>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
+) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
@@ -968,7 +987,11 @@ export const useTokenGetTokenPricesQueryOptions = <
     queryFn,
   });
 
-  return customOptions;
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof tokenGetTokenPrices>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
 };
 
 export type TokenGetTokenPricesQueryResult = NonNullable<
@@ -985,10 +1008,12 @@ export const useTokenGetTokenPrices = <
 >(
   priceRequestDto: PriceRequestDto,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof tokenGetTokenPrices>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof tokenGetTokenPrices>>,
+        TError,
+        TData
+      >
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
@@ -997,9 +1022,10 @@ export const useTokenGetTokenPrices = <
     options,
   );
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  const query = useQuery(
+    queryOptions,
+    (queryOptions as any).queryClient ?? undefined,
+  ) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -1023,7 +1049,9 @@ export const tokenGetTokenBalances = (
 
 export const getTokenGetTokenBalancesQueryKey = (
   balancesRequestDto: BalancesRequestDto,
-) => [`/v1/tokens/balances`, balancesRequestDto] as const;
+) => {
+  return [`/v1/tokens/balances`, balancesRequestDto] as const;
+};
 
 export const useTokenGetTokenBalancesQueryOptions = <
   TData = Awaited<ReturnType<typeof tokenGetTokenBalances>>,
@@ -1031,17 +1059,15 @@ export const useTokenGetTokenBalancesQueryOptions = <
 >(
   balancesRequestDto: BalancesRequestDto,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof tokenGetTokenBalances>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof tokenGetTokenBalances>>,
+        TError,
+        TData
+      >
     >;
   },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof tokenGetTokenBalances>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
+) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
@@ -1058,7 +1084,11 @@ export const useTokenGetTokenBalancesQueryOptions = <
     queryFn,
   });
 
-  return customOptions;
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof tokenGetTokenBalances>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
 };
 
 export type TokenGetTokenBalancesQueryResult = NonNullable<
@@ -1075,10 +1105,12 @@ export const useTokenGetTokenBalances = <
 >(
   balancesRequestDto: BalancesRequestDto,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof tokenGetTokenBalances>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof tokenGetTokenBalances>>,
+        TError,
+        TData
+      >
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
@@ -1087,9 +1119,10 @@ export const useTokenGetTokenBalances = <
     options,
   );
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  const query = useQuery(
+    queryOptions,
+    (queryOptions as any).queryClient ?? undefined,
+  ) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -1113,7 +1146,9 @@ export const tokenTokenBalancesScan = (
 
 export const getTokenTokenBalancesScanQueryKey = (
   tokenBalanceScanDto: TokenBalanceScanDto,
-) => [`/v1/tokens/balances/scan`, tokenBalanceScanDto] as const;
+) => {
+  return [`/v1/tokens/balances/scan`, tokenBalanceScanDto] as const;
+};
 
 export const useTokenTokenBalancesScanQueryOptions = <
   TData = Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
@@ -1121,17 +1156,15 @@ export const useTokenTokenBalancesScanQueryOptions = <
 >(
   tokenBalanceScanDto: TokenBalanceScanDto,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
+        TError,
+        TData
+      >
     >;
   },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
+) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
@@ -1148,7 +1181,11 @@ export const useTokenTokenBalancesScanQueryOptions = <
     queryFn,
   });
 
-  return customOptions;
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
 };
 
 export type TokenTokenBalancesScanQueryResult = NonNullable<
@@ -1165,10 +1202,12 @@ export const useTokenTokenBalancesScan = <
 >(
   tokenBalanceScanDto: TokenBalanceScanDto,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
+        TError,
+        TData
+      >
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
@@ -1177,9 +1216,10 @@ export const useTokenTokenBalancesScan = <
     options,
   );
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  const query = useQuery(
+    queryOptions,
+    (queryOptions as any).queryClient ?? undefined,
+  ) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -1202,8 +1242,9 @@ export const yieldYields = (
   });
 };
 
-export const getYieldYieldsQueryKey = (params?: YieldYieldsParams) =>
-  [`/v1/yields`, ...(params ? [params] : [])] as const;
+export const getYieldYieldsQueryKey = (params?: YieldYieldsParams) => {
+  return [`/v1/yields`, ...(params ? [params] : [])] as const;
+};
 
 export const useYieldYieldsQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldYields>>,
@@ -1211,15 +1252,11 @@ export const useYieldYieldsQueryOptions = <
 >(
   params?: YieldYieldsParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof yieldYields>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof yieldYields>>, TError, TData>
     >;
   },
-): UseQueryOptions<Awaited<ReturnType<typeof yieldYields>>, TError, TData> & {
-  queryKey: QueryKey;
-} => {
+) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey = queryOptions?.queryKey ?? getYieldYieldsQueryKey(params);
@@ -1234,7 +1271,11 @@ export const useYieldYieldsQueryOptions = <
     queryFn,
   });
 
-  return customOptions;
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof yieldYields>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
 };
 
 export type YieldYieldsQueryResult = NonNullable<
@@ -1251,18 +1292,17 @@ export const useYieldYields = <
 >(
   params?: YieldYieldsParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof yieldYields>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof yieldYields>>, TError, TData>
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = useYieldYieldsQueryOptions(params, options);
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  const query = useQuery(
+    queryOptions,
+    (queryOptions as any).queryClient ?? undefined,
+  ) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -1289,12 +1329,13 @@ export const yieldGetMultipleYieldBalances = (
 export const getYieldGetMultipleYieldBalancesQueryKey = (
   yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
   params?: YieldGetMultipleYieldBalancesParams,
-) =>
-  [
+) => {
+  return [
     `/v1/yields/balances`,
     ...(params ? [params] : []),
     yieldBalanceWithIntegrationIdRequestDto,
   ] as const;
+};
 
 export const useYieldGetMultipleYieldBalancesQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
@@ -1303,17 +1344,15 @@ export const useYieldGetMultipleYieldBalancesQueryOptions = <
   yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
   params?: YieldGetMultipleYieldBalancesParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
+        TError,
+        TData
+      >
     >;
   },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
+) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
@@ -1337,7 +1376,11 @@ export const useYieldGetMultipleYieldBalancesQueryOptions = <
     queryFn,
   });
 
-  return customOptions;
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
 };
 
 export type YieldGetMultipleYieldBalancesQueryResult = NonNullable<
@@ -1355,10 +1398,12 @@ export const useYieldGetMultipleYieldBalances = <
   yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
   params?: YieldGetMultipleYieldBalancesParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
+        TError,
+        TData
+      >
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
@@ -1368,9 +1413,10 @@ export const useYieldGetMultipleYieldBalances = <
     options,
   );
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  const query = useQuery(
+    queryOptions,
+    (queryOptions as any).queryClient ?? undefined,
+  ) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -1397,12 +1443,13 @@ export const yieldYieldBalancesScan = (
 export const getYieldYieldBalancesScanQueryKey = (
   yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
   params?: YieldYieldBalancesScanParams,
-) =>
-  [
+) => {
+  return [
     `/v1/yields/balances/scan`,
     ...(params ? [params] : []),
     yieldBalanceScanRequestDto,
   ] as const;
+};
 
 export const useYieldYieldBalancesScanQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
@@ -1411,17 +1458,15 @@ export const useYieldYieldBalancesScanQueryOptions = <
   yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
   params?: YieldYieldBalancesScanParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
+        TError,
+        TData
+      >
     >;
   },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
+) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
@@ -1438,7 +1483,11 @@ export const useYieldYieldBalancesScanQueryOptions = <
     queryFn,
   });
 
-  return customOptions;
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
 };
 
 export type YieldYieldBalancesScanQueryResult = NonNullable<
@@ -1456,10 +1505,12 @@ export const useYieldYieldBalancesScan = <
   yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
   params?: YieldYieldBalancesScanParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
+        TError,
+        TData
+      >
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
@@ -1469,9 +1520,10 @@ export const useYieldYieldBalancesScan = <
     options,
   );
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  const query = useQuery(
+    queryOptions,
+    (queryOptions as any).queryClient ?? undefined,
+  ) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -1494,8 +1546,11 @@ export const yieldGetMyYields = (
   });
 };
 
-export const getYieldGetMyYieldsQueryKey = (params?: YieldGetMyYieldsParams) =>
-  [`/v1/yields/enabled`, ...(params ? [params] : [])] as const;
+export const getYieldGetMyYieldsQueryKey = (
+  params?: YieldGetMyYieldsParams,
+) => {
+  return [`/v1/yields/enabled`, ...(params ? [params] : [])] as const;
+};
 
 export const useYieldGetMyYieldsQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldGetMyYields>>,
@@ -1503,17 +1558,15 @@ export const useYieldGetMyYieldsQueryOptions = <
 >(
   params?: YieldGetMyYieldsParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof yieldGetMyYields>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof yieldGetMyYields>>,
+        TError,
+        TData
+      >
     >;
   },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof yieldGetMyYields>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
+) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
@@ -1529,7 +1582,11 @@ export const useYieldGetMyYieldsQueryOptions = <
     queryFn,
   });
 
-  return customOptions;
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof yieldGetMyYields>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
 };
 
 export type YieldGetMyYieldsQueryResult = NonNullable<
@@ -1546,18 +1603,21 @@ export const useYieldGetMyYields = <
 >(
   params?: YieldGetMyYieldsParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof yieldGetMyYields>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof yieldGetMyYields>>,
+        TError,
+        TData
+      >
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = useYieldGetMyYieldsQueryOptions(params, options);
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  const query = useQuery(
+    queryOptions,
+    (queryOptions as any).queryClient ?? undefined,
+  ) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -1576,23 +1636,22 @@ export const yieldGetMyNetworks = (signal?: AbortSignal) => {
   });
 };
 
-export const getYieldGetMyNetworksQueryKey = () =>
-  [`/v1/yields/enabled/networks`] as const;
+export const getYieldGetMyNetworksQueryKey = () => {
+  return [`/v1/yields/enabled/networks`] as const;
+};
 
 export const useYieldGetMyNetworksQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldGetMyNetworks>>,
   TError = string[],
 >(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof yieldGetMyNetworks>>,
-    TError,
-    TData
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof yieldGetMyNetworks>>,
+      TError,
+      TData
+    >
   >;
-}): UseQueryOptions<
-  Awaited<ReturnType<typeof yieldGetMyNetworks>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
+}) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey = queryOptions?.queryKey ?? getYieldGetMyNetworksQueryKey();
@@ -1607,7 +1666,11 @@ export const useYieldGetMyNetworksQueryOptions = <
     queryFn,
   });
 
-  return customOptions;
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof yieldGetMyNetworks>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
 };
 
 export type YieldGetMyNetworksQueryResult = NonNullable<
@@ -1622,17 +1685,20 @@ export const useYieldGetMyNetworks = <
   TData = Awaited<ReturnType<typeof yieldGetMyNetworks>>,
   TError = string[],
 >(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof yieldGetMyNetworks>>,
-    TError,
-    TData
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof yieldGetMyNetworks>>,
+      TError,
+      TData
+    >
   >;
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = useYieldGetMyNetworksQueryOptions(options);
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  const query = useQuery(
+    queryOptions,
+    (queryOptions as any).queryClient ?? undefined,
+  ) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -1657,7 +1723,9 @@ export const yieldFindValidators = (
 
 export const getYieldFindValidatorsQueryKey = (
   params?: YieldFindValidatorsParams,
-) => [`/v1/yields/validators`, ...(params ? [params] : [])] as const;
+) => {
+  return [`/v1/yields/validators`, ...(params ? [params] : [])] as const;
+};
 
 export const useYieldFindValidatorsQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldFindValidators>>,
@@ -1665,17 +1733,15 @@ export const useYieldFindValidatorsQueryOptions = <
 >(
   params?: YieldFindValidatorsParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof yieldFindValidators>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof yieldFindValidators>>,
+        TError,
+        TData
+      >
     >;
   },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof yieldFindValidators>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
+) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
@@ -1691,7 +1757,11 @@ export const useYieldFindValidatorsQueryOptions = <
     queryFn,
   });
 
-  return customOptions;
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof yieldFindValidators>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
 };
 
 export type YieldFindValidatorsQueryResult = NonNullable<
@@ -1708,18 +1778,21 @@ export const useYieldFindValidators = <
 >(
   params?: YieldFindValidatorsParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof yieldFindValidators>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof yieldFindValidators>>,
+        TError,
+        TData
+      >
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = useYieldFindValidatorsQueryOptions(params, options);
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  const query = useQuery(
+    queryOptions,
+    (queryOptions as any).queryClient ?? undefined,
+  ) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -1746,7 +1819,9 @@ export const yieldYieldOpportunity = (
 export const getYieldYieldOpportunityQueryKey = (
   integrationId: string,
   params?: YieldYieldOpportunityParams,
-) => [`/v1/yields/${integrationId}`, ...(params ? [params] : [])] as const;
+) => {
+  return [`/v1/yields/${integrationId}`, ...(params ? [params] : [])] as const;
+};
 
 export const useYieldYieldOpportunityQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldYieldOpportunity>>,
@@ -1755,17 +1830,15 @@ export const useYieldYieldOpportunityQueryOptions = <
   integrationId: string,
   params?: YieldYieldOpportunityParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof yieldYieldOpportunity>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof yieldYieldOpportunity>>,
+        TError,
+        TData
+      >
     >;
   },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof yieldYieldOpportunity>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
+) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
@@ -1782,7 +1855,11 @@ export const useYieldYieldOpportunityQueryOptions = <
     queryFn,
   });
 
-  return customOptions;
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof yieldYieldOpportunity>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
 };
 
 export type YieldYieldOpportunityQueryResult = NonNullable<
@@ -1800,10 +1877,12 @@ export const useYieldYieldOpportunity = <
   integrationId: string,
   params?: YieldYieldOpportunityParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof yieldYieldOpportunity>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof yieldYieldOpportunity>>,
+        TError,
+        TData
+      >
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
@@ -1813,9 +1892,10 @@ export const useYieldYieldOpportunity = <
     options,
   );
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  const query = useQuery(
+    queryOptions,
+    (queryOptions as any).queryClient ?? undefined,
+  ) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -1842,11 +1922,12 @@ export const yieldGetValidators = (
 export const getYieldGetValidatorsQueryKey = (
   integrationId: string,
   params?: YieldGetValidatorsParams,
-) =>
-  [
+) => {
+  return [
     `/v1/yields/${integrationId}/validators`,
     ...(params ? [params] : []),
   ] as const;
+};
 
 export const useYieldGetValidatorsQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldGetValidators>>,
@@ -1855,17 +1936,15 @@ export const useYieldGetValidatorsQueryOptions = <
   integrationId: string,
   params?: YieldGetValidatorsParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof yieldGetValidators>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof yieldGetValidators>>,
+        TError,
+        TData
+      >
     >;
   },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof yieldGetValidators>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
+) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
@@ -1882,7 +1961,11 @@ export const useYieldGetValidatorsQueryOptions = <
     queryFn,
   });
 
-  return customOptions;
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof yieldGetValidators>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
 };
 
 export type YieldGetValidatorsQueryResult = NonNullable<
@@ -1900,10 +1983,12 @@ export const useYieldGetValidators = <
   integrationId: string,
   params?: YieldGetValidatorsParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof yieldGetValidators>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof yieldGetValidators>>,
+        TError,
+        TData
+      >
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
@@ -1913,9 +1998,10 @@ export const useYieldGetValidators = <
     options,
   );
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  const query = useQuery(
+    queryOptions,
+    (queryOptions as any).queryClient ?? undefined,
+  ) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 
@@ -1944,12 +2030,13 @@ export const getYieldGetSingleYieldBalancesQueryKey = (
   integrationId: string,
   yieldBalanceRequestDto: YieldBalanceRequestDto,
   params?: YieldGetSingleYieldBalancesParams,
-) =>
-  [
+) => {
+  return [
     `/v1/yields/${integrationId}/balances`,
     ...(params ? [params] : []),
     yieldBalanceRequestDto,
   ] as const;
+};
 
 export const useYieldGetSingleYieldBalancesQueryOptions = <
   TData = Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
@@ -1959,17 +2046,15 @@ export const useYieldGetSingleYieldBalancesQueryOptions = <
   yieldBalanceRequestDto: YieldBalanceRequestDto,
   params?: YieldGetSingleYieldBalancesParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
+        TError,
+        TData
+      >
     >;
   },
-): UseQueryOptions<
-  Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
-  TError,
-  TData
-> & { queryKey: QueryKey } => {
+) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
@@ -1991,7 +2076,11 @@ export const useYieldGetSingleYieldBalancesQueryOptions = <
     queryFn,
   });
 
-  return customOptions;
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
 };
 
 export type YieldGetSingleYieldBalancesQueryResult = NonNullable<
@@ -2010,10 +2099,12 @@ export const useYieldGetSingleYieldBalances = <
   yieldBalanceRequestDto: YieldBalanceRequestDto,
   params?: YieldGetSingleYieldBalancesParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
+        TError,
+        TData
+      >
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
@@ -2024,9 +2115,10 @@ export const useYieldGetSingleYieldBalances = <
     options,
   );
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
+  const query = useQuery(
+    queryOptions,
+    (queryOptions as any).queryClient ?? undefined,
+  ) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
   query.queryKey = queryOptions.queryKey;
 

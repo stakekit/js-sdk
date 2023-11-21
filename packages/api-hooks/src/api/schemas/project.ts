@@ -1,10 +1,10 @@
 export interface Project {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
   autoComplaintBansEnabled: boolean;
+  createdAt: string;
   deletedAt: string | null;
   description: string | null;
+  id: string;
   name: string;
   teamId: string;
+  updatedAt: string;
 }
