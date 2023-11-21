@@ -3,10 +3,10 @@ import type { GeolocationErrorTagsItem } from './geolocationErrorTagsItem';
 import type { GeolocationErrorType } from './geolocationErrorType';
 
 export interface GeolocationError {
+  code: number;
   countryCode: string;
+  message: string;
   regionCode?: GeolocationErrorRegionCode;
   tags?: GeolocationErrorTagsItem[];
-  code: number;
-  message: string;
   type: GeolocationErrorType;
 }

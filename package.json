@@ -36,9 +36,10 @@
     "prettier": "^2.8.7",
     "turbo": "^1.8.3"
   },
-  "packageManager": "yarn@3.6.0",
+  "packageManager": "yarn@4.0.2",
   "resolutions": {
     "near-ledger-js@^0.2.1": "patch:near-ledger-js@npm%3A0.2.1#./.yarn/patches/near-ledger-js-npm-0.2.1-a65e3608e3.patch",
-    "ed25519-hd-key@^1.3.0": "patch:ed25519-hd-key@npm%3A1.3.0#./.yarn/patches/ed25519-hd-key-npm-1.3.0-248db2e234.patch"
+    "ed25519-hd-key@^1.3.0": "patch:ed25519-hd-key@npm%3A1.3.0#./.yarn/patches/ed25519-hd-key-npm-1.3.0-248db2e234.patch",
+    "@orval/query@npm:6.20.0": "patch:@orval/query@npm%3A6.20.0#~/.yarn/patches/@orval-query-npm-6.20.0-3f724ea48d.patch"
   }
 }

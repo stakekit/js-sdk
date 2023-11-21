@@ -1,12 +1,12 @@
 export interface Key {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
   apiKey: string;
-  deletedAt: string | null;
-  info: string | null;
   category: string;
-  name: string;
+  createdAt: string;
+  deletedAt: string | null;
+  id: string;
+  info: string | null;
   lastUsedAt: string | null;
+  name: string;
   projectId: string;
+  updatedAt: string;
 }

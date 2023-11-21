@@ -32,6 +32,7 @@ export default defineConfig({
       client: 'react-query',
       prettier: true,
       clean: true,
+      mock: true,
       override: {
         header: false,
         operationName: (operation) =>

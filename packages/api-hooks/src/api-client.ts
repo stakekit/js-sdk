@@ -49,7 +49,7 @@ export class APIManager {
   private static defaultQueryClientConfig: QueryClientConfig = {
     defaultOptions: {
       queries: {
-        cacheTime: config.queryClient.cacheTime,
+        gcTime: config.queryClient.cacheTime,
         staleTime: config.queryClient.staleTime,
         retry: (failureCount, error) => {
           if (error instanceof AxiosError) {

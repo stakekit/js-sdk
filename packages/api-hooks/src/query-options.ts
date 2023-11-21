@@ -1,9 +1,12 @@
 import { QueryClient } from '@tanstack/react-query';
-import { StakeKitContext } from './query-provider';
-import { Context } from 'react';
+import { APIManager } from './api-client';
 
 export const customQueryOptions = <T>(
   options: T,
 ): T & {
-  context: Context<QueryClient | undefined>;
-} => ({ ...options, context: StakeKitContext });
+  queryClient: QueryClient | undefined;
+} => {
+  const queryClient = APIManager.getQueryClient() ?? undefined;
+
+  return { ...options, queryClient };
+};
