@@ -1,15 +1,13 @@
-import { ApiPromise, HttpProvider, Keyring } from '@polkadot/api';
+import { Keyring } from '@polkadot/api';
 import { KeyringPair } from '@polkadot/keyring/types';
+import { cryptoWaitReady } from '@polkadot/util-crypto';
 import { SubstrateNetworks } from '@stakekit/common';
 import {
   WalletOptions,
   isLedgerOptions,
   walletDerivationPaths,
 } from '../constants';
-import {
-  getKeyringOptionsFromNetwork,
-  getSubstrateRpcEndpointByNetwork,
-} from './utils';
+import { getKeyringOptionsFromNetwork } from './utils';
 
 export const getSubstrateWallet = async (
   options: WalletOptions,
@@ -24,8 +22,7 @@ export const getSubstrateWallet = async (
   const { mnemonic, walletType, index } = options;
   const derivationPath = walletDerivationPaths[walletType].polkadot(index);
 
-  const provider = new HttpProvider(getSubstrateRpcEndpointByNetwork(network));
-  const api = await ApiPromise.create({ provider });
+  await cryptoWaitReady();
 
   const keyring = new Keyring(getKeyringOptionsFromNetwork(network));
 

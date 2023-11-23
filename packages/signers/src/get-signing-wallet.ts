@@ -15,10 +15,10 @@ import {
   cosmosChainConfig,
 } from '@stakekit/common';
 import {
+  TypeRegistry,
   UnsignedTransaction,
   construct,
   createMetadata,
-  getRegistry,
 } from '@substrate/txwrapper-polkadot';
 import { Avalanche, Buffer as Buf } from 'avalanche';
 import {
@@ -51,7 +51,7 @@ import {
   getSolanaStakeAccountDerivationPath,
   getSolanaWallet,
 } from './solana';
-import { getChainDetails, getSubstrateWallet } from './substrate';
+import { getSubstrateWallet } from './substrate';
 import { getTezosWallet } from './tezos';
 import { getTronWallet } from './tron';
 import { incrementDerivationPath } from './utils';
@@ -211,18 +211,11 @@ const substrateSigningWallet = async (
 
   return {
     signTransaction: async (tx) => {
-      const { specName, specVersion, metadataRpc } = await getChainDetails(
-        network,
-        wallet.address,
-      );
-
-      const registry = getRegistry({
-        chainName: specName,
-        specName,
-        specVersion,
-        metadataRpc,
-      });
-      const unsignedTx = JSON.parse(tx) as UnsignedTransaction;
+      const { tx: unsignedTx, registry } = JSON.parse(tx) as {
+        tx: UnsignedTransaction;
+        registry: TypeRegistry;
+      };
+      const metadataRpc = registry.metadata.toHex();
 
       const signingPayload = construct.signingPayload(unsignedTx, {
         registry,
@@ -236,7 +229,7 @@ const substrateSigningWallet = async (
         .sign(wallet);
 
       return construct.signedTx(unsignedTx, signature, {
-        metadataRpc: metadataRpc,
+        metadataRpc,
         registry,
       });
     },
