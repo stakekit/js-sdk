@@ -15,10 +15,11 @@ import {
   cosmosChainConfig,
 } from '@stakekit/common';
 import {
-  TypeRegistry,
+  GetRegistryOpts,
   UnsignedTransaction,
   construct,
   createMetadata,
+  getRegistry,
 } from '@substrate/txwrapper-polkadot';
 import { Avalanche, Buffer as Buf } from 'avalanche';
 import {
@@ -211,11 +212,25 @@ const substrateSigningWallet = async (
 
   return {
     signTransaction: async (tx) => {
-      const { tx: unsignedTx, registry } = JSON.parse(tx) as {
+      const {
+        tx: unsignedTx,
+        specName,
+        specVersion,
+        metadataRpc,
+      } = JSON.parse(tx) as {
         tx: UnsignedTransaction;
-        registry: TypeRegistry;
+        chainName: string;
+        specName: GetRegistryOpts['specName'];
+        specVersion: number;
+        metadataRpc: `0x${string}`;
       };
-      const metadataRpc = registry.metadata.toHex();
+
+      const registry = getRegistry({
+        chainName: specName,
+        specName,
+        specVersion,
+        metadataRpc,
+      });
 
       const signingPayload = construct.signingPayload(unsignedTx, {
         registry,
