@@ -219,7 +219,6 @@ const substrateSigningWallet = async (
         metadataRpc,
       } = JSON.parse(tx) as {
         tx: UnsignedTransaction;
-        chainName: string;
         specName: GetRegistryOpts['specName'];
         specVersion: number;
         metadataRpc: `0x${string}`;
