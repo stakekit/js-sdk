@@ -13,7 +13,6 @@ export const NetworkToCoinGeckoPlatformId: { [x in Networks]?: string } = {
   [Networks.Harmony]: 'harmony-shard-0',
   [Networks.Arbitrum]: 'arbitrum-one',
   [Networks.Tezos]: 'tezos',
-  [Networks.Polkadot]: 'polkadot',
 
   [Networks.Cosmos]: cosmosChainConfig[Networks.Cosmos].coinGeckoId,
   [Networks.Kava]: cosmosChainConfig[Networks.Kava].coinGeckoId,
@@ -70,7 +69,6 @@ export const ChainIds: { [x in Networks]?: string } = {
   [Networks.Akash]: 'akashnet-2',
   [Networks.Solana]: '4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ',
   [Networks.Tezos]: 'NetXdQprcVkpaWU',
-  [Networks.Polkadot]: '0',
 
   [Networks.Cosmos]: cosmosChainConfig[Networks.Cosmos].chainId,
   [Networks.Kava]: cosmosChainConfig[Networks.Kava].chainId,

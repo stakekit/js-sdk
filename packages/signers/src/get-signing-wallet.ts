@@ -15,6 +15,7 @@ import {
   cosmosChainConfig,
 } from '@stakekit/common';
 import {
+  GetRegistryOpts,
   UnsignedTransaction,
   construct,
   createMetadata,
@@ -51,7 +52,7 @@ import {
   getSolanaStakeAccountDerivationPath,
   getSolanaWallet,
 } from './solana';
-import { getChainDetails, getSubstrateWallet } from './substrate';
+import { getSubstrateWallet } from './substrate';
 import { getTezosWallet } from './tezos';
 import { getTronWallet } from './tron';
 import { incrementDerivationPath } from './utils';
@@ -211,9 +212,17 @@ const substrateSigningWallet = async (
 
   return {
     signTransaction: async (tx) => {
-      const { specName, specVersion, metadataRpc } = await getChainDetails(
-        wallet.address,
-      );
+      const {
+        tx: unsignedTx,
+        specName,
+        specVersion,
+        metadataRpc,
+      } = JSON.parse(tx) as {
+        tx: UnsignedTransaction;
+        specName: GetRegistryOpts['specName'];
+        specVersion: number;
+        metadataRpc: `0x${string}`;
+      };
 
       const registry = getRegistry({
         chainName: specName,
@@ -221,7 +230,6 @@ const substrateSigningWallet = async (
         specVersion,
         metadataRpc,
       });
-      const unsignedTx = JSON.parse(tx) as UnsignedTransaction;
 
       const signingPayload = construct.signingPayload(unsignedTx, {
         registry,
@@ -235,7 +243,7 @@ const substrateSigningWallet = async (
         .sign(wallet);
 
       return construct.signedTx(unsignedTx, signature, {
-        metadataRpc: metadataRpc,
+        metadataRpc,
         registry,
       });
     },
