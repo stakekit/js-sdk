@@ -460,12 +460,14 @@ export const getYieldControllerGetMultipleYieldBalancesMock = () =>
                       'coreum',
                       'desmos',
                       'polkadot',
+                      'kusama',
+                      'westend',
                       'binancebeacon',
                       'near',
                       'solana',
                       'tezos',
                       'tron',
-                    ]),
+                    ] as const),
                     required: faker.datatype.boolean(),
                   },
                   undefined,
@@ -653,12 +655,14 @@ export const getYieldControllerYieldBalancesScanMock = () =>
                       'coreum',
                       'desmos',
                       'polkadot',
+                      'kusama',
+                      'westend',
                       'binancebeacon',
                       'near',
                       'solana',
                       'tezos',
                       'tron',
-                    ]),
+                    ] as const),
                     required: faker.datatype.boolean(),
                   },
                   undefined,
@@ -859,14 +863,77 @@ export const getYieldControllerYieldOpportunityMock = () => ({
                 'coreum',
                 'desmos',
                 'polkadot',
+                'kusama',
+                'westend',
                 'binancebeacon',
                 'near',
                 'solana',
                 'tezos',
                 'tron',
+              ] as const),
+              required: faker.datatype.boolean(),
+            },
+            undefined,
+          ]),
+        },
+        undefined,
+      ]),
+      args: faker.helpers.arrayElement([
+        {
+          amount: faker.helpers.arrayElement([
+            {
+              maximum: faker.helpers.arrayElement([
+                faker.number.int({ min: undefined, max: undefined }),
+                undefined,
+              ]),
+              minimum: faker.helpers.arrayElement([
+                faker.number.int({ min: undefined, max: undefined }),
+                undefined,
               ]),
               required: faker.datatype.boolean(),
             },
+            undefined,
+          ]),
+          duration: faker.helpers.arrayElement([
+            {
+              maximum: faker.helpers.arrayElement([
+                faker.number.int({ min: undefined, max: undefined }),
+                undefined,
+              ]),
+              minimum: faker.helpers.arrayElement([
+                faker.number.int({ min: undefined, max: undefined }),
+                undefined,
+              ]),
+              required: faker.datatype.boolean(),
+            },
+            undefined,
+          ]),
+          nfts: faker.helpers.arrayElement([
+            Array.from(
+              { length: faker.number.int({ min: 1, max: 10 }) },
+              (_, i) => i + 1,
+            ).map(() => ({
+              bakcId: faker.helpers.arrayElement([
+                { required: faker.datatype.boolean() },
+                undefined,
+              ]),
+              baycId: faker.helpers.arrayElement([
+                { required: faker.datatype.boolean() },
+                undefined,
+              ]),
+              maycId: faker.helpers.arrayElement([
+                { required: faker.datatype.boolean() },
+                undefined,
+              ]),
+            })),
+            undefined,
+          ]),
+          validatorAddress: faker.helpers.arrayElement([
+            { required: faker.datatype.boolean() },
+            undefined,
+          ]),
+          validatorAddresses: faker.helpers.arrayElement([
+            { required: faker.datatype.boolean() },
             undefined,
           ]),
         },
@@ -939,14 +1006,77 @@ export const getYieldControllerYieldOpportunityMock = () => ({
                   'coreum',
                   'desmos',
                   'polkadot',
+                  'kusama',
+                  'westend',
                   'binancebeacon',
                   'near',
                   'solana',
                   'tezos',
                   'tron',
+                ] as const),
+                required: faker.datatype.boolean(),
+              },
+              undefined,
+            ]),
+          },
+          undefined,
+        ]),
+        args: faker.helpers.arrayElement([
+          {
+            amount: faker.helpers.arrayElement([
+              {
+                maximum: faker.helpers.arrayElement([
+                  faker.number.int({ min: undefined, max: undefined }),
+                  undefined,
+                ]),
+                minimum: faker.helpers.arrayElement([
+                  faker.number.int({ min: undefined, max: undefined }),
+                  undefined,
                 ]),
                 required: faker.datatype.boolean(),
               },
+              undefined,
+            ]),
+            duration: faker.helpers.arrayElement([
+              {
+                maximum: faker.helpers.arrayElement([
+                  faker.number.int({ min: undefined, max: undefined }),
+                  undefined,
+                ]),
+                minimum: faker.helpers.arrayElement([
+                  faker.number.int({ min: undefined, max: undefined }),
+                  undefined,
+                ]),
+                required: faker.datatype.boolean(),
+              },
+              undefined,
+            ]),
+            nfts: faker.helpers.arrayElement([
+              Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1,
+              ).map(() => ({
+                bakcId: faker.helpers.arrayElement([
+                  { required: faker.datatype.boolean() },
+                  undefined,
+                ]),
+                baycId: faker.helpers.arrayElement([
+                  { required: faker.datatype.boolean() },
+                  undefined,
+                ]),
+                maycId: faker.helpers.arrayElement([
+                  { required: faker.datatype.boolean() },
+                  undefined,
+                ]),
+              })),
+              undefined,
+            ]),
+            validatorAddress: faker.helpers.arrayElement([
+              { required: faker.datatype.boolean() },
+              undefined,
+            ]),
+            validatorAddresses: faker.helpers.arrayElement([
+              { required: faker.datatype.boolean() },
               undefined,
             ]),
           },
@@ -1164,12 +1294,14 @@ export const getYieldControllerGetSingleYieldBalancesMock = () =>
                     'coreum',
                     'desmos',
                     'polkadot',
+                    'kusama',
+                    'westend',
                     'binancebeacon',
                     'near',
                     'solana',
                     'tezos',
                     'tron',
-                  ]),
+                  ] as const),
                   required: faker.datatype.boolean(),
                 },
                 undefined,
@@ -1268,7 +1400,7 @@ export const getYieldControllerGetSingleYieldBalancesMock = () =>
     ]),
   }));
 
-export const getStakeKitMSW = () => [
+export const getStakeKitMock = () => [
   http.get('*/v1/actions/:actionId', async () => {
     await delay(1000);
     return new HttpResponse(

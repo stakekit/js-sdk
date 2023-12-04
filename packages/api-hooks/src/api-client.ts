@@ -92,3 +92,5 @@ export const api = async <T>(config: AxiosRequestConfig): Promise<T> => {
 
   return data;
 };
+
+export type ErrorType<T> = AxiosError<T>;
