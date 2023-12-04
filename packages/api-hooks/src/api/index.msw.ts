@@ -8,6 +8,7 @@ import {
   Networks,
   RewardClaiming,
   RewardSchedule,
+  RewardTypes,
   TransactionStatus,
   TransactionType,
   YieldProviders,
@@ -1172,6 +1173,8 @@ export const getYieldControllerYieldOpportunityMock = () => ({
       undefined,
     ]),
   },
+  rewardRate: faker.number.int({ min: undefined, max: undefined }),
+  rewardType: faker.helpers.arrayElement(Object.values(RewardTypes)),
   status: { enter: faker.datatype.boolean(), exit: faker.datatype.boolean() },
   token: {
     address: faker.helpers.arrayElement([faker.word.sample(), undefined]),

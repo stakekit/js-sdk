@@ -11,6 +11,10 @@ export enum EvmNetworks {
   Harmony = 'harmony',
   Optimism = 'optimism',
   Polygon = 'polygon',
+  Gnosis = 'gnosis',
+  Moonriver = 'moonriver',
+  OKC = 'okc',
+  zkSync = 'zksync',
 }
 
 export enum CosmosNetworks {
