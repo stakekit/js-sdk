@@ -89,6 +89,7 @@ export * from './requiredArgumentWithNetworkDto';
 export * from './requiredArgumentWithNetworkDtoNetwork';
 export * from './rewardClaiming';
 export * from './rewardSchedule';
+export * from './rewardTypes';
 export * from './role';
 export * from './solanaAdditionalAddressesDto';
 export * from './submitHashRequestDto';
