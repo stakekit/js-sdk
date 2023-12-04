@@ -1,6 +1,6 @@
 {
   "name": "@stakekit/signers",
-  "version": "0.0.59",
+  "version": "0.0.60",
   "scripts": {
     "clean": "rm -rf lib",
     "lint": "eslint \"src/**/*.ts\"",
