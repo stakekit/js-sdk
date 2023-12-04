@@ -3,7 +3,7 @@ import type { TeamDtoContactDetails } from './teamDtoContactDetails';
 
 export interface TeamDto {
   activated: boolean;
-  adminUser: UserDto;
+  adminUsers: UserDto[];
   category: string;
   contactDetails: TeamDtoContactDetails;
   createdAt: string;

@@ -8,4 +8,5 @@ export const RewardSchedule = {
   day: 'day',
   week: 'week',
   month: 'month',
+  era: 'era',
 } as const;
