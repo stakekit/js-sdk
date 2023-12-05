@@ -89,4 +89,6 @@ export enum CosmosGasDenom {
   ucore = 'ucore',
   DSM = 'DSM',
   udsm = 'udsm',
+  DYDX = 'DYDX',
+  adydx = 'adydx',
 }
