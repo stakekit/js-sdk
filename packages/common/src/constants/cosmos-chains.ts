@@ -401,7 +401,7 @@ export const cosmosChainConfig: {
     denom: CosmosGasDenom.DYDX,
     minimalDenom: CosmosGasDenom.adydx,
     decimals: 18,
-    bech32Prefix: 'desmos',
-    coinGeckoId: 'desmos',
+    bech32Prefix: 'dydx',
+    coinGeckoId: 'dydx-chain',
   },
 };
