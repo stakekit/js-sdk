@@ -394,4 +394,14 @@ export const cosmosChainConfig: {
     bech32Prefix: 'desmos',
     coinGeckoId: 'desmos',
   },
+  [Networks.Dydx]: {
+    network: Networks.Dydx,
+    chainId: 'dydx-mainnet-1',
+    name: 'dydx',
+    denom: CosmosGasDenom.DYDX,
+    minimalDenom: CosmosGasDenom.adydx,
+    decimals: 18,
+    bech32Prefix: 'dydx',
+    coinGeckoId: 'dydx-chain',
+  },
 };

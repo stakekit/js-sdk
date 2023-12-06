@@ -52,6 +52,7 @@ export const NetworkToCoinGeckoPlatformId: { [x in Networks]?: string } = {
   [Networks.Umee]: cosmosChainConfig[Networks.Umee].coinGeckoId,
   [Networks.Coreum]: cosmosChainConfig[Networks.Coreum].coinGeckoId,
   [Networks.Desmos]: cosmosChainConfig[Networks.Desmos].coinGeckoId,
+  [Networks.Dydx]: cosmosChainConfig[Networks.Dydx].coinGeckoId,
 };
 
 export const ChainIds: { [x in Networks]?: string } = {
@@ -107,4 +108,5 @@ export const ChainIds: { [x in Networks]?: string } = {
   [Networks.Umee]: cosmosChainConfig[Networks.Umee].chainId,
   [Networks.Coreum]: cosmosChainConfig[Networks.Coreum].chainId,
   [Networks.Desmos]: cosmosChainConfig[Networks.Desmos].chainId,
+  [Networks.Dydx]: cosmosChainConfig[Networks.Dydx].chainId,
 };
