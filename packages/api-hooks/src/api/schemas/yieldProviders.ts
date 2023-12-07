@@ -18,4 +18,5 @@ export const YieldProviders = {
   stakewise: 'stakewise',
   'morpho-aave': 'morpho-aave',
   'morpho-compound': 'morpho-compound',
+  angle: 'angle',
 } as const;
