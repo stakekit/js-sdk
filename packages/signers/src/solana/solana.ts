@@ -42,6 +42,27 @@ const getDerivationPath = (
   return walletDerivationPaths[options.walletType].solana(options.index);
 };
 
+const getSolanaKeypair = async (
+  mnemonic: string,
+  derivationPath: string,
+): Promise<Keypair> => {
+  if (isSteakwalletSolana(derivationPath)) {
+    // stake account
+    // it is the first index, meaning Steakwallet or Phantom and it's explicitly not
+    // a fully qualified first Phantom index
+    const node = await getNode(mnemonic);
+    const base = node.derivePath(derivationPath);
+
+    return Keypair.fromSeed(base.privateKey!);
+  }
+
+  // Phantom wallet or a Phantom stake account
+  const seed = Buffer.from(await getSeed(mnemonic)).toString('hex');
+  const key = derivePath(derivationPath, seed).key;
+
+  return Keypair.fromSecretKey(nacl.sign.keyPair.fromSeed(key).secretKey);
+};
+
 const getLedgerWallet = async (
   options: LedgerOptions,
 ): Promise<SolanaSigner> => {
@@ -52,27 +73,6 @@ const getLedgerWallet = async (
   return new SolanaLedgerSigner(
     await options.transport(LedgerApps.Solana),
     options.config.Solana.derivationPath!,
-  );
-};
-
-const fromMnemonic = async (
-  mnemonic: string,
-  derivationPath: string,
-): Promise<SolanaSigner> => {
-  // stake account
-  // it is the first index, meaning Steakwallet or Phantom and it's explicitly not
-  // a fully qualified first Phantom index
-  if (isSteakwalletSolana(derivationPath)) {
-    const node = await getNode(mnemonic);
-    const base = node.derivePath(derivationPath);
-    return new SolanaKeyPairSigner(Keypair.fromSeed(base.privateKey!));
-  }
-
-  // Phantom wallet or a Phantom stake account
-  const seed = Buffer.from(await getSeed(mnemonic)).toString('hex');
-  const key = derivePath(derivationPath, seed).key;
-  return new SolanaKeyPairSigner(
-    Keypair.fromSecretKey(nacl.sign.keyPair.fromSeed(key).secretKey),
   );
 };
 
@@ -98,5 +98,7 @@ export const getSolanaWallet = async (
     );
   }
 
-  return fromMnemonic(options.mnemonic, derivationPath);
+  const keypair = await getSolanaKeypair(options.mnemonic, derivationPath);
+
+  return new SolanaKeyPairSigner(keypair);
 };
