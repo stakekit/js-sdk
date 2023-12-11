@@ -1,47 +1,80 @@
-import { Keypair } from "@solana/web3.js";
-import { derivePath } from "ed25519-hd-key";
-import * as nacl from "tweetnacl";
+import { Keypair } from '@solana/web3.js';
+import { derivePath } from 'ed25519-hd-key';
+import * as nacl from 'tweetnacl';
 
-import { getNode, getSeed } from "../common";
+import { getNode, getSeed } from '../common';
 import {
   ImportableWallets,
   LedgerApps,
+  LedgerOptions,
+  MnemonicWalletOptions,
+  SolanaMnemonicOptions,
   SolanaWalletOptions,
   WalletOptions,
   isLedgerOptions,
   isSolanaWalletOptions,
   walletDerivationPaths,
-} from "../constants";
+} from '../constants';
 import {
   STEAKWALLET_SOLANA_DERIVATION_PATH,
   isSteakwalletSolana,
-} from "./constants";
+} from './constants';
 import {
   SolanaKeyPairSigner,
   SolanaLedgerSigner,
   SolanaSigner,
-} from "./signers";
+} from './signers';
 
-async function fromMnemonic(mnemonic: string, derivationPath: string) {
+const getDerivationPath = (
+  options: MnemonicWalletOptions | SolanaMnemonicOptions,
+): string | undefined => {
+  if (isSolanaWalletOptions(options)) {
+    return options.derivationPathOverride;
+  }
+
+  if (
+    options.walletType === ImportableWallets.Steakwallet ||
+    options.walletType === ImportableWallets.Omni
+  ) {
+    return STEAKWALLET_SOLANA_DERIVATION_PATH;
+  }
+
+  return walletDerivationPaths[options.walletType].solana(options.index);
+};
+
+const getLedgerWallet = async (
+  options: LedgerOptions,
+): Promise<SolanaSigner> => {
+  if (!options.config.Solana?.derivationPath) {
+    throw new Error('missing solana derivation path');
+  }
+
+  return new SolanaLedgerSigner(
+    await options.transport(LedgerApps.Solana),
+    options.config.Solana.derivationPath!,
+  );
+};
+
+const fromMnemonic = async (
+  mnemonic: string,
+  derivationPath: string,
+): Promise<SolanaSigner> => {
   // stake account
   // it is the first index, meaning Steakwallet or Phantom and it's explicitly not
   // a fully qualified first Phantom index
-  if (
-    isSteakwalletSolana(derivationPath) &&
-    derivationPath !== STEAKWALLET_SOLANA_DERIVATION_PATH
-  ) {
+  if (isSteakwalletSolana(derivationPath)) {
     const node = await getNode(mnemonic);
     const base = node.derivePath(derivationPath);
     return new SolanaKeyPairSigner(Keypair.fromSeed(base.privateKey!));
   }
 
   // Phantom wallet or a Phantom stake account
-  const seed = Buffer.from(await getSeed(mnemonic)).toString("hex");
+  const seed = Buffer.from(await getSeed(mnemonic)).toString('hex');
   const key = derivePath(derivationPath, seed).key;
   return new SolanaKeyPairSigner(
-    Keypair.fromSecretKey(nacl.sign.keyPair.fromSeed(key).secretKey)
+    Keypair.fromSecretKey(nacl.sign.keyPair.fromSeed(key).secretKey),
   );
-}
+};
 
 /**
  * Absence of any derivation path means it's a basic Steakwallet/Omni account
@@ -52,34 +85,18 @@ async function fromMnemonic(mnemonic: string, derivationPath: string) {
  * m/44'/501'/XXX'/XXX' means it's a Phantom wallet or a Phantom stake account
  */
 export const getSolanaWallet = async (
-  options: WalletOptions | SolanaWalletOptions
+  options: WalletOptions | SolanaWalletOptions,
 ): Promise<SolanaSigner> => {
   if (isLedgerOptions(options)) {
-    if (!options.config.Solana?.derivationPath) {
-      throw new Error("missing solana derivation path");
-    }
+    return getLedgerWallet(options);
+  }
 
-    return new SolanaLedgerSigner(
-      await options.transport(LedgerApps.Solana),
-      options.config.Solana.derivationPath!
+  const derivationPath = getDerivationPath(options);
+  if (derivationPath === undefined) {
+    throw new Error(
+      `Derivation path for Solana not found for this wallet type ${options.walletType}`,
     );
   }
 
-  if (isSolanaWalletOptions(options)) {
-    return fromMnemonic(options.mnemonic, options.derivationPathOverride);
-  }
-
-  if (
-    options.walletType === ImportableWallets.Steakwallet ||
-    options.walletType === ImportableWallets.Omni
-  ) {
-    const node = await getNode(options.mnemonic);
-    const base = node.derivePath(STEAKWALLET_SOLANA_DERIVATION_PATH);
-    return new SolanaKeyPairSigner(Keypair.fromSeed(base.privateKey!));
-  }
-
-  const derivationPath = walletDerivationPaths[options.walletType].solana(
-    options.index
-  )!;
   return fromMnemonic(options.mnemonic, derivationPath);
 };
