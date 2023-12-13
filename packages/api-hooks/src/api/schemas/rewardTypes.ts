@@ -4,4 +4,5 @@ export type RewardTypes = (typeof RewardTypes)[keyof typeof RewardTypes];
 export const RewardTypes = {
   apr: 'apr',
   apy: 'apy',
+  variable: 'variable',
 } as const;
