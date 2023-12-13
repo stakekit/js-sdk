@@ -15,7 +15,7 @@ export enum EvmNetworks {
   Moonriver = 'moonriver',
   OKC = 'okc',
   zkSync = 'zksync',
-  viction = 'viction',
+  Viction = 'viction',
 }
 
 export enum CosmosNetworks {
