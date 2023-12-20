@@ -391,6 +391,7 @@ export const getYieldControllerGetMultipleYieldBalancesMock = () =>
         `${faker.date.past().toISOString().split('.')[0]}Z`,
         undefined,
       ]),
+      groupId: faker.string.uuid(),
       pendingActions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
@@ -591,6 +592,7 @@ export const getYieldControllerYieldBalancesScanMock = () =>
         `${faker.date.past().toISOString().split('.')[0]}Z`,
         undefined,
       ]),
+      groupId: faker.string.uuid(),
       pendingActions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
@@ -1247,6 +1249,7 @@ export const getYieldControllerGetSingleYieldBalancesMock = () =>
       `${faker.date.past().toISOString().split('.')[0]}Z`,
       undefined,
     ]),
+    groupId: faker.string.uuid(),
     pendingActions: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
