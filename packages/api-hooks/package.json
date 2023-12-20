@@ -37,17 +37,17 @@
     "publish": "yarn npm publish"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.13.4",
+    "@tanstack/react-query": "^5.14.2",
     "axios": "^1.6.2",
     "lodash.merge": "^4.6.2"
   },
   "devDependencies": {
     "@types/lodash.merge": "^4",
     "@types/react": "^18.2.45",
-    "eslint": "^8.55.0",
+    "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-react-app": "^7.0.1",
-    "orval": "^6.22.1",
+    "orval": "^6.23.0",
     "prettier": "^3.1.1",
     "react": "^18.2.0",
     "tsup": "^8.0.1",
