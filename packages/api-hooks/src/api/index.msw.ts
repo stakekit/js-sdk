@@ -391,6 +391,7 @@ export const getYieldControllerGetMultipleYieldBalancesMock = () =>
         `${faker.date.past().toISOString().split('.')[0]}Z`,
         undefined,
       ]),
+      groupId: faker.string.uuid(),
       pendingActions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
@@ -531,6 +532,19 @@ export const getYieldControllerGetMultipleYieldBalancesMock = () =>
                   })),
                   undefined,
                 ]),
+                tronResource: faker.helpers.arrayElement([
+                  Array.from(
+                    { length: faker.number.int({ min: 1, max: 10 }) },
+                    (_, i) => i + 1,
+                  ).map(() => ({
+                    options: Array.from(
+                      { length: faker.number.int({ min: 1, max: 10 }) },
+                      (_, i) => i + 1,
+                    ).map(() => faker.word.sample()),
+                    required: faker.datatype.boolean(),
+                  })),
+                  undefined,
+                ]),
                 validatorAddress: faker.helpers.arrayElement([
                   { required: faker.datatype.boolean() },
                   undefined,
@@ -591,6 +605,7 @@ export const getYieldControllerYieldBalancesScanMock = () =>
         `${faker.date.past().toISOString().split('.')[0]}Z`,
         undefined,
       ]),
+      groupId: faker.string.uuid(),
       pendingActions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
@@ -728,6 +743,19 @@ export const getYieldControllerYieldBalancesScanMock = () =>
                       { required: faker.datatype.boolean() },
                       undefined,
                     ]),
+                  })),
+                  undefined,
+                ]),
+                tronResource: faker.helpers.arrayElement([
+                  Array.from(
+                    { length: faker.number.int({ min: 1, max: 10 }) },
+                    (_, i) => i + 1,
+                  ).map(() => ({
+                    options: Array.from(
+                      { length: faker.number.int({ min: 1, max: 10 }) },
+                      (_, i) => i + 1,
+                    ).map(() => faker.word.sample()),
+                    required: faker.datatype.boolean(),
                   })),
                   undefined,
                 ]),
@@ -944,6 +972,19 @@ export const getYieldControllerYieldOpportunityMock = () => ({
             })),
             undefined,
           ]),
+          tronResource: faker.helpers.arrayElement([
+            Array.from(
+              { length: faker.number.int({ min: 1, max: 10 }) },
+              (_, i) => i + 1,
+            ).map(() => ({
+              options: Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1,
+              ).map(() => faker.word.sample()),
+              required: faker.datatype.boolean(),
+            })),
+            undefined,
+          ]),
           validatorAddress: faker.helpers.arrayElement([
             { required: faker.datatype.boolean() },
             undefined,
@@ -1089,6 +1130,19 @@ export const getYieldControllerYieldOpportunityMock = () => ({
                   { required: faker.datatype.boolean() },
                   undefined,
                 ]),
+              })),
+              undefined,
+            ]),
+            tronResource: faker.helpers.arrayElement([
+              Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1,
+              ).map(() => ({
+                options: Array.from(
+                  { length: faker.number.int({ min: 1, max: 10 }) },
+                  (_, i) => i + 1,
+                ).map(() => faker.word.sample()),
+                required: faker.datatype.boolean(),
               })),
               undefined,
             ]),
@@ -1247,6 +1301,7 @@ export const getYieldControllerGetSingleYieldBalancesMock = () =>
       `${faker.date.past().toISOString().split('.')[0]}Z`,
       undefined,
     ]),
+    groupId: faker.string.uuid(),
     pendingActions: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
@@ -1384,6 +1439,19 @@ export const getYieldControllerGetSingleYieldBalancesMock = () =>
                     { required: faker.datatype.boolean() },
                     undefined,
                   ]),
+                })),
+                undefined,
+              ]),
+              tronResource: faker.helpers.arrayElement([
+                Array.from(
+                  { length: faker.number.int({ min: 1, max: 10 }) },
+                  (_, i) => i + 1,
+                ).map(() => ({
+                  options: Array.from(
+                    { length: faker.number.int({ min: 1, max: 10 }) },
+                    (_, i) => i + 1,
+                  ).map(() => faker.word.sample()),
+                  required: faker.datatype.boolean(),
                 })),
                 undefined,
               ]),
