@@ -1,9 +1,0 @@
-{
-  "collectCoverage": false,
-  "rootDir": ".",
-  "testMatch": ["<rootDir>/{src,test}/**/*.test.ts"],
-  "testEnvironment": "node",
-  "transform": {
-    "^.+\\.(js|ts)$": "ts-jest"
-  }
-}
