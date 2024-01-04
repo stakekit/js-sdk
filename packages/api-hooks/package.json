@@ -1,7 +1,7 @@
 {
   "name": "@stakekit/api-hooks",
   "description": "React hooks for StakeKit API",
-  "version": "0.0.49",
+  "version": "0.0.50",
   "types": "./dist/index.d.ts",
   "main": "./dist/esm/index.js",
   "exports": {
@@ -38,8 +38,8 @@
   },
   "dependencies": {
     "@faker-js/faker": "^8.3.1",
-    "@tanstack/react-query": "^5.15.3",
-    "axios": "^1.6.3",
+    "@tanstack/react-query": "^5.17.1",
+    "axios": "^1.6.4",
     "lodash.merge": "^4.6.2",
     "msw": "^2.0.11"
   },
