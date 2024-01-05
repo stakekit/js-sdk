@@ -73,6 +73,7 @@ export enum MiscNetworks {
   Solana = 'solana',
   Tezos = 'tezos',
   Tron = 'tron',
+  Cardano = 'cardano',
 }
 
 export const Networks = {

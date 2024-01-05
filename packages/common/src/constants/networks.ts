@@ -13,6 +13,7 @@ export const NetworkToCoinGeckoPlatformId: { [x in Networks]?: string } = {
   [Networks.Harmony]: 'harmony-shard-0',
   [Networks.Arbitrum]: 'arbitrum-one',
   [Networks.Tezos]: 'tezos',
+  [Networks.Cardano]: 'cardano',
 
   [Networks.Cosmos]: cosmosChainConfig[Networks.Cosmos].coinGeckoId,
   [Networks.Kava]: cosmosChainConfig[Networks.Kava].coinGeckoId,
