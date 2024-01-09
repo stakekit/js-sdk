@@ -19,6 +19,7 @@ export const TokenGetTokensNetwork = {
   moonriver: 'moonriver',
   okc: 'okc',
   zksync: 'zksync',
+  viction: 'viction',
   agoric: 'agoric',
   akash: 'akash',
   axelar: 'axelar',

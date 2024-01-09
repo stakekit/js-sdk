@@ -19,6 +19,7 @@ export const UpdatePayoutAddressDtoNetwork = {
   moonriver: 'moonriver',
   okc: 'okc',
   zksync: 'zksync',
+  viction: 'viction',
   agoric: 'agoric',
   akash: 'akash',
   axelar: 'axelar',

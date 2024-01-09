@@ -50,6 +50,8 @@ export * from './createWebhookSubscriptionDtoEvent';
 export * from './customFeeDto';
 export * from './customUri';
 export * from './customValidatorAddresses';
+export * from './dailyCumulativeStakeDto';
+export * from './dailyCumulativeStakeDtoType';
 export * from './deleteBannedRegionsDto';
 export * from './deleteEnabledYieldsDto';
 export * from './deleteMasterBannedRegionsDto';
