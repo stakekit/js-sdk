@@ -20,6 +20,7 @@ export const TransactionType = {
   VOTE: 'VOTE',
   REVOKE: 'REVOKE',
   RESTAKE: 'RESTAKE',
+  REBOND: 'REBOND',
   WITHDRAW: 'WITHDRAW',
   CREATE_ACCOUNT: 'CREATE_ACCOUNT',
   REVEAL: 'REVEAL',
