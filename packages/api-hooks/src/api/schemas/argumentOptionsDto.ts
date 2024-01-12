@@ -8,7 +8,7 @@ export interface ArgumentOptionsDto {
   amount?: AmountArgumentOptionsDto;
   duration?: DurationArgumentOptionsDto;
   nfts?: ApeNativeArgumentOptionsDto[];
-  tronResource?: TronResourceArgumentOptionsDto[];
+  tronResource?: TronResourceArgumentOptionsDto;
   validatorAddress?: RequiredArgumentDto;
   validatorAddresses?: RequiredArgumentDto;
 }

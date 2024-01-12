@@ -20,4 +20,5 @@ export const DailyCumulativeStakeDtoType = {
   REVOKE: 'REVOKE',
   VOTE_LOCKED: 'VOTE_LOCKED',
   REVOTE: 'REVOTE',
+  REBOND: 'REBOND',
 } as const;
