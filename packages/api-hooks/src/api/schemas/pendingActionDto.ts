@@ -6,6 +6,5 @@ export interface PendingActionDto {
   args?: ActionArgumentOptionsDto;
   /** A server generated passthrough that must passed back when pulling the transactions for a given pending action */
   passthrough: string;
-  /** The pending action type */
   type: ActionTypes;
 }

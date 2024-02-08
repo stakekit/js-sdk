@@ -19,4 +19,5 @@ export const YieldProviders = {
   'morpho-aave': 'morpho-aave',
   'morpho-compound': 'morpho-compound',
   angle: 'angle',
+  kelpdao: 'kelpdao',
 } as const;

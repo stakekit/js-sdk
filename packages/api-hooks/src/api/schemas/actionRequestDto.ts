@@ -5,4 +5,5 @@ export interface ActionRequestDto {
   addresses: AddressesDto;
   args: ActionArgumentsDto;
   integrationId: string;
+  referralCode?: string;
 }

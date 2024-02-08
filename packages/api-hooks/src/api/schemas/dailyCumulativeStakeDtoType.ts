@@ -1,5 +1,5 @@
 /**
- * Related actions type
+ * Related stakes type
  */
 export type DailyCumulativeStakeDtoType =
   (typeof DailyCumulativeStakeDtoType)[keyof typeof DailyCumulativeStakeDtoType];

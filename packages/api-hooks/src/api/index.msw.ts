@@ -11,6 +11,7 @@ import {
   RewardTypes,
   TransactionStatus,
   TransactionType,
+  ValidatorStatusTypes,
   YieldProviders,
   YieldType,
 } from './schemas';
@@ -825,6 +826,7 @@ export const getYieldControllerFindValidatorsMock = () =>
       name: faker.word.sample(),
       preferred: faker.datatype.boolean(),
       stakedBalance: faker.word.sample(),
+      status: faker.helpers.arrayElement(Object.values(ValidatorStatusTypes)),
       votingPower: faker.number.int({ min: undefined, max: undefined }),
       website: faker.word.sample(),
     })),
@@ -1230,6 +1232,24 @@ export const getYieldControllerYieldOpportunityMock = () => ({
       network: faker.helpers.arrayElement(Object.values(Networks)),
       symbol: faker.word.sample(),
     },
+    tokens: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => ({
+        address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+        coinGeckoId: faker.helpers.arrayElement([
+          faker.word.sample(),
+          undefined,
+        ]),
+        decimals: faker.number.int({ min: undefined, max: undefined }),
+        logoURI: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+        name: faker.word.sample(),
+        network: faker.helpers.arrayElement(Object.values(Networks)),
+        symbol: faker.word.sample(),
+      })),
+      undefined,
+    ]),
     type: faker.helpers.arrayElement(Object.values(YieldType)),
     warmupPeriod: {
       days: faker.number.int({ min: undefined, max: undefined }),
@@ -1251,6 +1271,18 @@ export const getYieldControllerYieldOpportunityMock = () => ({
     network: faker.helpers.arrayElement(Object.values(Networks)),
     symbol: faker.word.sample(),
   },
+  tokens: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    coinGeckoId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    decimals: faker.number.int({ min: undefined, max: undefined }),
+    logoURI: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    name: faker.word.sample(),
+    network: faker.helpers.arrayElement(Object.values(Networks)),
+    symbol: faker.word.sample(),
+  })),
   validators: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -1262,6 +1294,7 @@ export const getYieldControllerYieldOpportunityMock = () => ({
     name: faker.word.sample(),
     preferred: faker.datatype.boolean(),
     stakedBalance: faker.word.sample(),
+    status: faker.helpers.arrayElement(Object.values(ValidatorStatusTypes)),
     votingPower: faker.number.int({ min: undefined, max: undefined }),
     website: faker.word.sample(),
   })),
@@ -1279,6 +1312,7 @@ export const getYieldControllerGetValidatorsMock = () =>
     name: faker.word.sample(),
     preferred: faker.datatype.boolean(),
     stakedBalance: faker.word.sample(),
+    status: faker.helpers.arrayElement(Object.values(ValidatorStatusTypes)),
     votingPower: faker.number.int({ min: undefined, max: undefined }),
     website: faker.word.sample(),
   }));
