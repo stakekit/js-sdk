@@ -16,5 +16,6 @@ export interface YieldDto {
   rewardType: RewardTypes;
   status: YieldStatusResponseDto;
   token: TokenDto;
+  tokens: TokenDto[];
   validators: ValidatorDto[];
 }

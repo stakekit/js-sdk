@@ -25,6 +25,7 @@ export interface YieldMetadataDto {
   supportsLedgerWalletApi?: boolean;
   supportsMultipleValidators?: boolean;
   token: TokenDto;
+  tokens?: TokenDto[];
   type: YieldType;
   warmupPeriod: TimePeriodDto;
   withdrawPeriod?: TimePeriodDto;

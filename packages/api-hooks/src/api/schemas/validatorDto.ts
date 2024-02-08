@@ -1,3 +1,5 @@
+import type { ValidatorStatusTypes } from './validatorStatusTypes';
+
 export interface ValidatorDto {
   address: string;
   apr: number;
@@ -6,6 +8,7 @@ export interface ValidatorDto {
   name: string;
   preferred: boolean;
   stakedBalance: string;
+  status: ValidatorStatusTypes;
   votingPower: number;
   website: string;
 }
