@@ -16,6 +16,7 @@ export const YieldProviders = {
   parax: 'parax',
   'rocket-pool': 'rocket-pool',
   stakewise: 'stakewise',
+  etherfi: 'etherfi',
   'morpho-aave': 'morpho-aave',
   'morpho-compound': 'morpho-compound',
   angle: 'angle',

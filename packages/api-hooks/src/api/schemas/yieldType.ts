@@ -5,5 +5,6 @@ export const YieldType = {
   staking: 'staking',
   'liquid-staking': 'liquid-staking',
   lending: 'lending',
+  restaking: 'restaking',
   vault: 'vault',
 } as const;
