@@ -7,6 +7,7 @@ export enum EvmNetworks {
   Celo = 'celo',
   Ethereum = 'ethereum',
   EthereumGoerli = 'ethereum-goerli',
+  EthereumHolesky = 'ethereum-holesky',
   Fantom = 'fantom',
   Harmony = 'harmony',
   Optimism = 'optimism',
