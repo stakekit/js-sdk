@@ -15,8 +15,28 @@ import {
   YieldProviders,
   YieldType,
 } from './schemas';
+import type {
+  ActionDto,
+  BalanceResponseDto,
+  GasForNetworkResponseDto,
+  PriceResponseDto,
+  SubmitResponseDto,
+  TokenBalanceScanResponseDto,
+  TokenWithAvailableYieldsDto,
+  TransactionDto,
+  TransactionStatusResponseDto,
+  ValidatorDto,
+  ValidatorSearchResultDto,
+  YieldBalanceDto,
+  YieldBalancesWithIntegrationIdDto,
+  YieldDto,
+  YieldGetMyYields200,
+  YieldYields200,
+} from './schemas';
 
-export const getActionControllerGetActionMock = () => ({
+export const getActionControllerGetActionResponseMock = (
+  overrideResponse: any = {},
+): ActionDto => ({
   amount: faker.helpers.arrayElement([faker.word.sample(), null]),
   createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
   currentStepIndex: faker.number.int({ min: undefined, max: undefined }),
@@ -44,7 +64,9 @@ export const getActionControllerGetActionMock = () => ({
         name: faker.word.sample(),
         network: faker.helpers.arrayElement(Object.values(Networks)),
         symbol: faker.word.sample(),
+        ...overrideResponse,
       },
+      ...overrideResponse,
     },
     hash: faker.helpers.arrayElement([faker.word.sample(), null]),
     id: faker.word.sample(),
@@ -58,6 +80,7 @@ export const getActionControllerGetActionMock = () => ({
       faker.word.sample(),
       null,
     ]),
+    ...overrideResponse,
   })),
   type: faker.helpers.arrayElement(Object.values(ActionTypes)),
   validatorAddress: faker.helpers.arrayElement([faker.word.sample(), null]),
@@ -65,9 +88,12 @@ export const getActionControllerGetActionMock = () => ({
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => faker.word.sample()),
+  ...overrideResponse,
 });
 
-export const getActionControllerEnterMock = () => ({
+export const getActionControllerEnterResponseMock = (
+  overrideResponse: any = {},
+): ActionDto => ({
   amount: faker.helpers.arrayElement([faker.word.sample(), null]),
   createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
   currentStepIndex: faker.number.int({ min: undefined, max: undefined }),
@@ -95,7 +121,9 @@ export const getActionControllerEnterMock = () => ({
         name: faker.word.sample(),
         network: faker.helpers.arrayElement(Object.values(Networks)),
         symbol: faker.word.sample(),
+        ...overrideResponse,
       },
+      ...overrideResponse,
     },
     hash: faker.helpers.arrayElement([faker.word.sample(), null]),
     id: faker.word.sample(),
@@ -109,6 +137,7 @@ export const getActionControllerEnterMock = () => ({
       faker.word.sample(),
       null,
     ]),
+    ...overrideResponse,
   })),
   type: faker.helpers.arrayElement(Object.values(ActionTypes)),
   validatorAddress: faker.helpers.arrayElement([faker.word.sample(), null]),
@@ -116,9 +145,12 @@ export const getActionControllerEnterMock = () => ({
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => faker.word.sample()),
+  ...overrideResponse,
 });
 
-export const getActionControllerExitMock = () => ({
+export const getActionControllerExitResponseMock = (
+  overrideResponse: any = {},
+): ActionDto => ({
   amount: faker.helpers.arrayElement([faker.word.sample(), null]),
   createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
   currentStepIndex: faker.number.int({ min: undefined, max: undefined }),
@@ -146,7 +178,9 @@ export const getActionControllerExitMock = () => ({
         name: faker.word.sample(),
         network: faker.helpers.arrayElement(Object.values(Networks)),
         symbol: faker.word.sample(),
+        ...overrideResponse,
       },
+      ...overrideResponse,
     },
     hash: faker.helpers.arrayElement([faker.word.sample(), null]),
     id: faker.word.sample(),
@@ -160,6 +194,7 @@ export const getActionControllerExitMock = () => ({
       faker.word.sample(),
       null,
     ]),
+    ...overrideResponse,
   })),
   type: faker.helpers.arrayElement(Object.values(ActionTypes)),
   validatorAddress: faker.helpers.arrayElement([faker.word.sample(), null]),
@@ -167,9 +202,12 @@ export const getActionControllerExitMock = () => ({
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => faker.word.sample()),
+  ...overrideResponse,
 });
 
-export const getActionControllerPendingMock = () => ({
+export const getActionControllerPendingResponseMock = (
+  overrideResponse: any = {},
+): ActionDto => ({
   amount: faker.helpers.arrayElement([faker.word.sample(), null]),
   createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
   currentStepIndex: faker.number.int({ min: undefined, max: undefined }),
@@ -197,7 +235,9 @@ export const getActionControllerPendingMock = () => ({
         name: faker.word.sample(),
         network: faker.helpers.arrayElement(Object.values(Networks)),
         symbol: faker.word.sample(),
+        ...overrideResponse,
       },
+      ...overrideResponse,
     },
     hash: faker.helpers.arrayElement([faker.word.sample(), null]),
     id: faker.word.sample(),
@@ -211,6 +251,7 @@ export const getActionControllerPendingMock = () => ({
       faker.word.sample(),
       null,
     ]),
+    ...overrideResponse,
   })),
   type: faker.helpers.arrayElement(Object.values(ActionTypes)),
   validatorAddress: faker.helpers.arrayElement([faker.word.sample(), null]),
@@ -218,9 +259,12 @@ export const getActionControllerPendingMock = () => ({
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => faker.word.sample()),
+  ...overrideResponse,
 });
 
-export const getTransactionControllerGetTransactionMock = () => ({
+export const getTransactionControllerGetTransactionResponseMock = (
+  overrideResponse: any = {},
+): TransactionDto => ({
   error: faker.helpers.arrayElement([faker.word.sample(), null]),
   explorerUrl: faker.helpers.arrayElement([faker.word.sample(), null]),
   gasEstimate: {
@@ -234,7 +278,9 @@ export const getTransactionControllerGetTransactionMock = () => ({
       name: faker.word.sample(),
       network: faker.helpers.arrayElement(Object.values(Networks)),
       symbol: faker.word.sample(),
+      ...overrideResponse,
     },
+    ...overrideResponse,
   },
   hash: faker.helpers.arrayElement([faker.word.sample(), null]),
   id: faker.word.sample(),
@@ -245,9 +291,12 @@ export const getTransactionControllerGetTransactionMock = () => ({
   stepIndex: faker.number.int({ min: undefined, max: undefined }),
   type: faker.helpers.arrayElement(Object.values(TransactionType)),
   unsignedTransaction: faker.helpers.arrayElement([faker.word.sample(), null]),
+  ...overrideResponse,
 });
 
-export const getTransactionControllerConstructMock = () => ({
+export const getTransactionControllerConstructResponseMock = (
+  overrideResponse: any = {},
+): TransactionDto => ({
   error: faker.helpers.arrayElement([faker.word.sample(), null]),
   explorerUrl: faker.helpers.arrayElement([faker.word.sample(), null]),
   gasEstimate: {
@@ -261,7 +310,9 @@ export const getTransactionControllerConstructMock = () => ({
       name: faker.word.sample(),
       network: faker.helpers.arrayElement(Object.values(Networks)),
       symbol: faker.word.sample(),
+      ...overrideResponse,
     },
+    ...overrideResponse,
   },
   hash: faker.helpers.arrayElement([faker.word.sample(), null]),
   id: faker.word.sample(),
@@ -272,23 +323,32 @@ export const getTransactionControllerConstructMock = () => ({
   stepIndex: faker.number.int({ min: undefined, max: undefined }),
   type: faker.helpers.arrayElement(Object.values(TransactionType)),
   unsignedTransaction: faker.helpers.arrayElement([faker.word.sample(), null]),
+  ...overrideResponse,
 });
 
-export const getTransactionControllerSubmitMock = () => ({
+export const getTransactionControllerSubmitResponseMock = (
+  overrideResponse: any = {},
+): SubmitResponseDto => ({
   link: faker.word.sample(),
   transactionHash: faker.word.sample(),
+  ...overrideResponse,
 });
 
-export const getTransactionControllerGetTransactionStatusFromIdMock = () => ({
+export const getTransactionControllerGetTransactionStatusFromIdResponseMock = (
+  overrideResponse: any = {},
+): TransactionStatusResponseDto => ({
   blockNumber: faker.helpers.arrayElement([faker.word.sample(), undefined]),
   hash: faker.word.sample(),
   network: faker.helpers.arrayElement(Object.values(Networks)),
   raw: {},
   status: faker.helpers.arrayElement(Object.values(TransactionStatus)),
   url: faker.word.sample(),
+  ...overrideResponse,
 });
 
-export const getTransactionControllerGetGasForNetworkMock = () => ({
+export const getTransactionControllerGetGasForNetworkResponseMock = (
+  overrideResponse: any = {},
+): GasForNetworkResponseDto => ({
   customisable: faker.datatype.boolean(),
   modes: {
     denom: faker.word.sample(),
@@ -297,21 +357,27 @@ export const getTransactionControllerGetGasForNetworkMock = () => ({
       (_, i) => i + 1,
     ).map(() => ({
       gasArgs: faker.helpers.arrayElement([
-        { gasPrice: faker.word.sample() },
+        { gasPrice: faker.word.sample(), ...overrideResponse },
         {
           maxFeePerGas: faker.word.sample(),
           maxPriorityFeePerGas: faker.word.sample(),
           type: faker.number.int({ min: undefined, max: undefined }),
+          ...overrideResponse,
         },
-        {},
+        { ...overrideResponse },
       ]),
       name: faker.helpers.arrayElement(Object.values(GasMode)),
       value: faker.word.sample(),
+      ...overrideResponse,
     })),
+    ...overrideResponse,
   },
+  ...overrideResponse,
 });
 
-export const getTokenControllerGetTokensMock = () =>
+export const getTokenControllerGetTokensResponseMock = (
+  overrideResponse: any = {},
+): TokenWithAvailableYieldsDto[] =>
   Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -328,12 +394,18 @@ export const getTokenControllerGetTokensMock = () =>
       name: faker.word.sample(),
       network: faker.helpers.arrayElement(Object.values(Networks)),
       symbol: faker.word.sample(),
+      ...overrideResponse,
     },
+    ...overrideResponse,
   }));
 
-export const getTokenControllerGetTokenPricesMock = () => ({});
+export const getTokenControllerGetTokenPricesResponseMock = (
+  overrideResponse: any = {},
+): PriceResponseDto => ({ ...overrideResponse });
 
-export const getTokenControllerGetTokenBalancesMock = () =>
+export const getTokenControllerGetTokenBalancesResponseMock = (
+  overrideResponse: any = {},
+): BalanceResponseDto[] =>
   Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -347,10 +419,14 @@ export const getTokenControllerGetTokenBalancesMock = () =>
       name: faker.word.sample(),
       network: faker.helpers.arrayElement(Object.values(Networks)),
       symbol: faker.word.sample(),
+      ...overrideResponse,
     },
+    ...overrideResponse,
   }));
 
-export const getTokenControllerTokenBalancesScanMock = () =>
+export const getTokenControllerTokenBalancesScanResponseMock = (
+  overrideResponse: any = {},
+): TokenBalanceScanResponseDto[] =>
   Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -368,17 +444,25 @@ export const getTokenControllerTokenBalancesScanMock = () =>
       name: faker.word.sample(),
       network: faker.helpers.arrayElement(Object.values(Networks)),
       symbol: faker.word.sample(),
+      ...overrideResponse,
     },
+    ...overrideResponse,
   }));
 
-export const getYieldControllerYieldsMock = () => ({
+export const getYieldControllerYieldsResponseMock = (
+  overrideResponse: any = {},
+): YieldYields200 => ({
   data: {},
   hasNextPage: faker.datatype.boolean(),
   limit: faker.number.int({ min: undefined, max: undefined }),
   page: faker.number.int({ min: undefined, max: undefined }),
+  ...overrideResponse,
+  ...overrideResponse,
 });
 
-export const getYieldControllerGetMultipleYieldBalancesMock = () =>
+export const getYieldControllerGetMultipleYieldBalancesResponseMock = (
+  overrideResponse: any = {},
+): YieldBalancesWithIntegrationIdDto[] =>
   Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -405,7 +489,7 @@ export const getYieldControllerGetMultipleYieldBalancesMock = () =>
                   Array.from(
                     { length: faker.number.int({ min: 1, max: 10 }) },
                     (_, i) => i + 1,
-                  ).map(() => ({})),
+                  ).map(() => ({ ...overrideResponse })),
                   undefined,
                 ]),
                 address: faker.helpers.arrayElement([
@@ -419,6 +503,7 @@ export const getYieldControllerGetMultipleYieldBalancesMock = () =>
                       'celo',
                       'ethereum',
                       'ethereum-goerli',
+                      'ethereum-holesky',
                       'fantom',
                       'harmony',
                       'optimism',
@@ -478,9 +563,11 @@ export const getYieldControllerGetMultipleYieldBalancesMock = () =>
                       'tron',
                     ] as const),
                     required: faker.datatype.boolean(),
+                    ...overrideResponse,
                   },
                   undefined,
                 ]),
+                ...overrideResponse,
               },
               undefined,
             ]),
@@ -497,6 +584,7 @@ export const getYieldControllerGetMultipleYieldBalancesMock = () =>
                       undefined,
                     ]),
                     required: faker.datatype.boolean(),
+                    ...overrideResponse,
                   },
                   undefined,
                 ]),
@@ -511,6 +599,7 @@ export const getYieldControllerGetMultipleYieldBalancesMock = () =>
                       undefined,
                     ]),
                     required: faker.datatype.boolean(),
+                    ...overrideResponse,
                   },
                   undefined,
                 ]),
@@ -520,17 +609,27 @@ export const getYieldControllerGetMultipleYieldBalancesMock = () =>
                     (_, i) => i + 1,
                   ).map(() => ({
                     bakcId: faker.helpers.arrayElement([
-                      { required: faker.datatype.boolean() },
+                      {
+                        required: faker.datatype.boolean(),
+                        ...overrideResponse,
+                      },
                       undefined,
                     ]),
                     baycId: faker.helpers.arrayElement([
-                      { required: faker.datatype.boolean() },
+                      {
+                        required: faker.datatype.boolean(),
+                        ...overrideResponse,
+                      },
                       undefined,
                     ]),
                     maycId: faker.helpers.arrayElement([
-                      { required: faker.datatype.boolean() },
+                      {
+                        required: faker.datatype.boolean(),
+                        ...overrideResponse,
+                      },
                       undefined,
                     ]),
+                    ...overrideResponse,
                   })),
                   undefined,
                 ]),
@@ -541,25 +640,29 @@ export const getYieldControllerGetMultipleYieldBalancesMock = () =>
                       (_, i) => i + 1,
                     ).map(() => faker.word.sample()),
                     required: faker.datatype.boolean(),
+                    ...overrideResponse,
                   },
                   undefined,
                 ]),
                 validatorAddress: faker.helpers.arrayElement([
-                  { required: faker.datatype.boolean() },
+                  { required: faker.datatype.boolean(), ...overrideResponse },
                   undefined,
                 ]),
                 validatorAddresses: faker.helpers.arrayElement([
-                  { required: faker.datatype.boolean() },
+                  { required: faker.datatype.boolean(), ...overrideResponse },
                   undefined,
                 ]),
+                ...overrideResponse,
               },
               undefined,
             ]),
+            ...overrideResponse,
           },
           undefined,
         ]),
         passthrough: faker.word.sample(),
         type: faker.helpers.arrayElement(Object.values(ActionTypes)),
+        ...overrideResponse,
       })),
       pricePerShare: faker.word.sample(),
       token: {
@@ -573,6 +676,7 @@ export const getYieldControllerGetMultipleYieldBalancesMock = () =>
         name: faker.word.sample(),
         network: faker.helpers.arrayElement(Object.values(Networks)),
         symbol: faker.word.sample(),
+        ...overrideResponse,
       },
       type: faker.helpers.arrayElement(Object.values(BalanceTypes)),
       validatorAddress: faker.helpers.arrayElement([
@@ -586,11 +690,15 @@ export const getYieldControllerGetMultipleYieldBalancesMock = () =>
         ).map(() => faker.word.sample()),
         undefined,
       ]),
+      ...overrideResponse,
     })),
     integrationId: faker.word.sample(),
+    ...overrideResponse,
   }));
 
-export const getYieldControllerYieldBalancesScanMock = () =>
+export const getYieldControllerYieldBalancesScanResponseMock = (
+  overrideResponse: any = {},
+): YieldBalancesWithIntegrationIdDto[] =>
   Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -617,7 +725,7 @@ export const getYieldControllerYieldBalancesScanMock = () =>
                   Array.from(
                     { length: faker.number.int({ min: 1, max: 10 }) },
                     (_, i) => i + 1,
-                  ).map(() => ({})),
+                  ).map(() => ({ ...overrideResponse })),
                   undefined,
                 ]),
                 address: faker.helpers.arrayElement([
@@ -631,6 +739,7 @@ export const getYieldControllerYieldBalancesScanMock = () =>
                       'celo',
                       'ethereum',
                       'ethereum-goerli',
+                      'ethereum-holesky',
                       'fantom',
                       'harmony',
                       'optimism',
@@ -690,9 +799,11 @@ export const getYieldControllerYieldBalancesScanMock = () =>
                       'tron',
                     ] as const),
                     required: faker.datatype.boolean(),
+                    ...overrideResponse,
                   },
                   undefined,
                 ]),
+                ...overrideResponse,
               },
               undefined,
             ]),
@@ -709,6 +820,7 @@ export const getYieldControllerYieldBalancesScanMock = () =>
                       undefined,
                     ]),
                     required: faker.datatype.boolean(),
+                    ...overrideResponse,
                   },
                   undefined,
                 ]),
@@ -723,6 +835,7 @@ export const getYieldControllerYieldBalancesScanMock = () =>
                       undefined,
                     ]),
                     required: faker.datatype.boolean(),
+                    ...overrideResponse,
                   },
                   undefined,
                 ]),
@@ -732,17 +845,27 @@ export const getYieldControllerYieldBalancesScanMock = () =>
                     (_, i) => i + 1,
                   ).map(() => ({
                     bakcId: faker.helpers.arrayElement([
-                      { required: faker.datatype.boolean() },
+                      {
+                        required: faker.datatype.boolean(),
+                        ...overrideResponse,
+                      },
                       undefined,
                     ]),
                     baycId: faker.helpers.arrayElement([
-                      { required: faker.datatype.boolean() },
+                      {
+                        required: faker.datatype.boolean(),
+                        ...overrideResponse,
+                      },
                       undefined,
                     ]),
                     maycId: faker.helpers.arrayElement([
-                      { required: faker.datatype.boolean() },
+                      {
+                        required: faker.datatype.boolean(),
+                        ...overrideResponse,
+                      },
                       undefined,
                     ]),
+                    ...overrideResponse,
                   })),
                   undefined,
                 ]),
@@ -753,25 +876,29 @@ export const getYieldControllerYieldBalancesScanMock = () =>
                       (_, i) => i + 1,
                     ).map(() => faker.word.sample()),
                     required: faker.datatype.boolean(),
+                    ...overrideResponse,
                   },
                   undefined,
                 ]),
                 validatorAddress: faker.helpers.arrayElement([
-                  { required: faker.datatype.boolean() },
+                  { required: faker.datatype.boolean(), ...overrideResponse },
                   undefined,
                 ]),
                 validatorAddresses: faker.helpers.arrayElement([
-                  { required: faker.datatype.boolean() },
+                  { required: faker.datatype.boolean(), ...overrideResponse },
                   undefined,
                 ]),
+                ...overrideResponse,
               },
               undefined,
             ]),
+            ...overrideResponse,
           },
           undefined,
         ]),
         passthrough: faker.word.sample(),
         type: faker.helpers.arrayElement(Object.values(ActionTypes)),
+        ...overrideResponse,
       })),
       pricePerShare: faker.word.sample(),
       token: {
@@ -785,6 +912,7 @@ export const getYieldControllerYieldBalancesScanMock = () =>
         name: faker.word.sample(),
         network: faker.helpers.arrayElement(Object.values(Networks)),
         symbol: faker.word.sample(),
+        ...overrideResponse,
       },
       type: faker.helpers.arrayElement(Object.values(BalanceTypes)),
       validatorAddress: faker.helpers.arrayElement([
@@ -798,18 +926,26 @@ export const getYieldControllerYieldBalancesScanMock = () =>
         ).map(() => faker.word.sample()),
         undefined,
       ]),
+      ...overrideResponse,
     })),
     integrationId: faker.word.sample(),
+    ...overrideResponse,
   }));
 
-export const getYieldControllerGetMyYieldsMock = () => ({
+export const getYieldControllerGetMyYieldsResponseMock = (
+  overrideResponse: any = {},
+): YieldGetMyYields200 => ({
   data: {},
   hasNextPage: faker.datatype.boolean(),
   limit: faker.number.int({ min: undefined, max: undefined }),
   page: faker.number.int({ min: undefined, max: undefined }),
+  ...overrideResponse,
+  ...overrideResponse,
 });
 
-export const getYieldControllerFindValidatorsMock = () =>
+export const getYieldControllerFindValidatorsResponseMock = (
+  overrideResponse: any = {},
+): ValidatorSearchResultDto[] =>
   Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -829,10 +965,14 @@ export const getYieldControllerFindValidatorsMock = () =>
       status: faker.helpers.arrayElement(Object.values(ValidatorStatusTypes)),
       votingPower: faker.number.int({ min: undefined, max: undefined }),
       website: faker.word.sample(),
+      ...overrideResponse,
     })),
+    ...overrideResponse,
   }));
 
-export const getYieldControllerYieldOpportunityMock = () => ({
+export const getYieldControllerYieldOpportunityResponseMock = (
+  overrideResponse: any = {},
+): YieldDto => ({
   apy: faker.number.int({ min: undefined, max: undefined }),
   args: {
     enter: {
@@ -842,7 +982,7 @@ export const getYieldControllerYieldOpportunityMock = () => ({
             Array.from(
               { length: faker.number.int({ min: 1, max: 10 }) },
               (_, i) => i + 1,
-            ).map(() => ({})),
+            ).map(() => ({ ...overrideResponse })),
             undefined,
           ]),
           address: faker.helpers.arrayElement([
@@ -856,6 +996,7 @@ export const getYieldControllerYieldOpportunityMock = () => ({
                 'celo',
                 'ethereum',
                 'ethereum-goerli',
+                'ethereum-holesky',
                 'fantom',
                 'harmony',
                 'optimism',
@@ -915,9 +1056,11 @@ export const getYieldControllerYieldOpportunityMock = () => ({
                 'tron',
               ] as const),
               required: faker.datatype.boolean(),
+              ...overrideResponse,
             },
             undefined,
           ]),
+          ...overrideResponse,
         },
         undefined,
       ]),
@@ -934,6 +1077,7 @@ export const getYieldControllerYieldOpportunityMock = () => ({
                 undefined,
               ]),
               required: faker.datatype.boolean(),
+              ...overrideResponse,
             },
             undefined,
           ]),
@@ -948,6 +1092,7 @@ export const getYieldControllerYieldOpportunityMock = () => ({
                 undefined,
               ]),
               required: faker.datatype.boolean(),
+              ...overrideResponse,
             },
             undefined,
           ]),
@@ -957,17 +1102,18 @@ export const getYieldControllerYieldOpportunityMock = () => ({
               (_, i) => i + 1,
             ).map(() => ({
               bakcId: faker.helpers.arrayElement([
-                { required: faker.datatype.boolean() },
+                { required: faker.datatype.boolean(), ...overrideResponse },
                 undefined,
               ]),
               baycId: faker.helpers.arrayElement([
-                { required: faker.datatype.boolean() },
+                { required: faker.datatype.boolean(), ...overrideResponse },
                 undefined,
               ]),
               maycId: faker.helpers.arrayElement([
-                { required: faker.datatype.boolean() },
+                { required: faker.datatype.boolean(), ...overrideResponse },
                 undefined,
               ]),
+              ...overrideResponse,
             })),
             undefined,
           ]),
@@ -978,20 +1124,23 @@ export const getYieldControllerYieldOpportunityMock = () => ({
                 (_, i) => i + 1,
               ).map(() => faker.word.sample()),
               required: faker.datatype.boolean(),
+              ...overrideResponse,
             },
             undefined,
           ]),
           validatorAddress: faker.helpers.arrayElement([
-            { required: faker.datatype.boolean() },
+            { required: faker.datatype.boolean(), ...overrideResponse },
             undefined,
           ]),
           validatorAddresses: faker.helpers.arrayElement([
-            { required: faker.datatype.boolean() },
+            { required: faker.datatype.boolean(), ...overrideResponse },
             undefined,
           ]),
+          ...overrideResponse,
         },
         undefined,
       ]),
+      ...overrideResponse,
     },
     exit: faker.helpers.arrayElement([
       {
@@ -1001,7 +1150,7 @@ export const getYieldControllerYieldOpportunityMock = () => ({
               Array.from(
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1,
-              ).map(() => ({})),
+              ).map(() => ({ ...overrideResponse })),
               undefined,
             ]),
             address: faker.helpers.arrayElement([
@@ -1015,6 +1164,7 @@ export const getYieldControllerYieldOpportunityMock = () => ({
                   'celo',
                   'ethereum',
                   'ethereum-goerli',
+                  'ethereum-holesky',
                   'fantom',
                   'harmony',
                   'optimism',
@@ -1074,9 +1224,11 @@ export const getYieldControllerYieldOpportunityMock = () => ({
                   'tron',
                 ] as const),
                 required: faker.datatype.boolean(),
+                ...overrideResponse,
               },
               undefined,
             ]),
+            ...overrideResponse,
           },
           undefined,
         ]),
@@ -1093,6 +1245,7 @@ export const getYieldControllerYieldOpportunityMock = () => ({
                   undefined,
                 ]),
                 required: faker.datatype.boolean(),
+                ...overrideResponse,
               },
               undefined,
             ]),
@@ -1107,6 +1260,7 @@ export const getYieldControllerYieldOpportunityMock = () => ({
                   undefined,
                 ]),
                 required: faker.datatype.boolean(),
+                ...overrideResponse,
               },
               undefined,
             ]),
@@ -1116,17 +1270,18 @@ export const getYieldControllerYieldOpportunityMock = () => ({
                 (_, i) => i + 1,
               ).map(() => ({
                 bakcId: faker.helpers.arrayElement([
-                  { required: faker.datatype.boolean() },
+                  { required: faker.datatype.boolean(), ...overrideResponse },
                   undefined,
                 ]),
                 baycId: faker.helpers.arrayElement([
-                  { required: faker.datatype.boolean() },
+                  { required: faker.datatype.boolean(), ...overrideResponse },
                   undefined,
                 ]),
                 maycId: faker.helpers.arrayElement([
-                  { required: faker.datatype.boolean() },
+                  { required: faker.datatype.boolean(), ...overrideResponse },
                   undefined,
                 ]),
+                ...overrideResponse,
               })),
               undefined,
             ]),
@@ -1137,29 +1292,36 @@ export const getYieldControllerYieldOpportunityMock = () => ({
                   (_, i) => i + 1,
                 ).map(() => faker.word.sample()),
                 required: faker.datatype.boolean(),
+                ...overrideResponse,
               },
               undefined,
             ]),
             validatorAddress: faker.helpers.arrayElement([
-              { required: faker.datatype.boolean() },
+              { required: faker.datatype.boolean(), ...overrideResponse },
               undefined,
             ]),
             validatorAddresses: faker.helpers.arrayElement([
-              { required: faker.datatype.boolean() },
+              { required: faker.datatype.boolean(), ...overrideResponse },
               undefined,
             ]),
+            ...overrideResponse,
           },
           undefined,
         ]),
+        ...overrideResponse,
       },
       undefined,
     ]),
+    ...overrideResponse,
   },
   id: faker.word.sample(),
   isAvailable: faker.datatype.boolean(),
   metadata: {
     cooldownPeriod: faker.helpers.arrayElement([
-      { days: faker.number.int({ min: undefined, max: undefined }) },
+      {
+        days: faker.number.int({ min: undefined, max: undefined }),
+        ...overrideResponse,
+      },
       undefined,
     ]),
     defaultValidator: faker.helpers.arrayElement([
@@ -1168,7 +1330,7 @@ export const getYieldControllerYieldOpportunityMock = () => ({
     ]),
     description: faker.word.sample(),
     documentation: faker.word.sample(),
-    fee: { enabled: faker.datatype.boolean() },
+    fee: { enabled: faker.datatype.boolean(), ...overrideResponse },
     gasFeeToken: {
       address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
       coinGeckoId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
@@ -1177,6 +1339,7 @@ export const getYieldControllerYieldOpportunityMock = () => ({
       name: faker.word.sample(),
       network: faker.helpers.arrayElement(Object.values(Networks)),
       symbol: faker.word.sample(),
+      ...overrideResponse,
     },
     logoURI: faker.word.sample(),
     minimumStake: faker.helpers.arrayElement([
@@ -1191,10 +1354,11 @@ export const getYieldControllerYieldOpportunityMock = () => ({
         id: faker.helpers.arrayElement(Object.values(YieldProviders)),
         logoURI: faker.word.sample(),
         name: faker.word.sample(),
+        ...overrideResponse,
       },
       undefined,
     ]),
-    revshare: { enabled: faker.datatype.boolean() },
+    revshare: { enabled: faker.datatype.boolean(), ...overrideResponse },
     rewardClaiming: faker.helpers.arrayElement(Object.values(RewardClaiming)),
     rewardSchedule: faker.helpers.arrayElement(Object.values(RewardSchedule)),
     rewardTokens: faker.helpers.arrayElement([
@@ -1212,6 +1376,7 @@ export const getYieldControllerYieldOpportunityMock = () => ({
         name: faker.word.sample(),
         network: faker.helpers.arrayElement(Object.values(Networks)),
         symbol: faker.word.sample(),
+        ...overrideResponse,
       })),
       undefined,
     ]),
@@ -1231,6 +1396,7 @@ export const getYieldControllerYieldOpportunityMock = () => ({
       name: faker.word.sample(),
       network: faker.helpers.arrayElement(Object.values(Networks)),
       symbol: faker.word.sample(),
+      ...overrideResponse,
     },
     tokens: faker.helpers.arrayElement([
       Array.from(
@@ -1247,21 +1413,31 @@ export const getYieldControllerYieldOpportunityMock = () => ({
         name: faker.word.sample(),
         network: faker.helpers.arrayElement(Object.values(Networks)),
         symbol: faker.word.sample(),
+        ...overrideResponse,
       })),
       undefined,
     ]),
     type: faker.helpers.arrayElement(Object.values(YieldType)),
     warmupPeriod: {
       days: faker.number.int({ min: undefined, max: undefined }),
+      ...overrideResponse,
     },
     withdrawPeriod: faker.helpers.arrayElement([
-      { days: faker.number.int({ min: undefined, max: undefined }) },
+      {
+        days: faker.number.int({ min: undefined, max: undefined }),
+        ...overrideResponse,
+      },
       undefined,
     ]),
+    ...overrideResponse,
   },
   rewardRate: faker.number.int({ min: undefined, max: undefined }),
   rewardType: faker.helpers.arrayElement(Object.values(RewardTypes)),
-  status: { enter: faker.datatype.boolean(), exit: faker.datatype.boolean() },
+  status: {
+    enter: faker.datatype.boolean(),
+    exit: faker.datatype.boolean(),
+    ...overrideResponse,
+  },
   token: {
     address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     coinGeckoId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
@@ -1270,6 +1446,7 @@ export const getYieldControllerYieldOpportunityMock = () => ({
     name: faker.word.sample(),
     network: faker.helpers.arrayElement(Object.values(Networks)),
     symbol: faker.word.sample(),
+    ...overrideResponse,
   },
   tokens: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -1282,6 +1459,7 @@ export const getYieldControllerYieldOpportunityMock = () => ({
     name: faker.word.sample(),
     network: faker.helpers.arrayElement(Object.values(Networks)),
     symbol: faker.word.sample(),
+    ...overrideResponse,
   })),
   validators: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -1297,10 +1475,14 @@ export const getYieldControllerYieldOpportunityMock = () => ({
     status: faker.helpers.arrayElement(Object.values(ValidatorStatusTypes)),
     votingPower: faker.number.int({ min: undefined, max: undefined }),
     website: faker.word.sample(),
+    ...overrideResponse,
   })),
+  ...overrideResponse,
 });
 
-export const getYieldControllerGetValidatorsMock = () =>
+export const getYieldControllerGetValidatorsResponseMock = (
+  overrideResponse: any = {},
+): ValidatorDto[] =>
   Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -1315,9 +1497,12 @@ export const getYieldControllerGetValidatorsMock = () =>
     status: faker.helpers.arrayElement(Object.values(ValidatorStatusTypes)),
     votingPower: faker.number.int({ min: undefined, max: undefined }),
     website: faker.word.sample(),
+    ...overrideResponse,
   }));
 
-export const getYieldControllerGetSingleYieldBalancesMock = () =>
+export const getYieldControllerGetSingleYieldBalancesResponseMock = (
+  overrideResponse: any = {},
+): YieldBalanceDto[] =>
   Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -1340,7 +1525,7 @@ export const getYieldControllerGetSingleYieldBalancesMock = () =>
                 Array.from(
                   { length: faker.number.int({ min: 1, max: 10 }) },
                   (_, i) => i + 1,
-                ).map(() => ({})),
+                ).map(() => ({ ...overrideResponse })),
                 undefined,
               ]),
               address: faker.helpers.arrayElement([
@@ -1354,6 +1539,7 @@ export const getYieldControllerGetSingleYieldBalancesMock = () =>
                     'celo',
                     'ethereum',
                     'ethereum-goerli',
+                    'ethereum-holesky',
                     'fantom',
                     'harmony',
                     'optimism',
@@ -1413,9 +1599,11 @@ export const getYieldControllerGetSingleYieldBalancesMock = () =>
                     'tron',
                   ] as const),
                   required: faker.datatype.boolean(),
+                  ...overrideResponse,
                 },
                 undefined,
               ]),
+              ...overrideResponse,
             },
             undefined,
           ]),
@@ -1432,6 +1620,7 @@ export const getYieldControllerGetSingleYieldBalancesMock = () =>
                     undefined,
                   ]),
                   required: faker.datatype.boolean(),
+                  ...overrideResponse,
                 },
                 undefined,
               ]),
@@ -1446,6 +1635,7 @@ export const getYieldControllerGetSingleYieldBalancesMock = () =>
                     undefined,
                   ]),
                   required: faker.datatype.boolean(),
+                  ...overrideResponse,
                 },
                 undefined,
               ]),
@@ -1455,17 +1645,18 @@ export const getYieldControllerGetSingleYieldBalancesMock = () =>
                   (_, i) => i + 1,
                 ).map(() => ({
                   bakcId: faker.helpers.arrayElement([
-                    { required: faker.datatype.boolean() },
+                    { required: faker.datatype.boolean(), ...overrideResponse },
                     undefined,
                   ]),
                   baycId: faker.helpers.arrayElement([
-                    { required: faker.datatype.boolean() },
+                    { required: faker.datatype.boolean(), ...overrideResponse },
                     undefined,
                   ]),
                   maycId: faker.helpers.arrayElement([
-                    { required: faker.datatype.boolean() },
+                    { required: faker.datatype.boolean(), ...overrideResponse },
                     undefined,
                   ]),
+                  ...overrideResponse,
                 })),
                 undefined,
               ]),
@@ -1476,25 +1667,29 @@ export const getYieldControllerGetSingleYieldBalancesMock = () =>
                     (_, i) => i + 1,
                   ).map(() => faker.word.sample()),
                   required: faker.datatype.boolean(),
+                  ...overrideResponse,
                 },
                 undefined,
               ]),
               validatorAddress: faker.helpers.arrayElement([
-                { required: faker.datatype.boolean() },
+                { required: faker.datatype.boolean(), ...overrideResponse },
                 undefined,
               ]),
               validatorAddresses: faker.helpers.arrayElement([
-                { required: faker.datatype.boolean() },
+                { required: faker.datatype.boolean(), ...overrideResponse },
                 undefined,
               ]),
+              ...overrideResponse,
             },
             undefined,
           ]),
+          ...overrideResponse,
         },
         undefined,
       ]),
       passthrough: faker.word.sample(),
       type: faker.helpers.arrayElement(Object.values(ActionTypes)),
+      ...overrideResponse,
     })),
     pricePerShare: faker.word.sample(),
     token: {
@@ -1505,6 +1700,7 @@ export const getYieldControllerGetSingleYieldBalancesMock = () =>
       name: faker.word.sample(),
       network: faker.helpers.arrayElement(Object.values(Networks)),
       symbol: faker.word.sample(),
+      ...overrideResponse,
     },
     type: faker.helpers.arrayElement(Object.values(BalanceTypes)),
     validatorAddress: faker.helpers.arrayElement([
@@ -1518,262 +1714,495 @@ export const getYieldControllerGetSingleYieldBalancesMock = () =>
       ).map(() => faker.word.sample()),
       undefined,
     ]),
+    ...overrideResponse,
   }));
 
+export const getActionControllerGetActionMockHandler = (
+  overrideResponse?: ActionDto,
+) => {
+  return http.get('*/v1/actions/:actionId', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getActionControllerGetActionResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getActionControllerEnterMockHandler = (
+  overrideResponse?: ActionDto,
+) => {
+  return http.post('*/v1/actions/enter', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getActionControllerEnterResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getActionControllerExitMockHandler = (
+  overrideResponse?: ActionDto,
+) => {
+  return http.post('*/v1/actions/exit', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getActionControllerExitResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getActionControllerPendingMockHandler = (
+  overrideResponse?: ActionDto,
+) => {
+  return http.post('*/v1/actions/pending', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getActionControllerPendingResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getTransactionControllerGetTransactionMockHandler = (
+  overrideResponse?: TransactionDto,
+) => {
+  return http.get('*/v1/transactions/:transactionId', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getTransactionControllerGetTransactionResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getTransactionControllerConstructMockHandler = (
+  overrideResponse?: TransactionDto,
+) => {
+  return http.patch('*/v1/transactions/:transactionId', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getTransactionControllerConstructResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getTransactionControllerSubmitMockHandler = (
+  overrideResponse?: SubmitResponseDto,
+) => {
+  return http.post('*/v1/transactions/:transactionId/submit', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getTransactionControllerSubmitResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getTransactionControllerSubmitHashMockHandler = () => {
+  return http.post('*/v1/transactions/:transactionId/submit_hash', async () => {
+    await delay(1000);
+    return new HttpResponse(null, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  });
+};
+
+export const getTransactionControllerGetTransactionStatusFromIdMockHandler = (
+  overrideResponse?: TransactionStatusResponseDto,
+) => {
+  return http.get('*/v1/transactions/:transactionId/status', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getTransactionControllerGetTransactionStatusFromIdResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getTransactionControllerGetGasForNetworkMockHandler = (
+  overrideResponse?: GasForNetworkResponseDto,
+) => {
+  return http.get('*/v1/transactions/gas/:network', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getTransactionControllerGetGasForNetworkResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getTokenControllerGetTokensMockHandler = (
+  overrideResponse?: TokenWithAvailableYieldsDto[],
+) => {
+  return http.get('*/v1/tokens', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getTokenControllerGetTokensResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getTokenControllerGetTokenPricesMockHandler = (
+  overrideResponse?: PriceResponseDto,
+) => {
+  return http.post('*/v1/tokens/prices', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getTokenControllerGetTokenPricesResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getTokenControllerGetTokenBalancesMockHandler = (
+  overrideResponse?: BalanceResponseDto[],
+) => {
+  return http.post('*/v1/tokens/balances', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getTokenControllerGetTokenBalancesResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getTokenControllerTokenBalancesScanMockHandler = (
+  overrideResponse?: TokenBalanceScanResponseDto[],
+) => {
+  return http.post('*/v1/tokens/balances/scan', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getTokenControllerTokenBalancesScanResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getYieldControllerYieldsMockHandler = (
+  overrideResponse?: YieldYields200,
+) => {
+  return http.get('*/v1/yields', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getYieldControllerYieldsResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getYieldControllerGetMultipleYieldBalancesMockHandler = (
+  overrideResponse?: YieldBalancesWithIntegrationIdDto[],
+) => {
+  return http.post('*/v1/yields/balances', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getYieldControllerGetMultipleYieldBalancesResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getYieldControllerYieldBalancesScanMockHandler = (
+  overrideResponse?: YieldBalancesWithIntegrationIdDto[],
+) => {
+  return http.post('*/v1/yields/balances/scan', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getYieldControllerYieldBalancesScanResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getYieldControllerGetMyYieldsMockHandler = (
+  overrideResponse?: YieldGetMyYields200,
+) => {
+  return http.get('*/v1/yields/enabled', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getYieldControllerGetMyYieldsResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getYieldControllerGetMyNetworksMockHandler = () => {
+  return http.get('*/v1/yields/enabled/networks', async () => {
+    await delay(1000);
+    return new HttpResponse(null, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  });
+};
+
+export const getYieldControllerFindValidatorsMockHandler = (
+  overrideResponse?: ValidatorSearchResultDto[],
+) => {
+  return http.get('*/v1/yields/validators', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getYieldControllerFindValidatorsResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getYieldControllerYieldOpportunityMockHandler = (
+  overrideResponse?: YieldDto,
+) => {
+  return http.get('*/v1/yields/:integrationId', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getYieldControllerYieldOpportunityResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getYieldControllerGetValidatorsMockHandler = (
+  overrideResponse?: ValidatorDto[],
+) => {
+  return http.get('*/v1/yields/:integrationId/validators', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getYieldControllerGetValidatorsResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getYieldControllerGetSingleYieldBalancesMockHandler = (
+  overrideResponse?: YieldBalanceDto[],
+) => {
+  return http.post('*/v1/yields/:integrationId/balances', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getYieldControllerGetSingleYieldBalancesResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
 export const getStakeKitMock = () => [
-  http.get('*/v1/actions/:actionId', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(getActionControllerGetActionMock()),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }),
-  http.post('*/v1/actions/enter', async () => {
-    await delay(1000);
-    return new HttpResponse(JSON.stringify(getActionControllerEnterMock()), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }),
-  http.post('*/v1/actions/exit', async () => {
-    await delay(1000);
-    return new HttpResponse(JSON.stringify(getActionControllerExitMock()), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }),
-  http.post('*/v1/actions/pending', async () => {
-    await delay(1000);
-    return new HttpResponse(JSON.stringify(getActionControllerPendingMock()), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }),
-  http.get('*/v1/transactions/:transactionId', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(getTransactionControllerGetTransactionMock()),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }),
-  http.patch('*/v1/transactions/:transactionId', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(getTransactionControllerConstructMock()),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }),
-  http.post('*/v1/transactions/:transactionId/submit', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(getTransactionControllerSubmitMock()),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }),
-  http.post('*/v1/transactions/:transactionId/submit_hash', async () => {
-    await delay(1000);
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }),
-  http.get('*/v1/transactions/:transactionId/status', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(getTransactionControllerGetTransactionStatusFromIdMock()),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }),
-  http.get('*/v1/transactions/gas/:network', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(getTransactionControllerGetGasForNetworkMock()),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }),
-  http.get('*/v1/tokens', async () => {
-    await delay(1000);
-    return new HttpResponse(JSON.stringify(getTokenControllerGetTokensMock()), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }),
-  http.post('*/v1/tokens/prices', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(getTokenControllerGetTokenPricesMock()),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }),
-  http.post('*/v1/tokens/balances', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(getTokenControllerGetTokenBalancesMock()),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }),
-  http.post('*/v1/tokens/balances/scan', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(getTokenControllerTokenBalancesScanMock()),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }),
-  http.get('*/v1/yields', async () => {
-    await delay(1000);
-    return new HttpResponse(JSON.stringify(getYieldControllerYieldsMock()), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }),
-  http.post('*/v1/yields/balances', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(getYieldControllerGetMultipleYieldBalancesMock()),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }),
-  http.post('*/v1/yields/balances/scan', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(getYieldControllerYieldBalancesScanMock()),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }),
-  http.get('*/v1/yields/enabled', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(getYieldControllerGetMyYieldsMock()),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }),
-  http.get('*/v1/yields/enabled/networks', async () => {
-    await delay(1000);
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }),
-  http.get('*/v1/yields/validators', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(getYieldControllerFindValidatorsMock()),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }),
-  http.get('*/v1/yields/:integrationId', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(getYieldControllerYieldOpportunityMock()),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }),
-  http.get('*/v1/yields/:integrationId/validators', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(getYieldControllerGetValidatorsMock()),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }),
-  http.post('*/v1/yields/:integrationId/balances', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(getYieldControllerGetSingleYieldBalancesMock()),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }),
+  getActionControllerGetActionMockHandler(),
+  getActionControllerEnterMockHandler(),
+  getActionControllerExitMockHandler(),
+  getActionControllerPendingMockHandler(),
+  getTransactionControllerGetTransactionMockHandler(),
+  getTransactionControllerConstructMockHandler(),
+  getTransactionControllerSubmitMockHandler(),
+  getTransactionControllerSubmitHashMockHandler(),
+  getTransactionControllerGetTransactionStatusFromIdMockHandler(),
+  getTransactionControllerGetGasForNetworkMockHandler(),
+  getTokenControllerGetTokensMockHandler(),
+  getTokenControllerGetTokenPricesMockHandler(),
+  getTokenControllerGetTokenBalancesMockHandler(),
+  getTokenControllerTokenBalancesScanMockHandler(),
+  getYieldControllerYieldsMockHandler(),
+  getYieldControllerGetMultipleYieldBalancesMockHandler(),
+  getYieldControllerYieldBalancesScanMockHandler(),
+  getYieldControllerGetMyYieldsMockHandler(),
+  getYieldControllerGetMyNetworksMockHandler(),
+  getYieldControllerFindValidatorsMockHandler(),
+  getYieldControllerYieldOpportunityMockHandler(),
+  getYieldControllerGetValidatorsMockHandler(),
+  getYieldControllerGetSingleYieldBalancesMockHandler(),
 ];
