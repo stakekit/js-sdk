@@ -11,6 +11,7 @@ export const TokenGetTokensNetwork = {
   celo: 'celo',
   ethereum: 'ethereum',
   'ethereum-goerli': 'ethereum-goerli',
+  'ethereum-holesky': 'ethereum-holesky',
   fantom: 'fantom',
   harmony: 'harmony',
   optimism: 'optimism',
