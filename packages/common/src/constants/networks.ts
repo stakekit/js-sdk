@@ -62,6 +62,7 @@ export const ChainIds: { [x in Networks]?: string } = {
   [Networks.Celo]: '42220',
   [Networks.Ethereum]: '1',
   [Networks.EthereumGoerli]: '5',
+  [Networks.EthereumHolesky]: '17000',
   [Networks.Fantom]: '250',
   [Networks.Near]: 'near',
   [Networks.Harmony]: '1666600000',
