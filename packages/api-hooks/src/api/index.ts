@@ -854,6 +854,119 @@ export const useTransactionGetGasForNetwork = <
 };
 
 /**
+ * Returns the transaction status given a transaction hash and a network
+ * @summary Get transaction status
+ */
+export const transactionGetTransactionStatusByNetworkAndHash = (
+  network: string,
+  hash: string,
+  signal?: AbortSignal,
+) => {
+  return api<TransactionStatusResponseDto>({
+    url: `/v1/transactions/status/${network}/${hash}`,
+    method: 'GET',
+    signal,
+  });
+};
+
+export const getTransactionGetTransactionStatusByNetworkAndHashQueryKey = (
+  network: string,
+  hash: string,
+) => {
+  return [`/v1/transactions/status/${network}/${hash}`] as const;
+};
+
+export const useTransactionGetTransactionStatusByNetworkAndHashQueryOptions = <
+  TData = Awaited<
+    ReturnType<typeof transactionGetTransactionStatusByNetworkAndHash>
+  >,
+  TError = ErrorType<GeolocationError>,
+>(
+  network: string,
+  hash: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof transactionGetTransactionStatusByNetworkAndHash>
+        >,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getTransactionGetTransactionStatusByNetworkAndHashQueryKey(network, hash);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof transactionGetTransactionStatusByNetworkAndHash>>
+  > = ({ signal }) =>
+    transactionGetTransactionStatusByNetworkAndHash(network, hash, signal);
+
+  const customOptions = customQueryOptions({
+    ...queryOptions,
+    queryKey,
+    queryFn,
+  });
+
+  return customOptions as UseQueryOptions<
+    Awaited<ReturnType<typeof transactionGetTransactionStatusByNetworkAndHash>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type TransactionGetTransactionStatusByNetworkAndHashQueryResult =
+  NonNullable<
+    Awaited<ReturnType<typeof transactionGetTransactionStatusByNetworkAndHash>>
+  >;
+export type TransactionGetTransactionStatusByNetworkAndHashQueryError =
+  ErrorType<GeolocationError>;
+
+/**
+ * @summary Get transaction status
+ */
+export const useTransactionGetTransactionStatusByNetworkAndHash = <
+  TData = Awaited<
+    ReturnType<typeof transactionGetTransactionStatusByNetworkAndHash>
+  >,
+  TError = ErrorType<GeolocationError>,
+>(
+  network: string,
+  hash: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof transactionGetTransactionStatusByNetworkAndHash>
+        >,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions =
+    useTransactionGetTransactionStatusByNetworkAndHashQueryOptions(
+      network,
+      hash,
+      options,
+    );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
  * Returns the tokens with available yields
  * @summary Get all tokens
  */

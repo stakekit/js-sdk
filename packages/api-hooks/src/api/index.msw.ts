@@ -375,6 +375,17 @@ export const getTransactionControllerGetGasForNetworkResponseMock = (
   ...overrideResponse,
 });
 
+export const getTransactionControllerGetTransactionStatusByNetworkAndHashResponseMock =
+  (overrideResponse: any = {}): TransactionStatusResponseDto => ({
+    blockNumber: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    hash: faker.word.sample(),
+    network: faker.helpers.arrayElement(Object.values(Networks)),
+    raw: {},
+    status: faker.helpers.arrayElement(Object.values(TransactionStatus)),
+    url: faker.word.sample(),
+    ...overrideResponse,
+  });
+
 export const getTokenControllerGetTokensResponseMock = (
   overrideResponse: any = {},
 ): TokenWithAvailableYieldsDto[] =>
@@ -1918,6 +1929,26 @@ export const getTransactionControllerGetGasForNetworkMockHandler = (
   });
 };
 
+export const getTransactionControllerGetTransactionStatusByNetworkAndHashMockHandler =
+  (overrideResponse?: TransactionStatusResponseDto) => {
+    return http.get('*/v1/transactions/status/:network/:hash', async () => {
+      await delay(1000);
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse
+            ? overrideResponse
+            : getTransactionControllerGetTransactionStatusByNetworkAndHashResponseMock(),
+        ),
+        {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    });
+  };
+
 export const getTokenControllerGetTokensMockHandler = (
   overrideResponse?: TokenWithAvailableYieldsDto[],
 ) => {
@@ -2192,6 +2223,7 @@ export const getStakeKitMock = () => [
   getTransactionControllerSubmitHashMockHandler(),
   getTransactionControllerGetTransactionStatusFromIdMockHandler(),
   getTransactionControllerGetGasForNetworkMockHandler(),
+  getTransactionControllerGetTransactionStatusByNetworkAndHashMockHandler(),
   getTokenControllerGetTokensMockHandler(),
   getTokenControllerGetTokenPricesMockHandler(),
   getTokenControllerGetTokenBalancesMockHandler(),
