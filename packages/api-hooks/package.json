@@ -1,7 +1,7 @@
 {
   "name": "@stakekit/api-hooks",
   "description": "React hooks for StakeKit API",
-  "version": "0.0.57",
+  "version": "0.0.58",
   "types": "./dist/index.d.ts",
   "main": "./dist/esm/index.js",
   "exports": {
