@@ -21,4 +21,5 @@ export const YieldProviders = {
   'morpho-compound': 'morpho-compound',
   angle: 'angle',
   kelpdao: 'kelpdao',
+  kiln: 'kiln',
 } as const;

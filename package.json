@@ -36,7 +36,7 @@
     "prettier": "^2.8.7",
     "turbo": "^1.8.3"
   },
-  "packageManager": "yarn@4.0.2",
+  "packageManager": "yarn@4.1.1",
   "resolutions": {
     "@orval/query@npm:6.20.0": "patch:@orval/query@npm%3A6.20.0#~/.yarn/patches/@orval-query-npm-6.20.0-3f724ea48d.patch"
   }
