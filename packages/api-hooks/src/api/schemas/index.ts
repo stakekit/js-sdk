@@ -117,6 +117,8 @@ export * from './transactionStatus';
 export * from './transactionStatusResponseDto';
 export * from './transactionStatusResponseDtoRaw';
 export * from './transactionType';
+export * from './transactionVerificationMessageDto';
+export * from './transactionVerificationMessageRequestDto';
 export * from './tronResourceArgumentOptionsDto';
 export * from './tronResourceType';
 export * from './updateCustomFeeDto';

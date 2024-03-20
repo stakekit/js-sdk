@@ -27,6 +27,8 @@ import type {
   TokenWithAvailableYieldsDto,
   TransactionDto,
   TransactionStatusResponseDto,
+  TransactionVerificationMessageDto,
+  TransactionVerificationMessageRequestDto,
   ValidatorDto,
   ValidatorSearchResultDto,
   YieldBalanceDto,
@@ -964,6 +966,103 @@ export const useTransactionGetTransactionStatusByNetworkAndHash = <
   query.queryKey = queryOptions.queryKey;
 
   return query;
+};
+
+/**
+ * Returns the transaction or message to sign to provide verification
+ * @summary Get transaction verification transaction/message
+ */
+export const transactionGetTransactionVerificationMessageForNetwork = (
+  network: string,
+  transactionVerificationMessageRequestDto: TransactionVerificationMessageRequestDto,
+) => {
+  return api<TransactionVerificationMessageDto>({
+    url: `/v1/transactions/verification/${network}`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: transactionVerificationMessageRequestDto,
+  });
+};
+
+export const useTransactionGetTransactionVerificationMessageForNetworkMutationOptions =
+  <TError = ErrorType<GeolocationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof transactionGetTransactionVerificationMessageForNetwork
+        >
+      >,
+      TError,
+      { network: string; data: TransactionVerificationMessageRequestDto },
+      TContext
+    >;
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<typeof transactionGetTransactionVerificationMessageForNetwork>
+    >,
+    TError,
+    { network: string; data: TransactionVerificationMessageRequestDto },
+    TContext
+  > => {
+    const { mutation: mutationOptions } = options ?? {};
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof transactionGetTransactionVerificationMessageForNetwork
+        >
+      >,
+      { network: string; data: TransactionVerificationMessageRequestDto }
+    > = (props) => {
+      const { network, data } = props ?? {};
+
+      return transactionGetTransactionVerificationMessageForNetwork(
+        network,
+        data,
+      );
+    };
+
+    const customOptions = customQueryOptions({
+      ...mutationOptions,
+      mutationFn,
+    });
+
+    return customOptions;
+  };
+
+export type TransactionGetTransactionVerificationMessageForNetworkMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof transactionGetTransactionVerificationMessageForNetwork>
+    >
+  >;
+export type TransactionGetTransactionVerificationMessageForNetworkMutationBody =
+  TransactionVerificationMessageRequestDto;
+export type TransactionGetTransactionVerificationMessageForNetworkMutationError =
+  ErrorType<GeolocationError>;
+
+/**
+ * @summary Get transaction verification transaction/message
+ */
+export const useTransactionGetTransactionVerificationMessageForNetwork = <
+  TError = ErrorType<GeolocationError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<
+      ReturnType<typeof transactionGetTransactionVerificationMessageForNetwork>
+    >,
+    TError,
+    { network: string; data: TransactionVerificationMessageRequestDto },
+    TContext
+  >;
+}) => {
+  const mutationOptions =
+    useTransactionGetTransactionVerificationMessageForNetworkMutationOptions(
+      options,
+    );
+
+  return useMutation(mutationOptions);
 };
 
 /**

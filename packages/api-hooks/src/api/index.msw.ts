@@ -25,6 +25,7 @@ import type {
   TokenWithAvailableYieldsDto,
   TransactionDto,
   TransactionStatusResponseDto,
+  TransactionVerificationMessageDto,
   ValidatorDto,
   ValidatorSearchResultDto,
   YieldBalanceDto,
@@ -386,6 +387,12 @@ export const getTransactionControllerGetTransactionStatusByNetworkAndHashRespons
     ...overrideResponse,
   });
 
+export const getTransactionControllerGetTransactionVerificationMessageForNetworkResponseMock =
+  (overrideResponse: any = {}): TransactionVerificationMessageDto => ({
+    message: faker.word.sample(),
+    ...overrideResponse,
+  });
+
 export const getTokenControllerGetTokensResponseMock = (
   overrideResponse: any = {},
 ): TokenWithAvailableYieldsDto[] =>
@@ -572,6 +579,7 @@ export const getYieldControllerGetMultipleYieldBalancesResponseMock = (
                       'solana',
                       'tezos',
                       'tron',
+                      'off-chain',
                     ] as const),
                     required: faker.datatype.boolean(),
                     ...overrideResponse,
@@ -808,6 +816,7 @@ export const getYieldControllerYieldBalancesScanResponseMock = (
                       'solana',
                       'tezos',
                       'tron',
+                      'off-chain',
                     ] as const),
                     required: faker.datatype.boolean(),
                     ...overrideResponse,
@@ -1065,6 +1074,7 @@ export const getYieldControllerYieldOpportunityResponseMock = (
                 'solana',
                 'tezos',
                 'tron',
+                'off-chain',
               ] as const),
               required: faker.datatype.boolean(),
               ...overrideResponse,
@@ -1233,6 +1243,7 @@ export const getYieldControllerYieldOpportunityResponseMock = (
                   'solana',
                   'tezos',
                   'tron',
+                  'off-chain',
                 ] as const),
                 required: faker.datatype.boolean(),
                 ...overrideResponse,
@@ -1608,6 +1619,7 @@ export const getYieldControllerGetSingleYieldBalancesResponseMock = (
                     'solana',
                     'tezos',
                     'tron',
+                    'off-chain',
                   ] as const),
                   required: faker.datatype.boolean(),
                   ...overrideResponse,
@@ -1949,6 +1961,26 @@ export const getTransactionControllerGetTransactionStatusByNetworkAndHashMockHan
     });
   };
 
+export const getTransactionControllerGetTransactionVerificationMessageForNetworkMockHandler =
+  (overrideResponse?: TransactionVerificationMessageDto) => {
+    return http.post('*/v1/transactions/verification/:network', async () => {
+      await delay(1000);
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse
+            ? overrideResponse
+            : getTransactionControllerGetTransactionVerificationMessageForNetworkResponseMock(),
+        ),
+        {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    });
+  };
+
 export const getTokenControllerGetTokensMockHandler = (
   overrideResponse?: TokenWithAvailableYieldsDto[],
 ) => {
@@ -2224,6 +2256,7 @@ export const getStakeKitMock = () => [
   getTransactionControllerGetTransactionStatusFromIdMockHandler(),
   getTransactionControllerGetGasForNetworkMockHandler(),
   getTransactionControllerGetTransactionStatusByNetworkAndHashMockHandler(),
+  getTransactionControllerGetTransactionVerificationMessageForNetworkMockHandler(),
   getTokenControllerGetTokensMockHandler(),
   getTokenControllerGetTokenPricesMockHandler(),
   getTokenControllerGetTokenBalancesMockHandler(),
