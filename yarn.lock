@@ -3796,7 +3796,7 @@ __metadata:
   resolution: "@stakekit/api-hooks@workspace:packages/api-hooks"
   dependencies:
     "@faker-js/faker": "npm:^8.4.1"
-    "@tanstack/react-query": "npm:^5.27.5"
+    "@tanstack/react-query": "npm:^5.28.4"
     "@types/lodash.merge": "npm:^4"
     "@types/react": "npm:^18.2.65"
     axios: "npm:^1.6.7"
@@ -3804,12 +3804,15 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-config-react-app: "npm:^7.0.1"
     lodash.merge: "npm:^4.6.2"
-    msw: "npm:^2.2.3"
+    msw: "npm:^2.2.9"
     orval: "npm:^6.25.0"
     prettier: "npm:^3.2.5"
     react: "npm:^18.2.0"
     tsup: "npm:^8.0.2"
     typescript: "npm:^5.4.2"
+  peerDependencies:
+    "@tanstack/react-query": ^5
+    msw: ^2
   languageName: unknown
   linkType: soft
 
@@ -4114,21 +4117,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.27.5":
-  version: 5.27.5
-  resolution: "@tanstack/query-core@npm:5.27.5"
-  checksum: 10/3c947b7d9711b7b99c0c5ad7df101a87e75968477674eb719222ec619da13da0b4cb730166afed469c4bf903105a7138c4c3f24655fbcde6737dba9935bb7450
+"@tanstack/query-core@npm:5.28.4":
+  version: 5.28.4
+  resolution: "@tanstack/query-core@npm:5.28.4"
+  checksum: 10/ad457f4a4954f40fd83a53c3492b7d85f752a0bfb3f0935f3f3a156acd1a2d34cecc897b910902fa15c52527c3662186476298b4427ae39f646c047de93c3b53
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.27.5":
-  version: 5.27.5
-  resolution: "@tanstack/react-query@npm:5.27.5"
+"@tanstack/react-query@npm:^5.28.4":
+  version: 5.28.4
+  resolution: "@tanstack/react-query@npm:5.28.4"
   dependencies:
-    "@tanstack/query-core": "npm:5.27.5"
+    "@tanstack/query-core": "npm:5.28.4"
   peerDependencies:
     react: ^18.0.0
-  checksum: 10/db2e75c1e0e849820121de68d3fe9a894dc6f0541234430cc39ab7ff9100cf321cd39412a420eba656aa39644c48227ea7ed44d10d237fb00ca1ccea06596fab
+  checksum: 10/59e799038f96596d695810e2fcdbf79db0aa672802bd7791cc7a575207818adbdbb0f5cc38a70b4c30a2fc71f66dce45179178ef7875c0e5011884055e4d508d
   languageName: node
   linkType: hard
 
@@ -10456,9 +10459,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msw@npm:^2.2.3":
-  version: 2.2.3
-  resolution: "msw@npm:2.2.3"
+"msw@npm:^2.2.9":
+  version: 2.2.9
+  resolution: "msw@npm:2.2.9"
   dependencies:
     "@bundled-es-modules/cookie": "npm:^2.0.0"
     "@bundled-es-modules/statuses": "npm:^1.0.1"
@@ -10484,7 +10487,7 @@ __metadata:
       optional: true
   bin:
     msw: cli/index.js
-  checksum: 10/9660de12e5a1fe66fe935a6be65ba6bf9dc15342125f1dbba92ee622b2da1dfedd2825324a2a48638d9a09e41314dd91d603db8dbf5dc0e1f54f93071a21bdc2
+  checksum: 10/96652a7c108aa7dec4eef63fa98608f8da25c74510a761b3999d81342bd2edb97b8843f9e51790da1b78c0f08caff479b4500901927ae12b371fd9bba21ac67a
   languageName: node
   linkType: hard
 

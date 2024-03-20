@@ -22,4 +22,6 @@ export const YieldProviders = {
   angle: 'angle',
   kelpdao: 'kelpdao',
   kiln: 'kiln',
+  P2P: 'P2P',
+  everstake: 'everstake',
 } as const;
