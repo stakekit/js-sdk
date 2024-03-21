@@ -6,20 +6,12 @@ const apiPath = path.join(__dirname, 'src', 'api');
 
 const schemasPath = path.join(apiPath, 'schemas');
 const indexPath = path.join(apiPath, 'index.ts');
-const apiClientPath = path.join(__dirname, 'src', 'api-client.ts');
-const customQueryOptions = path.join(__dirname, 'src', 'query-options.ts');
+const apiClientPath = path.join(__dirname, 'src', 'use-api-client.ts');
 
 const getAsQueryOptions = () => ({
   query: {
     useQuery: true,
-    queryOptions: {
-      path: customQueryOptions,
-      name: 'customQueryOptions',
-    },
-    mutationOptions: {
-      path: customQueryOptions,
-      name: 'customQueryOptions',
-    },
+    shouldExportMutatorHooks: true,
   },
 });
 
@@ -39,17 +31,7 @@ export default defineConfig({
           camelCase(operation.operationId?.replace(/controller/i, '') ?? ''),
         mutator: {
           path: apiClientPath,
-          name: 'api',
-        },
-        query: {
-          queryOptions: {
-            path: customQueryOptions,
-            name: 'customQueryOptions',
-          },
-          mutationOptions: {
-            path: customQueryOptions,
-            name: 'customQueryOptions',
-          },
+          name: 'useApi',
         },
         operations: {
           TokenController_getTokenBalances: getAsQueryOptions(),

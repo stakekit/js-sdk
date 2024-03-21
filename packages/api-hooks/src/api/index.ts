@@ -48,20 +48,22 @@ import type {
   YieldYields200,
   YieldYieldsParams,
 } from './schemas';
-import { api } from '../api-client';
-import type { ErrorType } from '../api-client';
-import { customQueryOptions } from '../query-options';
+import { useApi } from '../use-api-client';
 
 /**
  * Returns a action with associated transactions
  * @summary Get action
  */
-export const actionGetAction = (actionId: string, signal?: AbortSignal) => {
-  return api<ActionDto>({
-    url: `/v1/actions/${actionId}`,
-    method: 'GET',
-    signal,
-  });
+export const useActionGetActionHook = () => {
+  const actionGetAction = useApi<ActionDto>();
+
+  return (actionId: string, signal?: AbortSignal) => {
+    return actionGetAction({
+      url: `/v1/actions/${actionId}`,
+      method: 'GET',
+      signal,
+    });
+  };
 };
 
 export const getActionGetActionQueryKey = (actionId: string) => {
@@ -69,14 +71,14 @@ export const getActionGetActionQueryKey = (actionId: string) => {
 };
 
 export const useActionGetActionQueryOptions = <
-  TData = Awaited<ReturnType<typeof actionGetAction>>,
-  TError = ErrorType<GeolocationError>,
+  TData = Awaited<ReturnType<ReturnType<typeof useActionGetActionHook>>>,
+  TError = GeolocationError,
 >(
   actionId: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof actionGetAction>>,
+        Awaited<ReturnType<ReturnType<typeof useActionGetActionHook>>>,
         TError,
         TData
       >
@@ -88,40 +90,41 @@ export const useActionGetActionQueryOptions = <
   const queryKey =
     queryOptions?.queryKey ?? getActionGetActionQueryKey(actionId);
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof actionGetAction>>> = ({
-    signal,
-  }) => actionGetAction(actionId, signal);
+  const actionGetAction = useActionGetActionHook();
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useActionGetActionHook>>>
+  > = ({ signal }) => actionGetAction(actionId, signal);
+
+  return {
     queryKey,
     queryFn,
-  });
-
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof actionGetAction>>,
+    enabled: !!actionId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useActionGetActionHook>>>,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
 export type ActionGetActionQueryResult = NonNullable<
-  Awaited<ReturnType<typeof actionGetAction>>
+  Awaited<ReturnType<ReturnType<typeof useActionGetActionHook>>>
 >;
-export type ActionGetActionQueryError = ErrorType<GeolocationError>;
+export type ActionGetActionQueryError = GeolocationError;
 
 /**
  * @summary Get action
  */
 export const useActionGetAction = <
-  TData = Awaited<ReturnType<typeof actionGetAction>>,
-  TError = ErrorType<GeolocationError>,
+  TData = Awaited<ReturnType<ReturnType<typeof useActionGetActionHook>>>,
+  TError = GeolocationError,
 >(
   actionId: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof actionGetAction>>,
+        Awaited<ReturnType<ReturnType<typeof useActionGetActionHook>>>,
         TError,
         TData
       >
@@ -143,35 +146,41 @@ export const useActionGetAction = <
  * Get the transactions necessary to enter a yield bearing position
  * @summary Create "enter" action
  */
-export const actionEnter = (actionRequestDto: ActionRequestDto) => {
-  return api<ActionDto>({
-    url: `/v1/actions/enter`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: actionRequestDto,
-  });
+export const useActionEnterHook = () => {
+  const actionEnter = useApi<ActionDto>();
+
+  return (actionRequestDto: ActionRequestDto) => {
+    return actionEnter({
+      url: `/v1/actions/enter`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: actionRequestDto,
+    });
+  };
 };
 
 export const useActionEnterMutationOptions = <
-  TError = ErrorType<GeolocationError>,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof actionEnter>>,
+    Awaited<ReturnType<ReturnType<typeof useActionEnterHook>>>,
     TError,
     { data: ActionRequestDto },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof actionEnter>>,
+  Awaited<ReturnType<ReturnType<typeof useActionEnterHook>>>,
   TError,
   { data: ActionRequestDto },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {};
 
+  const actionEnter = useActionEnterHook();
+
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof actionEnter>>,
+    Awaited<ReturnType<ReturnType<typeof useActionEnterHook>>>,
     { data: ActionRequestDto }
   > = (props) => {
     const { data } = props ?? {};
@@ -179,26 +188,24 @@ export const useActionEnterMutationOptions = <
     return actionEnter(data);
   };
 
-  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
-
-  return customOptions;
+  return { mutationFn, ...mutationOptions };
 };
 
 export type ActionEnterMutationResult = NonNullable<
-  Awaited<ReturnType<typeof actionEnter>>
+  Awaited<ReturnType<ReturnType<typeof useActionEnterHook>>>
 >;
 export type ActionEnterMutationBody = ActionRequestDto;
-export type ActionEnterMutationError = ErrorType<GeolocationError>;
+export type ActionEnterMutationError = GeolocationError;
 
 /**
  * @summary Create "enter" action
  */
 export const useActionEnter = <
-  TError = ErrorType<GeolocationError>,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof actionEnter>>,
+    Awaited<ReturnType<ReturnType<typeof useActionEnterHook>>>,
     TError,
     { data: ActionRequestDto },
     TContext
@@ -213,35 +220,41 @@ export const useActionEnter = <
  * Get the transactions necessary to exit a yield bearing position
  * @summary Create "exit" action
  */
-export const actionExit = (actionRequestDto: ActionRequestDto) => {
-  return api<ActionDto>({
-    url: `/v1/actions/exit`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: actionRequestDto,
-  });
+export const useActionExitHook = () => {
+  const actionExit = useApi<ActionDto>();
+
+  return (actionRequestDto: ActionRequestDto) => {
+    return actionExit({
+      url: `/v1/actions/exit`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: actionRequestDto,
+    });
+  };
 };
 
 export const useActionExitMutationOptions = <
-  TError = ErrorType<GeolocationError>,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof actionExit>>,
+    Awaited<ReturnType<ReturnType<typeof useActionExitHook>>>,
     TError,
     { data: ActionRequestDto },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof actionExit>>,
+  Awaited<ReturnType<ReturnType<typeof useActionExitHook>>>,
   TError,
   { data: ActionRequestDto },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {};
 
+  const actionExit = useActionExitHook();
+
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof actionExit>>,
+    Awaited<ReturnType<ReturnType<typeof useActionExitHook>>>,
     { data: ActionRequestDto }
   > = (props) => {
     const { data } = props ?? {};
@@ -249,26 +262,24 @@ export const useActionExitMutationOptions = <
     return actionExit(data);
   };
 
-  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
-
-  return customOptions;
+  return { mutationFn, ...mutationOptions };
 };
 
 export type ActionExitMutationResult = NonNullable<
-  Awaited<ReturnType<typeof actionExit>>
+  Awaited<ReturnType<ReturnType<typeof useActionExitHook>>>
 >;
 export type ActionExitMutationBody = ActionRequestDto;
-export type ActionExitMutationError = ErrorType<GeolocationError>;
+export type ActionExitMutationError = GeolocationError;
 
 /**
  * @summary Create "exit" action
  */
 export const useActionExit = <
-  TError = ErrorType<GeolocationError>,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof actionExit>>,
+    Awaited<ReturnType<ReturnType<typeof useActionExitHook>>>,
     TError,
     { data: ActionRequestDto },
     TContext
@@ -283,37 +294,41 @@ export const useActionExit = <
  * Get the transactions to apply a pending action
  * @summary Create "pending" action
  */
-export const actionPending = (
-  pendingActionRequestDto: PendingActionRequestDto,
-) => {
-  return api<ActionDto>({
-    url: `/v1/actions/pending`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: pendingActionRequestDto,
-  });
+export const useActionPendingHook = () => {
+  const actionPending = useApi<ActionDto>();
+
+  return (pendingActionRequestDto: PendingActionRequestDto) => {
+    return actionPending({
+      url: `/v1/actions/pending`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: pendingActionRequestDto,
+    });
+  };
 };
 
 export const useActionPendingMutationOptions = <
-  TError = ErrorType<GeolocationError>,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof actionPending>>,
+    Awaited<ReturnType<ReturnType<typeof useActionPendingHook>>>,
     TError,
     { data: PendingActionRequestDto },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof actionPending>>,
+  Awaited<ReturnType<ReturnType<typeof useActionPendingHook>>>,
   TError,
   { data: PendingActionRequestDto },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {};
 
+  const actionPending = useActionPendingHook();
+
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof actionPending>>,
+    Awaited<ReturnType<ReturnType<typeof useActionPendingHook>>>,
     { data: PendingActionRequestDto }
   > = (props) => {
     const { data } = props ?? {};
@@ -321,26 +336,24 @@ export const useActionPendingMutationOptions = <
     return actionPending(data);
   };
 
-  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
-
-  return customOptions;
+  return { mutationFn, ...mutationOptions };
 };
 
 export type ActionPendingMutationResult = NonNullable<
-  Awaited<ReturnType<typeof actionPending>>
+  Awaited<ReturnType<ReturnType<typeof useActionPendingHook>>>
 >;
 export type ActionPendingMutationBody = PendingActionRequestDto;
-export type ActionPendingMutationError = ErrorType<GeolocationError>;
+export type ActionPendingMutationError = GeolocationError;
 
 /**
  * @summary Create "pending" action
  */
 export const useActionPending = <
-  TError = ErrorType<GeolocationError>,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof actionPending>>,
+    Awaited<ReturnType<ReturnType<typeof useActionPendingHook>>>,
     TError,
     { data: PendingActionRequestDto },
     TContext
@@ -355,15 +368,16 @@ export const useActionPending = <
  * Returns a transaction
  * @summary Get transaction
  */
-export const transactionGetTransaction = (
-  transactionId: string,
-  signal?: AbortSignal,
-) => {
-  return api<TransactionDto>({
-    url: `/v1/transactions/${transactionId}`,
-    method: 'GET',
-    signal,
-  });
+export const useTransactionGetTransactionHook = () => {
+  const transactionGetTransaction = useApi<TransactionDto>();
+
+  return (transactionId: string, signal?: AbortSignal) => {
+    return transactionGetTransaction({
+      url: `/v1/transactions/${transactionId}`,
+      method: 'GET',
+      signal,
+    });
+  };
 };
 
 export const getTransactionGetTransactionQueryKey = (transactionId: string) => {
@@ -371,14 +385,18 @@ export const getTransactionGetTransactionQueryKey = (transactionId: string) => {
 };
 
 export const useTransactionGetTransactionQueryOptions = <
-  TData = Awaited<ReturnType<typeof transactionGetTransaction>>,
-  TError = ErrorType<GeolocationError>,
+  TData = Awaited<
+    ReturnType<ReturnType<typeof useTransactionGetTransactionHook>>
+  >,
+  TError = GeolocationError,
 >(
   transactionId: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof transactionGetTransaction>>,
+        Awaited<
+          ReturnType<ReturnType<typeof useTransactionGetTransactionHook>>
+        >,
         TError,
         TData
       >
@@ -391,40 +409,45 @@ export const useTransactionGetTransactionQueryOptions = <
     queryOptions?.queryKey ??
     getTransactionGetTransactionQueryKey(transactionId);
 
+  const transactionGetTransaction = useTransactionGetTransactionHook();
+
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof transactionGetTransaction>>
+    Awaited<ReturnType<ReturnType<typeof useTransactionGetTransactionHook>>>
   > = ({ signal }) => transactionGetTransaction(transactionId, signal);
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
+  return {
     queryKey,
     queryFn,
-  });
-
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof transactionGetTransaction>>,
+    enabled: !!transactionId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useTransactionGetTransactionHook>>>,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
 export type TransactionGetTransactionQueryResult = NonNullable<
-  Awaited<ReturnType<typeof transactionGetTransaction>>
+  Awaited<ReturnType<ReturnType<typeof useTransactionGetTransactionHook>>>
 >;
-export type TransactionGetTransactionQueryError = ErrorType<GeolocationError>;
+export type TransactionGetTransactionQueryError = GeolocationError;
 
 /**
  * @summary Get transaction
  */
 export const useTransactionGetTransaction = <
-  TData = Awaited<ReturnType<typeof transactionGetTransaction>>,
-  TError = ErrorType<GeolocationError>,
+  TData = Awaited<
+    ReturnType<ReturnType<typeof useTransactionGetTransactionHook>>
+  >,
+  TError = GeolocationError,
 >(
   transactionId: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof transactionGetTransaction>>,
+        Awaited<
+          ReturnType<ReturnType<typeof useTransactionGetTransactionHook>>
+        >,
         TError,
         TData
       >
@@ -449,38 +472,44 @@ export const useTransactionGetTransaction = <
  * Constructs an unsigned transaction given a transaction id and optional gas parameters
  * @summary Construct transaction
  */
-export const transactionConstruct = (
-  transactionId: string,
-  constructTransactionRequestDto: ConstructTransactionRequestDto,
-) => {
-  return api<TransactionDto>({
-    url: `/v1/transactions/${transactionId}`,
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    data: constructTransactionRequestDto,
-  });
+export const useTransactionConstructHook = () => {
+  const transactionConstruct = useApi<TransactionDto>();
+
+  return (
+    transactionId: string,
+    constructTransactionRequestDto: ConstructTransactionRequestDto,
+  ) => {
+    return transactionConstruct({
+      url: `/v1/transactions/${transactionId}`,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      data: constructTransactionRequestDto,
+    });
+  };
 };
 
 export const useTransactionConstructMutationOptions = <
-  TError = ErrorType<GeolocationError>,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof transactionConstruct>>,
+    Awaited<ReturnType<ReturnType<typeof useTransactionConstructHook>>>,
     TError,
     { transactionId: string; data: ConstructTransactionRequestDto },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof transactionConstruct>>,
+  Awaited<ReturnType<ReturnType<typeof useTransactionConstructHook>>>,
   TError,
   { transactionId: string; data: ConstructTransactionRequestDto },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {};
 
+  const transactionConstruct = useTransactionConstructHook();
+
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof transactionConstruct>>,
+    Awaited<ReturnType<ReturnType<typeof useTransactionConstructHook>>>,
     { transactionId: string; data: ConstructTransactionRequestDto }
   > = (props) => {
     const { transactionId, data } = props ?? {};
@@ -488,26 +517,24 @@ export const useTransactionConstructMutationOptions = <
     return transactionConstruct(transactionId, data);
   };
 
-  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
-
-  return customOptions;
+  return { mutationFn, ...mutationOptions };
 };
 
 export type TransactionConstructMutationResult = NonNullable<
-  Awaited<ReturnType<typeof transactionConstruct>>
+  Awaited<ReturnType<ReturnType<typeof useTransactionConstructHook>>>
 >;
 export type TransactionConstructMutationBody = ConstructTransactionRequestDto;
-export type TransactionConstructMutationError = ErrorType<GeolocationError>;
+export type TransactionConstructMutationError = GeolocationError;
 
 /**
  * @summary Construct transaction
  */
 export const useTransactionConstruct = <
-  TError = ErrorType<GeolocationError>,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof transactionConstruct>>,
+    Awaited<ReturnType<ReturnType<typeof useTransactionConstructHook>>>,
     TError,
     { transactionId: string; data: ConstructTransactionRequestDto },
     TContext
@@ -522,38 +549,41 @@ export const useTransactionConstruct = <
  * Submits the signed transactions for broadcasting
  * @summary Submit transaction
  */
-export const transactionSubmit = (
-  transactionId: string,
-  submitRequestDto: SubmitRequestDto,
-) => {
-  return api<SubmitResponseDto>({
-    url: `/v1/transactions/${transactionId}/submit`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: submitRequestDto,
-  });
+export const useTransactionSubmitHook = () => {
+  const transactionSubmit = useApi<SubmitResponseDto>();
+
+  return (transactionId: string, submitRequestDto: SubmitRequestDto) => {
+    return transactionSubmit({
+      url: `/v1/transactions/${transactionId}/submit`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: submitRequestDto,
+    });
+  };
 };
 
 export const useTransactionSubmitMutationOptions = <
-  TError = ErrorType<GeolocationError>,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof transactionSubmit>>,
+    Awaited<ReturnType<ReturnType<typeof useTransactionSubmitHook>>>,
     TError,
     { transactionId: string; data: SubmitRequestDto },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof transactionSubmit>>,
+  Awaited<ReturnType<ReturnType<typeof useTransactionSubmitHook>>>,
   TError,
   { transactionId: string; data: SubmitRequestDto },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {};
 
+  const transactionSubmit = useTransactionSubmitHook();
+
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof transactionSubmit>>,
+    Awaited<ReturnType<ReturnType<typeof useTransactionSubmitHook>>>,
     { transactionId: string; data: SubmitRequestDto }
   > = (props) => {
     const { transactionId, data } = props ?? {};
@@ -561,26 +591,24 @@ export const useTransactionSubmitMutationOptions = <
     return transactionSubmit(transactionId, data);
   };
 
-  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
-
-  return customOptions;
+  return { mutationFn, ...mutationOptions };
 };
 
 export type TransactionSubmitMutationResult = NonNullable<
-  Awaited<ReturnType<typeof transactionSubmit>>
+  Awaited<ReturnType<ReturnType<typeof useTransactionSubmitHook>>>
 >;
 export type TransactionSubmitMutationBody = SubmitRequestDto;
-export type TransactionSubmitMutationError = ErrorType<GeolocationError>;
+export type TransactionSubmitMutationError = GeolocationError;
 
 /**
  * @summary Submit transaction
  */
 export const useTransactionSubmit = <
-  TError = ErrorType<GeolocationError>,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof transactionSubmit>>,
+    Awaited<ReturnType<ReturnType<typeof useTransactionSubmitHook>>>,
     TError,
     { transactionId: string; data: SubmitRequestDto },
     TContext
@@ -595,38 +623,44 @@ export const useTransactionSubmit = <
  * Submit a hash of an already broadcasted transaction
  * @summary Submit transaction hash
  */
-export const transactionSubmitHash = (
-  transactionId: string,
-  submitHashRequestDto: SubmitHashRequestDto,
-) => {
-  return api<void>({
-    url: `/v1/transactions/${transactionId}/submit_hash`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: submitHashRequestDto,
-  });
+export const useTransactionSubmitHashHook = () => {
+  const transactionSubmitHash = useApi<void>();
+
+  return (
+    transactionId: string,
+    submitHashRequestDto: SubmitHashRequestDto,
+  ) => {
+    return transactionSubmitHash({
+      url: `/v1/transactions/${transactionId}/submit_hash`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: submitHashRequestDto,
+    });
+  };
 };
 
 export const useTransactionSubmitHashMutationOptions = <
-  TError = ErrorType<GeolocationError>,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof transactionSubmitHash>>,
+    Awaited<ReturnType<ReturnType<typeof useTransactionSubmitHashHook>>>,
     TError,
     { transactionId: string; data: SubmitHashRequestDto },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof transactionSubmitHash>>,
+  Awaited<ReturnType<ReturnType<typeof useTransactionSubmitHashHook>>>,
   TError,
   { transactionId: string; data: SubmitHashRequestDto },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {};
 
+  const transactionSubmitHash = useTransactionSubmitHashHook();
+
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof transactionSubmitHash>>,
+    Awaited<ReturnType<ReturnType<typeof useTransactionSubmitHashHook>>>,
     { transactionId: string; data: SubmitHashRequestDto }
   > = (props) => {
     const { transactionId, data } = props ?? {};
@@ -634,26 +668,24 @@ export const useTransactionSubmitHashMutationOptions = <
     return transactionSubmitHash(transactionId, data);
   };
 
-  const customOptions = customQueryOptions({ ...mutationOptions, mutationFn });
-
-  return customOptions;
+  return { mutationFn, ...mutationOptions };
 };
 
 export type TransactionSubmitHashMutationResult = NonNullable<
-  Awaited<ReturnType<typeof transactionSubmitHash>>
+  Awaited<ReturnType<ReturnType<typeof useTransactionSubmitHashHook>>>
 >;
 export type TransactionSubmitHashMutationBody = SubmitHashRequestDto;
-export type TransactionSubmitHashMutationError = ErrorType<GeolocationError>;
+export type TransactionSubmitHashMutationError = GeolocationError;
 
 /**
  * @summary Submit transaction hash
  */
 export const useTransactionSubmitHash = <
-  TError = ErrorType<GeolocationError>,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof transactionSubmitHash>>,
+    Awaited<ReturnType<ReturnType<typeof useTransactionSubmitHashHook>>>,
     TError,
     { transactionId: string; data: SubmitHashRequestDto },
     TContext
@@ -668,15 +700,17 @@ export const useTransactionSubmitHash = <
  * Returns the transaction status given a transaction id
  * @summary Get transaction status
  */
-export const transactionGetTransactionStatusFromId = (
-  transactionId: string,
-  signal?: AbortSignal,
-) => {
-  return api<TransactionStatusResponseDto>({
-    url: `/v1/transactions/${transactionId}/status`,
-    method: 'GET',
-    signal,
-  });
+export const useTransactionGetTransactionStatusFromIdHook = () => {
+  const transactionGetTransactionStatusFromId =
+    useApi<TransactionStatusResponseDto>();
+
+  return (transactionId: string, signal?: AbortSignal) => {
+    return transactionGetTransactionStatusFromId({
+      url: `/v1/transactions/${transactionId}/status`,
+      method: 'GET',
+      signal,
+    });
+  };
 };
 
 export const getTransactionGetTransactionStatusFromIdQueryKey = (
@@ -686,14 +720,20 @@ export const getTransactionGetTransactionStatusFromIdQueryKey = (
 };
 
 export const useTransactionGetTransactionStatusFromIdQueryOptions = <
-  TData = Awaited<ReturnType<typeof transactionGetTransactionStatusFromId>>,
-  TError = ErrorType<GeolocationError>,
+  TData = Awaited<
+    ReturnType<ReturnType<typeof useTransactionGetTransactionStatusFromIdHook>>
+  >,
+  TError = GeolocationError,
 >(
   transactionId: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof transactionGetTransactionStatusFromId>>,
+        Awaited<
+          ReturnType<
+            ReturnType<typeof useTransactionGetTransactionStatusFromIdHook>
+          >
+        >,
         TError,
         TData
       >
@@ -706,42 +746,59 @@ export const useTransactionGetTransactionStatusFromIdQueryOptions = <
     queryOptions?.queryKey ??
     getTransactionGetTransactionStatusFromIdQueryKey(transactionId);
 
+  const transactionGetTransactionStatusFromId =
+    useTransactionGetTransactionStatusFromIdHook();
+
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof transactionGetTransactionStatusFromId>>
+    Awaited<
+      ReturnType<
+        ReturnType<typeof useTransactionGetTransactionStatusFromIdHook>
+      >
+    >
   > = ({ signal }) =>
     transactionGetTransactionStatusFromId(transactionId, signal);
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
+  return {
     queryKey,
     queryFn,
-  });
-
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof transactionGetTransactionStatusFromId>>,
+    enabled: !!transactionId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<
+      ReturnType<
+        ReturnType<typeof useTransactionGetTransactionStatusFromIdHook>
+      >
+    >,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
 export type TransactionGetTransactionStatusFromIdQueryResult = NonNullable<
-  Awaited<ReturnType<typeof transactionGetTransactionStatusFromId>>
+  Awaited<
+    ReturnType<ReturnType<typeof useTransactionGetTransactionStatusFromIdHook>>
+  >
 >;
-export type TransactionGetTransactionStatusFromIdQueryError =
-  ErrorType<GeolocationError>;
+export type TransactionGetTransactionStatusFromIdQueryError = GeolocationError;
 
 /**
  * @summary Get transaction status
  */
 export const useTransactionGetTransactionStatusFromId = <
-  TData = Awaited<ReturnType<typeof transactionGetTransactionStatusFromId>>,
-  TError = ErrorType<GeolocationError>,
+  TData = Awaited<
+    ReturnType<ReturnType<typeof useTransactionGetTransactionStatusFromIdHook>>
+  >,
+  TError = GeolocationError,
 >(
   transactionId: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof transactionGetTransactionStatusFromId>>,
+        Awaited<
+          ReturnType<
+            ReturnType<typeof useTransactionGetTransactionStatusFromIdHook>
+          >
+        >,
         TError,
         TData
       >
@@ -766,15 +823,16 @@ export const useTransactionGetTransactionStatusFromId = <
  * Returns the current gas parameters for a network
  * @summary Get current gas parameters
  */
-export const transactionGetGasForNetwork = (
-  network: string,
-  signal?: AbortSignal,
-) => {
-  return api<GasForNetworkResponseDto>({
-    url: `/v1/transactions/gas/${network}`,
-    method: 'GET',
-    signal,
-  });
+export const useTransactionGetGasForNetworkHook = () => {
+  const transactionGetGasForNetwork = useApi<GasForNetworkResponseDto>();
+
+  return (network: string, signal?: AbortSignal) => {
+    return transactionGetGasForNetwork({
+      url: `/v1/transactions/gas/${network}`,
+      method: 'GET',
+      signal,
+    });
+  };
 };
 
 export const getTransactionGetGasForNetworkQueryKey = (network: string) => {
@@ -782,14 +840,18 @@ export const getTransactionGetGasForNetworkQueryKey = (network: string) => {
 };
 
 export const useTransactionGetGasForNetworkQueryOptions = <
-  TData = Awaited<ReturnType<typeof transactionGetGasForNetwork>>,
-  TError = ErrorType<GeolocationError>,
+  TData = Awaited<
+    ReturnType<ReturnType<typeof useTransactionGetGasForNetworkHook>>
+  >,
+  TError = GeolocationError,
 >(
   network: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof transactionGetGasForNetwork>>,
+        Awaited<
+          ReturnType<ReturnType<typeof useTransactionGetGasForNetworkHook>>
+        >,
         TError,
         TData
       >
@@ -801,40 +863,45 @@ export const useTransactionGetGasForNetworkQueryOptions = <
   const queryKey =
     queryOptions?.queryKey ?? getTransactionGetGasForNetworkQueryKey(network);
 
+  const transactionGetGasForNetwork = useTransactionGetGasForNetworkHook();
+
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof transactionGetGasForNetwork>>
+    Awaited<ReturnType<ReturnType<typeof useTransactionGetGasForNetworkHook>>>
   > = ({ signal }) => transactionGetGasForNetwork(network, signal);
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
+  return {
     queryKey,
     queryFn,
-  });
-
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof transactionGetGasForNetwork>>,
+    enabled: !!network,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useTransactionGetGasForNetworkHook>>>,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
 export type TransactionGetGasForNetworkQueryResult = NonNullable<
-  Awaited<ReturnType<typeof transactionGetGasForNetwork>>
+  Awaited<ReturnType<ReturnType<typeof useTransactionGetGasForNetworkHook>>>
 >;
-export type TransactionGetGasForNetworkQueryError = ErrorType<GeolocationError>;
+export type TransactionGetGasForNetworkQueryError = GeolocationError;
 
 /**
  * @summary Get current gas parameters
  */
 export const useTransactionGetGasForNetwork = <
-  TData = Awaited<ReturnType<typeof transactionGetGasForNetwork>>,
-  TError = ErrorType<GeolocationError>,
+  TData = Awaited<
+    ReturnType<ReturnType<typeof useTransactionGetGasForNetworkHook>>
+  >,
+  TError = GeolocationError,
 >(
   network: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof transactionGetGasForNetwork>>,
+        Awaited<
+          ReturnType<ReturnType<typeof useTransactionGetGasForNetworkHook>>
+        >,
         TError,
         TData
       >
@@ -859,16 +926,17 @@ export const useTransactionGetGasForNetwork = <
  * Returns the transaction status given a transaction hash and a network
  * @summary Get transaction status
  */
-export const transactionGetTransactionStatusByNetworkAndHash = (
-  network: string,
-  hash: string,
-  signal?: AbortSignal,
-) => {
-  return api<TransactionStatusResponseDto>({
-    url: `/v1/transactions/status/${network}/${hash}`,
-    method: 'GET',
-    signal,
-  });
+export const useTransactionGetTransactionStatusByNetworkAndHashHook = () => {
+  const transactionGetTransactionStatusByNetworkAndHash =
+    useApi<TransactionStatusResponseDto>();
+
+  return (network: string, hash: string, signal?: AbortSignal) => {
+    return transactionGetTransactionStatusByNetworkAndHash({
+      url: `/v1/transactions/status/${network}/${hash}`,
+      method: 'GET',
+      signal,
+    });
+  };
 };
 
 export const getTransactionGetTransactionStatusByNetworkAndHashQueryKey = (
@@ -880,9 +948,11 @@ export const getTransactionGetTransactionStatusByNetworkAndHashQueryKey = (
 
 export const useTransactionGetTransactionStatusByNetworkAndHashQueryOptions = <
   TData = Awaited<
-    ReturnType<typeof transactionGetTransactionStatusByNetworkAndHash>
+    ReturnType<
+      ReturnType<typeof useTransactionGetTransactionStatusByNetworkAndHashHook>
+    >
   >,
-  TError = ErrorType<GeolocationError>,
+  TError = GeolocationError,
 >(
   network: string,
   hash: string,
@@ -890,7 +960,11 @@ export const useTransactionGetTransactionStatusByNetworkAndHashQueryOptions = <
     query?: Partial<
       UseQueryOptions<
         Awaited<
-          ReturnType<typeof transactionGetTransactionStatusByNetworkAndHash>
+          ReturnType<
+            ReturnType<
+              typeof useTransactionGetTransactionStatusByNetworkAndHashHook
+            >
+          >
         >,
         TError,
         TData
@@ -904,19 +978,33 @@ export const useTransactionGetTransactionStatusByNetworkAndHashQueryOptions = <
     queryOptions?.queryKey ??
     getTransactionGetTransactionStatusByNetworkAndHashQueryKey(network, hash);
 
+  const transactionGetTransactionStatusByNetworkAndHash =
+    useTransactionGetTransactionStatusByNetworkAndHashHook();
+
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof transactionGetTransactionStatusByNetworkAndHash>>
+    Awaited<
+      ReturnType<
+        ReturnType<
+          typeof useTransactionGetTransactionStatusByNetworkAndHashHook
+        >
+      >
+    >
   > = ({ signal }) =>
     transactionGetTransactionStatusByNetworkAndHash(network, hash, signal);
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
+  return {
     queryKey,
     queryFn,
-  });
-
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof transactionGetTransactionStatusByNetworkAndHash>>,
+    enabled: !!(network && hash),
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<
+      ReturnType<
+        ReturnType<
+          typeof useTransactionGetTransactionStatusByNetworkAndHashHook
+        >
+      >
+    >,
     TError,
     TData
   > & { queryKey: QueryKey };
@@ -924,19 +1012,27 @@ export const useTransactionGetTransactionStatusByNetworkAndHashQueryOptions = <
 
 export type TransactionGetTransactionStatusByNetworkAndHashQueryResult =
   NonNullable<
-    Awaited<ReturnType<typeof transactionGetTransactionStatusByNetworkAndHash>>
+    Awaited<
+      ReturnType<
+        ReturnType<
+          typeof useTransactionGetTransactionStatusByNetworkAndHashHook
+        >
+      >
+    >
   >;
 export type TransactionGetTransactionStatusByNetworkAndHashQueryError =
-  ErrorType<GeolocationError>;
+  GeolocationError;
 
 /**
  * @summary Get transaction status
  */
 export const useTransactionGetTransactionStatusByNetworkAndHash = <
   TData = Awaited<
-    ReturnType<typeof transactionGetTransactionStatusByNetworkAndHash>
+    ReturnType<
+      ReturnType<typeof useTransactionGetTransactionStatusByNetworkAndHashHook>
+    >
   >,
-  TError = ErrorType<GeolocationError>,
+  TError = GeolocationError,
 >(
   network: string,
   hash: string,
@@ -944,7 +1040,11 @@ export const useTransactionGetTransactionStatusByNetworkAndHash = <
     query?: Partial<
       UseQueryOptions<
         Awaited<
-          ReturnType<typeof transactionGetTransactionStatusByNetworkAndHash>
+          ReturnType<
+            ReturnType<
+              typeof useTransactionGetTransactionStatusByNetworkAndHashHook
+            >
+          >
         >,
         TError,
         TData
@@ -972,24 +1072,32 @@ export const useTransactionGetTransactionStatusByNetworkAndHash = <
  * Returns the transaction or message to sign to provide verification
  * @summary Get transaction verification transaction/message
  */
-export const transactionGetTransactionVerificationMessageForNetwork = (
-  network: string,
-  transactionVerificationMessageRequestDto: TransactionVerificationMessageRequestDto,
-) => {
-  return api<TransactionVerificationMessageDto>({
-    url: `/v1/transactions/verification/${network}`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: transactionVerificationMessageRequestDto,
-  });
-};
+export const useTransactionGetTransactionVerificationMessageForNetworkHook =
+  () => {
+    const transactionGetTransactionVerificationMessageForNetwork =
+      useApi<TransactionVerificationMessageDto>();
+
+    return (
+      network: string,
+      transactionVerificationMessageRequestDto: TransactionVerificationMessageRequestDto,
+    ) => {
+      return transactionGetTransactionVerificationMessageForNetwork({
+        url: `/v1/transactions/verification/${network}`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: transactionVerificationMessageRequestDto,
+      });
+    };
+  };
 
 export const useTransactionGetTransactionVerificationMessageForNetworkMutationOptions =
-  <TError = ErrorType<GeolocationError>, TContext = unknown>(options?: {
+  <TError = GeolocationError, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<
-          typeof transactionGetTransactionVerificationMessageForNetwork
+          ReturnType<
+            typeof useTransactionGetTransactionVerificationMessageForNetworkHook
+          >
         >
       >,
       TError,
@@ -998,7 +1106,11 @@ export const useTransactionGetTransactionVerificationMessageForNetworkMutationOp
     >;
   }): UseMutationOptions<
     Awaited<
-      ReturnType<typeof transactionGetTransactionVerificationMessageForNetwork>
+      ReturnType<
+        ReturnType<
+          typeof useTransactionGetTransactionVerificationMessageForNetworkHook
+        >
+      >
     >,
     TError,
     { network: string; data: TransactionVerificationMessageRequestDto },
@@ -1006,10 +1118,15 @@ export const useTransactionGetTransactionVerificationMessageForNetworkMutationOp
   > => {
     const { mutation: mutationOptions } = options ?? {};
 
+    const transactionGetTransactionVerificationMessageForNetwork =
+      useTransactionGetTransactionVerificationMessageForNetworkHook();
+
     const mutationFn: MutationFunction<
       Awaited<
         ReturnType<
-          typeof transactionGetTransactionVerificationMessageForNetwork
+          ReturnType<
+            typeof useTransactionGetTransactionVerificationMessageForNetworkHook
+          >
         >
       >,
       { network: string; data: TransactionVerificationMessageRequestDto }
@@ -1022,35 +1139,38 @@ export const useTransactionGetTransactionVerificationMessageForNetworkMutationOp
       );
     };
 
-    const customOptions = customQueryOptions({
-      ...mutationOptions,
-      mutationFn,
-    });
-
-    return customOptions;
+    return { mutationFn, ...mutationOptions };
   };
 
 export type TransactionGetTransactionVerificationMessageForNetworkMutationResult =
   NonNullable<
     Awaited<
-      ReturnType<typeof transactionGetTransactionVerificationMessageForNetwork>
+      ReturnType<
+        ReturnType<
+          typeof useTransactionGetTransactionVerificationMessageForNetworkHook
+        >
+      >
     >
   >;
 export type TransactionGetTransactionVerificationMessageForNetworkMutationBody =
   TransactionVerificationMessageRequestDto;
 export type TransactionGetTransactionVerificationMessageForNetworkMutationError =
-  ErrorType<GeolocationError>;
+  GeolocationError;
 
 /**
  * @summary Get transaction verification transaction/message
  */
 export const useTransactionGetTransactionVerificationMessageForNetwork = <
-  TError = ErrorType<GeolocationError>,
+  TError = GeolocationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
     Awaited<
-      ReturnType<typeof transactionGetTransactionVerificationMessageForNetwork>
+      ReturnType<
+        ReturnType<
+          typeof useTransactionGetTransactionVerificationMessageForNetworkHook
+        >
+      >
     >,
     TError,
     { network: string; data: TransactionVerificationMessageRequestDto },
@@ -1069,16 +1189,12 @@ export const useTransactionGetTransactionVerificationMessageForNetwork = <
  * Returns the tokens with available yields
  * @summary Get all tokens
  */
-export const tokenGetTokens = (
-  params?: TokenGetTokensParams,
-  signal?: AbortSignal,
-) => {
-  return api<TokenWithAvailableYieldsDto[]>({
-    url: `/v1/tokens`,
-    method: 'GET',
-    params,
-    signal,
-  });
+export const useTokenGetTokensHook = () => {
+  const tokenGetTokens = useApi<TokenWithAvailableYieldsDto[]>();
+
+  return (params?: TokenGetTokensParams, signal?: AbortSignal) => {
+    return tokenGetTokens({ url: `/v1/tokens`, method: 'GET', params, signal });
+  };
 };
 
 export const getTokenGetTokensQueryKey = (params?: TokenGetTokensParams) => {
@@ -1086,13 +1202,17 @@ export const getTokenGetTokensQueryKey = (params?: TokenGetTokensParams) => {
 };
 
 export const useTokenGetTokensQueryOptions = <
-  TData = Awaited<ReturnType<typeof tokenGetTokens>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useTokenGetTokensHook>>>,
+  TError = unknown,
 >(
   params?: TokenGetTokensParams,
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof tokenGetTokens>>, TError, TData>
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useTokenGetTokensHook>>>,
+        TError,
+        TData
+      >
     >;
   },
 ) => {
@@ -1100,39 +1220,39 @@ export const useTokenGetTokensQueryOptions = <
 
   const queryKey = queryOptions?.queryKey ?? getTokenGetTokensQueryKey(params);
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof tokenGetTokens>>> = ({
-    signal,
-  }) => tokenGetTokens(params, signal);
+  const tokenGetTokens = useTokenGetTokensHook();
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
-    queryKey,
-    queryFn,
-  });
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useTokenGetTokensHook>>>
+  > = ({ signal }) => tokenGetTokens(params, signal);
 
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof tokenGetTokens>>,
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useTokenGetTokensHook>>>,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
 export type TokenGetTokensQueryResult = NonNullable<
-  Awaited<ReturnType<typeof tokenGetTokens>>
+  Awaited<ReturnType<ReturnType<typeof useTokenGetTokensHook>>>
 >;
-export type TokenGetTokensQueryError = ErrorType<unknown>;
+export type TokenGetTokensQueryError = unknown;
 
 /**
  * @summary Get all tokens
  */
 export const useTokenGetTokens = <
-  TData = Awaited<ReturnType<typeof tokenGetTokens>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useTokenGetTokensHook>>>,
+  TError = unknown,
 >(
   params?: TokenGetTokensParams,
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof tokenGetTokens>>, TError, TData>
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useTokenGetTokensHook>>>,
+        TError,
+        TData
+      >
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
@@ -1151,13 +1271,17 @@ export const useTokenGetTokens = <
  * Returns the token prices for a specific list of tokens
  * @summary Get token prices
  */
-export const tokenGetTokenPrices = (priceRequestDto: PriceRequestDto) => {
-  return api<PriceResponseDto>({
-    url: `/v1/tokens/prices`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: priceRequestDto,
-  });
+export const useTokenGetTokenPricesHook = () => {
+  const tokenGetTokenPrices = useApi<PriceResponseDto>();
+
+  return (priceRequestDto: PriceRequestDto) => {
+    return tokenGetTokenPrices({
+      url: `/v1/tokens/prices`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: priceRequestDto,
+    });
+  };
 };
 
 export const getTokenGetTokenPricesQueryKey = (
@@ -1167,14 +1291,14 @@ export const getTokenGetTokenPricesQueryKey = (
 };
 
 export const useTokenGetTokenPricesQueryOptions = <
-  TData = Awaited<ReturnType<typeof tokenGetTokenPrices>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useTokenGetTokenPricesHook>>>,
+  TError = unknown,
 >(
   priceRequestDto: PriceRequestDto,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof tokenGetTokenPrices>>,
+        Awaited<ReturnType<ReturnType<typeof useTokenGetTokenPricesHook>>>,
         TError,
         TData
       >
@@ -1186,40 +1310,36 @@ export const useTokenGetTokenPricesQueryOptions = <
   const queryKey =
     queryOptions?.queryKey ?? getTokenGetTokenPricesQueryKey(priceRequestDto);
 
+  const tokenGetTokenPrices = useTokenGetTokenPricesHook();
+
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof tokenGetTokenPrices>>
+    Awaited<ReturnType<ReturnType<typeof useTokenGetTokenPricesHook>>>
   > = () => tokenGetTokenPrices(priceRequestDto);
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
-    queryKey,
-    queryFn,
-  });
-
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof tokenGetTokenPrices>>,
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useTokenGetTokenPricesHook>>>,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
 export type TokenGetTokenPricesQueryResult = NonNullable<
-  Awaited<ReturnType<typeof tokenGetTokenPrices>>
+  Awaited<ReturnType<ReturnType<typeof useTokenGetTokenPricesHook>>>
 >;
-export type TokenGetTokenPricesQueryError = ErrorType<unknown>;
+export type TokenGetTokenPricesQueryError = unknown;
 
 /**
  * @summary Get token prices
  */
 export const useTokenGetTokenPrices = <
-  TData = Awaited<ReturnType<typeof tokenGetTokenPrices>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useTokenGetTokenPricesHook>>>,
+  TError = unknown,
 >(
   priceRequestDto: PriceRequestDto,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof tokenGetTokenPrices>>,
+        Awaited<ReturnType<ReturnType<typeof useTokenGetTokenPricesHook>>>,
         TError,
         TData
       >
@@ -1244,15 +1364,17 @@ export const useTokenGetTokenPrices = <
  * Returns the balances for specific addresses and token addresses
  * @summary Get token balances
  */
-export const tokenGetTokenBalances = (
-  balancesRequestDto: BalancesRequestDto,
-) => {
-  return api<BalanceResponseDto[]>({
-    url: `/v1/tokens/balances`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: balancesRequestDto,
-  });
+export const useTokenGetTokenBalancesHook = () => {
+  const tokenGetTokenBalances = useApi<BalanceResponseDto[]>();
+
+  return (balancesRequestDto: BalancesRequestDto) => {
+    return tokenGetTokenBalances({
+      url: `/v1/tokens/balances`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: balancesRequestDto,
+    });
+  };
 };
 
 export const getTokenGetTokenBalancesQueryKey = (
@@ -1262,14 +1384,14 @@ export const getTokenGetTokenBalancesQueryKey = (
 };
 
 export const useTokenGetTokenBalancesQueryOptions = <
-  TData = Awaited<ReturnType<typeof tokenGetTokenBalances>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useTokenGetTokenBalancesHook>>>,
+  TError = unknown,
 >(
   balancesRequestDto: BalancesRequestDto,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof tokenGetTokenBalances>>,
+        Awaited<ReturnType<ReturnType<typeof useTokenGetTokenBalancesHook>>>,
         TError,
         TData
       >
@@ -1282,40 +1404,36 @@ export const useTokenGetTokenBalancesQueryOptions = <
     queryOptions?.queryKey ??
     getTokenGetTokenBalancesQueryKey(balancesRequestDto);
 
+  const tokenGetTokenBalances = useTokenGetTokenBalancesHook();
+
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof tokenGetTokenBalances>>
+    Awaited<ReturnType<ReturnType<typeof useTokenGetTokenBalancesHook>>>
   > = () => tokenGetTokenBalances(balancesRequestDto);
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
-    queryKey,
-    queryFn,
-  });
-
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof tokenGetTokenBalances>>,
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useTokenGetTokenBalancesHook>>>,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
 export type TokenGetTokenBalancesQueryResult = NonNullable<
-  Awaited<ReturnType<typeof tokenGetTokenBalances>>
+  Awaited<ReturnType<ReturnType<typeof useTokenGetTokenBalancesHook>>>
 >;
-export type TokenGetTokenBalancesQueryError = ErrorType<unknown>;
+export type TokenGetTokenBalancesQueryError = unknown;
 
 /**
  * @summary Get token balances
  */
 export const useTokenGetTokenBalances = <
-  TData = Awaited<ReturnType<typeof tokenGetTokenBalances>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useTokenGetTokenBalancesHook>>>,
+  TError = unknown,
 >(
   balancesRequestDto: BalancesRequestDto,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof tokenGetTokenBalances>>,
+        Awaited<ReturnType<ReturnType<typeof useTokenGetTokenBalancesHook>>>,
         TError,
         TData
       >
@@ -1340,15 +1458,17 @@ export const useTokenGetTokenBalances = <
  * Scans for tokens with balance with available yields
  * @summary Scan for token balances
  */
-export const tokenTokenBalancesScan = (
-  tokenBalanceScanDto: TokenBalanceScanDto,
-) => {
-  return api<TokenBalanceScanResponseDto[]>({
-    url: `/v1/tokens/balances/scan`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: tokenBalanceScanDto,
-  });
+export const useTokenTokenBalancesScanHook = () => {
+  const tokenTokenBalancesScan = useApi<TokenBalanceScanResponseDto[]>();
+
+  return (tokenBalanceScanDto: TokenBalanceScanDto) => {
+    return tokenTokenBalancesScan({
+      url: `/v1/tokens/balances/scan`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: tokenBalanceScanDto,
+    });
+  };
 };
 
 export const getTokenTokenBalancesScanQueryKey = (
@@ -1358,14 +1478,14 @@ export const getTokenTokenBalancesScanQueryKey = (
 };
 
 export const useTokenTokenBalancesScanQueryOptions = <
-  TData = Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useTokenTokenBalancesScanHook>>>,
+  TError = unknown,
 >(
   tokenBalanceScanDto: TokenBalanceScanDto,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
+        Awaited<ReturnType<ReturnType<typeof useTokenTokenBalancesScanHook>>>,
         TError,
         TData
       >
@@ -1378,40 +1498,36 @@ export const useTokenTokenBalancesScanQueryOptions = <
     queryOptions?.queryKey ??
     getTokenTokenBalancesScanQueryKey(tokenBalanceScanDto);
 
+  const tokenTokenBalancesScan = useTokenTokenBalancesScanHook();
+
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof tokenTokenBalancesScan>>
+    Awaited<ReturnType<ReturnType<typeof useTokenTokenBalancesScanHook>>>
   > = () => tokenTokenBalancesScan(tokenBalanceScanDto);
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
-    queryKey,
-    queryFn,
-  });
-
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useTokenTokenBalancesScanHook>>>,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
 export type TokenTokenBalancesScanQueryResult = NonNullable<
-  Awaited<ReturnType<typeof tokenTokenBalancesScan>>
+  Awaited<ReturnType<ReturnType<typeof useTokenTokenBalancesScanHook>>>
 >;
-export type TokenTokenBalancesScanQueryError = ErrorType<unknown>;
+export type TokenTokenBalancesScanQueryError = unknown;
 
 /**
  * @summary Scan for token balances
  */
 export const useTokenTokenBalancesScan = <
-  TData = Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useTokenTokenBalancesScanHook>>>,
+  TError = unknown,
 >(
   tokenBalanceScanDto: TokenBalanceScanDto,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof tokenTokenBalancesScan>>,
+        Awaited<ReturnType<ReturnType<typeof useTokenTokenBalancesScanHook>>>,
         TError,
         TData
       >
@@ -1436,16 +1552,12 @@ export const useTokenTokenBalancesScan = <
  * Returns the available yields (staking, lending, vaults, etc) with associated configuration and metadata
  * @summary Get all yields
  */
-export const yieldYields = (
-  params?: YieldYieldsParams,
-  signal?: AbortSignal,
-) => {
-  return api<YieldYields200>({
-    url: `/v1/yields`,
-    method: 'GET',
-    params,
-    signal,
-  });
+export const useYieldYieldsHook = () => {
+  const yieldYields = useApi<YieldYields200>();
+
+  return (params?: YieldYieldsParams, signal?: AbortSignal) => {
+    return yieldYields({ url: `/v1/yields`, method: 'GET', params, signal });
+  };
 };
 
 export const getYieldYieldsQueryKey = (params?: YieldYieldsParams) => {
@@ -1453,13 +1565,17 @@ export const getYieldYieldsQueryKey = (params?: YieldYieldsParams) => {
 };
 
 export const useYieldYieldsQueryOptions = <
-  TData = Awaited<ReturnType<typeof yieldYields>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldYieldsHook>>>,
+  TError = unknown,
 >(
   params?: YieldYieldsParams,
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof yieldYields>>, TError, TData>
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useYieldYieldsHook>>>,
+        TError,
+        TData
+      >
     >;
   },
 ) => {
@@ -1467,39 +1583,39 @@ export const useYieldYieldsQueryOptions = <
 
   const queryKey = queryOptions?.queryKey ?? getYieldYieldsQueryKey(params);
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof yieldYields>>> = ({
-    signal,
-  }) => yieldYields(params, signal);
+  const yieldYields = useYieldYieldsHook();
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
-    queryKey,
-    queryFn,
-  });
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useYieldYieldsHook>>>
+  > = ({ signal }) => yieldYields(params, signal);
 
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof yieldYields>>,
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useYieldYieldsHook>>>,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
 export type YieldYieldsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof yieldYields>>
+  Awaited<ReturnType<ReturnType<typeof useYieldYieldsHook>>>
 >;
-export type YieldYieldsQueryError = ErrorType<unknown>;
+export type YieldYieldsQueryError = unknown;
 
 /**
  * @summary Get all yields
  */
 export const useYieldYields = <
-  TData = Awaited<ReturnType<typeof yieldYields>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldYieldsHook>>>,
+  TError = unknown,
 >(
   params?: YieldYieldsParams,
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof yieldYields>>, TError, TData>
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useYieldYieldsHook>>>,
+        TError,
+        TData
+      >
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
@@ -1518,17 +1634,22 @@ export const useYieldYields = <
  * Given addresses and integration ids, returns respective balances and configuration.
  * @summary Get multiple yield balances
  */
-export const yieldGetMultipleYieldBalances = (
-  yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
-  params?: YieldGetMultipleYieldBalancesParams,
-) => {
-  return api<YieldBalancesWithIntegrationIdDto[]>({
-    url: `/v1/yields/balances`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: yieldBalanceWithIntegrationIdRequestDto,
-    params,
-  });
+export const useYieldGetMultipleYieldBalancesHook = () => {
+  const yieldGetMultipleYieldBalances =
+    useApi<YieldBalancesWithIntegrationIdDto[]>();
+
+  return (
+    yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
+    params?: YieldGetMultipleYieldBalancesParams,
+  ) => {
+    return yieldGetMultipleYieldBalances({
+      url: `/v1/yields/balances`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: yieldBalanceWithIntegrationIdRequestDto,
+      params,
+    });
+  };
 };
 
 export const getYieldGetMultipleYieldBalancesQueryKey = (
@@ -1543,15 +1664,19 @@ export const getYieldGetMultipleYieldBalancesQueryKey = (
 };
 
 export const useYieldGetMultipleYieldBalancesQueryOptions = <
-  TData = Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<
+    ReturnType<ReturnType<typeof useYieldGetMultipleYieldBalancesHook>>
+  >,
+  TError = unknown,
 >(
   yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
   params?: YieldGetMultipleYieldBalancesParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
+        Awaited<
+          ReturnType<ReturnType<typeof useYieldGetMultipleYieldBalancesHook>>
+        >,
         TError,
         TData
       >
@@ -1567,45 +1692,47 @@ export const useYieldGetMultipleYieldBalancesQueryOptions = <
       params,
     );
 
+  const yieldGetMultipleYieldBalances = useYieldGetMultipleYieldBalancesHook();
+
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>
+    Awaited<ReturnType<ReturnType<typeof useYieldGetMultipleYieldBalancesHook>>>
   > = () =>
     yieldGetMultipleYieldBalances(
       yieldBalanceWithIntegrationIdRequestDto,
       params,
     );
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
-    queryKey,
-    queryFn,
-  });
-
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<
+      ReturnType<ReturnType<typeof useYieldGetMultipleYieldBalancesHook>>
+    >,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
 export type YieldGetMultipleYieldBalancesQueryResult = NonNullable<
-  Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>
+  Awaited<ReturnType<ReturnType<typeof useYieldGetMultipleYieldBalancesHook>>>
 >;
-export type YieldGetMultipleYieldBalancesQueryError = ErrorType<unknown>;
+export type YieldGetMultipleYieldBalancesQueryError = unknown;
 
 /**
  * @summary Get multiple yield balances
  */
 export const useYieldGetMultipleYieldBalances = <
-  TData = Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<
+    ReturnType<ReturnType<typeof useYieldGetMultipleYieldBalancesHook>>
+  >,
+  TError = unknown,
 >(
   yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
   params?: YieldGetMultipleYieldBalancesParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof yieldGetMultipleYieldBalances>>,
+        Awaited<
+          ReturnType<ReturnType<typeof useYieldGetMultipleYieldBalancesHook>>
+        >,
         TError,
         TData
       >
@@ -1631,17 +1758,21 @@ export const useYieldGetMultipleYieldBalances = <
  * Scans for yield balances among enabled yields.
  * @summary Scan for yield balances
  */
-export const yieldYieldBalancesScan = (
-  yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
-  params?: YieldYieldBalancesScanParams,
-) => {
-  return api<YieldBalancesWithIntegrationIdDto[]>({
-    url: `/v1/yields/balances/scan`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: yieldBalanceScanRequestDto,
-    params,
-  });
+export const useYieldYieldBalancesScanHook = () => {
+  const yieldYieldBalancesScan = useApi<YieldBalancesWithIntegrationIdDto[]>();
+
+  return (
+    yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
+    params?: YieldYieldBalancesScanParams,
+  ) => {
+    return yieldYieldBalancesScan({
+      url: `/v1/yields/balances/scan`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: yieldBalanceScanRequestDto,
+      params,
+    });
+  };
 };
 
 export const getYieldYieldBalancesScanQueryKey = (
@@ -1656,15 +1787,15 @@ export const getYieldYieldBalancesScanQueryKey = (
 };
 
 export const useYieldYieldBalancesScanQueryOptions = <
-  TData = Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldYieldBalancesScanHook>>>,
+  TError = unknown,
 >(
   yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
   params?: YieldYieldBalancesScanParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
+        Awaited<ReturnType<ReturnType<typeof useYieldYieldBalancesScanHook>>>,
         TError,
         TData
       >
@@ -1677,41 +1808,37 @@ export const useYieldYieldBalancesScanQueryOptions = <
     queryOptions?.queryKey ??
     getYieldYieldBalancesScanQueryKey(yieldBalanceScanRequestDto, params);
 
+  const yieldYieldBalancesScan = useYieldYieldBalancesScanHook();
+
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof yieldYieldBalancesScan>>
+    Awaited<ReturnType<ReturnType<typeof useYieldYieldBalancesScanHook>>>
   > = () => yieldYieldBalancesScan(yieldBalanceScanRequestDto, params);
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
-    queryKey,
-    queryFn,
-  });
-
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useYieldYieldBalancesScanHook>>>,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
 export type YieldYieldBalancesScanQueryResult = NonNullable<
-  Awaited<ReturnType<typeof yieldYieldBalancesScan>>
+  Awaited<ReturnType<ReturnType<typeof useYieldYieldBalancesScanHook>>>
 >;
-export type YieldYieldBalancesScanQueryError = ErrorType<unknown>;
+export type YieldYieldBalancesScanQueryError = unknown;
 
 /**
  * @summary Scan for yield balances
  */
 export const useYieldYieldBalancesScan = <
-  TData = Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldYieldBalancesScanHook>>>,
+  TError = unknown,
 >(
   yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
   params?: YieldYieldBalancesScanParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof yieldYieldBalancesScan>>,
+        Awaited<ReturnType<ReturnType<typeof useYieldYieldBalancesScanHook>>>,
         TError,
         TData
       >
@@ -1737,16 +1864,17 @@ export const useYieldYieldBalancesScan = <
  * Returns the enabled yields (staking, lending, vaults, etc) associated with current API key with configuration and metadata
  * @summary Get enabled yields
  */
-export const yieldGetMyYields = (
-  params?: YieldGetMyYieldsParams,
-  signal?: AbortSignal,
-) => {
-  return api<YieldGetMyYields200>({
-    url: `/v1/yields/enabled`,
-    method: 'GET',
-    params,
-    signal,
-  });
+export const useYieldGetMyYieldsHook = () => {
+  const yieldGetMyYields = useApi<YieldGetMyYields200>();
+
+  return (params?: YieldGetMyYieldsParams, signal?: AbortSignal) => {
+    return yieldGetMyYields({
+      url: `/v1/yields/enabled`,
+      method: 'GET',
+      params,
+      signal,
+    });
+  };
 };
 
 export const getYieldGetMyYieldsQueryKey = (
@@ -1756,14 +1884,14 @@ export const getYieldGetMyYieldsQueryKey = (
 };
 
 export const useYieldGetMyYieldsQueryOptions = <
-  TData = Awaited<ReturnType<typeof yieldGetMyYields>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldGetMyYieldsHook>>>,
+  TError = unknown,
 >(
   params?: YieldGetMyYieldsParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof yieldGetMyYields>>,
+        Awaited<ReturnType<ReturnType<typeof useYieldGetMyYieldsHook>>>,
         TError,
         TData
       >
@@ -1775,40 +1903,36 @@ export const useYieldGetMyYieldsQueryOptions = <
   const queryKey =
     queryOptions?.queryKey ?? getYieldGetMyYieldsQueryKey(params);
 
+  const yieldGetMyYields = useYieldGetMyYieldsHook();
+
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof yieldGetMyYields>>
+    Awaited<ReturnType<ReturnType<typeof useYieldGetMyYieldsHook>>>
   > = ({ signal }) => yieldGetMyYields(params, signal);
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
-    queryKey,
-    queryFn,
-  });
-
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof yieldGetMyYields>>,
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useYieldGetMyYieldsHook>>>,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
 export type YieldGetMyYieldsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof yieldGetMyYields>>
+  Awaited<ReturnType<ReturnType<typeof useYieldGetMyYieldsHook>>>
 >;
-export type YieldGetMyYieldsQueryError = ErrorType<unknown>;
+export type YieldGetMyYieldsQueryError = unknown;
 
 /**
  * @summary Get enabled yields
  */
 export const useYieldGetMyYields = <
-  TData = Awaited<ReturnType<typeof yieldGetMyYields>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldGetMyYieldsHook>>>,
+  TError = unknown,
 >(
   params?: YieldGetMyYieldsParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof yieldGetMyYields>>,
+        Awaited<ReturnType<ReturnType<typeof useYieldGetMyYieldsHook>>>,
         TError,
         TData
       >
@@ -1830,12 +1954,16 @@ export const useYieldGetMyYields = <
  * Returns the networks that has enabled yields
  * @summary Get enabled networks
  */
-export const yieldGetMyNetworks = (signal?: AbortSignal) => {
-  return api<string[]>({
-    url: `/v1/yields/enabled/networks`,
-    method: 'GET',
-    signal,
-  });
+export const useYieldGetMyNetworksHook = () => {
+  const yieldGetMyNetworks = useApi<string[]>();
+
+  return (signal?: AbortSignal) => {
+    return yieldGetMyNetworks({
+      url: `/v1/yields/enabled/networks`,
+      method: 'GET',
+      signal,
+    });
+  };
 };
 
 export const getYieldGetMyNetworksQueryKey = () => {
@@ -1843,12 +1971,12 @@ export const getYieldGetMyNetworksQueryKey = () => {
 };
 
 export const useYieldGetMyNetworksQueryOptions = <
-  TData = Awaited<ReturnType<typeof yieldGetMyNetworks>>,
-  TError = ErrorType<string[]>,
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldGetMyNetworksHook>>>,
+  TError = string[],
 >(options?: {
   query?: Partial<
     UseQueryOptions<
-      Awaited<ReturnType<typeof yieldGetMyNetworks>>,
+      Awaited<ReturnType<ReturnType<typeof useYieldGetMyNetworksHook>>>,
       TError,
       TData
     >
@@ -1858,38 +1986,34 @@ export const useYieldGetMyNetworksQueryOptions = <
 
   const queryKey = queryOptions?.queryKey ?? getYieldGetMyNetworksQueryKey();
 
+  const yieldGetMyNetworks = useYieldGetMyNetworksHook();
+
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof yieldGetMyNetworks>>
+    Awaited<ReturnType<ReturnType<typeof useYieldGetMyNetworksHook>>>
   > = ({ signal }) => yieldGetMyNetworks(signal);
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
-    queryKey,
-    queryFn,
-  });
-
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof yieldGetMyNetworks>>,
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useYieldGetMyNetworksHook>>>,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
 export type YieldGetMyNetworksQueryResult = NonNullable<
-  Awaited<ReturnType<typeof yieldGetMyNetworks>>
+  Awaited<ReturnType<ReturnType<typeof useYieldGetMyNetworksHook>>>
 >;
-export type YieldGetMyNetworksQueryError = ErrorType<string[]>;
+export type YieldGetMyNetworksQueryError = string[];
 
 /**
  * @summary Get enabled networks
  */
 export const useYieldGetMyNetworks = <
-  TData = Awaited<ReturnType<typeof yieldGetMyNetworks>>,
-  TError = ErrorType<string[]>,
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldGetMyNetworksHook>>>,
+  TError = string[],
 >(options?: {
   query?: Partial<
     UseQueryOptions<
-      Awaited<ReturnType<typeof yieldGetMyNetworks>>,
+      Awaited<ReturnType<ReturnType<typeof useYieldGetMyNetworksHook>>>,
       TError,
       TData
     >
@@ -1910,16 +2034,17 @@ export const useYieldGetMyNetworks = <
  * Returns a list of available validators to specify when providing a `validatorAddress` property.
  * @summary Get validators
  */
-export const yieldFindValidators = (
-  params?: YieldFindValidatorsParams,
-  signal?: AbortSignal,
-) => {
-  return api<ValidatorSearchResultDto[]>({
-    url: `/v1/yields/validators`,
-    method: 'GET',
-    params,
-    signal,
-  });
+export const useYieldFindValidatorsHook = () => {
+  const yieldFindValidators = useApi<ValidatorSearchResultDto[]>();
+
+  return (params?: YieldFindValidatorsParams, signal?: AbortSignal) => {
+    return yieldFindValidators({
+      url: `/v1/yields/validators`,
+      method: 'GET',
+      params,
+      signal,
+    });
+  };
 };
 
 export const getYieldFindValidatorsQueryKey = (
@@ -1929,14 +2054,14 @@ export const getYieldFindValidatorsQueryKey = (
 };
 
 export const useYieldFindValidatorsQueryOptions = <
-  TData = Awaited<ReturnType<typeof yieldFindValidators>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldFindValidatorsHook>>>,
+  TError = unknown,
 >(
   params?: YieldFindValidatorsParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof yieldFindValidators>>,
+        Awaited<ReturnType<ReturnType<typeof useYieldFindValidatorsHook>>>,
         TError,
         TData
       >
@@ -1948,40 +2073,36 @@ export const useYieldFindValidatorsQueryOptions = <
   const queryKey =
     queryOptions?.queryKey ?? getYieldFindValidatorsQueryKey(params);
 
+  const yieldFindValidators = useYieldFindValidatorsHook();
+
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof yieldFindValidators>>
+    Awaited<ReturnType<ReturnType<typeof useYieldFindValidatorsHook>>>
   > = ({ signal }) => yieldFindValidators(params, signal);
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
-    queryKey,
-    queryFn,
-  });
-
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof yieldFindValidators>>,
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useYieldFindValidatorsHook>>>,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
 export type YieldFindValidatorsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof yieldFindValidators>>
+  Awaited<ReturnType<ReturnType<typeof useYieldFindValidatorsHook>>>
 >;
-export type YieldFindValidatorsQueryError = ErrorType<unknown>;
+export type YieldFindValidatorsQueryError = unknown;
 
 /**
  * @summary Get validators
  */
 export const useYieldFindValidators = <
-  TData = Awaited<ReturnType<typeof yieldFindValidators>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldFindValidatorsHook>>>,
+  TError = unknown,
 >(
   params?: YieldFindValidatorsParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof yieldFindValidators>>,
+        Awaited<ReturnType<ReturnType<typeof useYieldFindValidatorsHook>>>,
         TError,
         TData
       >
@@ -2003,17 +2124,21 @@ export const useYieldFindValidators = <
  * Returns a yield that is associated with given integration ID
  * @summary Get a yield given an integration ID
  */
-export const yieldYieldOpportunity = (
-  integrationId: string,
-  params?: YieldYieldOpportunityParams,
-  signal?: AbortSignal,
-) => {
-  return api<YieldDto>({
-    url: `/v1/yields/${integrationId}`,
-    method: 'GET',
-    params,
-    signal,
-  });
+export const useYieldYieldOpportunityHook = () => {
+  const yieldYieldOpportunity = useApi<YieldDto>();
+
+  return (
+    integrationId: string,
+    params?: YieldYieldOpportunityParams,
+    signal?: AbortSignal,
+  ) => {
+    return yieldYieldOpportunity({
+      url: `/v1/yields/${integrationId}`,
+      method: 'GET',
+      params,
+      signal,
+    });
+  };
 };
 
 export const getYieldYieldOpportunityQueryKey = (
@@ -2024,15 +2149,15 @@ export const getYieldYieldOpportunityQueryKey = (
 };
 
 export const useYieldYieldOpportunityQueryOptions = <
-  TData = Awaited<ReturnType<typeof yieldYieldOpportunity>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldYieldOpportunityHook>>>,
+  TError = unknown,
 >(
   integrationId: string,
   params?: YieldYieldOpportunityParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof yieldYieldOpportunity>>,
+        Awaited<ReturnType<ReturnType<typeof useYieldYieldOpportunityHook>>>,
         TError,
         TData
       >
@@ -2045,41 +2170,42 @@ export const useYieldYieldOpportunityQueryOptions = <
     queryOptions?.queryKey ??
     getYieldYieldOpportunityQueryKey(integrationId, params);
 
+  const yieldYieldOpportunity = useYieldYieldOpportunityHook();
+
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof yieldYieldOpportunity>>
+    Awaited<ReturnType<ReturnType<typeof useYieldYieldOpportunityHook>>>
   > = ({ signal }) => yieldYieldOpportunity(integrationId, params, signal);
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
+  return {
     queryKey,
     queryFn,
-  });
-
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof yieldYieldOpportunity>>,
+    enabled: !!integrationId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useYieldYieldOpportunityHook>>>,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
 export type YieldYieldOpportunityQueryResult = NonNullable<
-  Awaited<ReturnType<typeof yieldYieldOpportunity>>
+  Awaited<ReturnType<ReturnType<typeof useYieldYieldOpportunityHook>>>
 >;
-export type YieldYieldOpportunityQueryError = ErrorType<unknown>;
+export type YieldYieldOpportunityQueryError = unknown;
 
 /**
  * @summary Get a yield given an integration ID
  */
 export const useYieldYieldOpportunity = <
-  TData = Awaited<ReturnType<typeof yieldYieldOpportunity>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldYieldOpportunityHook>>>,
+  TError = unknown,
 >(
   integrationId: string,
   params?: YieldYieldOpportunityParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof yieldYieldOpportunity>>,
+        Awaited<ReturnType<ReturnType<typeof useYieldYieldOpportunityHook>>>,
         TError,
         TData
       >
@@ -2105,17 +2231,21 @@ export const useYieldYieldOpportunity = <
  * Returns a list of available validators to specify when providing a `validatorAddress` property.
  * @summary Get validators given an integration ID
  */
-export const yieldGetValidators = (
-  integrationId: string,
-  params?: YieldGetValidatorsParams,
-  signal?: AbortSignal,
-) => {
-  return api<ValidatorDto[]>({
-    url: `/v1/yields/${integrationId}/validators`,
-    method: 'GET',
-    params,
-    signal,
-  });
+export const useYieldGetValidatorsHook = () => {
+  const yieldGetValidators = useApi<ValidatorDto[]>();
+
+  return (
+    integrationId: string,
+    params?: YieldGetValidatorsParams,
+    signal?: AbortSignal,
+  ) => {
+    return yieldGetValidators({
+      url: `/v1/yields/${integrationId}/validators`,
+      method: 'GET',
+      params,
+      signal,
+    });
+  };
 };
 
 export const getYieldGetValidatorsQueryKey = (
@@ -2129,15 +2259,15 @@ export const getYieldGetValidatorsQueryKey = (
 };
 
 export const useYieldGetValidatorsQueryOptions = <
-  TData = Awaited<ReturnType<typeof yieldGetValidators>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldGetValidatorsHook>>>,
+  TError = unknown,
 >(
   integrationId: string,
   params?: YieldGetValidatorsParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof yieldGetValidators>>,
+        Awaited<ReturnType<ReturnType<typeof useYieldGetValidatorsHook>>>,
         TError,
         TData
       >
@@ -2150,41 +2280,42 @@ export const useYieldGetValidatorsQueryOptions = <
     queryOptions?.queryKey ??
     getYieldGetValidatorsQueryKey(integrationId, params);
 
+  const yieldGetValidators = useYieldGetValidatorsHook();
+
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof yieldGetValidators>>
+    Awaited<ReturnType<ReturnType<typeof useYieldGetValidatorsHook>>>
   > = ({ signal }) => yieldGetValidators(integrationId, params, signal);
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
+  return {
     queryKey,
     queryFn,
-  });
-
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof yieldGetValidators>>,
+    enabled: !!integrationId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useYieldGetValidatorsHook>>>,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
 export type YieldGetValidatorsQueryResult = NonNullable<
-  Awaited<ReturnType<typeof yieldGetValidators>>
+  Awaited<ReturnType<ReturnType<typeof useYieldGetValidatorsHook>>>
 >;
-export type YieldGetValidatorsQueryError = ErrorType<unknown>;
+export type YieldGetValidatorsQueryError = unknown;
 
 /**
  * @summary Get validators given an integration ID
  */
 export const useYieldGetValidators = <
-  TData = Awaited<ReturnType<typeof yieldGetValidators>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldGetValidatorsHook>>>,
+  TError = unknown,
 >(
   integrationId: string,
   params?: YieldGetValidatorsParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof yieldGetValidators>>,
+        Awaited<ReturnType<ReturnType<typeof useYieldGetValidatorsHook>>>,
         TError,
         TData
       >
@@ -2210,18 +2341,22 @@ export const useYieldGetValidators = <
  * Given addresses, returns the available, deposited balance, pending actions and associated configuration for any yield
  * @summary Get yield balances given an integration ID
  */
-export const yieldGetSingleYieldBalances = (
-  integrationId: string,
-  yieldBalanceRequestDto: YieldBalanceRequestDto,
-  params?: YieldGetSingleYieldBalancesParams,
-) => {
-  return api<YieldBalanceDto[]>({
-    url: `/v1/yields/${integrationId}/balances`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    data: yieldBalanceRequestDto,
-    params,
-  });
+export const useYieldGetSingleYieldBalancesHook = () => {
+  const yieldGetSingleYieldBalances = useApi<YieldBalanceDto[]>();
+
+  return (
+    integrationId: string,
+    yieldBalanceRequestDto: YieldBalanceRequestDto,
+    params?: YieldGetSingleYieldBalancesParams,
+  ) => {
+    return yieldGetSingleYieldBalances({
+      url: `/v1/yields/${integrationId}/balances`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: yieldBalanceRequestDto,
+      params,
+    });
+  };
 };
 
 export const getYieldGetSingleYieldBalancesQueryKey = (
@@ -2237,8 +2372,10 @@ export const getYieldGetSingleYieldBalancesQueryKey = (
 };
 
 export const useYieldGetSingleYieldBalancesQueryOptions = <
-  TData = Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<
+    ReturnType<ReturnType<typeof useYieldGetSingleYieldBalancesHook>>
+  >,
+  TError = unknown,
 >(
   integrationId: string,
   yieldBalanceRequestDto: YieldBalanceRequestDto,
@@ -2246,7 +2383,9 @@ export const useYieldGetSingleYieldBalancesQueryOptions = <
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
+        Awaited<
+          ReturnType<ReturnType<typeof useYieldGetSingleYieldBalancesHook>>
+        >,
         TError,
         TData
       >
@@ -2263,35 +2402,38 @@ export const useYieldGetSingleYieldBalancesQueryOptions = <
       params,
     );
 
+  const yieldGetSingleYieldBalances = useYieldGetSingleYieldBalancesHook();
+
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>
+    Awaited<ReturnType<ReturnType<typeof useYieldGetSingleYieldBalancesHook>>>
   > = () =>
     yieldGetSingleYieldBalances(integrationId, yieldBalanceRequestDto, params);
 
-  const customOptions = customQueryOptions({
-    ...queryOptions,
+  return {
     queryKey,
     queryFn,
-  });
-
-  return customOptions as UseQueryOptions<
-    Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
+    enabled: !!integrationId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useYieldGetSingleYieldBalancesHook>>>,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
 export type YieldGetSingleYieldBalancesQueryResult = NonNullable<
-  Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>
+  Awaited<ReturnType<ReturnType<typeof useYieldGetSingleYieldBalancesHook>>>
 >;
-export type YieldGetSingleYieldBalancesQueryError = ErrorType<unknown>;
+export type YieldGetSingleYieldBalancesQueryError = unknown;
 
 /**
  * @summary Get yield balances given an integration ID
  */
 export const useYieldGetSingleYieldBalances = <
-  TData = Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
-  TError = ErrorType<unknown>,
+  TData = Awaited<
+    ReturnType<ReturnType<typeof useYieldGetSingleYieldBalancesHook>>
+  >,
+  TError = unknown,
 >(
   integrationId: string,
   yieldBalanceRequestDto: YieldBalanceRequestDto,
@@ -2299,7 +2441,9 @@ export const useYieldGetSingleYieldBalances = <
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof yieldGetSingleYieldBalances>>,
+        Awaited<
+          ReturnType<ReturnType<typeof useYieldGetSingleYieldBalancesHook>>
+        >,
         TError,
         TData
       >
