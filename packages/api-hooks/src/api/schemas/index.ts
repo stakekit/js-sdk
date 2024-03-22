@@ -94,6 +94,7 @@ export * from './rewardClaiming';
 export * from './rewardSchedule';
 export * from './rewardTypes';
 export * from './role';
+export * from './signatureVerificationArgumentsDto';
 export * from './solanaAdditionalAddressesDto';
 export * from './submitHashRequestDto';
 export * from './submitRequestDto';

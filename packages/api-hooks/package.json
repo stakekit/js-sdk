@@ -1,15 +1,18 @@
 {
   "name": "@stakekit/api-hooks",
   "description": "React hooks for StakeKit API",
-  "version": "0.0.62",
-  "types": "./dist/index.d.mts",
-  "main": "./dist/index.mjs",
+  "version": "0.0.63",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.mjs",
-      "default": "./dist/index.mjs"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./msw": {
+      "types": "./dist/msw/index.d.ts",
+      "default": "./dist/msw/index.js"
     }
   },
   "files": [
