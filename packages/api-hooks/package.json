@@ -1,7 +1,7 @@
 {
   "name": "@stakekit/api-hooks",
   "description": "React hooks for StakeKit API",
-  "version": "0.0.61",
+  "version": "0.0.62",
   "types": "./dist/index.d.mts",
   "main": "./dist/index.mjs",
   "exports": {
@@ -40,6 +40,11 @@
     "@tanstack/react-query": "^5",
     "msw": "^2",
     "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "msw": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
