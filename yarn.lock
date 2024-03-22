@@ -3812,6 +3812,9 @@ __metadata:
     "@tanstack/react-query": ^5
     msw: ^2
     react: ">=18"
+  peerDependenciesMeta:
+    msw:
+      optional: true
   languageName: unknown
   linkType: soft
 
