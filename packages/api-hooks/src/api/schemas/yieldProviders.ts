@@ -25,4 +25,5 @@ export const YieldProviders = {
   kiln: 'kiln',
   P2P: 'P2P',
   everstake: 'everstake',
+  eigenlayer: 'eigenlayer',
 } as const;
