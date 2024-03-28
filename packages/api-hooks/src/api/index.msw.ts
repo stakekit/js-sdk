@@ -18,6 +18,7 @@ import {
 import type {
   ActionDto,
   BalanceResponseDto,
+  GasEstimateDto,
   GasForNetworkResponseDto,
   PriceResponseDto,
   SubmitResponseDto,
@@ -94,6 +95,25 @@ export const getActionControllerGetActionResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => faker.word.sample()),
+  ...overrideResponse,
+});
+
+export const getActionControllerGetGasEstimateResponseMock = (
+  overrideResponse: any = {},
+): GasEstimateDto => ({
+  amount: faker.helpers.arrayElement([faker.word.sample(), null]),
+  gasLimit: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+  token: {
+    address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    coinGeckoId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    decimals: faker.number.int({ min: undefined, max: undefined }),
+    isPoints: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
+    logoURI: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    name: faker.word.sample(),
+    network: faker.helpers.arrayElement(Object.values(Networks)),
+    symbol: faker.word.sample(),
+    ...overrideResponse,
+  },
   ...overrideResponse,
 });
 
@@ -694,6 +714,10 @@ export const getYieldControllerGetMultipleYieldBalancesResponseMock = (
                   })),
                   undefined,
                 ]),
+                signatureVerification: faker.helpers.arrayElement([
+                  { required: faker.datatype.boolean(), ...overrideResponse },
+                  undefined,
+                ]),
                 tronResource: faker.helpers.arrayElement([
                   {
                     options: Array.from(
@@ -933,6 +957,10 @@ export const getYieldControllerYieldBalancesScanResponseMock = (
                     ]),
                     ...overrideResponse,
                   })),
+                  undefined,
+                ]),
+                signatureVerification: faker.helpers.arrayElement([
+                  { required: faker.datatype.boolean(), ...overrideResponse },
                   undefined,
                 ]),
                 tronResource: faker.helpers.arrayElement([
@@ -1188,6 +1216,10 @@ export const getYieldControllerYieldOpportunityResponseMock = (
             })),
             undefined,
           ]),
+          signatureVerification: faker.helpers.arrayElement([
+            { required: faker.datatype.boolean(), ...overrideResponse },
+            undefined,
+          ]),
           tronResource: faker.helpers.arrayElement([
             {
               options: Array.from(
@@ -1355,6 +1387,10 @@ export const getYieldControllerYieldOpportunityResponseMock = (
                 ]),
                 ...overrideResponse,
               })),
+              undefined,
+            ]),
+            signatureVerification: faker.helpers.arrayElement([
+              { required: faker.datatype.boolean(), ...overrideResponse },
               undefined,
             ]),
             tronResource: faker.helpers.arrayElement([
@@ -1751,6 +1787,10 @@ export const getYieldControllerGetSingleYieldBalancesResponseMock = (
                 })),
                 undefined,
               ]),
+              signatureVerification: faker.helpers.arrayElement([
+                { required: faker.datatype.boolean(), ...overrideResponse },
+                undefined,
+              ]),
               tronResource: faker.helpers.arrayElement([
                 {
                   options: Array.from(
@@ -1822,6 +1862,27 @@ export const getActionControllerGetActionMockHandler = (
         overrideResponse
           ? overrideResponse
           : getActionControllerGetActionResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getActionControllerGetGasEstimateMockHandler = (
+  overrideResponse?: GasEstimateDto,
+) => {
+  return http.get('*/v1/actions/:actionId/gas-estimate', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getActionControllerGetGasEstimateResponseMock(),
       ),
       {
         status: 200,
@@ -2318,6 +2379,7 @@ export const getYieldControllerGetSingleYieldBalancesMockHandler = (
 };
 export const getStakeKitMock = () => [
   getActionControllerGetActionMockHandler(),
+  getActionControllerGetGasEstimateMockHandler(),
   getActionControllerEnterMockHandler(),
   getActionControllerExitMockHandler(),
   getActionControllerPendingMockHandler(),
