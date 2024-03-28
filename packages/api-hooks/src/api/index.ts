@@ -13,6 +13,7 @@ import type {
   BalanceResponseDto,
   BalancesRequestDto,
   ConstructTransactionRequestDto,
+  GasEstimateDto,
   GasForNetworkResponseDto,
   GeolocationError,
   PendingActionRequestDto,
@@ -38,12 +39,10 @@ import type {
   YieldBalancesWithIntegrationIdDto,
   YieldDto,
   YieldFindValidatorsParams,
-  YieldGetMultipleYieldBalancesParams,
   YieldGetMyYields200,
   YieldGetMyYieldsParams,
   YieldGetSingleYieldBalancesParams,
   YieldGetValidatorsParams,
-  YieldYieldBalancesScanParams,
   YieldYieldOpportunityParams,
   YieldYields200,
   YieldYieldsParams,
@@ -132,6 +131,98 @@ export const useActionGetAction = <
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = useActionGetActionQueryOptions(actionId, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Returns a gas estimate
+ * @summary Get estimated gas for action
+ */
+export const useActionGetGasEstimateHook = () => {
+  const actionGetGasEstimate = useApi<GasEstimateDto>();
+
+  return (actionId: string, signal?: AbortSignal) => {
+    return actionGetGasEstimate({
+      url: `/v1/actions/${actionId}/gas-estimate`,
+      method: 'GET',
+      signal,
+    });
+  };
+};
+
+export const getActionGetGasEstimateQueryKey = (actionId: string) => {
+  return [`/v1/actions/${actionId}/gas-estimate`] as const;
+};
+
+export const useActionGetGasEstimateQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useActionGetGasEstimateHook>>>,
+  TError = GeolocationError,
+>(
+  actionId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useActionGetGasEstimateHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getActionGetGasEstimateQueryKey(actionId);
+
+  const actionGetGasEstimate = useActionGetGasEstimateHook();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useActionGetGasEstimateHook>>>
+  > = ({ signal }) => actionGetGasEstimate(actionId, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!actionId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useActionGetGasEstimateHook>>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ActionGetGasEstimateQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useActionGetGasEstimateHook>>>
+>;
+export type ActionGetGasEstimateQueryError = GeolocationError;
+
+/**
+ * @summary Get estimated gas for action
+ */
+export const useActionGetGasEstimate = <
+  TData = Awaited<ReturnType<ReturnType<typeof useActionGetGasEstimateHook>>>,
+  TError = GeolocationError,
+>(
+  actionId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useActionGetGasEstimateHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useActionGetGasEstimateQueryOptions(actionId, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;
@@ -1640,25 +1731,21 @@ export const useYieldGetMultipleYieldBalancesHook = () => {
 
   return (
     yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
-    params?: YieldGetMultipleYieldBalancesParams,
   ) => {
     return yieldGetMultipleYieldBalances({
       url: `/v1/yields/balances`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       data: yieldBalanceWithIntegrationIdRequestDto,
-      params,
     });
   };
 };
 
 export const getYieldGetMultipleYieldBalancesQueryKey = (
   yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
-  params?: YieldGetMultipleYieldBalancesParams,
 ) => {
   return [
     `/v1/yields/balances`,
-    ...(params ? [params] : []),
     yieldBalanceWithIntegrationIdRequestDto,
   ] as const;
 };
@@ -1670,7 +1757,6 @@ export const useYieldGetMultipleYieldBalancesQueryOptions = <
   TError = unknown,
 >(
   yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
-  params?: YieldGetMultipleYieldBalancesParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1689,7 +1775,6 @@ export const useYieldGetMultipleYieldBalancesQueryOptions = <
     queryOptions?.queryKey ??
     getYieldGetMultipleYieldBalancesQueryKey(
       yieldBalanceWithIntegrationIdRequestDto,
-      params,
     );
 
   const yieldGetMultipleYieldBalances = useYieldGetMultipleYieldBalancesHook();
@@ -1697,10 +1782,7 @@ export const useYieldGetMultipleYieldBalancesQueryOptions = <
   const queryFn: QueryFunction<
     Awaited<ReturnType<ReturnType<typeof useYieldGetMultipleYieldBalancesHook>>>
   > = () =>
-    yieldGetMultipleYieldBalances(
-      yieldBalanceWithIntegrationIdRequestDto,
-      params,
-    );
+    yieldGetMultipleYieldBalances(yieldBalanceWithIntegrationIdRequestDto);
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<
@@ -1726,7 +1808,6 @@ export const useYieldGetMultipleYieldBalances = <
   TError = unknown,
 >(
   yieldBalanceWithIntegrationIdRequestDto: YieldBalanceWithIntegrationIdRequestDto[],
-  params?: YieldGetMultipleYieldBalancesParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1741,7 +1822,6 @@ export const useYieldGetMultipleYieldBalances = <
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = useYieldGetMultipleYieldBalancesQueryOptions(
     yieldBalanceWithIntegrationIdRequestDto,
-    params,
     options,
   );
 
@@ -1761,29 +1841,20 @@ export const useYieldGetMultipleYieldBalances = <
 export const useYieldYieldBalancesScanHook = () => {
   const yieldYieldBalancesScan = useApi<YieldBalancesWithIntegrationIdDto[]>();
 
-  return (
-    yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
-    params?: YieldYieldBalancesScanParams,
-  ) => {
+  return (yieldBalanceScanRequestDto: YieldBalanceScanRequestDto) => {
     return yieldYieldBalancesScan({
       url: `/v1/yields/balances/scan`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       data: yieldBalanceScanRequestDto,
-      params,
     });
   };
 };
 
 export const getYieldYieldBalancesScanQueryKey = (
   yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
-  params?: YieldYieldBalancesScanParams,
 ) => {
-  return [
-    `/v1/yields/balances/scan`,
-    ...(params ? [params] : []),
-    yieldBalanceScanRequestDto,
-  ] as const;
+  return [`/v1/yields/balances/scan`, yieldBalanceScanRequestDto] as const;
 };
 
 export const useYieldYieldBalancesScanQueryOptions = <
@@ -1791,7 +1862,6 @@ export const useYieldYieldBalancesScanQueryOptions = <
   TError = unknown,
 >(
   yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
-  params?: YieldYieldBalancesScanParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1806,13 +1876,13 @@ export const useYieldYieldBalancesScanQueryOptions = <
 
   const queryKey =
     queryOptions?.queryKey ??
-    getYieldYieldBalancesScanQueryKey(yieldBalanceScanRequestDto, params);
+    getYieldYieldBalancesScanQueryKey(yieldBalanceScanRequestDto);
 
   const yieldYieldBalancesScan = useYieldYieldBalancesScanHook();
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<ReturnType<typeof useYieldYieldBalancesScanHook>>>
-  > = () => yieldYieldBalancesScan(yieldBalanceScanRequestDto, params);
+  > = () => yieldYieldBalancesScan(yieldBalanceScanRequestDto);
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<ReturnType<typeof useYieldYieldBalancesScanHook>>>,
@@ -1834,7 +1904,6 @@ export const useYieldYieldBalancesScan = <
   TError = unknown,
 >(
   yieldBalanceScanRequestDto: YieldBalanceScanRequestDto,
-  params?: YieldYieldBalancesScanParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1847,7 +1916,6 @@ export const useYieldYieldBalancesScan = <
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = useYieldYieldBalancesScanQueryOptions(
     yieldBalanceScanRequestDto,
-    params,
     options,
   );
 
