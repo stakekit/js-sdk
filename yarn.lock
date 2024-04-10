@@ -2837,7 +2837,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@faker-js/faker@npm:^8.4.1":
+"@faker-js/faker@npm:^8":
   version: 8.4.1
   resolution: "@faker-js/faker@npm:8.4.1"
   checksum: 10/5983c2ea64f26055ad6648de748878e11ebe2fb751e3c7435ae141cdffabc2dccfe4c4f49da69a3d2add71e21b415c683ac5fba196fab0d5ed6779fbec436c80
@@ -3795,7 +3795,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@stakekit/api-hooks@workspace:packages/api-hooks"
   dependencies:
-    "@faker-js/faker": "npm:^8.4.1"
+    "@faker-js/faker": "npm:^8"
     "@tanstack/react-query": "npm:^5.28.6"
     "@types/react": "npm:^18.2.67"
     axios: "npm:^1.6.8"
@@ -3809,10 +3809,13 @@ __metadata:
     tsup: "npm:^8.0.2"
     typescript: "npm:^5.4.3"
   peerDependencies:
+    "@faker-js/faker": ^8
     "@tanstack/react-query": ^5
     msw: ^2
     react: ">=18"
   peerDependenciesMeta:
+    "@faker-js/faker":
+      optional: true
     msw:
       optional: true
   languageName: unknown
