@@ -1,7 +1,7 @@
 {
   "name": "@stakekit/api-hooks",
   "description": "React hooks for StakeKit API",
-  "version": "0.0.65",
+  "version": "0.0.66",
   "type": "module",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -40,20 +40,24 @@
     "publish": "yarn npm publish"
   },
   "peerDependencies": {
+    "@faker-js/faker": "^8",
     "@tanstack/react-query": "^5",
     "msw": "^2",
     "react": ">=18"
   },
   "peerDependenciesMeta": {
+    "@faker-js/faker": {
+      "optional": true
+    },
     "msw": {
       "optional": true
     }
   },
   "dependencies": {
-    "@faker-js/faker": "^8.4.1",
     "axios": "^1.6.8"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8",
     "@tanstack/react-query": "^5.28.6",
     "@types/react": "^18.2.67",
     "eslint": "^8.57.0",
