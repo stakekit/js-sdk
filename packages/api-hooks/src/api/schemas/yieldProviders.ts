@@ -26,4 +26,5 @@ export const YieldProviders = {
   P2P: 'P2P',
   everstake: 'everstake',
   eigenlayer: 'eigenlayer',
+  renzo: 'renzo',
 } as const;
