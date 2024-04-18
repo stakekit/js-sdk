@@ -68,5 +68,4 @@ export const Networks = {
   solana: 'solana',
   tezos: 'tezos',
   tron: 'tron',
-  'off-chain': 'off-chain',
 } as const;
