@@ -20,4 +20,5 @@ export const DailyCumulativeStakeDtoType = {
   VOTE_LOCKED: 'VOTE_LOCKED',
   REVOTE: 'REVOTE',
   REBOND: 'REBOND',
+  MIGRATE: 'MIGRATE',
 } as const;

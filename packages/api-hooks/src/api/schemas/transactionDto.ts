@@ -9,6 +9,7 @@ export interface TransactionDto {
   gasEstimate: TransactionDtoGasEstimate;
   hash: string | null;
   id: string;
+  isMessage: boolean;
   ledgerHwAppId: string | null;
   network: Networks;
   signedTransaction: string | null;

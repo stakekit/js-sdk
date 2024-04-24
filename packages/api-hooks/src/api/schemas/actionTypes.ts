@@ -16,4 +16,5 @@ export const ActionTypes = {
   VOTE_LOCKED: 'VOTE_LOCKED',
   REVOTE: 'REVOTE',
   REBOND: 'REBOND',
+  MIGRATE: 'MIGRATE',
 } as const;
