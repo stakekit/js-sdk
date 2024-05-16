@@ -1,3 +1,3 @@
 export interface ValidatorAddressesDto {
-  validatorAddresses: string[];
+  validatorAddresses?: string[];
 }

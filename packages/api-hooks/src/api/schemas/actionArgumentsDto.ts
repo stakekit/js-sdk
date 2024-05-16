@@ -9,6 +9,7 @@ export interface ActionArgumentsDto {
   inputToken?: TokenDto;
   ledgerWalletAPICompatible?: boolean;
   nfts?: ApeNativeArgumentsDto;
+  providerId?: string;
   signatureVerification?: SignatureVerificationArgumentsDto;
   tronResource?: TronResourceType;
   validatorAddress?: string;

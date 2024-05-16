@@ -28,4 +28,5 @@ export const YieldProviders = {
   eigenlayer: 'eigenlayer',
   luganodes: 'luganodes',
   renzo: 'renzo',
+  ethena: 'ethena',
 } as const;
