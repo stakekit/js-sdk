@@ -755,6 +755,7 @@ export const getYieldControllerGetMultipleYieldBalancesResponseMock = (
         ...overrideResponse,
       })),
       pricePerShare: faker.word.sample(),
+      providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
       token: {
         address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
         coinGeckoId: faker.helpers.arrayElement([
@@ -999,6 +1000,7 @@ export const getYieldControllerYieldBalancesScanResponseMock = (
         ...overrideResponse,
       })),
       pricePerShare: faker.word.sample(),
+      providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
       token: {
         address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
         coinGeckoId: faker.helpers.arrayElement([
@@ -1471,6 +1473,10 @@ export const getYieldControllerYieldOpportunityResponseMock = (
       symbol: faker.word.sample(),
       ...overrideResponse,
     },
+    isIntegrationAggregator: faker.helpers.arrayElement([
+      faker.datatype.boolean(),
+      undefined,
+    ]),
     logoURI: faker.word.sample(),
     minimumStake: faker.helpers.arrayElement([
       faker.number.int({ min: undefined, max: undefined }),
@@ -1866,6 +1872,7 @@ export const getYieldControllerGetSingleYieldBalancesResponseMock = (
       ...overrideResponse,
     })),
     pricePerShare: faker.word.sample(),
+    providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     token: {
       address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
       coinGeckoId: faker.helpers.arrayElement([faker.word.sample(), undefined]),

@@ -14,6 +14,7 @@ export interface YieldMetadataDto {
   documentation: string;
   fee: YieldFeeDto;
   gasFeeToken: TokenDto;
+  isIntegrationAggregator?: boolean;
   logoURI: string;
   minimumStake?: number;
   name: string;
