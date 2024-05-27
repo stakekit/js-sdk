@@ -70,6 +70,7 @@ export enum SubstrateNetworks {
 
 export enum MiscNetworks {
   BinanceBeacon = 'binancebeacon',
+  Cardano = 'cardano',
   Near = 'near',
   Solana = 'solana',
   Tezos = 'tezos',
