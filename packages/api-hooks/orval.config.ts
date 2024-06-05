@@ -45,6 +45,9 @@ export default defineConfig({
     },
     input: {
       target: 'https://staging-api.stakek.it/staking-docs-json',
+      parserOptions: {
+        resolve: { http: { headers: { 'User-Agent': 'Orval' } } },
+      },
     },
   },
 });

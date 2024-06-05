@@ -28,5 +28,6 @@ export const YieldProviders = {
   eigenlayer: 'eigenlayer',
   luganodes: 'luganodes',
   renzo: 'renzo',
+  infstones: 'infstones',
   ethena: 'ethena',
 } as const;
