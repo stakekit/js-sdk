@@ -307,6 +307,63 @@ export const getActionControllerPendingResponseMock = (
   ...overrideResponse,
 });
 
+export const getActionControllerEnterGasEstimationResponseMock = (
+  overrideResponse: any = {},
+): GasEstimateDto => ({
+  amount: faker.helpers.arrayElement([faker.word.sample(), null]),
+  gasLimit: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+  token: {
+    address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    coinGeckoId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    decimals: faker.number.int({ min: undefined, max: undefined }),
+    isPoints: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
+    logoURI: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    name: faker.word.sample(),
+    network: faker.helpers.arrayElement(Object.values(Networks)),
+    symbol: faker.word.sample(),
+    ...overrideResponse,
+  },
+  ...overrideResponse,
+});
+
+export const getActionControllerExitGasEstimateResponseMock = (
+  overrideResponse: any = {},
+): GasEstimateDto => ({
+  amount: faker.helpers.arrayElement([faker.word.sample(), null]),
+  gasLimit: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+  token: {
+    address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    coinGeckoId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    decimals: faker.number.int({ min: undefined, max: undefined }),
+    isPoints: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
+    logoURI: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    name: faker.word.sample(),
+    network: faker.helpers.arrayElement(Object.values(Networks)),
+    symbol: faker.word.sample(),
+    ...overrideResponse,
+  },
+  ...overrideResponse,
+});
+
+export const getActionControllerPendingGasEstimateResponseMock = (
+  overrideResponse: any = {},
+): GasEstimateDto => ({
+  amount: faker.helpers.arrayElement([faker.word.sample(), null]),
+  gasLimit: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+  token: {
+    address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    coinGeckoId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    decimals: faker.number.int({ min: undefined, max: undefined }),
+    isPoints: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
+    logoURI: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    name: faker.word.sample(),
+    network: faker.helpers.arrayElement(Object.values(Networks)),
+    symbol: faker.word.sample(),
+    ...overrideResponse,
+  },
+  ...overrideResponse,
+});
+
 export const getTransactionControllerGetTransactionResponseMock = (
   overrideResponse: any = {},
 ): TransactionDto => ({
@@ -2007,6 +2064,69 @@ export const getActionControllerPendingMockHandler = (
   });
 };
 
+export const getActionControllerEnterGasEstimationMockHandler = (
+  overrideResponse?: GasEstimateDto,
+) => {
+  return http.post('*/v1/actions/enter/estimate-gas', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getActionControllerEnterGasEstimationResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getActionControllerExitGasEstimateMockHandler = (
+  overrideResponse?: GasEstimateDto,
+) => {
+  return http.post('*/v1/actions/exit/estimate-gas', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getActionControllerExitGasEstimateResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getActionControllerPendingGasEstimateMockHandler = (
+  overrideResponse?: GasEstimateDto,
+) => {
+  return http.post('*/v1/actions/pending/estimate-gas', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getActionControllerPendingGasEstimateResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
 export const getTransactionControllerGetTransactionMockHandler = (
   overrideResponse?: TransactionDto,
 ) => {
@@ -2433,6 +2553,9 @@ export const getStakeKitMock = () => [
   getActionControllerEnterMockHandler(),
   getActionControllerExitMockHandler(),
   getActionControllerPendingMockHandler(),
+  getActionControllerEnterGasEstimationMockHandler(),
+  getActionControllerExitGasEstimateMockHandler(),
+  getActionControllerPendingGasEstimateMockHandler(),
   getTransactionControllerGetTransactionMockHandler(),
   getTransactionControllerConstructMockHandler(),
   getTransactionControllerSubmitMockHandler(),

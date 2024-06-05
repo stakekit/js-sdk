@@ -9,6 +9,7 @@ import type {
 } from '@tanstack/react-query';
 import type {
   ActionDto,
+  ActionGasEstimateRequestDto,
   ActionRequestDto,
   BalanceResponseDto,
   BalancesRequestDto,
@@ -16,6 +17,7 @@ import type {
   GasEstimateDto,
   GasForNetworkResponseDto,
   GeolocationError,
+  PendingActionGasEstimateRequestDto,
   PendingActionRequestDto,
   PriceRequestDto,
   PriceResponseDto,
@@ -451,6 +453,231 @@ export const useActionPending = <
   >;
 }) => {
   const mutationOptions = useActionPendingMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+
+/**
+ * Get the estimated gas necessary to enter a yield bearing position
+ * @summary Estimate gas for the "enter" action
+ */
+export const useActionEnterGasEstimationHook = () => {
+  const actionEnterGasEstimation = useApi<GasEstimateDto>();
+
+  return (actionGasEstimateRequestDto: ActionGasEstimateRequestDto) => {
+    return actionEnterGasEstimation({
+      url: `/v1/actions/enter/estimate-gas`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: actionGasEstimateRequestDto,
+    });
+  };
+};
+
+export const useActionEnterGasEstimationMutationOptions = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useActionEnterGasEstimationHook>>>,
+    TError,
+    { data: ActionGasEstimateRequestDto },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<ReturnType<typeof useActionEnterGasEstimationHook>>>,
+  TError,
+  { data: ActionGasEstimateRequestDto },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const actionEnterGasEstimation = useActionEnterGasEstimationHook();
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<ReturnType<typeof useActionEnterGasEstimationHook>>>,
+    { data: ActionGasEstimateRequestDto }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return actionEnterGasEstimation(data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type ActionEnterGasEstimationMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useActionEnterGasEstimationHook>>>
+>;
+export type ActionEnterGasEstimationMutationBody = ActionGasEstimateRequestDto;
+export type ActionEnterGasEstimationMutationError = GeolocationError;
+
+/**
+ * @summary Estimate gas for the "enter" action
+ */
+export const useActionEnterGasEstimation = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useActionEnterGasEstimationHook>>>,
+    TError,
+    { data: ActionGasEstimateRequestDto },
+    TContext
+  >;
+}) => {
+  const mutationOptions = useActionEnterGasEstimationMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+
+/**
+ * Get the estimated gas necessary to exit a yield bearing position
+ * @summary Estimate gas for the "exit" action
+ */
+export const useActionExitGasEstimateHook = () => {
+  const actionExitGasEstimate = useApi<GasEstimateDto>();
+
+  return (actionGasEstimateRequestDto: ActionGasEstimateRequestDto) => {
+    return actionExitGasEstimate({
+      url: `/v1/actions/exit/estimate-gas`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: actionGasEstimateRequestDto,
+    });
+  };
+};
+
+export const useActionExitGasEstimateMutationOptions = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useActionExitGasEstimateHook>>>,
+    TError,
+    { data: ActionGasEstimateRequestDto },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<ReturnType<typeof useActionExitGasEstimateHook>>>,
+  TError,
+  { data: ActionGasEstimateRequestDto },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const actionExitGasEstimate = useActionExitGasEstimateHook();
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<ReturnType<typeof useActionExitGasEstimateHook>>>,
+    { data: ActionGasEstimateRequestDto }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return actionExitGasEstimate(data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type ActionExitGasEstimateMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useActionExitGasEstimateHook>>>
+>;
+export type ActionExitGasEstimateMutationBody = ActionGasEstimateRequestDto;
+export type ActionExitGasEstimateMutationError = GeolocationError;
+
+/**
+ * @summary Estimate gas for the "exit" action
+ */
+export const useActionExitGasEstimate = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useActionExitGasEstimateHook>>>,
+    TError,
+    { data: ActionGasEstimateRequestDto },
+    TContext
+  >;
+}) => {
+  const mutationOptions = useActionExitGasEstimateMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+
+/**
+ * Get the estimated gas necessary to apply a pending action
+ * @summary Estimate gas for the "pending" action
+ */
+export const useActionPendingGasEstimateHook = () => {
+  const actionPendingGasEstimate = useApi<GasEstimateDto>();
+
+  return (
+    pendingActionGasEstimateRequestDto: PendingActionGasEstimateRequestDto,
+  ) => {
+    return actionPendingGasEstimate({
+      url: `/v1/actions/pending/estimate-gas`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: pendingActionGasEstimateRequestDto,
+    });
+  };
+};
+
+export const useActionPendingGasEstimateMutationOptions = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useActionPendingGasEstimateHook>>>,
+    TError,
+    { data: PendingActionGasEstimateRequestDto },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<ReturnType<typeof useActionPendingGasEstimateHook>>>,
+  TError,
+  { data: PendingActionGasEstimateRequestDto },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const actionPendingGasEstimate = useActionPendingGasEstimateHook();
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<ReturnType<typeof useActionPendingGasEstimateHook>>>,
+    { data: PendingActionGasEstimateRequestDto }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return actionPendingGasEstimate(data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type ActionPendingGasEstimateMutationResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useActionPendingGasEstimateHook>>>
+>;
+export type ActionPendingGasEstimateMutationBody =
+  PendingActionGasEstimateRequestDto;
+export type ActionPendingGasEstimateMutationError = GeolocationError;
+
+/**
+ * @summary Estimate gas for the "pending" action
+ */
+export const useActionPendingGasEstimate = <
+  TError = GeolocationError,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<ReturnType<typeof useActionPendingGasEstimateHook>>>,
+    TError,
+    { data: PendingActionGasEstimateRequestDto },
+    TContext
+  >;
+}) => {
+  const mutationOptions = useActionPendingGasEstimateMutationOptions(options);
 
   return useMutation(mutationOptions);
 };
