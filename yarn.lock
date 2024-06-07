@@ -3811,6 +3811,7 @@ __metadata:
   peerDependencies:
     "@faker-js/faker": ^8
     "@tanstack/react-query": ^5
+    axios: ">=1.6"
     msw: ^2
     react: ">=18"
   peerDependenciesMeta:
