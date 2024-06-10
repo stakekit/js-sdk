@@ -9,6 +9,7 @@ import type {
 } from '@tanstack/react-query';
 import type {
   ActionDto,
+  ActionGasEstimateRequestDto,
   ActionRequestDto,
   BalanceResponseDto,
   BalancesRequestDto,
@@ -16,6 +17,7 @@ import type {
   GasEstimateDto,
   GasForNetworkResponseDto,
   GeolocationError,
+  PendingActionGasEstimateRequestDto,
   PendingActionRequestDto,
   PriceRequestDto,
   PriceResponseDto,
@@ -453,6 +455,307 @@ export const useActionPending = <
   const mutationOptions = useActionPendingMutationOptions(options);
 
   return useMutation(mutationOptions);
+};
+
+/**
+ * Get the estimated gas necessary to enter a yield bearing position
+ * @summary Estimate gas for the "enter" action
+ */
+export const useActionEnterGasEstimationHook = () => {
+  const actionEnterGasEstimation = useApi<GasEstimateDto>();
+
+  return (actionGasEstimateRequestDto: ActionGasEstimateRequestDto) => {
+    return actionEnterGasEstimation({
+      url: `/v1/actions/enter/estimate-gas`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: actionGasEstimateRequestDto,
+    });
+  };
+};
+
+export const getActionEnterGasEstimationQueryKey = (
+  actionGasEstimateRequestDto: ActionGasEstimateRequestDto,
+) => {
+  return [
+    `/v1/actions/enter/estimate-gas`,
+    actionGasEstimateRequestDto,
+  ] as const;
+};
+
+export const useActionEnterGasEstimationQueryOptions = <
+  TData = Awaited<
+    ReturnType<ReturnType<typeof useActionEnterGasEstimationHook>>
+  >,
+  TError = GeolocationError,
+>(
+  actionGasEstimateRequestDto: ActionGasEstimateRequestDto,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useActionEnterGasEstimationHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getActionEnterGasEstimationQueryKey(actionGasEstimateRequestDto);
+
+  const actionEnterGasEstimation = useActionEnterGasEstimationHook();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useActionEnterGasEstimationHook>>>
+  > = () => actionEnterGasEstimation(actionGasEstimateRequestDto);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useActionEnterGasEstimationHook>>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ActionEnterGasEstimationQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useActionEnterGasEstimationHook>>>
+>;
+export type ActionEnterGasEstimationQueryError = GeolocationError;
+
+/**
+ * @summary Estimate gas for the "enter" action
+ */
+export const useActionEnterGasEstimation = <
+  TData = Awaited<
+    ReturnType<ReturnType<typeof useActionEnterGasEstimationHook>>
+  >,
+  TError = GeolocationError,
+>(
+  actionGasEstimateRequestDto: ActionGasEstimateRequestDto,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useActionEnterGasEstimationHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useActionEnterGasEstimationQueryOptions(
+    actionGasEstimateRequestDto,
+    options,
+  );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Get the estimated gas necessary to exit a yield bearing position
+ * @summary Estimate gas for the "exit" action
+ */
+export const useActionExitGasEstimateHook = () => {
+  const actionExitGasEstimate = useApi<GasEstimateDto>();
+
+  return (actionGasEstimateRequestDto: ActionGasEstimateRequestDto) => {
+    return actionExitGasEstimate({
+      url: `/v1/actions/exit/estimate-gas`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: actionGasEstimateRequestDto,
+    });
+  };
+};
+
+export const getActionExitGasEstimateQueryKey = (
+  actionGasEstimateRequestDto: ActionGasEstimateRequestDto,
+) => {
+  return [
+    `/v1/actions/exit/estimate-gas`,
+    actionGasEstimateRequestDto,
+  ] as const;
+};
+
+export const useActionExitGasEstimateQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useActionExitGasEstimateHook>>>,
+  TError = GeolocationError,
+>(
+  actionGasEstimateRequestDto: ActionGasEstimateRequestDto,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useActionExitGasEstimateHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getActionExitGasEstimateQueryKey(actionGasEstimateRequestDto);
+
+  const actionExitGasEstimate = useActionExitGasEstimateHook();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useActionExitGasEstimateHook>>>
+  > = () => actionExitGasEstimate(actionGasEstimateRequestDto);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useActionExitGasEstimateHook>>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ActionExitGasEstimateQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useActionExitGasEstimateHook>>>
+>;
+export type ActionExitGasEstimateQueryError = GeolocationError;
+
+/**
+ * @summary Estimate gas for the "exit" action
+ */
+export const useActionExitGasEstimate = <
+  TData = Awaited<ReturnType<ReturnType<typeof useActionExitGasEstimateHook>>>,
+  TError = GeolocationError,
+>(
+  actionGasEstimateRequestDto: ActionGasEstimateRequestDto,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useActionExitGasEstimateHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useActionExitGasEstimateQueryOptions(
+    actionGasEstimateRequestDto,
+    options,
+  );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Get the estimated gas necessary to apply a pending action
+ * @summary Estimate gas for the "pending" action
+ */
+export const useActionPendingGasEstimateHook = () => {
+  const actionPendingGasEstimate = useApi<GasEstimateDto>();
+
+  return (
+    pendingActionGasEstimateRequestDto: PendingActionGasEstimateRequestDto,
+  ) => {
+    return actionPendingGasEstimate({
+      url: `/v1/actions/pending/estimate-gas`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: pendingActionGasEstimateRequestDto,
+    });
+  };
+};
+
+export const getActionPendingGasEstimateQueryKey = (
+  pendingActionGasEstimateRequestDto: PendingActionGasEstimateRequestDto,
+) => {
+  return [
+    `/v1/actions/pending/estimate-gas`,
+    pendingActionGasEstimateRequestDto,
+  ] as const;
+};
+
+export const useActionPendingGasEstimateQueryOptions = <
+  TData = Awaited<
+    ReturnType<ReturnType<typeof useActionPendingGasEstimateHook>>
+  >,
+  TError = GeolocationError,
+>(
+  pendingActionGasEstimateRequestDto: PendingActionGasEstimateRequestDto,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useActionPendingGasEstimateHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getActionPendingGasEstimateQueryKey(pendingActionGasEstimateRequestDto);
+
+  const actionPendingGasEstimate = useActionPendingGasEstimateHook();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useActionPendingGasEstimateHook>>>
+  > = () => actionPendingGasEstimate(pendingActionGasEstimateRequestDto);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useActionPendingGasEstimateHook>>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ActionPendingGasEstimateQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useActionPendingGasEstimateHook>>>
+>;
+export type ActionPendingGasEstimateQueryError = GeolocationError;
+
+/**
+ * @summary Estimate gas for the "pending" action
+ */
+export const useActionPendingGasEstimate = <
+  TData = Awaited<
+    ReturnType<ReturnType<typeof useActionPendingGasEstimateHook>>
+  >,
+  TError = GeolocationError,
+>(
+  pendingActionGasEstimateRequestDto: PendingActionGasEstimateRequestDto,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useActionPendingGasEstimateHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useActionPendingGasEstimateQueryOptions(
+    pendingActionGasEstimateRequestDto,
+    options,
+  );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
 };
 
 /**

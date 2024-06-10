@@ -40,11 +40,17 @@ export default defineConfig({
           TokenController_getTokenPrices: getAsQueryOptions(),
           YieldController_getMultipleYieldBalances: getAsQueryOptions(),
           YieldController_getSingleYieldBalances: getAsQueryOptions(),
+          ActionController_enterGasEstimation: getAsQueryOptions(),
+          ActionController_exitGasEstimate: getAsQueryOptions(),
+          ActionController_pendingGasEstimate: getAsQueryOptions(),
         },
       },
     },
     input: {
       target: 'https://staging-api.stakek.it/staking-docs-json',
+      parserOptions: {
+        resolve: { http: { headers: { 'User-Agent': 'Orval' } } },
+      },
     },
   },
 });
