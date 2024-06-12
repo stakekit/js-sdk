@@ -17,6 +17,7 @@ export enum EvmNetworks {
   OKC = 'okc',
   zkSync = 'zksync',
   Viction = 'viction',
+  Starknet = 'starknet',
 }
 
 export enum CosmosNetworks {
@@ -75,6 +76,7 @@ export enum MiscNetworks {
   Solana = 'solana',
   Tezos = 'tezos',
   Tron = 'tron',
+  Ton = 'ton',
 }
 
 export const Networks = {
