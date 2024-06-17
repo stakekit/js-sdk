@@ -146,6 +146,8 @@ export * from './webhookSubscriptionDto';
 export * from './webhookSubscriptionEventDto';
 export * from './webhookSubscriptionEventDtoEvent';
 export * from './yieldBalanceDto';
+export * from './yieldBalanceLabelDto';
+export * from './yieldBalanceLabelDtoParams';
 export * from './yieldBalanceRequestDto';
 export * from './yieldBalanceScanRequestDto';
 export * from './yieldBalanceWithIntegrationIdRequestDto';

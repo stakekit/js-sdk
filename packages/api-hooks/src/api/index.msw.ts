@@ -620,6 +620,10 @@ export const getYieldControllerGetMultipleYieldBalancesResponseMock = (
         undefined,
       ]),
       groupId: faker.string.uuid(),
+      label: faker.helpers.arrayElement([
+        { params: {}, type: faker.word.sample(), ...overrideResponse },
+        undefined,
+      ]),
       pendingActions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
@@ -865,6 +869,10 @@ export const getYieldControllerYieldBalancesScanResponseMock = (
         undefined,
       ]),
       groupId: faker.string.uuid(),
+      label: faker.helpers.arrayElement([
+        { params: {}, type: faker.word.sample(), ...overrideResponse },
+        undefined,
+      ]),
       pendingActions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
@@ -1746,6 +1754,10 @@ export const getYieldControllerGetSingleYieldBalancesResponseMock = (
       undefined,
     ]),
     groupId: faker.string.uuid(),
+    label: faker.helpers.arrayElement([
+      { params: {}, type: faker.word.sample(), ...overrideResponse },
+      undefined,
+    ]),
     pendingActions: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
