@@ -15,6 +15,7 @@ export const NetworkToCoinGeckoPlatformId: { [x in Networks]?: string } = {
   [Networks.Tezos]: 'tezos',
   [Networks.Cardano]: 'cardano',
   [Networks.Starknet]: 'starknet',
+  [Networks.Base]: 'base',
 
   [Networks.Cosmos]: cosmosChainConfig[Networks.Cosmos].coinGeckoId,
   [Networks.Kava]: cosmosChainConfig[Networks.Kava].coinGeckoId,
@@ -74,6 +75,7 @@ export const ChainIds: { [x in Networks]?: string } = {
   [Networks.Solana]: '4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ',
   [Networks.Tezos]: 'NetXdQprcVkpaWU',
   [Networks.Starknet]: '23448594291968334',
+  [Networks.Base]: '8453',
 
   [Networks.Cosmos]: cosmosChainConfig[Networks.Cosmos].chainId,
   [Networks.Kava]: cosmosChainConfig[Networks.Kava].chainId,

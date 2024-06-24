@@ -1,23 +1,27 @@
 export enum EvmNetworks {
-  AvalancheC = 'avalanche-c',
-  AvalancheCAtomic = 'avalanche-c-atomic',
-  AvalancheP = 'avalanche-p',
-  Arbitrum = 'arbitrum',
-  Binance = 'binance',
-  Celo = 'celo',
+  // Ethereum & L2s
   Ethereum = 'ethereum',
   EthereumGoerli = 'ethereum-goerli',
   EthereumHolesky = 'ethereum-holesky',
-  Fantom = 'fantom',
-  Harmony = 'harmony',
+  Arbitrum = 'arbitrum',
+  Base = 'base',
+  Gnosis = 'gnosis',
   Optimism = 'optimism',
   Polygon = 'polygon',
-  Gnosis = 'gnosis',
+  Starknet = 'starknet',
+  zkSync = 'zksync',
+
+  // Other EVM
+  AvalancheC = 'avalanche-c',
+  AvalancheCAtomic = 'avalanche-c-atomic',
+  AvalancheP = 'avalanche-p',
+  Binance = 'binance',
+  Celo = 'celo',
+  Fantom = 'fantom',
+  Harmony = 'harmony',
   Moonriver = 'moonriver',
   OKC = 'okc',
-  zkSync = 'zksync',
   Viction = 'viction',
-  Starknet = 'starknet',
 }
 
 export enum CosmosNetworks {
