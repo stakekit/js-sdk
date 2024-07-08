@@ -9,7 +9,6 @@ export interface Team {
   deletedAt: string | null;
   id: string;
   name: string;
-  providerFeePercentage: number | null;
   serviceConditionsAcceptedAt: string | null;
   updatedAt: string;
 }
