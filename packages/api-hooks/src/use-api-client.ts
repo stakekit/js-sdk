@@ -9,11 +9,23 @@ const getUrl = ({
 }: {
   baseURL: string;
   path: string;
-  params?: any;
+  params?: Record<string, any>;
 }): string => {
   const url = new URL(baseURL);
   url.pathname = path;
-  url.search = new URLSearchParams(params).toString();
+
+  if (params) {
+    const urlSearchParams = new URLSearchParams();
+
+    Object.keys(params).forEach((key) => {
+      const val = params[key];
+      if (val === undefined || val === null || val === '') return;
+
+      urlSearchParams.append(key, params[key]);
+    });
+
+    url.search = urlSearchParams.toString();
+  }
 
   return url.toString();
 };
