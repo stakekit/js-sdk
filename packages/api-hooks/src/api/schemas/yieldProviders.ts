@@ -18,6 +18,7 @@ export const YieldProviders = {
   stakewise: 'stakewise',
   etherfi: 'etherfi',
   'morpho-aave': 'morpho-aave',
+  'morpho-blue': 'morpho-blue',
   'morpho-compound': 'morpho-compound',
   angle: 'angle',
   kelpdao: 'kelpdao',
