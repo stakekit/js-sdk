@@ -3809,7 +3809,7 @@ __metadata:
     typescript: "npm:^5.4.3"
   peerDependencies:
     "@faker-js/faker": ^8
-    "@tanstack/react-query": ^5
+    "@tanstack/react-query": ">=4"
     msw: ^2
     react: ">=18"
   peerDependenciesMeta:
