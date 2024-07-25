@@ -1,3 +1,5 @@
+import type { FeeConfigurationStatus } from './feeConfigurationStatus';
+
 export interface FeeConfigurationDto {
   allocatorVaultContractAddress: string | null;
   depositFeeBps: number | null;
@@ -7,4 +9,5 @@ export interface FeeConfigurationDto {
   managementFeeBps: number | null;
   performanceFeeBps: number | null;
   projectId: string;
+  status: FeeConfigurationStatus;
 }
