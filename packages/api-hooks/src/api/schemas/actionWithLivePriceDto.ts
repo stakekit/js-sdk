@@ -2,10 +2,11 @@ import type { ActionStatus } from './actionStatus';
 import type { TransactionDto } from './transactionDto';
 import type { ActionTypes } from './actionTypes';
 
-export interface ActionDto {
+export interface ActionWithLivePriceDto {
   amount: string | null;
   createdAt: string;
   currentStepIndex: number;
+  currentUSDAmount: string | null;
   id: string;
   integrationId: string;
   status: ActionStatus;

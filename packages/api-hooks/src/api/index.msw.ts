@@ -4,6 +4,7 @@ import {
   ActionStatus,
   ActionTypes,
   BalanceTypes,
+  FeeConfigurationStatus,
   GasMode,
   Networks,
   RewardClaiming,
@@ -18,6 +19,7 @@ import {
 import type {
   ActionDto,
   BalanceResponseDto,
+  FeeConfigurationDto,
   GasEstimateDto,
   GasForNetworkResponseDto,
   PriceResponseDto,
@@ -33,6 +35,8 @@ import type {
   YieldBalancesWithIntegrationIdDto,
   YieldDto,
   YieldGetMyYields200,
+  YieldV2GetMyYields200,
+  YieldV2Yields200,
   YieldYields200,
 } from './schemas';
 
@@ -91,6 +95,7 @@ export const getActionControllerGetActionResponseMock = (
     ...overrideResponse,
   })),
   type: faker.helpers.arrayElement(Object.values(ActionTypes)),
+  USDAmount: faker.helpers.arrayElement([faker.word.sample(), null]),
   validatorAddress: faker.helpers.arrayElement([faker.word.sample(), null]),
   validatorAddresses: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -173,6 +178,7 @@ export const getActionControllerEnterResponseMock = (
     ...overrideResponse,
   })),
   type: faker.helpers.arrayElement(Object.values(ActionTypes)),
+  USDAmount: faker.helpers.arrayElement([faker.word.sample(), null]),
   validatorAddress: faker.helpers.arrayElement([faker.word.sample(), null]),
   validatorAddresses: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -236,6 +242,7 @@ export const getActionControllerExitResponseMock = (
     ...overrideResponse,
   })),
   type: faker.helpers.arrayElement(Object.values(ActionTypes)),
+  USDAmount: faker.helpers.arrayElement([faker.word.sample(), null]),
   validatorAddress: faker.helpers.arrayElement([faker.word.sample(), null]),
   validatorAddresses: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -299,6 +306,7 @@ export const getActionControllerPendingResponseMock = (
     ...overrideResponse,
   })),
   type: faker.helpers.arrayElement(Object.values(ActionTypes)),
+  USDAmount: faker.helpers.arrayElement([faker.word.sample(), null]),
   validatorAddress: faker.helpers.arrayElement([faker.word.sample(), null]),
   validatorAddresses: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -1987,6 +1995,105 @@ export const getYieldControllerGetSingleYieldBalancesResponseMock = (
     ...overrideResponse,
   }));
 
+export const getYieldControllerGetFeeConfigurationResponseMock = (
+  overrideResponse: any = {},
+): FeeConfigurationDto[] =>
+  Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    allocatorVaultContractAddress: faker.helpers.arrayElement([
+      faker.word.sample(),
+      null,
+    ]),
+    depositFeeBps: faker.helpers.arrayElement([
+      faker.number.int({ min: 1, max: 10000 }),
+      null,
+    ]),
+    feeWrapperContractAddress: faker.helpers.arrayElement([
+      faker.word.sample(),
+      null,
+    ]),
+    id: faker.word.sample(),
+    integrationId: faker.word.sample(),
+    managementFeeBps: faker.helpers.arrayElement([
+      faker.number.int({ min: 1, max: 10000 }),
+      null,
+    ]),
+    performanceFeeBps: faker.helpers.arrayElement([
+      faker.number.int({ min: 1, max: 10000 }),
+      null,
+    ]),
+    projectId: faker.word.sample(),
+    status: faker.helpers.arrayElement(Object.values(FeeConfigurationStatus)),
+    ...overrideResponse,
+  }));
+
+export const getYieldV2ControllerYieldsResponseMock = (
+  overrideResponse: any = {},
+): YieldV2Yields200 => ({
+  data: {},
+  hasNextPage: faker.datatype.boolean(),
+  limit: faker.number.int({ min: undefined, max: undefined }),
+  page: faker.number.int({ min: undefined, max: undefined }),
+  ...overrideResponse,
+  ...overrideResponse,
+});
+
+export const getYieldV2ControllerGetMyYieldsResponseMock = (
+  overrideResponse: any = {},
+): YieldV2GetMyYields200 => ({
+  data: {},
+  hasNextPage: faker.datatype.boolean(),
+  limit: faker.number.int({ min: undefined, max: undefined }),
+  page: faker.number.int({ min: undefined, max: undefined }),
+  ...overrideResponse,
+  ...overrideResponse,
+});
+
+export const getYieldV2ControllerFindValidatorsResponseMock = (
+  overrideResponse: any = {},
+): ValidatorSearchResultDto[] =>
+  Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    integrationId: faker.word.sample(),
+    validators: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      address: faker.word.sample(),
+      apr: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+      ]),
+      commission: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+      ]),
+      image: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+      name: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+      preferred: faker.helpers.arrayElement([
+        faker.datatype.boolean(),
+        undefined,
+      ]),
+      providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+      stakedBalance: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+      ]),
+      status: faker.helpers.arrayElement(Object.values(ValidatorStatusTypes)),
+      votingPower: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+      ]),
+      website: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+      ...overrideResponse,
+    })),
+    ...overrideResponse,
+  }));
+
 export const getActionControllerGetActionMockHandler = (
   overrideResponse?: ActionDto,
 ) => {
@@ -2575,6 +2682,102 @@ export const getYieldControllerGetSingleYieldBalancesMockHandler = (
     );
   });
 };
+
+export const getYieldControllerGetFeeConfigurationMockHandler = (
+  overrideResponse?: FeeConfigurationDto[],
+) => {
+  return http.get('*/v1/yields/:integrationId/fee-configuration', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getYieldControllerGetFeeConfigurationResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getYieldV2ControllerYieldsMockHandler = (
+  overrideResponse?: YieldV2Yields200,
+) => {
+  return http.get('*/v2/yields', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getYieldV2ControllerYieldsResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getYieldV2ControllerGetMyYieldsMockHandler = (
+  overrideResponse?: YieldV2GetMyYields200,
+) => {
+  return http.get('*/v2/yields/enabled', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getYieldV2ControllerGetMyYieldsResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getYieldV2ControllerGetMyNetworksMockHandler = () => {
+  return http.get('*/v2/yields/enabled/networks', async () => {
+    await delay(1000);
+    return new HttpResponse(null, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  });
+};
+
+export const getYieldV2ControllerFindValidatorsMockHandler = (
+  overrideResponse?: ValidatorSearchResultDto[],
+) => {
+  return http.get('*/v2/yields/validators', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getYieldV2ControllerFindValidatorsResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
 export const getStakeKitMock = () => [
   getActionControllerGetActionMockHandler(),
   getActionControllerGetGasEstimateMockHandler(),
@@ -2605,4 +2808,9 @@ export const getStakeKitMock = () => [
   getYieldControllerYieldOpportunityMockHandler(),
   getYieldControllerGetValidatorsMockHandler(),
   getYieldControllerGetSingleYieldBalancesMockHandler(),
+  getYieldControllerGetFeeConfigurationMockHandler(),
+  getYieldV2ControllerYieldsMockHandler(),
+  getYieldV2ControllerGetMyYieldsMockHandler(),
+  getYieldV2ControllerGetMyNetworksMockHandler(),
+  getYieldV2ControllerFindValidatorsMockHandler(),
 ];

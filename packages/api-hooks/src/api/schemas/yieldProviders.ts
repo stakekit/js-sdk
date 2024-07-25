@@ -31,4 +31,5 @@ export const YieldProviders = {
   renzo: 'renzo',
   infstones: 'infstones',
   ethena: 'ethena',
+  fluid: 'fluid',
 } as const;
