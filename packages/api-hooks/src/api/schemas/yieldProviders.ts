@@ -32,4 +32,5 @@ export const YieldProviders = {
   infstones: 'infstones',
   ethena: 'ethena',
   fluid: 'fluid',
+  gearbox: 'gearbox',
 } as const;
