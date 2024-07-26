@@ -1997,37 +1997,33 @@ export const getYieldControllerGetSingleYieldBalancesResponseMock = (
 
 export const getYieldControllerGetFeeConfigurationResponseMock = (
   overrideResponse: any = {},
-): FeeConfigurationDto[] =>
-  Array.from(
-    { length: faker.number.int({ min: 1, max: 10 }) },
-    (_, i) => i + 1,
-  ).map(() => ({
-    allocatorVaultContractAddress: faker.helpers.arrayElement([
-      faker.word.sample(),
-      null,
-    ]),
-    depositFeeBps: faker.helpers.arrayElement([
-      faker.number.int({ min: 1, max: 10000 }),
-      null,
-    ]),
-    feeWrapperContractAddress: faker.helpers.arrayElement([
-      faker.word.sample(),
-      null,
-    ]),
-    id: faker.word.sample(),
-    integrationId: faker.word.sample(),
-    managementFeeBps: faker.helpers.arrayElement([
-      faker.number.int({ min: 1, max: 10000 }),
-      null,
-    ]),
-    performanceFeeBps: faker.helpers.arrayElement([
-      faker.number.int({ min: 1, max: 10000 }),
-      null,
-    ]),
-    projectId: faker.word.sample(),
-    status: faker.helpers.arrayElement(Object.values(FeeConfigurationStatus)),
-    ...overrideResponse,
-  }));
+): FeeConfigurationDto => ({
+  allocatorVaultContractAddress: faker.helpers.arrayElement([
+    faker.word.sample(),
+    null,
+  ]),
+  depositFeeBps: faker.helpers.arrayElement([
+    faker.number.int({ min: 1, max: 10000 }),
+    null,
+  ]),
+  feeWrapperContractAddress: faker.helpers.arrayElement([
+    faker.word.sample(),
+    null,
+  ]),
+  id: faker.word.sample(),
+  integrationId: faker.word.sample(),
+  managementFeeBps: faker.helpers.arrayElement([
+    faker.number.int({ min: 1, max: 10000 }),
+    null,
+  ]),
+  performanceFeeBps: faker.helpers.arrayElement([
+    faker.number.int({ min: 1, max: 10000 }),
+    null,
+  ]),
+  projectId: faker.word.sample(),
+  status: faker.helpers.arrayElement(Object.values(FeeConfigurationStatus)),
+  ...overrideResponse,
+});
 
 export const getYieldV2ControllerYieldsResponseMock = (
   overrideResponse: any = {},
@@ -2684,7 +2680,7 @@ export const getYieldControllerGetSingleYieldBalancesMockHandler = (
 };
 
 export const getYieldControllerGetFeeConfigurationMockHandler = (
-  overrideResponse?: FeeConfigurationDto[],
+  overrideResponse?: FeeConfigurationDto,
 ) => {
   return http.get('*/v1/yields/:integrationId/fee-configuration', async () => {
     await delay(1000);

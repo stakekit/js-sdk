@@ -2848,7 +2848,7 @@ export const useYieldGetSingleYieldBalances = <
  * @summary Get fee configuration given an integration ID
  */
 export const useYieldGetFeeConfigurationHook = () => {
-  const yieldGetFeeConfiguration = useApi<FeeConfigurationDto[]>();
+  const yieldGetFeeConfiguration = useApi<FeeConfigurationDto>();
 
   return (integrationId: string, signal?: AbortSignal) => {
     return yieldGetFeeConfiguration({
@@ -2867,7 +2867,7 @@ export const useYieldGetFeeConfigurationQueryOptions = <
   TData = Awaited<
     ReturnType<ReturnType<typeof useYieldGetFeeConfigurationHook>>
   >,
-  TError = unknown,
+  TError = void,
 >(
   integrationId: string,
   options?: {
@@ -2907,7 +2907,7 @@ export const useYieldGetFeeConfigurationQueryOptions = <
 export type YieldGetFeeConfigurationQueryResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof useYieldGetFeeConfigurationHook>>>
 >;
-export type YieldGetFeeConfigurationQueryError = unknown;
+export type YieldGetFeeConfigurationQueryError = void;
 
 /**
  * @summary Get fee configuration given an integration ID
@@ -2916,7 +2916,7 @@ export const useYieldGetFeeConfiguration = <
   TData = Awaited<
     ReturnType<ReturnType<typeof useYieldGetFeeConfigurationHook>>
   >,
-  TError = unknown,
+  TError = void,
 >(
   integrationId: string,
   options?: {
