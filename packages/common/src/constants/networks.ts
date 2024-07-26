@@ -75,6 +75,7 @@ export const ChainIds: { [x in Networks]?: string } = {
   [Networks.Solana]: '4sGjMW1sUnHzSxGspuhpqLDx6wiyjNtZ',
   [Networks.Tezos]: 'NetXdQprcVkpaWU',
   [Networks.Starknet]: '23448594291968334',
+  [Networks.Viction]: '88',
   [Networks.Base]: '8453',
 
   [Networks.Cosmos]: cosmosChainConfig[Networks.Cosmos].chainId,
