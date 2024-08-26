@@ -10,6 +10,7 @@ import type {
 import type {
   ActionDto,
   ActionGasEstimateRequestDto,
+  ActionListParams,
   ActionRequestDto,
   BalanceResponseDto,
   BalancesRequestDto,
@@ -651,6 +652,81 @@ export const useActionExitGasEstimate = <
     actionGasEstimateRequestDto,
     options,
   );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+export const useActionListHook = () => {
+  const actionList = useApi<void>();
+
+  return (params?: ActionListParams, signal?: AbortSignal) => {
+    return actionList({ url: `/v1/actions`, method: 'GET', params, signal });
+  };
+};
+
+export const getActionListQueryKey = (params?: ActionListParams) => {
+  return [`/v1/actions`, ...(params ? [params] : [])] as const;
+};
+
+export const useActionListQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useActionListHook>>>,
+  TError = unknown,
+>(
+  params?: ActionListParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useActionListHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getActionListQueryKey(params);
+
+  const actionList = useActionListHook();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useActionListHook>>>
+  > = ({ signal }) => actionList(params, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useActionListHook>>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ActionListQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useActionListHook>>>
+>;
+export type ActionListQueryError = unknown;
+
+export const useActionList = <
+  TData = Awaited<ReturnType<ReturnType<typeof useActionListHook>>>,
+  TError = unknown,
+>(
+  params?: ActionListParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useActionListHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useActionListQueryOptions(params, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;
