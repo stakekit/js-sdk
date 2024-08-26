@@ -4,6 +4,7 @@ import type { YieldV2YieldsRevenueOption } from './yieldV2YieldsRevenueOption';
 import type { YieldV2YieldsNetwork } from './yieldV2YieldsNetwork';
 
 export type YieldV2YieldsParams = {
+  preferredValidatorsOnly?: boolean;
   ledgerWalletAPICompatible?: boolean;
   type?: YieldV2YieldsType;
   sortBy?: YieldV2YieldsSortBy;

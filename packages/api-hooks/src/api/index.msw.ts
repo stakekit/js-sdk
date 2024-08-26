@@ -2237,6 +2237,18 @@ export const getActionControllerExitGasEstimateMockHandler = (
   });
 };
 
+export const getActionControllerListMockHandler = () => {
+  return http.get('*/v1/actions', async () => {
+    await delay(1000);
+    return new HttpResponse(null, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  });
+};
+
 export const getActionControllerPendingGasEstimateMockHandler = (
   overrideResponse?: GasEstimateDto,
 ) => {
@@ -2782,6 +2794,7 @@ export const getStakeKitMock = () => [
   getActionControllerPendingMockHandler(),
   getActionControllerEnterGasEstimationMockHandler(),
   getActionControllerExitGasEstimateMockHandler(),
+  getActionControllerListMockHandler(),
   getActionControllerPendingGasEstimateMockHandler(),
   getTransactionControllerGetTransactionMockHandler(),
   getTransactionControllerConstructMockHandler(),
