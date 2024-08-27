@@ -2,6 +2,7 @@ import type { YieldBalanceLabelDto } from './yieldBalanceLabelDto';
 import type { PendingActionDto } from './pendingActionDto';
 import type { TokenDto } from './tokenDto';
 import type { BalanceTypes } from './balanceTypes';
+import type { YieldBalanceValueDto } from './yieldBalanceValueDto';
 
 export interface YieldBalanceDto {
   amount: string;
@@ -16,4 +17,5 @@ export interface YieldBalanceDto {
   type: BalanceTypes;
   validatorAddress?: string;
   validatorAddresses?: string[];
+  value?: YieldBalanceValueDto;
 }

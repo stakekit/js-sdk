@@ -18,6 +18,7 @@ import {
 } from './schemas';
 import type {
   ActionDto,
+  ActionList200,
   BalanceResponseDto,
   FeeConfigurationDto,
   GasEstimateDto,
@@ -350,6 +351,17 @@ export const getActionControllerExitGasEstimateResponseMock = (
     symbol: faker.word.sample(),
     ...overrideResponse,
   },
+  ...overrideResponse,
+});
+
+export const getActionControllerListResponseMock = (
+  overrideResponse: any = {},
+): ActionList200 => ({
+  data: {},
+  hasNextPage: faker.datatype.boolean(),
+  limit: faker.number.int({ min: undefined, max: undefined }),
+  page: faker.number.int({ min: undefined, max: undefined }),
+  ...overrideResponse,
   ...overrideResponse,
 });
 
@@ -856,6 +868,14 @@ export const getYieldControllerGetMultipleYieldBalancesResponseMock = (
         ).map(() => faker.word.sample()),
         undefined,
       ]),
+      value: faker.helpers.arrayElement([
+        {
+          amount: faker.number.int({ min: undefined, max: undefined }),
+          currency: faker.word.sample(),
+          ...overrideResponse,
+        },
+        undefined,
+      ]),
       ...overrideResponse,
     })),
     integrationId: faker.word.sample(),
@@ -1105,6 +1125,14 @@ export const getYieldControllerYieldBalancesScanResponseMock = (
           { length: faker.number.int({ min: 1, max: 10 }) },
           (_, i) => i + 1,
         ).map(() => faker.word.sample()),
+        undefined,
+      ]),
+      value: faker.helpers.arrayElement([
+        {
+          amount: faker.number.int({ min: undefined, max: undefined }),
+          currency: faker.word.sample(),
+          ...overrideResponse,
+        },
         undefined,
       ]),
       ...overrideResponse,
@@ -1992,6 +2020,14 @@ export const getYieldControllerGetSingleYieldBalancesResponseMock = (
       ).map(() => faker.word.sample()),
       undefined,
     ]),
+    value: faker.helpers.arrayElement([
+      {
+        amount: faker.number.int({ min: undefined, max: undefined }),
+        currency: faker.word.sample(),
+        ...overrideResponse,
+      },
+      undefined,
+    ]),
     ...overrideResponse,
   }));
 
@@ -2237,15 +2273,24 @@ export const getActionControllerExitGasEstimateMockHandler = (
   });
 };
 
-export const getActionControllerListMockHandler = () => {
+export const getActionControllerListMockHandler = (
+  overrideResponse?: ActionList200,
+) => {
   return http.get('*/v1/actions', async () => {
     await delay(1000);
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getActionControllerListResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    });
+    );
   });
 };
 
