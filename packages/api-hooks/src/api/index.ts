@@ -10,6 +10,7 @@ import type {
 import type {
   ActionDto,
   ActionGasEstimateRequestDto,
+  ActionList200,
   ActionListParams,
   ActionRequestDto,
   BalanceResponseDto,
@@ -663,7 +664,7 @@ export const useActionExitGasEstimate = <
 };
 
 export const useActionListHook = () => {
-  const actionList = useApi<void>();
+  const actionList = useApi<ActionList200>();
 
   return (params?: ActionListParams, signal?: AbortSignal) => {
     return actionList({ url: `/v1/actions`, method: 'GET', params, signal });
