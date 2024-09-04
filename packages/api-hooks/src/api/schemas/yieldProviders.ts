@@ -34,4 +34,6 @@ export const YieldProviders = {
   fluid: 'fluid',
   'idle-finance': 'idle-finance',
   gearbox: 'gearbox',
+  'chorus-one': 'chorus-one',
+  stakekit: 'stakekit',
 } as const;
