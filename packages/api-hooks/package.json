@@ -1,73 +1,65 @@
 {
-  "name": "@stakekit/api-hooks",
-  "description": "React hooks for StakeKit API",
-  "version": "0.0.83",
-  "type": "module",
-  "types": "./dist/index.d.ts",
-  "main": "./dist/index.js",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
-    "./msw": {
-      "types": "./dist/msw/index.d.ts",
-      "default": "./dist/msw/index.js"
-    }
-  },
-  "files": [
-    "dist",
-    "package.json",
-    "README.md",
-    "!**/.*"
-  ],
-  "keywords": [
-    "stakekit",
-    "api-hooks"
-  ],
-  "author": "Petar Todorovic <petar@omni.app> (https://github.com)",
-  "license": "MIT",
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
-  },
-  "scripts": {
-    "api:codegen": "orval --config ./orval.config.ts",
-    "format": "prettier --write ./src",
-    "lint": "tsc && eslint src && prettier --check ./src",
-    "clean": "rm -rf dist",
-    "build": "yarn api:codegen && yarn clean && tsup",
-    "publish": "yarn npm publish"
-  },
-  "peerDependencies": {
-    "@faker-js/faker": "^8",
-    "@tanstack/react-query": ">=4",
-    "msw": "^2",
-    "react": ">=18"
-  },
-  "peerDependenciesMeta": {
-    "@faker-js/faker": {
-      "optional": true
-    },
-    "@tanstack/react-query": {
-      "optional": true
-    },
-    "msw": {
-      "optional": true
-    }
-  },
-  "devDependencies": {
-    "@faker-js/faker": "^8",
-    "@tanstack/react-query": "^5",
-    "@types/react": "^18.2.67",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-react-app": "^7.0.1",
-    "msw": "^2.2.9",
-    "orval": "^6.25.0",
-    "prettier": "^3.2.5",
-    "react": "^18.2.0",
-    "tsup": "^8.0.2",
-    "typescript": "^5.4.3"
-  }
+	"name": "@stakekit/api-hooks",
+	"description": "React hooks for StakeKit API",
+	"version": "0.0.84",
+	"type": "module",
+	"types": "./dist/index.d.ts",
+	"main": "./dist/index.js",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./msw": {
+			"types": "./dist/msw/index.d.ts",
+			"default": "./dist/msw/index.js"
+		}
+	},
+	"files": ["dist", "package.json", "README.md", "!**/.*"],
+	"keywords": ["stakekit", "api-hooks"],
+	"author": "Petar Todorovic <petar@omni.app> (https://github.com)",
+	"license": "MIT",
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
+	"scripts": {
+		"api:codegen": "orval --config ./orval.config.ts",
+		"format": "prettier --write ./src",
+		"lint": "tsc && eslint src && prettier --check ./src",
+		"clean": "rm -rf dist",
+		"build": "yarn api:codegen && yarn clean && tsup",
+		"publish": "yarn npm publish"
+	},
+	"peerDependencies": {
+		"@faker-js/faker": "^8",
+		"@tanstack/react-query": ">=4",
+		"msw": "^2",
+		"react": ">=18"
+	},
+	"peerDependenciesMeta": {
+		"@faker-js/faker": {
+			"optional": true
+		},
+		"@tanstack/react-query": {
+			"optional": true
+		},
+		"msw": {
+			"optional": true
+		}
+	},
+	"devDependencies": {
+		"@faker-js/faker": "^8",
+		"@tanstack/react-query": "^5",
+		"@types/react": "^18.2.67",
+		"eslint": "^8.57.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-config-react-app": "^7.0.1",
+		"msw": "^2.2.9",
+		"orval": "^6.25.0",
+		"prettier": "^3.2.5",
+		"react": "^18.2.0",
+		"tsup": "^8.0.2",
+		"typescript": "^5.4.3"
+	}
 }

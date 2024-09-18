@@ -1,6 +1,6 @@
-import type { RequiredArgumentWithNetworkDtoNetwork } from './requiredArgumentWithNetworkDtoNetwork';
+import type { Networks } from './networks';
 
 export interface RequiredArgumentWithNetworkDto {
-  network: RequiredArgumentWithNetworkDtoNetwork;
+  network: Networks;
   required: boolean;
 }
