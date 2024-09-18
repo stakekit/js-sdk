@@ -1,13 +1,13 @@
 import type { YieldGetMyYieldsType } from './yieldGetMyYieldsType';
 import type { YieldGetMyYieldsSortBy } from './yieldGetMyYieldsSortBy';
-import type { YieldGetMyYieldsNetwork } from './yieldGetMyYieldsNetwork';
+import type { Networks } from './networks';
 
 export type YieldGetMyYieldsParams = {
   preferredValidatorsOnly?: boolean;
   ledgerWalletAPICompatible?: boolean;
   type?: YieldGetMyYieldsType;
   sortBy?: YieldGetMyYieldsSortBy;
-  network?: YieldGetMyYieldsNetwork;
+  network?: Networks;
   page?: number;
   limit?: number;
 };

@@ -1,12 +1,12 @@
 import type { ActionListType } from './actionListType';
 import type { ActionListSort } from './actionListSort';
-import type { ActionListNetwork } from './actionListNetwork';
+import type { Networks } from './networks';
 
 export type ActionListParams = {
   walletAddress?: string;
   type?: ActionListType;
   sort?: ActionListSort;
-  network?: ActionListNetwork;
+  network?: Networks;
   limit?: number;
   page?: number;
 };

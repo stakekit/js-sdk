@@ -1,5 +1,5 @@
-import type { TokenGetTokensNetwork } from './tokenGetTokensNetwork';
+import type { Networks } from './networks';
 
 export type TokenGetTokensParams = {
-  network?: TokenGetTokensNetwork;
+  network?: Networks;
 };

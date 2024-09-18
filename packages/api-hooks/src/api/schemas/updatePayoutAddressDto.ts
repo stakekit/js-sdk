@@ -1,6 +1,6 @@
-import type { UpdatePayoutAddressDtoNetwork } from './updatePayoutAddressDtoNetwork';
+import type { Networks } from './networks';
 
 export interface UpdatePayoutAddressDto {
   address: string;
-  network: UpdatePayoutAddressDtoNetwork;
+  network: Networks;
 }
