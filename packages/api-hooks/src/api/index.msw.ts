@@ -6,6 +6,7 @@ import {
   BalanceTypes,
   FeeConfigurationStatus,
   GasMode,
+  HealthStatus,
   Networks,
   RewardClaiming,
   RewardSchedule,
@@ -23,6 +24,7 @@ import type {
   FeeConfigurationDto,
   GasEstimateDto,
   GasForNetworkResponseDto,
+  HealthStatusDto,
   PriceResponseDto,
   SubmitResponseDto,
   TokenBalanceScanResponseDto,
@@ -38,6 +40,14 @@ import type {
   YieldGetMyYields200,
   YieldYields200,
 } from './schemas';
+
+export const getHealthControllerHealthV2ResponseMock = (
+  overrideResponse: any = {},
+): HealthStatusDto => ({
+  db: faker.helpers.arrayElement(Object.values(HealthStatus)),
+  status: faker.helpers.arrayElement(Object.values(HealthStatus)),
+  ...overrideResponse,
+});
 
 export const getActionControllerGetActionResponseMock = (
   overrideResponse: any = {},
@@ -1694,6 +1704,27 @@ export const getYieldControllerGetFeeConfigurationResponseMock = (
   ...overrideResponse,
 });
 
+export const getHealthControllerHealthV2MockHandler = (
+  overrideResponse?: HealthStatusDto,
+) => {
+  return http.get('*/v2/health', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getHealthControllerHealthV2ResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
 export const getActionControllerGetActionMockHandler = (
   overrideResponse?: ActionDto,
 ) => {
@@ -2325,6 +2356,7 @@ export const getYieldControllerGetFeeConfigurationMockHandler = (
   });
 };
 export const getStakeKitMock = () => [
+  getHealthControllerHealthV2MockHandler(),
   getActionControllerGetActionMockHandler(),
   getActionControllerGetGasEstimateMockHandler(),
   getActionControllerEnterMockHandler(),
