@@ -20,6 +20,7 @@ import type {
   GasEstimateDto,
   GasForNetworkResponseDto,
   GeolocationError,
+  HealthStatusDto,
   PendingActionGasEstimateRequestDto,
   PendingActionRequestDto,
   PriceRequestDto,
@@ -53,6 +54,75 @@ import type {
   YieldYieldsParams,
 } from './schemas';
 import { useApi } from '../use-api-client';
+
+export const useHealthHealthV2Hook = () => {
+  const healthHealthV2 = useApi<HealthStatusDto>();
+
+  return (signal?: AbortSignal) => {
+    return healthHealthV2({ url: `/v2/health`, method: 'GET', signal });
+  };
+};
+
+export const getHealthHealthV2QueryKey = () => {
+  return [`/v2/health`] as const;
+};
+
+export const useHealthHealthV2QueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useHealthHealthV2Hook>>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<ReturnType<typeof useHealthHealthV2Hook>>>,
+      TError,
+      TData
+    >
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getHealthHealthV2QueryKey();
+
+  const healthHealthV2 = useHealthHealthV2Hook();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useHealthHealthV2Hook>>>
+  > = ({ signal }) => healthHealthV2(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useHealthHealthV2Hook>>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type HealthHealthV2QueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useHealthHealthV2Hook>>>
+>;
+export type HealthHealthV2QueryError = unknown;
+
+export const useHealthHealthV2 = <
+  TData = Awaited<ReturnType<ReturnType<typeof useHealthHealthV2Hook>>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<ReturnType<typeof useHealthHealthV2Hook>>>,
+      TError,
+      TData
+    >
+  >;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useHealthHealthV2QueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
 
 /**
  * Returns a action with associated transactions
