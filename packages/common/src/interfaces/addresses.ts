@@ -24,12 +24,17 @@ export interface AvalancheCAdditionalAddresses {
   pAddressBech: string;
 }
 
+export interface TonAdditionalAddresses {
+  tonPubKey: string;
+}
+
 export type AdditionalAddresses =
   | CosmosAdditionalAddresses
   | BinanceAdditionalAddresses
   | SolanaAdditionalAddresses
   | TezosAdditionalAddresses
-  | AvalancheCAdditionalAddresses;
+  | AvalancheCAdditionalAddresses
+  | TonAdditionalAddresses;
 
 export interface Addresses {
   address: string;
