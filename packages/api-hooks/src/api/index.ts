@@ -49,6 +49,10 @@ import type {
   YieldGetMyYieldsParams,
   YieldGetSingleYieldBalancesParams,
   YieldGetValidatorsParams,
+  YieldV2FindValidatorsParams,
+  YieldV2FindYieldValidatorsParams,
+  YieldV2Yields200,
+  YieldV2YieldsParams,
   YieldYieldOpportunityParams,
   YieldYields200,
   YieldYieldsParams,
@@ -731,12 +735,12 @@ export const useActionExitGasEstimate = <
 export const useActionListHook = () => {
   const actionList = useApi<ActionList200>();
 
-  return (params?: ActionListParams, signal?: AbortSignal) => {
+  return (params: ActionListParams, signal?: AbortSignal) => {
     return actionList({ url: `/v1/actions`, method: 'GET', params, signal });
   };
 };
 
-export const getActionListQueryKey = (params?: ActionListParams) => {
+export const getActionListQueryKey = (params: ActionListParams) => {
   return [`/v1/actions`, ...(params ? [params] : [])] as const;
 };
 
@@ -744,7 +748,7 @@ export const useActionListQueryOptions = <
   TData = Awaited<ReturnType<ReturnType<typeof useActionListHook>>>,
   TError = unknown,
 >(
-  params?: ActionListParams,
+  params: ActionListParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -781,7 +785,7 @@ export const useActionList = <
   TData = Awaited<ReturnType<ReturnType<typeof useActionListHook>>>,
   TError = unknown,
 >(
-  params?: ActionListParams,
+  params: ActionListParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -3075,6 +3079,388 @@ export const useYieldGetFeeConfiguration = <
     integrationId,
     options,
   );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Returns the available yields (staking, lending, vaults, etc) with associated configuration and metadata
+ * @summary Get all yields
+ */
+export const useYieldV2YieldsHook = () => {
+  const yieldV2Yields = useApi<YieldV2Yields200>();
+
+  return (params?: YieldV2YieldsParams, signal?: AbortSignal) => {
+    return yieldV2Yields({ url: `/v2/yields`, method: 'GET', params, signal });
+  };
+};
+
+export const getYieldV2YieldsQueryKey = (params?: YieldV2YieldsParams) => {
+  return [`/v2/yields`, ...(params ? [params] : [])] as const;
+};
+
+export const useYieldV2YieldsQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldV2YieldsHook>>>,
+  TError = unknown,
+>(
+  params?: YieldV2YieldsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useYieldV2YieldsHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getYieldV2YieldsQueryKey(params);
+
+  const yieldV2Yields = useYieldV2YieldsHook();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useYieldV2YieldsHook>>>
+  > = ({ signal }) => yieldV2Yields(params, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useYieldV2YieldsHook>>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type YieldV2YieldsQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useYieldV2YieldsHook>>>
+>;
+export type YieldV2YieldsQueryError = unknown;
+
+/**
+ * @summary Get all yields
+ */
+export const useYieldV2Yields = <
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldV2YieldsHook>>>,
+  TError = unknown,
+>(
+  params?: YieldV2YieldsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useYieldV2YieldsHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useYieldV2YieldsQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Returns yield given an id
+ * @summary Get yield
+ */
+export const useYieldV2GetYieldByIdHook = () => {
+  const yieldV2GetYieldById = useApi<YieldDto>();
+
+  return (yieldId: string, signal?: AbortSignal) => {
+    return yieldV2GetYieldById({
+      url: `/v2/yields/${yieldId}`,
+      method: 'GET',
+      signal,
+    });
+  };
+};
+
+export const getYieldV2GetYieldByIdQueryKey = (yieldId: string) => {
+  return [`/v2/yields/${yieldId}`] as const;
+};
+
+export const useYieldV2GetYieldByIdQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldV2GetYieldByIdHook>>>,
+  TError = unknown,
+>(
+  yieldId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useYieldV2GetYieldByIdHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getYieldV2GetYieldByIdQueryKey(yieldId);
+
+  const yieldV2GetYieldById = useYieldV2GetYieldByIdHook();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useYieldV2GetYieldByIdHook>>>
+  > = ({ signal }) => yieldV2GetYieldById(yieldId, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!yieldId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useYieldV2GetYieldByIdHook>>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type YieldV2GetYieldByIdQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useYieldV2GetYieldByIdHook>>>
+>;
+export type YieldV2GetYieldByIdQueryError = unknown;
+
+/**
+ * @summary Get yield
+ */
+export const useYieldV2GetYieldById = <
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldV2GetYieldByIdHook>>>,
+  TError = unknown,
+>(
+  yieldId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useYieldV2GetYieldByIdHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useYieldV2GetYieldByIdQueryOptions(yieldId, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Given a yield, returns a list of available validators to specify when providing a `validatorAddress` property.
+ * @summary Get yield validators
+ */
+export const useYieldV2FindYieldValidatorsHook = () => {
+  const yieldV2FindYieldValidators = useApi<ValidatorSearchResultDto[]>();
+
+  return (
+    yieldId: string,
+    params?: YieldV2FindYieldValidatorsParams,
+    signal?: AbortSignal,
+  ) => {
+    return yieldV2FindYieldValidators({
+      url: `/v2/yields/${yieldId}/validators`,
+      method: 'GET',
+      params,
+      signal,
+    });
+  };
+};
+
+export const getYieldV2FindYieldValidatorsQueryKey = (
+  yieldId: string,
+  params?: YieldV2FindYieldValidatorsParams,
+) => {
+  return [
+    `/v2/yields/${yieldId}/validators`,
+    ...(params ? [params] : []),
+  ] as const;
+};
+
+export const useYieldV2FindYieldValidatorsQueryOptions = <
+  TData = Awaited<
+    ReturnType<ReturnType<typeof useYieldV2FindYieldValidatorsHook>>
+  >,
+  TError = unknown,
+>(
+  yieldId: string,
+  params?: YieldV2FindYieldValidatorsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<ReturnType<typeof useYieldV2FindYieldValidatorsHook>>
+        >,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getYieldV2FindYieldValidatorsQueryKey(yieldId, params);
+
+  const yieldV2FindYieldValidators = useYieldV2FindYieldValidatorsHook();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useYieldV2FindYieldValidatorsHook>>>
+  > = ({ signal }) => yieldV2FindYieldValidators(yieldId, params, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!yieldId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useYieldV2FindYieldValidatorsHook>>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type YieldV2FindYieldValidatorsQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useYieldV2FindYieldValidatorsHook>>>
+>;
+export type YieldV2FindYieldValidatorsQueryError = unknown;
+
+/**
+ * @summary Get yield validators
+ */
+export const useYieldV2FindYieldValidators = <
+  TData = Awaited<
+    ReturnType<ReturnType<typeof useYieldV2FindYieldValidatorsHook>>
+  >,
+  TError = unknown,
+>(
+  yieldId: string,
+  params?: YieldV2FindYieldValidatorsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<ReturnType<typeof useYieldV2FindYieldValidatorsHook>>
+        >,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useYieldV2FindYieldValidatorsQueryOptions(
+    yieldId,
+    params,
+    options,
+  );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Returns a list of available validators to specify when providing a `validatorAddress` property.
+ * @summary Get validators
+ */
+export const useYieldV2FindValidatorsHook = () => {
+  const yieldV2FindValidators = useApi<ValidatorSearchResultDto[]>();
+
+  return (params?: YieldV2FindValidatorsParams, signal?: AbortSignal) => {
+    return yieldV2FindValidators({
+      url: `/v2/yields/validators`,
+      method: 'GET',
+      params,
+      signal,
+    });
+  };
+};
+
+export const getYieldV2FindValidatorsQueryKey = (
+  params?: YieldV2FindValidatorsParams,
+) => {
+  return [`/v2/yields/validators`, ...(params ? [params] : [])] as const;
+};
+
+export const useYieldV2FindValidatorsQueryOptions = <
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldV2FindValidatorsHook>>>,
+  TError = unknown,
+>(
+  params?: YieldV2FindValidatorsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useYieldV2FindValidatorsHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getYieldV2FindValidatorsQueryKey(params);
+
+  const yieldV2FindValidators = useYieldV2FindValidatorsHook();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<ReturnType<typeof useYieldV2FindValidatorsHook>>>
+  > = ({ signal }) => yieldV2FindValidators(params, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<ReturnType<typeof useYieldV2FindValidatorsHook>>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type YieldV2FindValidatorsQueryResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof useYieldV2FindValidatorsHook>>>
+>;
+export type YieldV2FindValidatorsQueryError = unknown;
+
+/**
+ * @summary Get validators
+ */
+export const useYieldV2FindValidators = <
+  TData = Awaited<ReturnType<ReturnType<typeof useYieldV2FindValidatorsHook>>>,
+  TError = unknown,
+>(
+  params?: YieldV2FindValidatorsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<ReturnType<typeof useYieldV2FindValidatorsHook>>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = useYieldV2FindValidatorsQueryOptions(params, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;

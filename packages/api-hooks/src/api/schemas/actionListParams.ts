@@ -3,7 +3,7 @@ import type { ActionListSort } from './actionListSort';
 import type { Networks } from './networks';
 
 export type ActionListParams = {
-  walletAddress?: string;
+  walletAddress: string;
   type?: ActionListType;
   sort?: ActionListSort;
   network?: Networks;
