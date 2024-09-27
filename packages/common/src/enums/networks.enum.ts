@@ -10,6 +10,7 @@ export enum EvmNetworks {
   Polygon = 'polygon',
   Starknet = 'starknet',
   zkSync = 'zksync',
+  Linea = 'linea',
 
   // Other EVM
   AvalancheC = 'avalanche-c',
