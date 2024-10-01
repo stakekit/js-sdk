@@ -15,8 +15,16 @@
 			"default": "./dist/msw/index.js"
 		}
 	},
-	"files": ["dist", "package.json", "README.md", "!**/.*"],
-	"keywords": ["stakekit", "api-hooks"],
+	"files": [
+		"dist",
+		"package.json",
+		"README.md",
+		"!**/.*"
+	],
+	"keywords": [
+		"stakekit",
+		"api-hooks"
+	],
 	"author": "Petar Todorovic <petar@omni.app> (https://github.com)",
 	"license": "MIT",
 	"publishConfig": {
