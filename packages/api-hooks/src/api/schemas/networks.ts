@@ -12,6 +12,7 @@ export const Networks = {
   polygon: 'polygon',
   starknet: 'starknet',
   zksync: 'zksync',
+  linea: 'linea',
   'avalanche-c': 'avalanche-c',
   'avalanche-c-atomic': 'avalanche-c-atomic',
   'avalanche-p': 'avalanche-p',

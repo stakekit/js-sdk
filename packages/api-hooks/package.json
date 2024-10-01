@@ -1,7 +1,7 @@
 {
 	"name": "@stakekit/api-hooks",
 	"description": "React hooks for StakeKit API",
-	"version": "0.0.86",
+	"version": "0.0.88",
 	"type": "module",
 	"types": "./dist/index.d.ts",
 	"main": "./dist/index.js",
@@ -15,8 +15,16 @@
 			"default": "./dist/msw/index.js"
 		}
 	},
-	"files": ["dist", "package.json", "README.md", "!**/.*"],
-	"keywords": ["stakekit", "api-hooks"],
+	"files": [
+		"dist",
+		"package.json",
+		"README.md",
+		"!**/.*"
+	],
+	"keywords": [
+		"stakekit",
+		"api-hooks"
+	],
 	"author": "Petar Todorovic <petar@omni.app> (https://github.com)",
 	"license": "MIT",
 	"publishConfig": {
