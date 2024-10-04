@@ -64,6 +64,7 @@ export const YieldV2YieldsNetwork = {
   teritori: 'teritori',
   tgrade: 'tgrade',
   umee: 'umee',
+  sei: 'sei',
   polkadot: 'polkadot',
   kusama: 'kusama',
   westend: 'westend',
@@ -72,4 +73,5 @@ export const YieldV2YieldsNetwork = {
   solana: 'solana',
   tezos: 'tezos',
   tron: 'tron',
+  ton: 'ton',
 } as const;

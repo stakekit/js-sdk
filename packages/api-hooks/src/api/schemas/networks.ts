@@ -63,6 +63,7 @@ export const Networks = {
   teritori: 'teritori',
   tgrade: 'tgrade',
   umee: 'umee',
+  sei: 'sei',
   polkadot: 'polkadot',
   kusama: 'kusama',
   westend: 'westend',
@@ -71,4 +72,5 @@ export const Networks = {
   solana: 'solana',
   tezos: 'tezos',
   tron: 'tron',
+  ton: 'ton',
 } as const;
