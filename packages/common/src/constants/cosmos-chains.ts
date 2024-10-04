@@ -404,4 +404,14 @@ export const cosmosChainConfig: {
     bech32Prefix: 'dydx',
     coinGeckoId: 'dydx-chain',
   },
+  [Networks.Sei]: {
+    network: Networks.Sei,
+    chainId: 'pacific-1',
+    name: 'sei',
+    denom: CosmosGasDenom.SEI,
+    minimalDenom: CosmosGasDenom.usei,
+    decimals: 6,
+    bech32Prefix: 'sei',
+    coinGeckoId: 'sei',
+  },
 };
