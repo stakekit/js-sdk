@@ -412,6 +412,6 @@ export const cosmosChainConfig: {
     minimalDenom: CosmosGasDenom.usei,
     decimals: 6,
     bech32Prefix: 'sei',
-    coinGeckoId: 'sei',
+    coinGeckoId: 'sei-network',
   },
 };
