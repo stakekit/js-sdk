@@ -67,6 +67,7 @@ export enum CosmosNetworks {
   TGrade = 'tgrade',
   Umee = 'umee',
   Sei = 'sei',
+  Mantra = 'mantra',
 }
 
 export enum SubstrateNetworks {

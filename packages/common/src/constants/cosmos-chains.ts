@@ -414,4 +414,14 @@ export const cosmosChainConfig: {
     bech32Prefix: 'sei',
     coinGeckoId: 'sei-network',
   },
+  [Networks.Mantra]: {
+    network: Networks.Mantra,
+    chainId: 'mantra-1',
+    name: 'mantra',
+    denom: CosmosGasDenom.OM,
+    minimalDenom: CosmosGasDenom.uom,
+    decimals: 6,
+    bech32Prefix: 'mantra',
+    coinGeckoId: 'mantra',
+  },
 };

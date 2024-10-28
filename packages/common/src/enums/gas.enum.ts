@@ -93,4 +93,6 @@ export enum CosmosGasDenom {
   adydx = 'adydx',
   SEI = 'SEI',
   usei = 'usei',
+  OM = 'OM',
+  uom = 'uom',
 }
