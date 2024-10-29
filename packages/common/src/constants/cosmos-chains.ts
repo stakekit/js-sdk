@@ -422,6 +422,6 @@ export const cosmosChainConfig: {
     minimalDenom: CosmosGasDenom.uom,
     decimals: 6,
     bech32Prefix: 'mantra',
-    coinGeckoId: 'mantra',
+    coinGeckoId: 'mantra-dao',
   },
 };
