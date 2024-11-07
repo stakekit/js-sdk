@@ -79,6 +79,7 @@ export * from './gasModeValueDto';
 export * from './gasModeValueDtoGasArgs';
 export * from './gasModesDto';
 export * from './geolocationError';
+export * from './geolocationErrorDetails';
 export * from './geolocationErrorRegionCode';
 export * from './geolocationErrorTagsItem';
 export * from './geolocationErrorType';
