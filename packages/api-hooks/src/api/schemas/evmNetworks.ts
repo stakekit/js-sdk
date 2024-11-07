@@ -23,4 +23,5 @@ export const EvmNetworks = {
   moonriver: 'moonriver',
   okc: 'okc',
   viction: 'viction',
+  core: 'core',
 } as const;

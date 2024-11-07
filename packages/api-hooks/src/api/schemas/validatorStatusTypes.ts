@@ -7,4 +7,5 @@ export const ValidatorStatusTypes = {
   jailed: 'jailed',
   deactivating: 'deactivating',
   inactive: 'inactive',
+  full: 'full',
 } as const;
