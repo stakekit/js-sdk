@@ -180,7 +180,7 @@ export const cosmosChainConfig: {
     name: 'Crypto.org Chain',
     denom: CosmosGasDenom.CRO,
     minimalDenom: CosmosGasDenom.basecro,
-    decimals: 18,
+    decimals: 8,
     bech32Prefix: 'cro',
     coinGeckoId: 'crypto-com-chain',
   },
