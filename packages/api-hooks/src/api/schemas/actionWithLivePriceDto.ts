@@ -5,8 +5,10 @@ import type { TransactionDto } from './transactionDto';
 import type { ActionTypes } from './actionTypes';
 
 export interface ActionWithLivePriceDto {
+  accountAddresses?: string[];
   addresses: AddressesDto;
   amount: string | null;
+  completedAt: string | null;
   createdAt: string;
   currentStepIndex: number;
   currentUSDAmount: string | null;

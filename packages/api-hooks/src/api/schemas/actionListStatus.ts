@@ -9,4 +9,5 @@ export const ActionListStatus = {
   PROCESSING: 'PROCESSING',
   FAILED: 'FAILED',
   SUCCESS: 'SUCCESS',
+  STALE: 'STALE',
 } as const;
