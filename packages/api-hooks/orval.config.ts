@@ -6,7 +6,7 @@ const apiPath = path.join(__dirname, 'src', 'api');
 
 const schemasPath = path.join(apiPath, 'schemas');
 const indexPath = path.join(apiPath, 'index.ts');
-const apiClientPath = path.join(__dirname, 'src', 'use-api-client.ts');
+const apiClientPath = path.join(__dirname, 'src', 'api-client.ts');
 
 const getAsQueryOptions = () => ({
   query: {
@@ -31,7 +31,7 @@ export default defineConfig({
           camelCase(operation.operationId?.replace(/controller/i, '') ?? ''),
         mutator: {
           path: apiClientPath,
-          name: 'useApi',
+          name: 'customFetch',
         },
         operations: {
           TokenController_getTokenBalances: getAsQueryOptions(),

@@ -6,10 +6,12 @@ export interface ValidatorDto {
   commission?: number;
   endDate?: string;
   image?: string;
+  minimumStake?: string;
   name?: string;
   preferred?: boolean;
   providerId?: string;
   remainingPossibleStake?: string;
+  remainingSlots?: number;
   stakedBalance?: string;
   status: ValidatorStatusTypes;
   votingPower?: number;

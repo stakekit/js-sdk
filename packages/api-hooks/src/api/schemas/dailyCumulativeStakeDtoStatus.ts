@@ -12,4 +12,5 @@ export const DailyCumulativeStakeDtoStatus = {
   PROCESSING: 'PROCESSING',
   FAILED: 'FAILED',
   SUCCESS: 'SUCCESS',
+  STALE: 'STALE',
 } as const;

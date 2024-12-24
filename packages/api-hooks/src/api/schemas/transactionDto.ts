@@ -4,6 +4,9 @@ import type { TransactionStatus } from './transactionStatus';
 import type { TransactionType } from './transactionType';
 
 export interface TransactionDto {
+  accountAddresses?: string[];
+  broadcastedAt: string | null;
+  createdAt: string;
   error: string | null;
   explorerUrl: string | null;
   gasEstimate: TransactionDtoGasEstimate;

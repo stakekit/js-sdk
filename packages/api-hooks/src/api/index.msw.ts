@@ -38,6 +38,7 @@ import type {
   YieldBalancesWithIntegrationIdDto,
   YieldDto,
   YieldGetMyYields200,
+  YieldRewardsSummaryResponseDto,
   YieldV2Yields200,
   YieldYields200,
 } from './schemas';
@@ -53,6 +54,13 @@ export const getHealthControllerHealthV2ResponseMock = (
 export const getActionControllerGetActionResponseMock = (
   overrideResponse: any = {},
 ): ActionDto => ({
+  accountAddresses: faker.helpers.arrayElement([
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => faker.word.sample()),
+    undefined,
+  ]),
   addresses: {
     additionalAddresses: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
@@ -83,6 +91,10 @@ export const getActionControllerGetActionResponseMock = (
     ...overrideResponse,
   },
   amount: faker.helpers.arrayElement([faker.word.sample(), null]),
+  completedAt: faker.helpers.arrayElement([
+    `${faker.date.past().toISOString().split('.')[0]}Z`,
+    null,
+  ]),
   createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
   currentStepIndex: faker.number.int({ min: undefined, max: undefined }),
   id: faker.word.sample(),
@@ -110,6 +122,18 @@ export const getActionControllerGetActionResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
+    accountAddresses: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.word.sample()),
+      undefined,
+    ]),
+    broadcastedAt: faker.helpers.arrayElement([
+      `${faker.date.past().toISOString().split('.')[0]}Z`,
+      null,
+    ]),
+    createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
     error: faker.helpers.arrayElement([faker.word.sample(), null]),
     explorerUrl: faker.helpers.arrayElement([faker.word.sample(), null]),
     gasEstimate: {
@@ -182,6 +206,13 @@ export const getActionControllerGetGasEstimateResponseMock = (
 export const getActionControllerEnterResponseMock = (
   overrideResponse: any = {},
 ): ActionDto => ({
+  accountAddresses: faker.helpers.arrayElement([
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => faker.word.sample()),
+    undefined,
+  ]),
   addresses: {
     additionalAddresses: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
@@ -212,6 +243,10 @@ export const getActionControllerEnterResponseMock = (
     ...overrideResponse,
   },
   amount: faker.helpers.arrayElement([faker.word.sample(), null]),
+  completedAt: faker.helpers.arrayElement([
+    `${faker.date.past().toISOString().split('.')[0]}Z`,
+    null,
+  ]),
   createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
   currentStepIndex: faker.number.int({ min: undefined, max: undefined }),
   id: faker.word.sample(),
@@ -239,6 +274,18 @@ export const getActionControllerEnterResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
+    accountAddresses: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.word.sample()),
+      undefined,
+    ]),
+    broadcastedAt: faker.helpers.arrayElement([
+      `${faker.date.past().toISOString().split('.')[0]}Z`,
+      null,
+    ]),
+    createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
     error: faker.helpers.arrayElement([faker.word.sample(), null]),
     explorerUrl: faker.helpers.arrayElement([faker.word.sample(), null]),
     gasEstimate: {
@@ -292,6 +339,13 @@ export const getActionControllerEnterResponseMock = (
 export const getActionControllerExitResponseMock = (
   overrideResponse: any = {},
 ): ActionDto => ({
+  accountAddresses: faker.helpers.arrayElement([
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => faker.word.sample()),
+    undefined,
+  ]),
   addresses: {
     additionalAddresses: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
@@ -322,6 +376,10 @@ export const getActionControllerExitResponseMock = (
     ...overrideResponse,
   },
   amount: faker.helpers.arrayElement([faker.word.sample(), null]),
+  completedAt: faker.helpers.arrayElement([
+    `${faker.date.past().toISOString().split('.')[0]}Z`,
+    null,
+  ]),
   createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
   currentStepIndex: faker.number.int({ min: undefined, max: undefined }),
   id: faker.word.sample(),
@@ -349,6 +407,18 @@ export const getActionControllerExitResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
+    accountAddresses: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.word.sample()),
+      undefined,
+    ]),
+    broadcastedAt: faker.helpers.arrayElement([
+      `${faker.date.past().toISOString().split('.')[0]}Z`,
+      null,
+    ]),
+    createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
     error: faker.helpers.arrayElement([faker.word.sample(), null]),
     explorerUrl: faker.helpers.arrayElement([faker.word.sample(), null]),
     gasEstimate: {
@@ -402,6 +472,13 @@ export const getActionControllerExitResponseMock = (
 export const getActionControllerPendingResponseMock = (
   overrideResponse: any = {},
 ): ActionDto => ({
+  accountAddresses: faker.helpers.arrayElement([
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => faker.word.sample()),
+    undefined,
+  ]),
   addresses: {
     additionalAddresses: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
@@ -432,6 +509,10 @@ export const getActionControllerPendingResponseMock = (
     ...overrideResponse,
   },
   amount: faker.helpers.arrayElement([faker.word.sample(), null]),
+  completedAt: faker.helpers.arrayElement([
+    `${faker.date.past().toISOString().split('.')[0]}Z`,
+    null,
+  ]),
   createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
   currentStepIndex: faker.number.int({ min: undefined, max: undefined }),
   id: faker.word.sample(),
@@ -459,6 +540,18 @@ export const getActionControllerPendingResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
+    accountAddresses: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.word.sample()),
+      undefined,
+    ]),
+    broadcastedAt: faker.helpers.arrayElement([
+      `${faker.date.past().toISOString().split('.')[0]}Z`,
+      null,
+    ]),
+    createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
     error: faker.helpers.arrayElement([faker.word.sample(), null]),
     explorerUrl: faker.helpers.arrayElement([faker.word.sample(), null]),
     gasEstimate: {
@@ -580,6 +673,18 @@ export const getActionControllerPendingGasEstimateResponseMock = (
 export const getTransactionControllerGetTransactionResponseMock = (
   overrideResponse: any = {},
 ): TransactionDto => ({
+  accountAddresses: faker.helpers.arrayElement([
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => faker.word.sample()),
+    undefined,
+  ]),
+  broadcastedAt: faker.helpers.arrayElement([
+    `${faker.date.past().toISOString().split('.')[0]}Z`,
+    null,
+  ]),
+  createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
   error: faker.helpers.arrayElement([faker.word.sample(), null]),
   explorerUrl: faker.helpers.arrayElement([faker.word.sample(), null]),
   gasEstimate: {
@@ -618,6 +723,18 @@ export const getTransactionControllerGetTransactionResponseMock = (
 export const getTransactionControllerConstructResponseMock = (
   overrideResponse: any = {},
 ): TransactionDto => ({
+  accountAddresses: faker.helpers.arrayElement([
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => faker.word.sample()),
+    undefined,
+  ]),
+  broadcastedAt: faker.helpers.arrayElement([
+    `${faker.date.past().toISOString().split('.')[0]}Z`,
+    null,
+  ]),
+  createdAt: `${faker.date.past().toISOString().split('.')[0]}Z`,
   error: faker.helpers.arrayElement([faker.word.sample(), null]),
   explorerUrl: faker.helpers.arrayElement([faker.word.sample(), null]),
   gasEstimate: {
@@ -1405,6 +1522,10 @@ export const getYieldControllerFindValidatorsResponseMock = (
         undefined,
       ]),
       image: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+      minimumStake: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+      ]),
       name: faker.helpers.arrayElement([faker.word.sample(), undefined]),
       preferred: faker.helpers.arrayElement([
         faker.datatype.boolean(),
@@ -1413,6 +1534,10 @@ export const getYieldControllerFindValidatorsResponseMock = (
       providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
       remainingPossibleStake: faker.helpers.arrayElement([
         faker.word.sample(),
+        undefined,
+      ]),
+      remainingSlots: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
         undefined,
       ]),
       stakedBalance: faker.helpers.arrayElement([
@@ -1841,6 +1966,7 @@ export const getYieldControllerYieldOpportunityResponseMock = (
       undefined,
     ]),
     image: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    minimumStake: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     name: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     preferred: faker.helpers.arrayElement([
       faker.datatype.boolean(),
@@ -1849,6 +1975,10 @@ export const getYieldControllerYieldOpportunityResponseMock = (
     providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     remainingPossibleStake: faker.helpers.arrayElement([
       faker.word.sample(),
+      undefined,
+    ]),
+    remainingSlots: faker.helpers.arrayElement([
+      faker.number.int({ min: undefined, max: undefined }),
       undefined,
     ]),
     stakedBalance: faker.helpers.arrayElement([faker.word.sample(), undefined]),
@@ -1884,6 +2014,7 @@ export const getYieldControllerGetValidatorsResponseMock = (
       undefined,
     ]),
     image: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    minimumStake: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     name: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     preferred: faker.helpers.arrayElement([
       faker.datatype.boolean(),
@@ -1892,6 +2023,10 @@ export const getYieldControllerGetValidatorsResponseMock = (
     providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     remainingPossibleStake: faker.helpers.arrayElement([
       faker.word.sample(),
+      undefined,
+    ]),
+    remainingSlots: faker.helpers.arrayElement([
+      faker.number.int({ min: undefined, max: undefined }),
       undefined,
     ]),
     stakedBalance: faker.helpers.arrayElement([faker.word.sample(), undefined]),
@@ -2064,6 +2199,38 @@ export const getYieldControllerGetSingleYieldBalancesResponseMock = (
       ).map(() => faker.word.sample()),
       undefined,
     ]),
+    ...overrideResponse,
+  }));
+
+export const getYieldControllerGetSingleYieldRewardsSummaryResponseMock = (
+  overrideResponse: any = {},
+): YieldRewardsSummaryResponseDto[] =>
+  Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    rewards: {
+      last24H: faker.word.sample(),
+      last30D: faker.word.sample(),
+      last7D: faker.word.sample(),
+      lastYear: faker.word.sample(),
+      total: faker.word.sample(),
+      ...overrideResponse,
+    },
+    token: {
+      address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+      coinGeckoId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+      decimals: faker.number.int({ min: undefined, max: undefined }),
+      isPoints: faker.helpers.arrayElement([
+        faker.datatype.boolean(),
+        undefined,
+      ]),
+      logoURI: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+      name: faker.word.sample(),
+      network: faker.helpers.arrayElement(Object.values(Networks)),
+      symbol: faker.word.sample(),
+      ...overrideResponse,
+    },
     ...overrideResponse,
   }));
 
@@ -2519,6 +2686,7 @@ export const getYieldV2ControllerGetYieldByIdResponseMock = (
       undefined,
     ]),
     image: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    minimumStake: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     name: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     preferred: faker.helpers.arrayElement([
       faker.datatype.boolean(),
@@ -2527,6 +2695,10 @@ export const getYieldV2ControllerGetYieldByIdResponseMock = (
     providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     remainingPossibleStake: faker.helpers.arrayElement([
       faker.word.sample(),
+      undefined,
+    ]),
+    remainingSlots: faker.helpers.arrayElement([
+      faker.number.int({ min: undefined, max: undefined }),
       undefined,
     ]),
     stakedBalance: faker.helpers.arrayElement([faker.word.sample(), undefined]),
@@ -2567,6 +2739,10 @@ export const getYieldV2ControllerFindYieldValidatorsResponseMock = (
         undefined,
       ]),
       image: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+      minimumStake: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+      ]),
       name: faker.helpers.arrayElement([faker.word.sample(), undefined]),
       preferred: faker.helpers.arrayElement([
         faker.datatype.boolean(),
@@ -2575,6 +2751,10 @@ export const getYieldV2ControllerFindYieldValidatorsResponseMock = (
       providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
       remainingPossibleStake: faker.helpers.arrayElement([
         faker.word.sample(),
+        undefined,
+      ]),
+      remainingSlots: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
         undefined,
       ]),
       stakedBalance: faker.helpers.arrayElement([
@@ -2618,6 +2798,10 @@ export const getYieldV2ControllerFindValidatorsResponseMock = (
         undefined,
       ]),
       image: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+      minimumStake: faker.helpers.arrayElement([
+        faker.word.sample(),
+        undefined,
+      ]),
       name: faker.helpers.arrayElement([faker.word.sample(), undefined]),
       preferred: faker.helpers.arrayElement([
         faker.datatype.boolean(),
@@ -2626,6 +2810,10 @@ export const getYieldV2ControllerFindValidatorsResponseMock = (
       providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
       remainingPossibleStake: faker.helpers.arrayElement([
         faker.word.sample(),
+        undefined,
+      ]),
+      remainingSlots: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
         undefined,
       ]),
       stakedBalance: faker.helpers.arrayElement([
@@ -3295,6 +3483,27 @@ export const getYieldControllerGetSingleYieldBalancesMockHandler = (
   });
 };
 
+export const getYieldControllerGetSingleYieldRewardsSummaryMockHandler = (
+  overrideResponse?: YieldRewardsSummaryResponseDto[],
+) => {
+  return http.post('*/v1/yields/:integrationId/rewards-summary', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getYieldControllerGetSingleYieldRewardsSummaryResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
 export const getYieldControllerGetFeeConfigurationMockHandler = (
   overrideResponse?: FeeConfigurationDto,
 ) => {
@@ -3432,6 +3641,7 @@ export const getStakeKitMock = () => [
   getYieldControllerYieldOpportunityMockHandler(),
   getYieldControllerGetValidatorsMockHandler(),
   getYieldControllerGetSingleYieldBalancesMockHandler(),
+  getYieldControllerGetSingleYieldRewardsSummaryMockHandler(),
   getYieldControllerGetFeeConfigurationMockHandler(),
   getYieldV2ControllerYieldsMockHandler(),
   getYieldV2ControllerGetYieldByIdMockHandler(),

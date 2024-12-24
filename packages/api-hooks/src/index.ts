@@ -1,3 +1,3 @@
 export * from './api';
 export * from './api/schemas';
-export { ApiClientProvider } from './api-client-provider';
+export { StakeKitApiClient } from './api-client-config';
