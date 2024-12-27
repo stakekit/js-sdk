@@ -54,5 +54,9 @@ export const customFetch = async <T>({
     ...(data && { body: JSON.stringify(data) }),
   });
 
-  return response.json();
+  if (response.ok) {
+    return response.json();
+  }
+
+  return Promise.reject(response);
 };
