@@ -70,6 +70,12 @@ export enum CosmosNetworks {
   Umee = 'umee',
   Sei = 'sei',
   Mantra = 'mantra',
+  Celestia = 'celestia',
+  Saga = 'saga',
+  Zetachain = 'zetachain',
+  Dymension = 'dymension',
+  HumansAi = 'humansai',
+  Neutron = 'neutron',
 }
 
 export enum SubstrateNetworks {

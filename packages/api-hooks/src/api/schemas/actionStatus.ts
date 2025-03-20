@@ -8,4 +8,5 @@ export const ActionStatus = {
   PROCESSING: 'PROCESSING',
   FAILED: 'FAILED',
   SUCCESS: 'SUCCESS',
+  STALE: 'STALE',
 } as const;
