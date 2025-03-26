@@ -27,12 +27,10 @@ import type {
   HealthStatusDto,
   PriceResponseDto,
   SubmitResponseDto,
-  TokenBalanceScanResponseDto,
   TokenWithAvailableYieldsDto,
   TransactionDto,
   TransactionStatusResponseDto,
   TransactionVerificationMessageDto,
-  ValidatorDto,
   ValidatorSearchResultDto,
   YieldBalanceDto,
   YieldBalancesWithIntegrationIdDto,
@@ -40,7 +38,6 @@ import type {
   YieldGetMyYields200,
   YieldRewardsSummaryResponseDto,
   YieldV2Yields200,
-  YieldYields200,
 } from './schemas';
 
 export const getHealthControllerHealthV2ResponseMock = (
@@ -87,7 +84,6 @@ export const getActionControllerGetActionResponseMock = (
       undefined,
     ]),
     address: faker.word.sample(),
-    explorerUrl: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     ...overrideResponse,
   },
   amount: faker.helpers.arrayElement([faker.word.sample(), null]),
@@ -239,7 +235,6 @@ export const getActionControllerEnterResponseMock = (
       undefined,
     ]),
     address: faker.word.sample(),
-    explorerUrl: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     ...overrideResponse,
   },
   amount: faker.helpers.arrayElement([faker.word.sample(), null]),
@@ -372,7 +367,6 @@ export const getActionControllerExitResponseMock = (
       undefined,
     ]),
     address: faker.word.sample(),
-    explorerUrl: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     ...overrideResponse,
   },
   amount: faker.helpers.arrayElement([faker.word.sample(), null]),
@@ -505,7 +499,6 @@ export const getActionControllerPendingResponseMock = (
       undefined,
     ]),
     address: faker.word.sample(),
-    explorerUrl: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     ...overrideResponse,
   },
   amount: faker.helpers.arrayElement([faker.word.sample(), null]),
@@ -876,31 +869,6 @@ export const getTokenControllerGetTokenBalancesResponseMock = (
     (_, i) => i + 1,
   ).map(() => ({
     amount: faker.word.sample(),
-    token: {
-      address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-      coinGeckoId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-      decimals: faker.number.int({ min: undefined, max: undefined }),
-      isPoints: faker.helpers.arrayElement([
-        faker.datatype.boolean(),
-        undefined,
-      ]),
-      logoURI: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-      name: faker.word.sample(),
-      network: faker.helpers.arrayElement(Object.values(Networks)),
-      symbol: faker.word.sample(),
-      ...overrideResponse,
-    },
-    ...overrideResponse,
-  }));
-
-export const getTokenControllerTokenBalancesScanResponseMock = (
-  overrideResponse: any = {},
-): TokenBalanceScanResponseDto[] =>
-  Array.from(
-    { length: faker.number.int({ min: 1, max: 10 }) },
-    (_, i) => i + 1,
-  ).map(() => ({
-    amount: faker.word.sample(),
     availableYields: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
@@ -921,17 +889,6 @@ export const getTokenControllerTokenBalancesScanResponseMock = (
     },
     ...overrideResponse,
   }));
-
-export const getYieldControllerYieldsResponseMock = (
-  overrideResponse: any = {},
-): YieldYields200 => ({
-  data: {},
-  hasNextPage: faker.datatype.boolean(),
-  limit: faker.number.int({ min: undefined, max: undefined }),
-  page: faker.number.int({ min: undefined, max: undefined }),
-  ...overrideResponse,
-  ...overrideResponse,
-});
 
 export const getYieldControllerGetMultipleYieldBalancesResponseMock = (
   overrideResponse: any = {},
@@ -954,372 +911,28 @@ export const getYieldControllerGetMultipleYieldBalancesResponseMock = (
         { params: {}, type: faker.word.sample(), ...overrideResponse },
         undefined,
       ]),
-      pendingActions: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => ({
-        args: faker.helpers.arrayElement([
-          {
-            addresses: faker.helpers.arrayElement([
-              {
-                additionalAddresses: faker.helpers.arrayElement([
-                  Array.from(
-                    { length: faker.number.int({ min: 1, max: 10 }) },
-                    (_, i) => i + 1,
-                  ).map(() => ({ ...overrideResponse })),
-                  undefined,
-                ]),
-                address: faker.helpers.arrayElement([
-                  {
-                    network: faker.helpers.arrayElement(
-                      Object.values(Networks),
-                    ),
-                    required: faker.datatype.boolean(),
-                    ...overrideResponse,
-                  },
-                  undefined,
-                ]),
-                ...overrideResponse,
-              },
-              undefined,
-            ]),
-            args: faker.helpers.arrayElement([
-              {
-                amount: faker.helpers.arrayElement([
-                  {
-                    maximum: faker.helpers.arrayElement([
-                      faker.number.int({ min: undefined, max: undefined }),
-                      undefined,
-                    ]),
-                    minimum: faker.helpers.arrayElement([
-                      faker.number.int({ min: undefined, max: undefined }),
-                      undefined,
-                    ]),
-                    required: faker.datatype.boolean(),
-                    ...overrideResponse,
-                  },
-                  undefined,
-                ]),
-                duration: faker.helpers.arrayElement([
-                  {
-                    maximum: faker.helpers.arrayElement([
-                      faker.number.int({ min: undefined, max: undefined }),
-                      undefined,
-                    ]),
-                    minimum: faker.helpers.arrayElement([
-                      faker.number.int({ min: undefined, max: undefined }),
-                      undefined,
-                    ]),
-                    required: faker.datatype.boolean(),
-                    ...overrideResponse,
-                  },
-                  undefined,
-                ]),
-                nfts: faker.helpers.arrayElement([
-                  Array.from(
-                    { length: faker.number.int({ min: 1, max: 10 }) },
-                    (_, i) => i + 1,
-                  ).map(() => ({
-                    bakcId: faker.helpers.arrayElement([
-                      {
-                        required: faker.datatype.boolean(),
-                        ...overrideResponse,
-                      },
-                      undefined,
-                    ]),
-                    baycId: faker.helpers.arrayElement([
-                      {
-                        required: faker.datatype.boolean(),
-                        ...overrideResponse,
-                      },
-                      undefined,
-                    ]),
-                    maycId: faker.helpers.arrayElement([
-                      {
-                        required: faker.datatype.boolean(),
-                        ...overrideResponse,
-                      },
-                      undefined,
-                    ]),
-                    ...overrideResponse,
-                  })),
-                  undefined,
-                ]),
-                signatureVerification: faker.helpers.arrayElement([
-                  { required: faker.datatype.boolean(), ...overrideResponse },
-                  undefined,
-                ]),
-                tronResource: faker.helpers.arrayElement([
-                  {
-                    options: Array.from(
-                      { length: faker.number.int({ min: 1, max: 10 }) },
-                      (_, i) => i + 1,
-                    ).map(() => faker.word.sample()),
-                    required: faker.datatype.boolean(),
-                    ...overrideResponse,
-                  },
-                  undefined,
-                ]),
-                validatorAddress: faker.helpers.arrayElement([
-                  { required: faker.datatype.boolean(), ...overrideResponse },
-                  undefined,
-                ]),
-                validatorAddresses: faker.helpers.arrayElement([
-                  { required: faker.datatype.boolean(), ...overrideResponse },
-                  undefined,
-                ]),
-                ...overrideResponse,
-              },
-              undefined,
-            ]),
-            ...overrideResponse,
-          },
-          undefined,
-        ]),
-        passthrough: faker.word.sample(),
-        type: faker.helpers.arrayElement(Object.values(ActionTypes)),
-        ...overrideResponse,
-      })),
-      pricePerShare: faker.word.sample(),
-      providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-      token: {
-        address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        coinGeckoId: faker.helpers.arrayElement([
-          faker.word.sample(),
-          undefined,
-        ]),
-        decimals: faker.number.int({ min: undefined, max: undefined }),
-        isPoints: faker.helpers.arrayElement([
-          faker.datatype.boolean(),
-          undefined,
-        ]),
-        logoURI: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        name: faker.word.sample(),
-        network: faker.helpers.arrayElement(Object.values(Networks)),
-        symbol: faker.word.sample(),
-        ...overrideResponse,
-      },
-      type: faker.helpers.arrayElement(Object.values(BalanceTypes)),
-      validatorAddress: faker.helpers.arrayElement([
-        faker.word.sample(),
-        undefined,
-      ]),
-      validatorAddresses: faker.helpers.arrayElement([
+      pendingActionConstraints: faker.helpers.arrayElement([
         Array.from(
           { length: faker.number.int({ min: 1, max: 10 }) },
           (_, i) => i + 1,
-        ).map(() => faker.word.sample()),
-        undefined,
-      ]),
-      ...overrideResponse,
-    })),
-    integrationId: faker.word.sample(),
-    ...overrideResponse,
-  }));
-
-export const getYieldControllerYieldBalancesScanResponseMock = (
-  overrideResponse: any = {},
-): YieldBalancesWithIntegrationIdDto[] =>
-  Array.from(
-    { length: faker.number.int({ min: 1, max: 10 }) },
-    (_, i) => i + 1,
-  ).map(() => ({
-    balances: Array.from(
-      { length: faker.number.int({ min: 1, max: 10 }) },
-      (_, i) => i + 1,
-    ).map(() => ({
-      amount: faker.word.sample(),
-      date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-      ]),
-      groupId: faker.string.uuid(),
-      label: faker.helpers.arrayElement([
-        { params: {}, type: faker.word.sample(), ...overrideResponse },
-        undefined,
-      ]),
-      pendingActions: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => ({
-        args: faker.helpers.arrayElement([
-          {
-            addresses: faker.helpers.arrayElement([
-              {
-                additionalAddresses: faker.helpers.arrayElement([
-                  Array.from(
-                    { length: faker.number.int({ min: 1, max: 10 }) },
-                    (_, i) => i + 1,
-                  ).map(() => ({ ...overrideResponse })),
-                  undefined,
-                ]),
-                address: faker.helpers.arrayElement([
-                  {
-                    network: faker.helpers.arrayElement(
-                      Object.values(Networks),
-                    ),
-                    required: faker.datatype.boolean(),
-                    ...overrideResponse,
-                  },
-                  undefined,
-                ]),
-                ...overrideResponse,
-              },
-              undefined,
-            ]),
-            args: faker.helpers.arrayElement([
-              {
-                amount: faker.helpers.arrayElement([
-                  {
-                    maximum: faker.helpers.arrayElement([
-                      faker.number.int({ min: undefined, max: undefined }),
-                      undefined,
-                    ]),
-                    minimum: faker.helpers.arrayElement([
-                      faker.number.int({ min: undefined, max: undefined }),
-                      undefined,
-                    ]),
-                    required: faker.datatype.boolean(),
-                    ...overrideResponse,
-                  },
-                  undefined,
-                ]),
-                duration: faker.helpers.arrayElement([
-                  {
-                    maximum: faker.helpers.arrayElement([
-                      faker.number.int({ min: undefined, max: undefined }),
-                      undefined,
-                    ]),
-                    minimum: faker.helpers.arrayElement([
-                      faker.number.int({ min: undefined, max: undefined }),
-                      undefined,
-                    ]),
-                    required: faker.datatype.boolean(),
-                    ...overrideResponse,
-                  },
-                  undefined,
-                ]),
-                nfts: faker.helpers.arrayElement([
-                  Array.from(
-                    { length: faker.number.int({ min: 1, max: 10 }) },
-                    (_, i) => i + 1,
-                  ).map(() => ({
-                    bakcId: faker.helpers.arrayElement([
-                      {
-                        required: faker.datatype.boolean(),
-                        ...overrideResponse,
-                      },
-                      undefined,
-                    ]),
-                    baycId: faker.helpers.arrayElement([
-                      {
-                        required: faker.datatype.boolean(),
-                        ...overrideResponse,
-                      },
-                      undefined,
-                    ]),
-                    maycId: faker.helpers.arrayElement([
-                      {
-                        required: faker.datatype.boolean(),
-                        ...overrideResponse,
-                      },
-                      undefined,
-                    ]),
-                    ...overrideResponse,
-                  })),
-                  undefined,
-                ]),
-                signatureVerification: faker.helpers.arrayElement([
-                  { required: faker.datatype.boolean(), ...overrideResponse },
-                  undefined,
-                ]),
-                tronResource: faker.helpers.arrayElement([
-                  {
-                    options: Array.from(
-                      { length: faker.number.int({ min: 1, max: 10 }) },
-                      (_, i) => i + 1,
-                    ).map(() => faker.word.sample()),
-                    required: faker.datatype.boolean(),
-                    ...overrideResponse,
-                  },
-                  undefined,
-                ]),
-                validatorAddress: faker.helpers.arrayElement([
-                  { required: faker.datatype.boolean(), ...overrideResponse },
-                  undefined,
-                ]),
-                validatorAddresses: faker.helpers.arrayElement([
-                  { required: faker.datatype.boolean(), ...overrideResponse },
-                  undefined,
-                ]),
-                ...overrideResponse,
-              },
-              undefined,
-            ]),
-            ...overrideResponse,
-          },
-          undefined,
-        ]),
-        passthrough: faker.word.sample(),
-        type: faker.helpers.arrayElement(Object.values(ActionTypes)),
-        ...overrideResponse,
-      })),
-      pricePerShare: faker.word.sample(),
-      providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-      token: {
-        address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        coinGeckoId: faker.helpers.arrayElement([
-          faker.word.sample(),
-          undefined,
-        ]),
-        decimals: faker.number.int({ min: undefined, max: undefined }),
-        isPoints: faker.helpers.arrayElement([
-          faker.datatype.boolean(),
-          undefined,
-        ]),
-        logoURI: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        name: faker.word.sample(),
-        network: faker.helpers.arrayElement(Object.values(Networks)),
-        symbol: faker.word.sample(),
-        ...overrideResponse,
-      },
-      type: faker.helpers.arrayElement(Object.values(BalanceTypes)),
-      validatorAddress: faker.helpers.arrayElement([
-        faker.word.sample(),
-        undefined,
-      ]),
-      validatorAddresses: faker.helpers.arrayElement([
-        Array.from(
-          { length: faker.number.int({ min: 1, max: 10 }) },
-          (_, i) => i + 1,
-        ).map(() => faker.word.sample()),
-        undefined,
-      ]),
-      ...overrideResponse,
-    })),
-    integrationId: faker.word.sample(),
-    ...overrideResponse,
-  }));
-
-export const getYieldControllerYieldBalancesScanEvmResponseMock = (
-  overrideResponse: any = {},
-): YieldBalancesWithIntegrationIdDto[] =>
-  Array.from(
-    { length: faker.number.int({ min: 1, max: 10 }) },
-    (_, i) => i + 1,
-  ).map(() => ({
-    balances: Array.from(
-      { length: faker.number.int({ min: 1, max: 10 }) },
-      (_, i) => i + 1,
-    ).map(() => ({
-      amount: faker.word.sample(),
-      date: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-      ]),
-      groupId: faker.string.uuid(),
-      label: faker.helpers.arrayElement([
-        { params: {}, type: faker.word.sample(), ...overrideResponse },
+        ).map(() => ({
+          amount: faker.helpers.arrayElement([
+            {
+              maximum: faker.helpers.arrayElement([
+                faker.number.int({ min: undefined, max: undefined }),
+                undefined,
+              ]),
+              minimum: faker.helpers.arrayElement([
+                faker.number.int({ min: undefined, max: undefined }),
+                undefined,
+              ]),
+              ...overrideResponse,
+            },
+            undefined,
+          ]),
+          type: faker.helpers.arrayElement(Object.values(ActionTypes)),
+          ...overrideResponse,
+        })),
         undefined,
       ]),
       pendingActions: Array.from(
@@ -1496,549 +1109,6 @@ export const getYieldControllerGetMyYieldsResponseMock = (
   ...overrideResponse,
 });
 
-export const getYieldControllerFindValidatorsResponseMock = (
-  overrideResponse: any = {},
-): ValidatorSearchResultDto[] =>
-  Array.from(
-    { length: faker.number.int({ min: 1, max: 10 }) },
-    (_, i) => i + 1,
-  ).map(() => ({
-    integrationId: faker.word.sample(),
-    validators: Array.from(
-      { length: faker.number.int({ min: 1, max: 10 }) },
-      (_, i) => i + 1,
-    ).map(() => ({
-      address: faker.word.sample(),
-      apr: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-      ]),
-      commission: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-      ]),
-      endDate: faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split('.')[0]}Z`,
-        undefined,
-      ]),
-      image: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-      minimumStake: faker.helpers.arrayElement([
-        faker.word.sample(),
-        undefined,
-      ]),
-      name: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-      preferred: faker.helpers.arrayElement([
-        faker.datatype.boolean(),
-        undefined,
-      ]),
-      providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-      remainingPossibleStake: faker.helpers.arrayElement([
-        faker.word.sample(),
-        undefined,
-      ]),
-      remainingSlots: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-      ]),
-      stakedBalance: faker.helpers.arrayElement([
-        faker.word.sample(),
-        undefined,
-      ]),
-      status: faker.helpers.arrayElement(Object.values(ValidatorStatusTypes)),
-      votingPower: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-      ]),
-      website: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-      ...overrideResponse,
-    })),
-    ...overrideResponse,
-  }));
-
-export const getYieldControllerYieldOpportunityResponseMock = (
-  overrideResponse: any = {},
-): YieldDto => ({
-  apy: faker.number.int({ min: undefined, max: undefined }),
-  args: {
-    enter: {
-      addresses: faker.helpers.arrayElement([
-        {
-          additionalAddresses: faker.helpers.arrayElement([
-            Array.from(
-              { length: faker.number.int({ min: 1, max: 10 }) },
-              (_, i) => i + 1,
-            ).map(() => ({ ...overrideResponse })),
-            undefined,
-          ]),
-          address: faker.helpers.arrayElement([
-            {
-              network: faker.helpers.arrayElement(Object.values(Networks)),
-              required: faker.datatype.boolean(),
-              ...overrideResponse,
-            },
-            undefined,
-          ]),
-          ...overrideResponse,
-        },
-        undefined,
-      ]),
-      args: faker.helpers.arrayElement([
-        {
-          amount: faker.helpers.arrayElement([
-            {
-              maximum: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-              ]),
-              minimum: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-              ]),
-              required: faker.datatype.boolean(),
-              ...overrideResponse,
-            },
-            undefined,
-          ]),
-          duration: faker.helpers.arrayElement([
-            {
-              maximum: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-              ]),
-              minimum: faker.helpers.arrayElement([
-                faker.number.int({ min: undefined, max: undefined }),
-                undefined,
-              ]),
-              required: faker.datatype.boolean(),
-              ...overrideResponse,
-            },
-            undefined,
-          ]),
-          nfts: faker.helpers.arrayElement([
-            Array.from(
-              { length: faker.number.int({ min: 1, max: 10 }) },
-              (_, i) => i + 1,
-            ).map(() => ({
-              bakcId: faker.helpers.arrayElement([
-                { required: faker.datatype.boolean(), ...overrideResponse },
-                undefined,
-              ]),
-              baycId: faker.helpers.arrayElement([
-                { required: faker.datatype.boolean(), ...overrideResponse },
-                undefined,
-              ]),
-              maycId: faker.helpers.arrayElement([
-                { required: faker.datatype.boolean(), ...overrideResponse },
-                undefined,
-              ]),
-              ...overrideResponse,
-            })),
-            undefined,
-          ]),
-          signatureVerification: faker.helpers.arrayElement([
-            { required: faker.datatype.boolean(), ...overrideResponse },
-            undefined,
-          ]),
-          tronResource: faker.helpers.arrayElement([
-            {
-              options: Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1,
-              ).map(() => faker.word.sample()),
-              required: faker.datatype.boolean(),
-              ...overrideResponse,
-            },
-            undefined,
-          ]),
-          validatorAddress: faker.helpers.arrayElement([
-            { required: faker.datatype.boolean(), ...overrideResponse },
-            undefined,
-          ]),
-          validatorAddresses: faker.helpers.arrayElement([
-            { required: faker.datatype.boolean(), ...overrideResponse },
-            undefined,
-          ]),
-          ...overrideResponse,
-        },
-        undefined,
-      ]),
-      ...overrideResponse,
-    },
-    exit: faker.helpers.arrayElement([
-      {
-        addresses: faker.helpers.arrayElement([
-          {
-            additionalAddresses: faker.helpers.arrayElement([
-              Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1,
-              ).map(() => ({ ...overrideResponse })),
-              undefined,
-            ]),
-            address: faker.helpers.arrayElement([
-              {
-                network: faker.helpers.arrayElement(Object.values(Networks)),
-                required: faker.datatype.boolean(),
-                ...overrideResponse,
-              },
-              undefined,
-            ]),
-            ...overrideResponse,
-          },
-          undefined,
-        ]),
-        args: faker.helpers.arrayElement([
-          {
-            amount: faker.helpers.arrayElement([
-              {
-                maximum: faker.helpers.arrayElement([
-                  faker.number.int({ min: undefined, max: undefined }),
-                  undefined,
-                ]),
-                minimum: faker.helpers.arrayElement([
-                  faker.number.int({ min: undefined, max: undefined }),
-                  undefined,
-                ]),
-                required: faker.datatype.boolean(),
-                ...overrideResponse,
-              },
-              undefined,
-            ]),
-            duration: faker.helpers.arrayElement([
-              {
-                maximum: faker.helpers.arrayElement([
-                  faker.number.int({ min: undefined, max: undefined }),
-                  undefined,
-                ]),
-                minimum: faker.helpers.arrayElement([
-                  faker.number.int({ min: undefined, max: undefined }),
-                  undefined,
-                ]),
-                required: faker.datatype.boolean(),
-                ...overrideResponse,
-              },
-              undefined,
-            ]),
-            nfts: faker.helpers.arrayElement([
-              Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1,
-              ).map(() => ({
-                bakcId: faker.helpers.arrayElement([
-                  { required: faker.datatype.boolean(), ...overrideResponse },
-                  undefined,
-                ]),
-                baycId: faker.helpers.arrayElement([
-                  { required: faker.datatype.boolean(), ...overrideResponse },
-                  undefined,
-                ]),
-                maycId: faker.helpers.arrayElement([
-                  { required: faker.datatype.boolean(), ...overrideResponse },
-                  undefined,
-                ]),
-                ...overrideResponse,
-              })),
-              undefined,
-            ]),
-            signatureVerification: faker.helpers.arrayElement([
-              { required: faker.datatype.boolean(), ...overrideResponse },
-              undefined,
-            ]),
-            tronResource: faker.helpers.arrayElement([
-              {
-                options: Array.from(
-                  { length: faker.number.int({ min: 1, max: 10 }) },
-                  (_, i) => i + 1,
-                ).map(() => faker.word.sample()),
-                required: faker.datatype.boolean(),
-                ...overrideResponse,
-              },
-              undefined,
-            ]),
-            validatorAddress: faker.helpers.arrayElement([
-              { required: faker.datatype.boolean(), ...overrideResponse },
-              undefined,
-            ]),
-            validatorAddresses: faker.helpers.arrayElement([
-              { required: faker.datatype.boolean(), ...overrideResponse },
-              undefined,
-            ]),
-            ...overrideResponse,
-          },
-          undefined,
-        ]),
-        ...overrideResponse,
-      },
-      undefined,
-    ]),
-    ...overrideResponse,
-  },
-  id: faker.word.sample(),
-  isAvailable: faker.datatype.boolean(),
-  metadata: {
-    cooldownPeriod: faker.helpers.arrayElement([
-      {
-        days: faker.number.int({ min: undefined, max: undefined }),
-        ...overrideResponse,
-      },
-      undefined,
-    ]),
-    defaultValidator: faker.helpers.arrayElement([
-      faker.word.sample(),
-      undefined,
-    ]),
-    description: faker.word.sample(),
-    documentation: faker.word.sample(),
-    fee: {
-      depositFee: faker.datatype.boolean(),
-      enabled: faker.datatype.boolean(),
-      managementFee: faker.datatype.boolean(),
-      performanceFee: faker.datatype.boolean(),
-      ...overrideResponse,
-    },
-    gasFeeToken: {
-      address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-      coinGeckoId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-      decimals: faker.number.int({ min: undefined, max: undefined }),
-      isPoints: faker.helpers.arrayElement([
-        faker.datatype.boolean(),
-        undefined,
-      ]),
-      logoURI: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-      name: faker.word.sample(),
-      network: faker.helpers.arrayElement(Object.values(Networks)),
-      symbol: faker.word.sample(),
-      ...overrideResponse,
-    },
-    isIntegrationAggregator: faker.helpers.arrayElement([
-      faker.datatype.boolean(),
-      undefined,
-    ]),
-    logoURI: faker.word.sample(),
-    minimumStake: faker.helpers.arrayElement([
-      faker.number.int({ min: undefined, max: undefined }),
-      undefined,
-    ]),
-    name: faker.word.sample(),
-    provider: faker.helpers.arrayElement([
-      {
-        description: faker.word.sample(),
-        externalLink: faker.word.sample(),
-        id: faker.helpers.arrayElement(Object.values(YieldProviders)),
-        logoURI: faker.word.sample(),
-        name: faker.word.sample(),
-        ...overrideResponse,
-      },
-      undefined,
-    ]),
-    revshare: { enabled: faker.datatype.boolean(), ...overrideResponse },
-    rewardClaiming: faker.helpers.arrayElement(Object.values(RewardClaiming)),
-    rewardSchedule: faker.helpers.arrayElement(Object.values(RewardSchedule)),
-    rewardTokens: faker.helpers.arrayElement([
-      Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => ({
-        address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        coinGeckoId: faker.helpers.arrayElement([
-          faker.word.sample(),
-          undefined,
-        ]),
-        decimals: faker.number.int({ min: undefined, max: undefined }),
-        isPoints: faker.helpers.arrayElement([
-          faker.datatype.boolean(),
-          undefined,
-        ]),
-        logoURI: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        name: faker.word.sample(),
-        network: faker.helpers.arrayElement(Object.values(Networks)),
-        symbol: faker.word.sample(),
-        ...overrideResponse,
-      })),
-      undefined,
-    ]),
-    supportsLedgerWalletApi: faker.helpers.arrayElement([
-      faker.datatype.boolean(),
-      undefined,
-    ]),
-    supportsMultipleValidators: faker.helpers.arrayElement([
-      faker.datatype.boolean(),
-      undefined,
-    ]),
-    token: {
-      address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-      coinGeckoId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-      decimals: faker.number.int({ min: undefined, max: undefined }),
-      isPoints: faker.helpers.arrayElement([
-        faker.datatype.boolean(),
-        undefined,
-      ]),
-      logoURI: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-      name: faker.word.sample(),
-      network: faker.helpers.arrayElement(Object.values(Networks)),
-      symbol: faker.word.sample(),
-      ...overrideResponse,
-    },
-    tokens: faker.helpers.arrayElement([
-      Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => ({
-        address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        coinGeckoId: faker.helpers.arrayElement([
-          faker.word.sample(),
-          undefined,
-        ]),
-        decimals: faker.number.int({ min: undefined, max: undefined }),
-        isPoints: faker.helpers.arrayElement([
-          faker.datatype.boolean(),
-          undefined,
-        ]),
-        logoURI: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-        name: faker.word.sample(),
-        network: faker.helpers.arrayElement(Object.values(Networks)),
-        symbol: faker.word.sample(),
-        ...overrideResponse,
-      })),
-      undefined,
-    ]),
-    type: faker.helpers.arrayElement(Object.values(YieldType)),
-    warmupPeriod: {
-      days: faker.number.int({ min: undefined, max: undefined }),
-      ...overrideResponse,
-    },
-    withdrawPeriod: faker.helpers.arrayElement([
-      {
-        days: faker.number.int({ min: undefined, max: undefined }),
-        ...overrideResponse,
-      },
-      undefined,
-    ]),
-    ...overrideResponse,
-  },
-  rewardRate: faker.number.int({ min: undefined, max: undefined }),
-  rewardType: faker.helpers.arrayElement(Object.values(RewardTypes)),
-  status: {
-    enter: faker.datatype.boolean(),
-    exit: faker.datatype.boolean(),
-    ...overrideResponse,
-  },
-  token: {
-    address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    coinGeckoId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    decimals: faker.number.int({ min: undefined, max: undefined }),
-    isPoints: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
-    logoURI: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    name: faker.word.sample(),
-    network: faker.helpers.arrayElement(Object.values(Networks)),
-    symbol: faker.word.sample(),
-    ...overrideResponse,
-  },
-  tokens: Array.from(
-    { length: faker.number.int({ min: 1, max: 10 }) },
-    (_, i) => i + 1,
-  ).map(() => ({
-    address: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    coinGeckoId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    decimals: faker.number.int({ min: undefined, max: undefined }),
-    isPoints: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]),
-    logoURI: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    name: faker.word.sample(),
-    network: faker.helpers.arrayElement(Object.values(Networks)),
-    symbol: faker.word.sample(),
-    ...overrideResponse,
-  })),
-  validators: Array.from(
-    { length: faker.number.int({ min: 1, max: 10 }) },
-    (_, i) => i + 1,
-  ).map(() => ({
-    address: faker.word.sample(),
-    apr: faker.helpers.arrayElement([
-      faker.number.int({ min: undefined, max: undefined }),
-      undefined,
-    ]),
-    commission: faker.helpers.arrayElement([
-      faker.number.int({ min: undefined, max: undefined }),
-      undefined,
-    ]),
-    endDate: faker.helpers.arrayElement([
-      `${faker.date.past().toISOString().split('.')[0]}Z`,
-      undefined,
-    ]),
-    image: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    minimumStake: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    name: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    preferred: faker.helpers.arrayElement([
-      faker.datatype.boolean(),
-      undefined,
-    ]),
-    providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    remainingPossibleStake: faker.helpers.arrayElement([
-      faker.word.sample(),
-      undefined,
-    ]),
-    remainingSlots: faker.helpers.arrayElement([
-      faker.number.int({ min: undefined, max: undefined }),
-      undefined,
-    ]),
-    stakedBalance: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    status: faker.helpers.arrayElement(Object.values(ValidatorStatusTypes)),
-    votingPower: faker.helpers.arrayElement([
-      faker.number.int({ min: undefined, max: undefined }),
-      undefined,
-    ]),
-    website: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    ...overrideResponse,
-  })),
-  ...overrideResponse,
-});
-
-export const getYieldControllerGetValidatorsResponseMock = (
-  overrideResponse: any = {},
-): ValidatorDto[] =>
-  Array.from(
-    { length: faker.number.int({ min: 1, max: 10 }) },
-    (_, i) => i + 1,
-  ).map(() => ({
-    address: faker.word.sample(),
-    apr: faker.helpers.arrayElement([
-      faker.number.int({ min: undefined, max: undefined }),
-      undefined,
-    ]),
-    commission: faker.helpers.arrayElement([
-      faker.number.int({ min: undefined, max: undefined }),
-      undefined,
-    ]),
-    endDate: faker.helpers.arrayElement([
-      `${faker.date.past().toISOString().split('.')[0]}Z`,
-      undefined,
-    ]),
-    image: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    minimumStake: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    name: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    preferred: faker.helpers.arrayElement([
-      faker.datatype.boolean(),
-      undefined,
-    ]),
-    providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    remainingPossibleStake: faker.helpers.arrayElement([
-      faker.word.sample(),
-      undefined,
-    ]),
-    remainingSlots: faker.helpers.arrayElement([
-      faker.number.int({ min: undefined, max: undefined }),
-      undefined,
-    ]),
-    stakedBalance: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    status: faker.helpers.arrayElement(Object.values(ValidatorStatusTypes)),
-    votingPower: faker.helpers.arrayElement([
-      faker.number.int({ min: undefined, max: undefined }),
-      undefined,
-    ]),
-    website: faker.helpers.arrayElement([faker.word.sample(), undefined]),
-    ...overrideResponse,
-  }));
-
 export const getYieldControllerGetSingleYieldBalancesResponseMock = (
   overrideResponse: any = {},
 ): YieldBalanceDto[] =>
@@ -2054,6 +1124,30 @@ export const getYieldControllerGetSingleYieldBalancesResponseMock = (
     groupId: faker.string.uuid(),
     label: faker.helpers.arrayElement([
       { params: {}, type: faker.word.sample(), ...overrideResponse },
+      undefined,
+    ]),
+    pendingActionConstraints: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => ({
+        amount: faker.helpers.arrayElement([
+          {
+            maximum: faker.helpers.arrayElement([
+              faker.number.int({ min: undefined, max: undefined }),
+              undefined,
+            ]),
+            minimum: faker.helpers.arrayElement([
+              faker.number.int({ min: undefined, max: undefined }),
+              undefined,
+            ]),
+            ...overrideResponse,
+          },
+          undefined,
+        ]),
+        type: faker.helpers.arrayElement(Object.values(ActionTypes)),
+        ...overrideResponse,
+      })),
       undefined,
     ]),
     pendingActions: Array.from(
@@ -3261,48 +2355,6 @@ export const getTokenControllerGetTokenBalancesMockHandler = (
   });
 };
 
-export const getTokenControllerTokenBalancesScanMockHandler = (
-  overrideResponse?: TokenBalanceScanResponseDto[],
-) => {
-  return http.post('*/v1/tokens/balances/scan', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse
-          ? overrideResponse
-          : getTokenControllerTokenBalancesScanResponseMock(),
-      ),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  });
-};
-
-export const getYieldControllerYieldsMockHandler = (
-  overrideResponse?: YieldYields200,
-) => {
-  return http.get('*/v1/yields', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse
-          ? overrideResponse
-          : getYieldControllerYieldsResponseMock(),
-      ),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  });
-};
-
 export const getYieldControllerGetMultipleYieldBalancesMockHandler = (
   overrideResponse?: YieldBalancesWithIntegrationIdDto[],
 ) => {
@@ -3313,48 +2365,6 @@ export const getYieldControllerGetMultipleYieldBalancesMockHandler = (
         overrideResponse
           ? overrideResponse
           : getYieldControllerGetMultipleYieldBalancesResponseMock(),
-      ),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  });
-};
-
-export const getYieldControllerYieldBalancesScanMockHandler = (
-  overrideResponse?: YieldBalancesWithIntegrationIdDto[],
-) => {
-  return http.post('*/v1/yields/balances/scan', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse
-          ? overrideResponse
-          : getYieldControllerYieldBalancesScanResponseMock(),
-      ),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  });
-};
-
-export const getYieldControllerYieldBalancesScanEvmMockHandler = (
-  overrideResponse?: YieldBalancesWithIntegrationIdDto[],
-) => {
-  return http.post('*/v1/yields/balances/scan/evm', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse
-          ? overrideResponse
-          : getYieldControllerYieldBalancesScanEvmResponseMock(),
       ),
       {
         status: 200,
@@ -3396,69 +2406,6 @@ export const getYieldControllerGetMyNetworksMockHandler = () => {
         'Content-Type': 'application/json',
       },
     });
-  });
-};
-
-export const getYieldControllerFindValidatorsMockHandler = (
-  overrideResponse?: ValidatorSearchResultDto[],
-) => {
-  return http.get('*/v1/yields/validators', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse
-          ? overrideResponse
-          : getYieldControllerFindValidatorsResponseMock(),
-      ),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  });
-};
-
-export const getYieldControllerYieldOpportunityMockHandler = (
-  overrideResponse?: YieldDto,
-) => {
-  return http.get('*/v1/yields/:integrationId', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse
-          ? overrideResponse
-          : getYieldControllerYieldOpportunityResponseMock(),
-      ),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  });
-};
-
-export const getYieldControllerGetValidatorsMockHandler = (
-  overrideResponse?: ValidatorDto[],
-) => {
-  return http.get('*/v1/yields/:integrationId/validators', async () => {
-    await delay(1000);
-    return new HttpResponse(
-      JSON.stringify(
-        overrideResponse
-          ? overrideResponse
-          : getYieldControllerGetValidatorsResponseMock(),
-      ),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
   });
 };
 
@@ -3630,16 +2577,9 @@ export const getStakeKitMock = () => [
   getTokenControllerGetTokensMockHandler(),
   getTokenControllerGetTokenPricesMockHandler(),
   getTokenControllerGetTokenBalancesMockHandler(),
-  getTokenControllerTokenBalancesScanMockHandler(),
-  getYieldControllerYieldsMockHandler(),
   getYieldControllerGetMultipleYieldBalancesMockHandler(),
-  getYieldControllerYieldBalancesScanMockHandler(),
-  getYieldControllerYieldBalancesScanEvmMockHandler(),
   getYieldControllerGetMyYieldsMockHandler(),
   getYieldControllerGetMyNetworksMockHandler(),
-  getYieldControllerFindValidatorsMockHandler(),
-  getYieldControllerYieldOpportunityMockHandler(),
-  getYieldControllerGetValidatorsMockHandler(),
   getYieldControllerGetSingleYieldBalancesMockHandler(),
   getYieldControllerGetSingleYieldRewardsSummaryMockHandler(),
   getYieldControllerGetFeeConfigurationMockHandler(),
