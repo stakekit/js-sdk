@@ -24,4 +24,5 @@ export const EvmNetworks = {
   okc: 'okc',
   viction: 'viction',
   core: 'core',
+  sonic: 'sonic',
 } as const;

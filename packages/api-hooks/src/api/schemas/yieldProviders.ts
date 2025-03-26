@@ -36,4 +36,6 @@ export const YieldProviders = {
   gearbox: 'gearbox',
   'chorus-one': 'chorus-one',
   stakekit: 'stakekit',
+  spark: 'spark',
+  venus: 'venus',
 } as const;
