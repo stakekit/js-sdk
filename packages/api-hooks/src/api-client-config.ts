@@ -1,28 +1,25 @@
-type CustomFetch = <T>(
-  input: RequestInfo | URL,
-  init?: RequestInit,
-) => Promise<T>;
+type FetchInstance = <T>(input: string, init: RequestInit) => Promise<T>;
 
 export class StakeKitApiClient {
   private static config: {
     apiKey: string;
     baseURL: string;
-    customFetch?: CustomFetch;
+    fetchInstance?: FetchInstance;
   };
 
   static configure({
     apiKey,
     baseURL,
-    customFetch,
+    fetchInstance,
   }: {
     apiKey: string;
     baseURL?: string;
-    customFetch?: CustomFetch;
+    fetchInstance?: FetchInstance;
   }) {
     StakeKitApiClient.config = {
       apiKey,
       baseURL: baseURL || 'https://api.stakek.it/',
-      customFetch,
+      fetchInstance,
     };
   }
 
