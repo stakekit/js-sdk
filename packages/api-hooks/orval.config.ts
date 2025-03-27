@@ -1,6 +1,6 @@
 import { defineConfig } from 'orval';
 import path from 'path';
-import camelCase from 'lodash/camelCase';
+import { camelCase } from 'lodash';
 
 const apiPath = path.join(__dirname, 'src', 'api');
 

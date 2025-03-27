@@ -43,16 +43,21 @@ export const customFetch = async <T>({
   headers?: Record<string, any>;
   signal?: AbortSignal;
 }): Promise<T> => {
-  const { apiKey, baseURL, customFetch } = StakeKitApiClient.getConfig();
+  const { apiKey, baseURL, fetchInstance } = StakeKitApiClient.getConfig();
 
-  const fetchInstance = customFetch || fetch;
-
-  const response = await fetchInstance(getUrl({ baseURL, path: url, params }), {
+  const finalUrl = getUrl({ baseURL, path: url, params });
+  const requestInit: RequestInit = {
     method,
     headers: { ...headers, 'X-API-KEY': apiKey },
     signal,
     ...(data && { body: JSON.stringify(data) }),
-  });
+  };
+
+  if (fetchInstance) {
+    return fetchInstance<T>(finalUrl, requestInit);
+  }
+
+  const response = await fetch(finalUrl, requestInit);
 
   if (response.ok) {
     return response.json();
