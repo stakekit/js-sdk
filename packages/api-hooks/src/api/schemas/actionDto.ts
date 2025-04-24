@@ -14,6 +14,7 @@ export interface ActionDto {
   id: string;
   inputToken?: TokenDto;
   integrationId: string;
+  projectId: string | null;
   status: ActionStatus;
   tokenId: string | null;
   transactions: TransactionDto[];

@@ -15,6 +15,7 @@ export interface ActionWithLivePriceDto {
   id: string;
   inputToken?: TokenDto;
   integrationId: string;
+  projectId: string | null;
   status: ActionStatus;
   tokenId: string | null;
   transactions: TransactionDto[];

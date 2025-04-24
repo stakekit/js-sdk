@@ -8,6 +8,7 @@ export interface ValidatorDto {
   image?: string;
   minimumStake?: string;
   name?: string;
+  nominatorCount?: number;
   preferred?: boolean;
   providerId?: string;
   remainingPossibleStake?: string;

@@ -6,4 +6,5 @@ export interface ActionRequestDto {
   args: ActionArgumentsDto;
   integrationId: string;
   referralCode?: string;
+  skipPrechecks?: boolean;
 }

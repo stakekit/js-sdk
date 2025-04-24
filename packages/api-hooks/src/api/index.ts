@@ -9,6 +9,7 @@ import type {
 } from '@tanstack/react-query';
 import type {
   ActionDto,
+  ActionGasEstimateDto,
   ActionGasEstimateRequestDto,
   ActionList200,
   ActionListParams,
@@ -17,7 +18,6 @@ import type {
   BalancesRequestDto,
   ConstructTransactionRequestDto,
   FeeConfigurationDto,
-  GasEstimateDto,
   GasForNetworkResponseDto,
   GeolocationError,
   HealthStatusDto,
@@ -25,6 +25,10 @@ import type {
   PendingActionRequestDto,
   PriceRequestDto,
   PriceResponseDto,
+  ReportProjectGetRewards200,
+  ReportProjectGetRewardsParams,
+  ReportProjectList200,
+  ReportProjectListParams,
   StakeKitErrorDto,
   SubmitHashRequestDto,
   SubmitRequestDto,
@@ -109,6 +113,183 @@ export const useHealthHealthV2 = <
   >;
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = getHealthHealthV2QueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+export const reportProjectList = (
+  params?: ReportProjectListParams,
+  signal?: AbortSignal,
+) => {
+  return customFetch<ReportProjectList200>({
+    url: `/v1/reporting/actions`,
+    method: 'GET',
+    params,
+    signal,
+  });
+};
+
+export const getReportProjectListQueryKey = (
+  params?: ReportProjectListParams,
+) => {
+  return [`/v1/reporting/actions`, ...(params ? [params] : [])] as const;
+};
+
+export const getReportProjectListQueryOptions = <
+  TData = Awaited<ReturnType<typeof reportProjectList>>,
+  TError = unknown,
+>(
+  params?: ReportProjectListParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof reportProjectList>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getReportProjectListQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof reportProjectList>>
+  > = ({ signal }) => reportProjectList(params, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof reportProjectList>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ReportProjectListQueryResult = NonNullable<
+  Awaited<ReturnType<typeof reportProjectList>>
+>;
+export type ReportProjectListQueryError = unknown;
+
+export const useReportProjectList = <
+  TData = Awaited<ReturnType<typeof reportProjectList>>,
+  TError = unknown,
+>(
+  params?: ReportProjectListParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof reportProjectList>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getReportProjectListQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+export const reportProjectGetRewards = (
+  integrationId: string,
+  params?: ReportProjectGetRewardsParams,
+  signal?: AbortSignal,
+) => {
+  return customFetch<ReportProjectGetRewards200>({
+    url: `/v1/reporting/rewards/${integrationId}`,
+    method: 'GET',
+    params,
+    signal,
+  });
+};
+
+export const getReportProjectGetRewardsQueryKey = (
+  integrationId: string,
+  params?: ReportProjectGetRewardsParams,
+) => {
+  return [
+    `/v1/reporting/rewards/${integrationId}`,
+    ...(params ? [params] : []),
+  ] as const;
+};
+
+export const getReportProjectGetRewardsQueryOptions = <
+  TData = Awaited<ReturnType<typeof reportProjectGetRewards>>,
+  TError = unknown,
+>(
+  integrationId: string,
+  params?: ReportProjectGetRewardsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof reportProjectGetRewards>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getReportProjectGetRewardsQueryKey(integrationId, params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof reportProjectGetRewards>>
+  > = ({ signal }) => reportProjectGetRewards(integrationId, params, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!integrationId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof reportProjectGetRewards>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ReportProjectGetRewardsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof reportProjectGetRewards>>
+>;
+export type ReportProjectGetRewardsQueryError = unknown;
+
+export const useReportProjectGetRewards = <
+  TData = Awaited<ReturnType<typeof reportProjectGetRewards>>,
+  TError = unknown,
+>(
+  integrationId: string,
+  params?: ReportProjectGetRewardsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof reportProjectGetRewards>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getReportProjectGetRewardsQueryOptions(
+    integrationId,
+    params,
+    options,
+  );
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;
@@ -213,7 +394,7 @@ export const actionGetGasEstimate = (
   actionId: string,
   signal?: AbortSignal,
 ) => {
-  return customFetch<GasEstimateDto>({
+  return customFetch<ActionGasEstimateDto>({
     url: `/v1/actions/${actionId}/gas-estimate`,
     method: 'GET',
     signal,
@@ -507,7 +688,7 @@ export const useActionPending = <
 export const actionEnterGasEstimation = (
   actionGasEstimateRequestDto: ActionGasEstimateRequestDto,
 ) => {
-  return customFetch<GasEstimateDto>({
+  return customFetch<ActionGasEstimateDto>({
     url: `/v1/actions/enter/estimate-gas`,
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -600,7 +781,7 @@ export const useActionEnterGasEstimation = <
 export const actionExitGasEstimate = (
   actionGasEstimateRequestDto: ActionGasEstimateRequestDto,
 ) => {
-  return customFetch<GasEstimateDto>({
+  return customFetch<ActionGasEstimateDto>({
     url: `/v1/actions/exit/estimate-gas`,
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -766,7 +947,7 @@ export const useActionList = <
 export const actionPendingGasEstimate = (
   pendingActionGasEstimateRequestDto: PendingActionGasEstimateRequestDto,
 ) => {
-  return customFetch<GasEstimateDto>({
+  return customFetch<ActionGasEstimateDto>({
     url: `/v1/actions/pending/estimate-gas`,
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

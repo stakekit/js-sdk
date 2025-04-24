@@ -9,4 +9,5 @@ export interface ActionGasEstimateRequestDto {
   gasArgs?: ActionGasEstimateRequestDtoGasArgs;
   integrationId: string;
   referralCode?: string;
+  skipPrechecks?: boolean;
 }
