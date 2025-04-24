@@ -18,7 +18,7 @@ export const YieldProviders = {
   stakewise: 'stakewise',
   etherfi: 'etherfi',
   'morpho-aave': 'morpho-aave',
-  'morpho-blue': 'morpho-blue',
+  morpho: 'morpho',
   'morpho-compound': 'morpho-compound',
   angle: 'angle',
   kelpdao: 'kelpdao',
@@ -38,4 +38,5 @@ export const YieldProviders = {
   stakekit: 'stakekit',
   spark: 'spark',
   venus: 'venus',
+  mantle: 'mantle',
 } as const;
