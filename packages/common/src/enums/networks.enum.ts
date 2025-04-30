@@ -93,6 +93,7 @@ export enum MiscNetworks {
   Tron = 'tron',
   Ton = 'ton',
   TonTestnet = 'ton-testnet',
+  Aptos = 'aptos',
 }
 
 export const Networks = {
