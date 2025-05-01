@@ -145,6 +145,7 @@ export * from './tokenGetTokensParams';
 export * from './tokenWithAvailableYieldsDto';
 export * from './transactionDto';
 export * from './transactionDtoGasEstimate';
+export * from './transactionFormat';
 export * from './transactionGasEstimateDto';
 export * from './transactionStatus';
 export * from './transactionStatusResponseDto';
