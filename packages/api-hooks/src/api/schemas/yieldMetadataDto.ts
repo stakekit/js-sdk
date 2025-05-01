@@ -1,4 +1,5 @@
 import type { TimePeriodDto } from './timePeriodDto';
+import type { TransactionFormat } from './transactionFormat';
 import type { YieldFeeDto } from './yieldFeeDto';
 import type { TokenDto } from './tokenDto';
 import type { YieldProviderDto } from './yieldProviderDto';
@@ -12,6 +13,7 @@ export interface YieldMetadataDto {
   defaultValidator?: string;
   description: string;
   documentation: string;
+  extraTransactionFormatsSupported?: TransactionFormat[];
   fee: YieldFeeDto;
   gasFeeToken: TokenDto;
   isIntegrationAggregator?: boolean;

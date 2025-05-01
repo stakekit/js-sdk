@@ -11,6 +11,7 @@ import {
   RewardClaiming,
   RewardSchedule,
   RewardTypes,
+  TransactionFormat,
   TransactionStatus,
   TransactionType,
   ValidatorStatusTypes,
@@ -1727,6 +1728,10 @@ export const getYieldV2ControllerGetYieldByIdResponseMock = (
     ]),
     description: faker.word.sample(),
     documentation: faker.word.sample(),
+    extraTransactionFormatsSupported: faker.helpers.arrayElement([
+      faker.helpers.arrayElements(Object.values(TransactionFormat)),
+      undefined,
+    ]),
     fee: {
       depositFee: faker.datatype.boolean(),
       enabled: faker.datatype.boolean(),
