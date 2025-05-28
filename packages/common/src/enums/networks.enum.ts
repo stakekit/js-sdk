@@ -82,6 +82,7 @@ export enum SubstrateNetworks {
   Polkadot = 'polkadot',
   Westend = 'westend',
   Kusama = 'kusama',
+  Bittensor = 'bittensor',
 }
 
 export enum MiscNetworks {
