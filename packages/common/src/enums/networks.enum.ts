@@ -25,6 +25,7 @@ export enum EvmNetworks {
   Viction = 'viction',
   Core = 'core',
   Sonic = 'sonic',
+  Apechain = 'apechain',
 }
 
 export enum CosmosNetworks {
