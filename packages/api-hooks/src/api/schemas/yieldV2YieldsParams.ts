@@ -4,6 +4,10 @@ import type { YieldV2YieldsRevenueOption } from './yieldV2YieldsRevenueOption';
 import type { YieldV2YieldsNetwork } from './yieldV2YieldsNetwork';
 
 export type YieldV2YieldsParams = {
+  /**
+   * Filter yields by input token. Use "native" for native tokens (ETH, AVAX, BNB, etc.) or provide a contract address
+   */
+  inputToken?: string;
   enterStatus?: boolean;
   preferredValidatorsOnly?: boolean;
   ledgerWalletAPICompatible?: boolean;

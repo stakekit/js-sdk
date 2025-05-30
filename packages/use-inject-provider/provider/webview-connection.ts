@@ -1,11 +1,11 @@
-import { EventEmitter } from "events";
+import { EventEmitter } from 'events';
 import {
   formatJsonRpcError,
   IJsonRpcConnection,
   JsonRpcPayload,
   JsonRpcResponse,
-} from "@json-rpc-tools/utils";
-import { safeJsonParse } from "safe-json-utils";
+} from '@json-rpc-tools/utils';
+import { safeJsonParse } from 'safe-json-utils';
 
 export class WebViewConnection implements IJsonRpcConnection {
   public events = new EventEmitter();
@@ -15,7 +15,7 @@ export class WebViewConnection implements IJsonRpcConnection {
   private registering = false;
 
   get connected(): boolean {
-    return typeof this.api !== "undefined";
+    return typeof this.api !== 'undefined';
   }
 
   get connecting(): boolean {
@@ -47,7 +47,7 @@ export class WebViewConnection implements IJsonRpcConnection {
   }
 
   public async send(payload: JsonRpcPayload): Promise<void> {
-    if (typeof this.api === "undefined") {
+    if (typeof this.api === 'undefined') {
       this.api = await this.register();
     }
 
@@ -60,9 +60,9 @@ export class WebViewConnection implements IJsonRpcConnection {
   private async register(): Promise<WebViewApi> {
     if (this.registering) {
       return new Promise((resolve, reject) => {
-        this.events.once("open", () => {
-          if (typeof this.api === "undefined") {
-            return reject(new Error("Connection is missing or invalid"));
+        this.events.once('open', () => {
+          if (typeof this.api === 'undefined') {
+            return reject(new Error('Connection is missing or invalid'));
           }
 
           resolve(this.api);
@@ -80,25 +80,25 @@ export class WebViewConnection implements IJsonRpcConnection {
   private onOpen(api: WebViewApi) {
     this.api = api;
     this.registering = false;
-    this.events.emit("open");
+    this.events.emit('open');
   }
 
   private onClose() {
-    this.events.emit("close");
+    this.events.emit('close');
   }
 
   private onPayload(e: { data: any }) {
-    if (typeof e.data === "undefined") return;
+    if (typeof e.data === 'undefined') return;
 
     const payload: JsonRpcPayload =
-      typeof e.data === "string" ? safeJsonParse(e.data) : e.data;
-    this.events.emit("payload", payload);
+      typeof e.data === 'string' ? safeJsonParse(e.data) : e.data;
+    this.events.emit('payload', payload);
   }
 
   private onError(id: number, e: Error) {
     const message = e.message || e.toString();
     const payload = formatJsonRpcError(id, message);
-    this.events.emit("payload", payload);
+    this.events.emit('payload', payload);
   }
 }
 
@@ -110,7 +110,7 @@ class WebViewApi {
   constructor(args: { timeoutMs?: number } = {}) {
     this.timeoutMs = args.timeoutMs ?? 1000 * 60 * 5;
 
-    window.addEventListener("message", this.messageSubscription);
+    window.addEventListener('message', this.messageSubscription);
   }
 
   private constructEventName = (id: number) => `webViewMessage:${id}`;
@@ -125,7 +125,7 @@ class WebViewApi {
   };
 
   public clearSubscriptions() {
-    window.removeEventListener("message", this.messageSubscription);
+    window.removeEventListener('message', this.messageSubscription);
   }
 
   public async send(payload: JsonRpcPayload) {
@@ -139,7 +139,7 @@ class WebViewApi {
         (data: JsonRpcResponse) => {
           // clearTimeout(timeoutId);
           resolve(data);
-        }
+        },
       );
     });
 

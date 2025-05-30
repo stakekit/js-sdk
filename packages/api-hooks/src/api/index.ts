@@ -17,6 +17,7 @@ import type {
   BalanceResponseDto,
   BalancesRequestDto,
   ConstructTransactionRequestDto,
+  CreateFeeConfigurationDtoV2,
   FeeConfigurationDto,
   GasForNetworkResponseDto,
   GeolocationError,
@@ -52,6 +53,8 @@ import type {
   YieldRewardsSummaryResponseDto,
   YieldV2FindValidatorsParams,
   YieldV2FindYieldValidatorsParams,
+  YieldV2GetFeeConfigurations200,
+  YieldV2GetFeeConfigurationsParams,
   YieldV2Yields200,
   YieldV2YieldsParams,
 } from './schemas';
@@ -2529,6 +2532,79 @@ export const useYieldGetFeeConfiguration = <
 };
 
 /**
+ * Creates a fee configuration for a yield using a reporting key
+ * @summary Create a fee configuration
+ */
+export const yieldCreateFeeConfiguration = (
+  integrationId: string,
+  createFeeConfigurationDtoV2: CreateFeeConfigurationDtoV2,
+) => {
+  return customFetch<FeeConfigurationDto>({
+    url: `/v1/yields/${integrationId}/fee-configuration`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: createFeeConfigurationDtoV2,
+  });
+};
+
+export const getYieldCreateFeeConfigurationMutationOptions = <
+  TError = StakeKitErrorDto,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof yieldCreateFeeConfiguration>>,
+    TError,
+    { integrationId: string; data: CreateFeeConfigurationDtoV2 },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof yieldCreateFeeConfiguration>>,
+  TError,
+  { integrationId: string; data: CreateFeeConfigurationDtoV2 },
+  TContext
+> => {
+  const { mutation: mutationOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof yieldCreateFeeConfiguration>>,
+    { integrationId: string; data: CreateFeeConfigurationDtoV2 }
+  > = (props) => {
+    const { integrationId, data } = props ?? {};
+
+    return yieldCreateFeeConfiguration(integrationId, data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type YieldCreateFeeConfigurationMutationResult = NonNullable<
+  Awaited<ReturnType<typeof yieldCreateFeeConfiguration>>
+>;
+export type YieldCreateFeeConfigurationMutationBody =
+  CreateFeeConfigurationDtoV2;
+export type YieldCreateFeeConfigurationMutationError = StakeKitErrorDto;
+
+/**
+ * @summary Create a fee configuration
+ */
+export const useYieldCreateFeeConfiguration = <
+  TError = StakeKitErrorDto,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof yieldCreateFeeConfiguration>>,
+    TError,
+    { integrationId: string; data: CreateFeeConfigurationDtoV2 },
+    TContext
+  >;
+}) => {
+  const mutationOptions =
+    getYieldCreateFeeConfigurationMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+
+/**
  * Returns the available yields (staking, lending, vaults, etc) with associated configuration and metadata
  * @summary Get all yields
  */
@@ -2871,6 +2947,111 @@ export const useYieldV2FindValidators = <
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = getYieldV2FindValidatorsQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+/**
+ * Returns a list of fee configurations that contains details about fees taken when interacting with the yield.
+ * @summary Get yield fee configurations
+ */
+export const yieldV2GetFeeConfigurations = (
+  integrationId: string,
+  params?: YieldV2GetFeeConfigurationsParams,
+  signal?: AbortSignal,
+) => {
+  return customFetch<YieldV2GetFeeConfigurations200>({
+    url: `/v2/yields/${integrationId}/fee-configurations`,
+    method: 'GET',
+    params,
+    signal,
+  });
+};
+
+export const getYieldV2GetFeeConfigurationsQueryKey = (
+  integrationId: string,
+  params?: YieldV2GetFeeConfigurationsParams,
+) => {
+  return [
+    `/v2/yields/${integrationId}/fee-configurations`,
+    ...(params ? [params] : []),
+  ] as const;
+};
+
+export const getYieldV2GetFeeConfigurationsQueryOptions = <
+  TData = Awaited<ReturnType<typeof yieldV2GetFeeConfigurations>>,
+  TError = StakeKitErrorDto | void,
+>(
+  integrationId: string,
+  params?: YieldV2GetFeeConfigurationsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof yieldV2GetFeeConfigurations>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getYieldV2GetFeeConfigurationsQueryKey(integrationId, params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof yieldV2GetFeeConfigurations>>
+  > = ({ signal }) =>
+    yieldV2GetFeeConfigurations(integrationId, params, signal);
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!integrationId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof yieldV2GetFeeConfigurations>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type YieldV2GetFeeConfigurationsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof yieldV2GetFeeConfigurations>>
+>;
+export type YieldV2GetFeeConfigurationsQueryError = StakeKitErrorDto | void;
+
+/**
+ * @summary Get yield fee configurations
+ */
+export const useYieldV2GetFeeConfigurations = <
+  TData = Awaited<ReturnType<typeof yieldV2GetFeeConfigurations>>,
+  TError = StakeKitErrorDto | void,
+>(
+  integrationId: string,
+  params?: YieldV2GetFeeConfigurationsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof yieldV2GetFeeConfigurations>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getYieldV2GetFeeConfigurationsQueryOptions(
+    integrationId,
+    params,
+    options,
+  );
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;
