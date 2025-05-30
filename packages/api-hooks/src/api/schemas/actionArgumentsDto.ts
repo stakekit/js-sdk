@@ -6,6 +6,7 @@ import type { TronResourceType } from './tronResourceType';
 export interface ActionArgumentsDto {
   amount: string;
   duration?: number;
+  feeConfigurationId?: string;
   inputToken?: TokenDto;
   ledgerWalletAPICompatible?: boolean;
   nfts?: ApeNativeArgumentsDto;

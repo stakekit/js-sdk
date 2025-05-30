@@ -4,6 +4,7 @@ export interface TokenDto {
   address?: string;
   coinGeckoId?: string;
   decimals: number;
+  feeConfigurationId?: string;
   isPoints?: boolean;
   logoURI?: string;
   name: string;

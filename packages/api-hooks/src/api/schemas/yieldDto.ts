@@ -1,4 +1,5 @@
 import type { ActionArgumentResponseDto } from './actionArgumentResponseDto';
+import type { FeeConfigurationWithApyDto } from './feeConfigurationWithApyDto';
 import type { YieldMetadataDto } from './yieldMetadataDto';
 import type { RewardTypes } from './rewardTypes';
 import type { YieldStatusResponseDto } from './yieldStatusResponseDto';
@@ -8,6 +9,7 @@ import type { ValidatorDto } from './validatorDto';
 export interface YieldDto {
   apy: number;
   args: ActionArgumentResponseDto;
+  feeConfigurations: FeeConfigurationWithApyDto[];
   /** The yield opportunity ID */
   id: string;
   isAvailable: boolean;

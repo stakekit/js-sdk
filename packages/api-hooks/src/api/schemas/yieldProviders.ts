@@ -39,4 +39,5 @@ export const YieldProviders = {
   spark: 'spark',
   venus: 'venus',
   mantle: 'mantle',
+  'ton-whales': 'ton-whales',
 } as const;

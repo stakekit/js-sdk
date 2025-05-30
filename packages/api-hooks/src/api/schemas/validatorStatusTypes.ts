@@ -8,4 +8,5 @@ export const ValidatorStatusTypes = {
   deactivating: 'deactivating',
   inactive: 'inactive',
   full: 'full',
+  not_found: 'not_found',
 } as const;

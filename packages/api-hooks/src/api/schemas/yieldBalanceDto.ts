@@ -7,6 +7,7 @@ import type { BalanceTypes } from './balanceTypes';
 export interface YieldBalanceDto {
   amount: string;
   date?: string;
+  feeConfigurationId?: string;
   groupId: string;
   label?: YieldBalanceLabelDto;
   pendingActionConstraints?: PendingActionConstraintDto[];
