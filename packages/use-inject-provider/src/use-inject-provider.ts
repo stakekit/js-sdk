@@ -2,12 +2,12 @@ import {
   formatJsonRpcError,
   formatJsonRpcResult,
   isJsonRpcRequest,
-} from "@json-rpc-tools/utils";
-import { EIP1193Provider } from "eip1193-provider";
-import { RefObject, useCallback, useMemo } from "react";
-import WebView, { WebViewProps } from "react-native-webview";
+} from '@json-rpc-tools/utils';
+import { EIP1193Provider } from 'eip1193-provider';
+import { RefObject, useCallback, useMemo } from 'react';
+import WebView, { WebViewProps } from 'react-native-webview';
 // @ts-expect-error
-import generatedProvider from "inline:../provider/generated-provider.js";
+import generatedProvider from 'inline:../provider/generated-provider.js';
 
 export const useInjectProvider = (args: {
   provider: EIP1193Provider;
@@ -15,21 +15,23 @@ export const useInjectProvider = (args: {
 }) => {
   const { provider, webViewRef } = args;
 
-  const injectedJavaScript: NonNullable<WebViewProps["injectedJavaScript"]> =
+  const injectedJavaScript: NonNullable<WebViewProps['injectedJavaScript']> =
     generatedProvider;
 
-  const onMessage = useCallback<NonNullable<WebViewProps["onMessage"]>>(
+  const onMessage = useCallback<NonNullable<WebViewProps['onMessage']>>(
     async ({ nativeEvent: { data } }) => {
       try {
         if (!webViewRef.current) {
-          return console.warn("webViewRef.current is missing");
+          return console.warn('webViewRef.current is missing');
         }
 
         const parsedData = JSON.parse(data);
 
         if (!isJsonRpcRequest(parsedData)) {
           return webViewRef.current.postMessage(
-            JSON.stringify(formatJsonRpcError(parsedData.id, "Invalid request"))
+            JSON.stringify(
+              formatJsonRpcError(parsedData.id, 'Invalid request'),
+            ),
           );
         }
 
@@ -46,7 +48,7 @@ export const useInjectProvider = (args: {
         console.log(error);
       }
     },
-    [provider, webViewRef]
+    [provider, webViewRef],
   );
 
   return useMemo(() => {
