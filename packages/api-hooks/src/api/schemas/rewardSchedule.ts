@@ -10,4 +10,5 @@ export const RewardSchedule = {
   month: 'month',
   era: 'era',
   epoch: 'epoch',
+  campaign: 'campaign',
 } as const;

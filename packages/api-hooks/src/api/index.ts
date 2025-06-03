@@ -2373,7 +2373,7 @@ export const yieldGetSingleYieldRewardsSummary = (
   integrationId: string,
   yieldRewardsSummaryRequestDto: YieldRewardsSummaryRequestDto,
 ) => {
-  return customFetch<YieldRewardsSummaryResponseDto[]>({
+  return customFetch<YieldRewardsSummaryResponseDto>({
     url: `/v1/yields/${integrationId}/rewards-summary`,
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

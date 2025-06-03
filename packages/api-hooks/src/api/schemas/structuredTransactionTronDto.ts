@@ -8,6 +8,7 @@ export interface StructuredTransactionTronDto {
   owner_address: string;
   receiver_address?: string;
   resource?: string;
+  type: string;
   unfreeze_balance?: number;
   votes?: StructuredTransactionTronDtoVotesItem[];
 }
