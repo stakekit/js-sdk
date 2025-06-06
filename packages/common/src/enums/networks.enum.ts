@@ -3,6 +3,7 @@ export enum EvmNetworks {
   Ethereum = 'ethereum',
   EthereumGoerli = 'ethereum-goerli',
   EthereumHolesky = 'ethereum-holesky',
+  EthereumSepolia = 'ethereum-sepolia',
   Arbitrum = 'arbitrum',
   Base = 'base',
   Gnosis = 'gnosis',
@@ -11,6 +12,7 @@ export enum EvmNetworks {
   Starknet = 'starknet',
   zkSync = 'zksync',
   Linea = 'linea',
+  Unichain = 'unichain',
 
   // Other EVM
   AvalancheC = 'avalanche-c',
