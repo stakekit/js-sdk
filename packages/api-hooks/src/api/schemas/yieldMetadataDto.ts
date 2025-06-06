@@ -10,7 +10,6 @@ import type { YieldType } from './yieldType';
 
 export interface YieldMetadataDto {
   cooldownPeriod?: TimePeriodDto;
-  defaultValidator?: string;
   description: string;
   documentation: string;
   extraTransactionFormatsSupported?: TransactionFormat[];

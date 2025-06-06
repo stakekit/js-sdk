@@ -2275,10 +2275,6 @@ export const getYieldV2ControllerGetYieldByIdResponseMock = (
       },
       undefined,
     ]),
-    defaultValidator: faker.helpers.arrayElement([
-      faker.word.sample(),
-      undefined,
-    ]),
     description: faker.word.sample(),
     documentation: faker.word.sample(),
     extraTransactionFormatsSupported: faker.helpers.arrayElement([

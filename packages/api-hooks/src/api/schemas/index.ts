@@ -217,6 +217,7 @@ export * from './yieldV2Yields200';
 export * from './yieldV2Yields200AllOf';
 export * from './yieldV2YieldsNetwork';
 export * from './yieldV2YieldsParams';
+export * from './yieldV2YieldsProviderId';
 export * from './yieldV2YieldsRevenueOption';
 export * from './yieldV2YieldsSortBy';
 export * from './yieldV2YieldsType';
