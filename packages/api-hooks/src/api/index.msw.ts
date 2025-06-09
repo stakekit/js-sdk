@@ -1605,6 +1605,10 @@ export const getYieldControllerGetMultipleYieldBalancesResponseMock = (
                   { required: faker.datatype.boolean(), ...overrideResponse },
                   undefined,
                 ]),
+                subnetId: faker.helpers.arrayElement([
+                  { required: faker.datatype.boolean(), ...overrideResponse },
+                  undefined,
+                ]),
                 tronResource: faker.helpers.arrayElement([
                   {
                     options: Array.from(
@@ -1825,6 +1829,10 @@ export const getYieldControllerGetSingleYieldBalancesResponseMock = (
                 undefined,
               ]),
               signatureVerification: faker.helpers.arrayElement([
+                { required: faker.datatype.boolean(), ...overrideResponse },
+                undefined,
+              ]),
+              subnetId: faker.helpers.arrayElement([
                 { required: faker.datatype.boolean(), ...overrideResponse },
                 undefined,
               ]),
@@ -2089,6 +2097,10 @@ export const getYieldV2ControllerGetYieldByIdResponseMock = (
             { required: faker.datatype.boolean(), ...overrideResponse },
             undefined,
           ]),
+          subnetId: faker.helpers.arrayElement([
+            { required: faker.datatype.boolean(), ...overrideResponse },
+            undefined,
+          ]),
           tronResource: faker.helpers.arrayElement([
             {
               options: Array.from(
@@ -2202,6 +2214,10 @@ export const getYieldV2ControllerGetYieldByIdResponseMock = (
               undefined,
             ]),
             signatureVerification: faker.helpers.arrayElement([
+              { required: faker.datatype.boolean(), ...overrideResponse },
+              undefined,
+            ]),
+            subnetId: faker.helpers.arrayElement([
               { required: faker.datatype.boolean(), ...overrideResponse },
               undefined,
             ]),
@@ -2510,6 +2526,10 @@ export const getYieldV2ControllerGetYieldByIdResponseMock = (
     ]),
     stakedBalance: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     status: faker.helpers.arrayElement(Object.values(ValidatorStatusTypes)),
+    subnetId: faker.helpers.arrayElement([
+      faker.number.int({ min: undefined, max: undefined }),
+      undefined,
+    ]),
     votingPower: faker.helpers.arrayElement([
       faker.number.int({ min: undefined, max: undefined }),
       undefined,
@@ -2573,6 +2593,10 @@ export const getYieldV2ControllerFindYieldValidatorsResponseMock = (
         undefined,
       ]),
       status: faker.helpers.arrayElement(Object.values(ValidatorStatusTypes)),
+      subnetId: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+      ]),
       votingPower: faker.helpers.arrayElement([
         faker.number.int({ min: undefined, max: undefined }),
         undefined,
@@ -2636,6 +2660,10 @@ export const getYieldV2ControllerFindValidatorsResponseMock = (
         undefined,
       ]),
       status: faker.helpers.arrayElement(Object.values(ValidatorStatusTypes)),
+      subnetId: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+      ]),
       votingPower: faker.helpers.arrayElement([
         faker.number.int({ min: undefined, max: undefined }),
         undefined,

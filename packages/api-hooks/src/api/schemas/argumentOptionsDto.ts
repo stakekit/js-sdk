@@ -11,6 +11,7 @@ export interface ArgumentOptionsDto {
   feeConfigurationId?: RequiredArgumentWithOptionsDto;
   nfts?: ApeNativeArgumentOptionsDto[];
   signatureVerification?: RequiredArgumentDto;
+  subnetId?: RequiredArgumentDto;
   tronResource?: TronResourceArgumentOptionsDto;
   validatorAddress?: RequiredArgumentDto;
   validatorAddresses?: RequiredArgumentDto;

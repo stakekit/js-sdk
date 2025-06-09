@@ -15,6 +15,7 @@ export interface ValidatorDto {
   remainingSlots?: number;
   stakedBalance?: string;
   status: ValidatorStatusTypes;
+  subnetId?: number;
   votingPower?: number;
   website?: string;
 }

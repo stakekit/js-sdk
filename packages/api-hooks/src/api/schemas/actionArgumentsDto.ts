@@ -12,6 +12,7 @@ export interface ActionArgumentsDto {
   nfts?: ApeNativeArgumentsDto;
   providerId?: string;
   signatureVerification?: SignatureVerificationArgumentsDto;
+  subnetId?: number;
   tronResource?: TronResourceType;
   validatorAddress?: string;
   validatorAddresses?: string[];
