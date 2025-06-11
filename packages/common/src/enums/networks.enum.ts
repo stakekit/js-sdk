@@ -1,3 +1,4 @@
+// NEVER USE A DASH FOR NETWORK NAMES
 export enum EvmNetworks {
   // Ethereum & L2s
   Ethereum = 'ethereum',
@@ -6,9 +7,11 @@ export enum EvmNetworks {
   EthereumSepolia = 'ethereum-sepolia',
   Arbitrum = 'arbitrum',
   Base = 'base',
+  BaseSepolia = 'base-sepolia',
   Gnosis = 'gnosis',
   Optimism = 'optimism',
   Polygon = 'polygon',
+  PolygonAmoy = 'polygon-amoy',
   Starknet = 'starknet',
   zkSync = 'zksync',
   Linea = 'linea',
@@ -92,6 +95,7 @@ export enum MiscNetworks {
   Cardano = 'cardano',
   Near = 'near',
   Solana = 'solana',
+  SolanaDevnet = 'solana-devnet',
   Tezos = 'tezos',
   Tron = 'tron',
   Ton = 'ton',
