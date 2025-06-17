@@ -5,6 +5,7 @@ export enum EvmNetworks {
   EthereumGoerli = 'ethereum-goerli',
   EthereumHolesky = 'ethereum-holesky',
   EthereumSepolia = 'ethereum-sepolia',
+  EthereumHoodi = 'ethereum-hoodi',
   Arbitrum = 'arbitrum',
   Base = 'base',
   BaseSepolia = 'base-sepolia',
