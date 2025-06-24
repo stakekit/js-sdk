@@ -40,4 +40,6 @@ export const YieldProviders = {
   venus: 'venus',
   mantle: 'mantle',
   'ton-whales': 'ton-whales',
+  blend: 'blend',
+  synthetix: 'synthetix',
 } as const;

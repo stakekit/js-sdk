@@ -27,6 +27,8 @@ import type {
   GasForNetworkResponseDto,
   HealthStatusDto,
   PriceResponseDto,
+  ReportProjectGetDailyPerformance200,
+  ReportProjectGetDailyRevenues200,
   ReportProjectGetRewards200,
   ReportProjectList200,
   SubmitResponseDto,
@@ -55,7 +57,10 @@ export const getHealthControllerHealthV2ResponseMock = (
 export const getReportProjectControllerListResponseMock = (
   overrideResponse: any = {},
 ): ReportProjectList200 => ({
-  data: {},
+  data: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({})),
   hasNextPage: faker.datatype.boolean(),
   limit: faker.number.int({ min: undefined, max: undefined }),
   page: faker.number.int({ min: undefined, max: undefined }),
@@ -66,7 +71,38 @@ export const getReportProjectControllerListResponseMock = (
 export const getReportProjectControllerGetRewardsResponseMock = (
   overrideResponse: any = {},
 ): ReportProjectGetRewards200 => ({
-  data: {},
+  data: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({})),
+  hasNextPage: faker.datatype.boolean(),
+  limit: faker.number.int({ min: undefined, max: undefined }),
+  page: faker.number.int({ min: undefined, max: undefined }),
+  ...overrideResponse,
+  ...overrideResponse,
+});
+
+export const getReportProjectControllerGetDailyRevenuesResponseMock = (
+  overrideResponse: any = {},
+): ReportProjectGetDailyRevenues200 => ({
+  data: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({})),
+  hasNextPage: faker.datatype.boolean(),
+  limit: faker.number.int({ min: undefined, max: undefined }),
+  page: faker.number.int({ min: undefined, max: undefined }),
+  ...overrideResponse,
+  ...overrideResponse,
+});
+
+export const getReportProjectControllerGetDailyPerformanceResponseMock = (
+  overrideResponse: any = {},
+): ReportProjectGetDailyPerformance200 => ({
+  data: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({})),
   hasNextPage: faker.datatype.boolean(),
   limit: faker.number.int({ min: undefined, max: undefined }),
   page: faker.number.int({ min: undefined, max: undefined }),
@@ -1030,7 +1066,10 @@ export const getActionControllerExitGasEstimateResponseMock = (
 export const getActionControllerListResponseMock = (
   overrideResponse: any = {},
 ): ActionList200 => ({
-  data: {},
+  data: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({})),
   hasNextPage: faker.datatype.boolean(),
   limit: faker.number.int({ min: undefined, max: undefined }),
   page: faker.number.int({ min: undefined, max: undefined }),
@@ -1601,6 +1640,17 @@ export const getYieldControllerGetMultipleYieldBalancesResponseMock = (
                   })),
                   undefined,
                 ]),
+                providerId: faker.helpers.arrayElement([
+                  {
+                    options: Array.from(
+                      { length: faker.number.int({ min: 1, max: 10 }) },
+                      (_, i) => i + 1,
+                    ).map(() => faker.word.sample()),
+                    required: faker.datatype.boolean(),
+                    ...overrideResponse,
+                  },
+                  undefined,
+                ]),
                 signatureVerification: faker.helpers.arrayElement([
                   { required: faker.datatype.boolean(), ...overrideResponse },
                   undefined,
@@ -1684,7 +1734,10 @@ export const getYieldControllerGetMultipleYieldBalancesResponseMock = (
 export const getYieldControllerGetMyYieldsResponseMock = (
   overrideResponse: any = {},
 ): YieldGetMyYields200 => ({
-  data: {},
+  data: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({})),
   hasNextPage: faker.datatype.boolean(),
   limit: faker.number.int({ min: undefined, max: undefined }),
   page: faker.number.int({ min: undefined, max: undefined }),
@@ -1826,6 +1879,17 @@ export const getYieldControllerGetSingleYieldBalancesResponseMock = (
                   ]),
                   ...overrideResponse,
                 })),
+                undefined,
+              ]),
+              providerId: faker.helpers.arrayElement([
+                {
+                  options: Array.from(
+                    { length: faker.number.int({ min: 1, max: 10 }) },
+                    (_, i) => i + 1,
+                  ).map(() => faker.word.sample()),
+                  required: faker.datatype.boolean(),
+                  ...overrideResponse,
+                },
                 undefined,
               ]),
               signatureVerification: faker.helpers.arrayElement([
@@ -1994,7 +2058,10 @@ export const getYieldControllerCreateFeeConfigurationResponseMock = (
 export const getYieldV2ControllerYieldsResponseMock = (
   overrideResponse: any = {},
 ): YieldV2Yields200 => ({
-  data: {},
+  data: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({})),
   hasNextPage: faker.datatype.boolean(),
   limit: faker.number.int({ min: undefined, max: undefined }),
   page: faker.number.int({ min: undefined, max: undefined }),
@@ -2091,6 +2158,17 @@ export const getYieldV2ControllerGetYieldByIdResponseMock = (
               ]),
               ...overrideResponse,
             })),
+            undefined,
+          ]),
+          providerId: faker.helpers.arrayElement([
+            {
+              options: Array.from(
+                { length: faker.number.int({ min: 1, max: 10 }) },
+                (_, i) => i + 1,
+              ).map(() => faker.word.sample()),
+              required: faker.datatype.boolean(),
+              ...overrideResponse,
+            },
             undefined,
           ]),
           signatureVerification: faker.helpers.arrayElement([
@@ -2211,6 +2289,17 @@ export const getYieldV2ControllerGetYieldByIdResponseMock = (
                 ]),
                 ...overrideResponse,
               })),
+              undefined,
+            ]),
+            providerId: faker.helpers.arrayElement([
+              {
+                options: Array.from(
+                  { length: faker.number.int({ min: 1, max: 10 }) },
+                  (_, i) => i + 1,
+                ).map(() => faker.word.sample()),
+                required: faker.datatype.boolean(),
+                ...overrideResponse,
+              },
               undefined,
             ]),
             signatureVerification: faker.helpers.arrayElement([
@@ -2677,7 +2766,10 @@ export const getYieldV2ControllerFindValidatorsResponseMock = (
 export const getYieldV2ControllerGetFeeConfigurationsResponseMock = (
   overrideResponse: any = {},
 ): YieldV2GetFeeConfigurations200 => ({
-  data: {},
+  data: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({})),
   hasNextPage: faker.datatype.boolean(),
   limit: faker.number.int({ min: undefined, max: undefined }),
   page: faker.number.int({ min: undefined, max: undefined }),
@@ -2737,6 +2829,48 @@ export const getReportProjectControllerGetRewardsMockHandler = (
         overrideResponse
           ? overrideResponse
           : getReportProjectControllerGetRewardsResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getReportProjectControllerGetDailyRevenuesMockHandler = (
+  overrideResponse?: ReportProjectGetDailyRevenues200,
+) => {
+  return http.get('*/v1/reporting/revenue', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getReportProjectControllerGetDailyRevenuesResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  });
+};
+
+export const getReportProjectControllerGetDailyPerformanceMockHandler = (
+  overrideResponse?: ReportProjectGetDailyPerformance200,
+) => {
+  return http.get('*/v1/reporting/performance', async () => {
+    await delay(1000);
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getReportProjectControllerGetDailyPerformanceResponseMock(),
       ),
       {
         status: 200,
@@ -3403,6 +3537,8 @@ export const getStakeKitMock = () => [
   getHealthControllerHealthV2MockHandler(),
   getReportProjectControllerListMockHandler(),
   getReportProjectControllerGetRewardsMockHandler(),
+  getReportProjectControllerGetDailyRevenuesMockHandler(),
+  getReportProjectControllerGetDailyPerformanceMockHandler(),
   getActionControllerGetActionMockHandler(),
   getActionControllerGetGasEstimateMockHandler(),
   getActionControllerEnterMockHandler(),

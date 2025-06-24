@@ -26,6 +26,10 @@ import type {
   PendingActionRequestDto,
   PriceRequestDto,
   PriceResponseDto,
+  ReportProjectGetDailyPerformance200,
+  ReportProjectGetDailyPerformanceParams,
+  ReportProjectGetDailyRevenues200,
+  ReportProjectGetDailyRevenuesParams,
   ReportProjectGetRewards200,
   ReportProjectGetRewardsParams,
   ReportProjectList200,
@@ -290,6 +294,173 @@ export const useReportProjectGetRewards = <
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = getReportProjectGetRewardsQueryOptions(
     integrationId,
+    params,
+    options,
+  );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+export const reportProjectGetDailyRevenues = (
+  params?: ReportProjectGetDailyRevenuesParams,
+  signal?: AbortSignal,
+) => {
+  return customFetch<ReportProjectGetDailyRevenues200>({
+    url: `/v1/reporting/revenue`,
+    method: 'GET',
+    params,
+    signal,
+  });
+};
+
+export const getReportProjectGetDailyRevenuesQueryKey = (
+  params?: ReportProjectGetDailyRevenuesParams,
+) => {
+  return [`/v1/reporting/revenue`, ...(params ? [params] : [])] as const;
+};
+
+export const getReportProjectGetDailyRevenuesQueryOptions = <
+  TData = Awaited<ReturnType<typeof reportProjectGetDailyRevenues>>,
+  TError = unknown,
+>(
+  params?: ReportProjectGetDailyRevenuesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof reportProjectGetDailyRevenues>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getReportProjectGetDailyRevenuesQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof reportProjectGetDailyRevenues>>
+  > = ({ signal }) => reportProjectGetDailyRevenues(params, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof reportProjectGetDailyRevenues>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ReportProjectGetDailyRevenuesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof reportProjectGetDailyRevenues>>
+>;
+export type ReportProjectGetDailyRevenuesQueryError = unknown;
+
+export const useReportProjectGetDailyRevenues = <
+  TData = Awaited<ReturnType<typeof reportProjectGetDailyRevenues>>,
+  TError = unknown,
+>(
+  params?: ReportProjectGetDailyRevenuesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof reportProjectGetDailyRevenues>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getReportProjectGetDailyRevenuesQueryOptions(
+    params,
+    options,
+  );
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+export const reportProjectGetDailyPerformance = (
+  params: ReportProjectGetDailyPerformanceParams,
+  signal?: AbortSignal,
+) => {
+  return customFetch<ReportProjectGetDailyPerformance200>({
+    url: `/v1/reporting/performance`,
+    method: 'GET',
+    params,
+    signal,
+  });
+};
+
+export const getReportProjectGetDailyPerformanceQueryKey = (
+  params: ReportProjectGetDailyPerformanceParams,
+) => {
+  return [`/v1/reporting/performance`, ...(params ? [params] : [])] as const;
+};
+
+export const getReportProjectGetDailyPerformanceQueryOptions = <
+  TData = Awaited<ReturnType<typeof reportProjectGetDailyPerformance>>,
+  TError = unknown,
+>(
+  params: ReportProjectGetDailyPerformanceParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof reportProjectGetDailyPerformance>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getReportProjectGetDailyPerformanceQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof reportProjectGetDailyPerformance>>
+  > = ({ signal }) => reportProjectGetDailyPerformance(params, signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof reportProjectGetDailyPerformance>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ReportProjectGetDailyPerformanceQueryResult = NonNullable<
+  Awaited<ReturnType<typeof reportProjectGetDailyPerformance>>
+>;
+export type ReportProjectGetDailyPerformanceQueryError = unknown;
+
+export const useReportProjectGetDailyPerformance = <
+  TData = Awaited<ReturnType<typeof reportProjectGetDailyPerformance>>,
+  TError = unknown,
+>(
+  params: ReportProjectGetDailyPerformanceParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof reportProjectGetDailyPerformance>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getReportProjectGetDailyPerformanceQueryOptions(
     params,
     options,
   );

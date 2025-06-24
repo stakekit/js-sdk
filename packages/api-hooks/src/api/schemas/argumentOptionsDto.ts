@@ -10,6 +10,7 @@ export interface ArgumentOptionsDto {
   duration?: DurationArgumentOptionsDto;
   feeConfigurationId?: RequiredArgumentWithOptionsDto;
   nfts?: ApeNativeArgumentOptionsDto[];
+  providerId?: RequiredArgumentWithOptionsDto;
   signatureVerification?: RequiredArgumentDto;
   subnetId?: RequiredArgumentDto;
   tronResource?: TronResourceArgumentOptionsDto;

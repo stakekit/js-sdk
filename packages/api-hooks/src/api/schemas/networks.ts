@@ -1,3 +1,6 @@
+/**
+ * The network name
+ */
 export type Networks = (typeof Networks)[keyof typeof Networks];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -6,6 +9,7 @@ export const Networks = {
   'ethereum-goerli': 'ethereum-goerli',
   'ethereum-holesky': 'ethereum-holesky',
   'ethereum-sepolia': 'ethereum-sepolia',
+  'ethereum-hoodi': 'ethereum-hoodi',
   arbitrum: 'arbitrum',
   base: 'base',
   'base-sepolia': 'base-sepolia',
@@ -86,6 +90,8 @@ export const Networks = {
   near: 'near',
   solana: 'solana',
   'solana-devnet': 'solana-devnet',
+  stellar: 'stellar',
+  'stellar-testnet': 'stellar-testnet',
   tezos: 'tezos',
   tron: 'tron',
   ton: 'ton',

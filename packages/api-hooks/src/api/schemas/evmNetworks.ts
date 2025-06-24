@@ -6,6 +6,7 @@ export const EvmNetworks = {
   'ethereum-goerli': 'ethereum-goerli',
   'ethereum-holesky': 'ethereum-holesky',
   'ethereum-sepolia': 'ethereum-sepolia',
+  'ethereum-hoodi': 'ethereum-hoodi',
   arbitrum: 'arbitrum',
   base: 'base',
   'base-sepolia': 'base-sepolia',

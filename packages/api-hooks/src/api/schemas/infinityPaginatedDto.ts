@@ -1,7 +1,8 @@
-import type { InfinityPaginatedDtoData } from './infinityPaginatedDtoData';
+import type { InfinityPaginatedDtoDataItem } from './infinityPaginatedDtoDataItem';
 
 export interface InfinityPaginatedDto {
-  data: InfinityPaginatedDtoData;
+  /** Array of data items */
+  data: InfinityPaginatedDtoDataItem[];
   hasNextPage: boolean;
   limit: number;
   page: number;
