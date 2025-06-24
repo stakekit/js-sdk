@@ -40,4 +40,6 @@ export const YieldV2YieldsProviderId = {
   venus: 'venus',
   mantle: 'mantle',
   'ton-whales': 'ton-whales',
+  blend: 'blend',
+  synthetix: 'synthetix',
 } as const;
