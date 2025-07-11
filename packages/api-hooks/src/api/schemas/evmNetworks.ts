@@ -30,4 +30,5 @@ export const EvmNetworks = {
   viction: 'viction',
   core: 'core',
   sonic: 'sonic',
+  katana: 'katana',
 } as const;

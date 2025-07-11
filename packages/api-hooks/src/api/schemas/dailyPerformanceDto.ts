@@ -7,4 +7,5 @@ export interface DailyPerformanceDto {
   totalEnteredAmountWei: string | null;
   totalExitedAmountWei: string | null;
   totalRevenueAmountWei: string;
+  totalTvlAmountWei: string | null;
 }
