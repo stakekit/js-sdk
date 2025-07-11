@@ -31,6 +31,7 @@ export const YieldV2YieldsNetwork = {
   viction: 'viction',
   core: 'core',
   sonic: 'sonic',
+  katana: 'katana',
   agoric: 'agoric',
   akash: 'akash',
   axelar: 'axelar',

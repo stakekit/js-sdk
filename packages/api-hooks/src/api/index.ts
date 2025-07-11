@@ -308,7 +308,7 @@ export const useReportProjectGetRewards = <
 };
 
 export const reportProjectGetDailyRevenues = (
-  params?: ReportProjectGetDailyRevenuesParams,
+  params: ReportProjectGetDailyRevenuesParams,
   signal?: AbortSignal,
 ) => {
   return customFetch<ReportProjectGetDailyRevenues200>({
@@ -320,7 +320,7 @@ export const reportProjectGetDailyRevenues = (
 };
 
 export const getReportProjectGetDailyRevenuesQueryKey = (
-  params?: ReportProjectGetDailyRevenuesParams,
+  params: ReportProjectGetDailyRevenuesParams,
 ) => {
   return [`/v1/reporting/revenue`, ...(params ? [params] : [])] as const;
 };
@@ -329,7 +329,7 @@ export const getReportProjectGetDailyRevenuesQueryOptions = <
   TData = Awaited<ReturnType<typeof reportProjectGetDailyRevenues>>,
   TError = unknown,
 >(
-  params?: ReportProjectGetDailyRevenuesParams,
+  params: ReportProjectGetDailyRevenuesParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -365,7 +365,7 @@ export const useReportProjectGetDailyRevenues = <
   TData = Awaited<ReturnType<typeof reportProjectGetDailyRevenues>>,
   TError = unknown,
 >(
-  params?: ReportProjectGetDailyRevenuesParams,
+  params: ReportProjectGetDailyRevenuesParams,
   options?: {
     query?: Partial<
       UseQueryOptions<

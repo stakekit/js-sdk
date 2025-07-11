@@ -2,11 +2,11 @@ export type ReportProjectGetDailyRevenuesParams = {
   /**
    * Filter rewards from this date (e.g. "2023-01-01")
    */
-  from?: string;
+  from: string;
   /**
    * Filter rewards until this date (e.g. "2023-01-01")
    */
-  to?: string;
+  to: string;
   /**
    * Filter rewards from this integrationId
    */
