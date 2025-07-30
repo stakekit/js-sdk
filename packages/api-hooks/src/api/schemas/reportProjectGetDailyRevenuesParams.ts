@@ -1,10 +1,10 @@
 export type ReportProjectGetDailyRevenuesParams = {
   /**
-   * Filter rewards from this date (e.g. "2023-01-01")
+   * Filter rewards from this date (e.g. "2025-07-01")
    */
   from: string;
   /**
-   * Filter rewards until this date (e.g. "2023-01-01")
+   * Filter rewards until this date (e.g. "2025-07-10")
    */
   to: string;
   /**

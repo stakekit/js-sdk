@@ -1,10 +1,10 @@
 export type ReportProjectGetDailyPerformanceParams = {
   /**
-   * Filter data from this date (e.g. "2023-01-01")
+   * Filter data from this date (e.g. "2025-07-01")
    */
   from: string;
   /**
-   * Filter data until this date (e.g. "2023-01-01"). Difference between "from" and "to" cannot exceed 10 days.
+   * Filter data until this date (e.g. "2025-07-10"). Difference between "from" and "to" cannot exceed 10 days.
    */
   to: string;
   /**

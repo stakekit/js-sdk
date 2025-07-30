@@ -10,6 +10,7 @@ export interface ValidatorDto {
   name?: string;
   nominatorCount?: number;
   preferred?: boolean;
+  pricePerShare?: string;
   providerId?: string;
   remainingPossibleStake?: string;
   remainingSlots?: number;

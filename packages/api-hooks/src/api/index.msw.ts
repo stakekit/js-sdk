@@ -2604,6 +2604,7 @@ export const getYieldV2ControllerGetYieldByIdResponseMock = (
       faker.datatype.boolean(),
       undefined,
     ]),
+    pricePerShare: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     remainingPossibleStake: faker.helpers.arrayElement([
       faker.word.sample(),
@@ -2666,6 +2667,10 @@ export const getYieldV2ControllerFindYieldValidatorsResponseMock = (
       ]),
       preferred: faker.helpers.arrayElement([
         faker.datatype.boolean(),
+        undefined,
+      ]),
+      pricePerShare: faker.helpers.arrayElement([
+        faker.word.sample(),
         undefined,
       ]),
       providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
@@ -2733,6 +2738,10 @@ export const getYieldV2ControllerFindValidatorsResponseMock = (
       ]),
       preferred: faker.helpers.arrayElement([
         faker.datatype.boolean(),
+        undefined,
+      ]),
+      pricePerShare: faker.helpers.arrayElement([
+        faker.word.sample(),
         undefined,
       ]),
       providerId: faker.helpers.arrayElement([faker.word.sample(), undefined]),
