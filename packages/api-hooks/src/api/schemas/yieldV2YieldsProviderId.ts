@@ -37,9 +37,11 @@ export const YieldV2YieldsProviderId = {
   'chorus-one': 'chorus-one',
   stakekit: 'stakekit',
   spark: 'spark',
+  sommelier: 'sommelier',
   venus: 'venus',
   mantle: 'mantle',
   'ton-whales': 'ton-whales',
   blend: 'blend',
   synthetix: 'synthetix',
+  euler: 'euler',
 } as const;
