@@ -10,6 +10,8 @@ export interface Team {
   deletedAt: string | null;
   id: string;
   name: string;
+  /** Whether the team can access OAV functionality */
+  oavEnabled: boolean;
   providerId: string | null;
   serviceConditionsAcceptedAt: string | null;
   type: TeamType;

@@ -4,6 +4,7 @@ import {
   ActionStatus,
   ActionTypes,
   BalanceTypes,
+  ERCStandards,
   FeeConfigurationStatus,
   GasMode,
   HealthStatus,
@@ -2469,6 +2470,10 @@ export const getYieldV2ControllerGetYieldByIdResponseMock = (
       })),
       undefined,
     ]),
+    supportedStandards: faker.helpers.arrayElement([
+      faker.helpers.arrayElements(Object.values(ERCStandards)),
+      undefined,
+    ]),
     supportsLedgerWalletApi: faker.helpers.arrayElement([
       faker.datatype.boolean(),
       undefined,
@@ -2594,6 +2599,7 @@ export const getYieldV2ControllerGetYieldByIdResponseMock = (
       undefined,
     ]),
     image: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    marketCap: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     minimumStake: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     name: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     nominatorCount: faker.helpers.arrayElement([
@@ -2620,6 +2626,8 @@ export const getYieldV2ControllerGetYieldByIdResponseMock = (
       faker.number.int({ min: undefined, max: undefined }),
       undefined,
     ]),
+    subnetName: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    tokenSymbol: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     votingPower: faker.helpers.arrayElement([
       faker.number.int({ min: undefined, max: undefined }),
       undefined,
@@ -2656,6 +2664,7 @@ export const getYieldV2ControllerFindYieldValidatorsResponseMock = (
         undefined,
       ]),
       image: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+      marketCap: faker.helpers.arrayElement([faker.word.sample(), undefined]),
       minimumStake: faker.helpers.arrayElement([
         faker.word.sample(),
         undefined,
@@ -2691,6 +2700,8 @@ export const getYieldV2ControllerFindYieldValidatorsResponseMock = (
         faker.number.int({ min: undefined, max: undefined }),
         undefined,
       ]),
+      subnetName: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+      tokenSymbol: faker.helpers.arrayElement([faker.word.sample(), undefined]),
       votingPower: faker.helpers.arrayElement([
         faker.number.int({ min: undefined, max: undefined }),
         undefined,
@@ -2727,6 +2738,7 @@ export const getYieldV2ControllerFindValidatorsResponseMock = (
         undefined,
       ]),
       image: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+      marketCap: faker.helpers.arrayElement([faker.word.sample(), undefined]),
       minimumStake: faker.helpers.arrayElement([
         faker.word.sample(),
         undefined,
@@ -2762,6 +2774,8 @@ export const getYieldV2ControllerFindValidatorsResponseMock = (
         faker.number.int({ min: undefined, max: undefined }),
         undefined,
       ]),
+      subnetName: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+      tokenSymbol: faker.helpers.arrayElement([faker.word.sample(), undefined]),
       votingPower: faker.helpers.arrayElement([
         faker.number.int({ min: undefined, max: undefined }),
         undefined,
