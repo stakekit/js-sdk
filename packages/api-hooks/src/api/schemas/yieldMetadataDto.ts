@@ -6,6 +6,7 @@ import type { YieldProviderDto } from './yieldProviderDto';
 import type { YieldRevshareDto } from './yieldRevshareDto';
 import type { RewardClaiming } from './rewardClaiming';
 import type { RewardSchedule } from './rewardSchedule';
+import type { ERCStandards } from './eRCStandards';
 import type { YieldType } from './yieldType';
 
 export interface YieldMetadataDto {
@@ -25,6 +26,7 @@ export interface YieldMetadataDto {
   rewardClaiming: RewardClaiming;
   rewardSchedule: RewardSchedule;
   rewardTokens?: TokenDto[];
+  supportedStandards?: ERCStandards[];
   supportsLedgerWalletApi?: boolean;
   supportsMultipleValidators?: boolean;
   token: TokenDto;

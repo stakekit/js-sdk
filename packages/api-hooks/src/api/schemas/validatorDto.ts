@@ -6,6 +6,7 @@ export interface ValidatorDto {
   commission?: number;
   endDate?: string;
   image?: string;
+  marketCap?: string;
   minimumStake?: string;
   name?: string;
   nominatorCount?: number;
@@ -17,6 +18,8 @@ export interface ValidatorDto {
   stakedBalance?: string;
   status: ValidatorStatusTypes;
   subnetId?: number;
+  subnetName?: string;
+  tokenSymbol?: string;
   votingPower?: number;
   website?: string;
 }

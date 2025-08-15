@@ -10,5 +10,6 @@ export interface TeamDto {
   deletedAt: string | null;
   id: string;
   name: string;
+  oavEnabled: boolean;
   serviceConditionsAcceptedAt: string | null;
 }
