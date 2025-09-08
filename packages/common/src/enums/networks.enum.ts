@@ -31,6 +31,7 @@ export enum EvmNetworks {
   Viction = 'viction',
   Core = 'core',
   Sonic = 'sonic',
+  HyperEVM = 'hyperevm',
 }
 
 export enum CosmosNetworks {
