@@ -17,6 +17,7 @@ export enum EvmNetworks {
   zkSync = 'zksync',
   Linea = 'linea',
   Unichain = 'unichain',
+  Katana = 'katana',
 
   // Other EVM
   AvalancheC = 'avalanche-c',
