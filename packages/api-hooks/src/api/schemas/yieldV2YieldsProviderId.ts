@@ -44,4 +44,12 @@ export const YieldV2YieldsProviderId = {
   blend: 'blend',
   synthetix: 'synthetix',
   euler: 'euler',
+  maple: 'maple',
+  sky: 'sky',
+  'yo-protocol': 'yo-protocol',
+  meria: 'meria',
+  stakin: 'stakin',
+  globalstake: 'globalstake',
+  simplystaking: 'simplystaking',
+  coinbase: 'coinbase',
 } as const;
