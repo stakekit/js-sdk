@@ -3,5 +3,6 @@ import type { StakeResponseDtoStake } from './stakeResponseDtoStake';
 
 export interface StakeResponseDto {
   id: WalletViewDto;
+  /** Stake information */
   stake: StakeResponseDtoStake;
 }

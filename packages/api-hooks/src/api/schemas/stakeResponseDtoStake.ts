@@ -1,1 +1,7 @@
-export type StakeResponseDtoStake = { [key: string]: any };
+import type { StakeViewSuccessDto } from './stakeViewSuccessDto';
+import type { StakeFailureDto } from './stakeFailureDto';
+
+/**
+ * Stake information
+ */
+export type StakeResponseDtoStake = StakeViewSuccessDto | StakeFailureDto;
