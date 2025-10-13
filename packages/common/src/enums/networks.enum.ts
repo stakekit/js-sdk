@@ -106,6 +106,7 @@ export enum MiscNetworks {
   Aptos = 'aptos',
   Stellar = 'stellar',
   StellarTestnet = 'stellar-testnet',
+  Sui = 'sui',
 }
 
 export const Networks = {
