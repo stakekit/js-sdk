@@ -11,6 +11,7 @@ export interface ActionArgumentsDto {
   ledgerWalletAPICompatible?: boolean;
   nfts?: ApeNativeArgumentsDto;
   providerId?: string;
+  receiverAddress?: string;
   signatureVerification?: SignatureVerificationArgumentsDto;
   subnetId?: number;
   tronResource?: TronResourceType;

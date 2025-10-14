@@ -43,6 +43,7 @@ export const YieldProviders = {
   'ton-whales': 'ton-whales',
   blend: 'blend',
   synthetix: 'synthetix',
+  drift: 'drift',
   euler: 'euler',
   maple: 'maple',
   sky: 'sky',
@@ -52,4 +53,5 @@ export const YieldProviders = {
   globalstake: 'globalstake',
   simplystaking: 'simplystaking',
   coinbase: 'coinbase',
+  'validation-cloud': 'validation-cloud',
 } as const;

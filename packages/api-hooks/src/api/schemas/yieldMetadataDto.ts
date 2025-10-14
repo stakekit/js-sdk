@@ -1,3 +1,4 @@
+import type { YieldCommissionDto } from './yieldCommissionDto';
 import type { TimePeriodDto } from './timePeriodDto';
 import type { TransactionFormat } from './transactionFormat';
 import type { YieldFeeDto } from './yieldFeeDto';
@@ -7,9 +8,11 @@ import type { YieldRevshareDto } from './yieldRevshareDto';
 import type { RewardClaiming } from './rewardClaiming';
 import type { RewardSchedule } from './rewardSchedule';
 import type { ERCStandards } from './eRCStandards';
+import type { YieldTvlDto } from './yieldTvlDto';
 import type { YieldType } from './yieldType';
 
 export interface YieldMetadataDto {
+  commission?: YieldCommissionDto[];
   cooldownPeriod?: TimePeriodDto;
   description: string;
   documentation: string;
@@ -31,6 +34,7 @@ export interface YieldMetadataDto {
   supportsMultipleValidators?: boolean;
   token: TokenDto;
   tokens?: TokenDto[];
+  tvl?: YieldTvlDto[];
   type: YieldType;
   warmupPeriod: TimePeriodDto;
   withdrawPeriod?: TimePeriodDto;

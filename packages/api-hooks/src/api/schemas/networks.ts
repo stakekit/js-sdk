@@ -1,6 +1,3 @@
-/**
- * The network name
- */
 export type Networks = (typeof Networks)[keyof typeof Networks];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -21,6 +18,7 @@ export const Networks = {
   zksync: 'zksync',
   linea: 'linea',
   unichain: 'unichain',
+  'monad-testnet': 'monad-testnet',
   'avalanche-c': 'avalanche-c',
   'avalanche-c-atomic': 'avalanche-c-atomic',
   'avalanche-p': 'avalanche-p',

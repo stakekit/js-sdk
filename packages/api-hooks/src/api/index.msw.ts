@@ -4,6 +4,7 @@ import {
   ActionStatus,
   ActionTypes,
   BalanceTypes,
+  CommissionAppliesTo,
   ERCStandards,
   FeeConfigurationStatus,
   GasMode,
@@ -15,6 +16,7 @@ import {
   TransactionFormat,
   TransactionStatus,
   TransactionType,
+  TvlLevel,
   ValidatorStatusTypes,
   YieldProviders,
   YieldType,
@@ -1652,6 +1654,10 @@ export const getYieldControllerGetMultipleYieldBalancesResponseMock = (
                   },
                   undefined,
                 ]),
+                receiverAddress: faker.helpers.arrayElement([
+                  { required: faker.datatype.boolean(), ...overrideResponse },
+                  undefined,
+                ]),
                 signatureVerification: faker.helpers.arrayElement([
                   { required: faker.datatype.boolean(), ...overrideResponse },
                   undefined,
@@ -1891,6 +1897,10 @@ export const getYieldControllerGetSingleYieldBalancesResponseMock = (
                   required: faker.datatype.boolean(),
                   ...overrideResponse,
                 },
+                undefined,
+              ]),
+              receiverAddress: faker.helpers.arrayElement([
+                { required: faker.datatype.boolean(), ...overrideResponse },
                 undefined,
               ]),
               signatureVerification: faker.helpers.arrayElement([
@@ -2172,6 +2182,10 @@ export const getYieldV2ControllerGetYieldByIdResponseMock = (
             },
             undefined,
           ]),
+          receiverAddress: faker.helpers.arrayElement([
+            { required: faker.datatype.boolean(), ...overrideResponse },
+            undefined,
+          ]),
           signatureVerification: faker.helpers.arrayElement([
             { required: faker.datatype.boolean(), ...overrideResponse },
             undefined,
@@ -2303,6 +2317,10 @@ export const getYieldV2ControllerGetYieldByIdResponseMock = (
               },
               undefined,
             ]),
+            receiverAddress: faker.helpers.arrayElement([
+              { required: faker.datatype.boolean(), ...overrideResponse },
+              undefined,
+            ]),
             signatureVerification: faker.helpers.arrayElement([
               { required: faker.datatype.boolean(), ...overrideResponse },
               undefined,
@@ -2374,6 +2392,19 @@ export const getYieldV2ControllerGetYieldByIdResponseMock = (
   id: faker.word.sample(),
   isAvailable: faker.datatype.boolean(),
   metadata: {
+    commission: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => ({
+        appliesTo: faker.helpers.arrayElement(
+          Object.values(CommissionAppliesTo),
+        ),
+        value: faker.number.int({ min: undefined, max: undefined }),
+        ...overrideResponse,
+      })),
+      undefined,
+    ]),
     cooldownPeriod: faker.helpers.arrayElement([
       {
         days: faker.number.int({ min: undefined, max: undefined }),
@@ -2523,6 +2554,17 @@ export const getYieldV2ControllerGetYieldByIdResponseMock = (
         name: faker.word.sample(),
         network: faker.helpers.arrayElement(Object.values(Networks)),
         symbol: faker.word.sample(),
+        ...overrideResponse,
+      })),
+      undefined,
+    ]),
+    tvl: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => ({
+        level: faker.helpers.arrayElement(Object.values(TvlLevel)),
+        value: faker.word.sample(),
         ...overrideResponse,
       })),
       undefined,
