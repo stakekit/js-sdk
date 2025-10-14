@@ -13,6 +13,8 @@ export interface Team {
   /** Whether the team can access OAV functionality */
   oavEnabled: boolean;
   providerId: string | null;
+  referralCode: string | null;
+  referredBy: string | null;
   serviceConditionsAcceptedAt: string | null;
   type: TeamType;
   updatedAt: string;

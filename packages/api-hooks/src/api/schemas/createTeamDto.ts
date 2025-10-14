@@ -4,5 +4,6 @@ import type { CreateTeamDtoUser } from './createTeamDtoUser';
 export interface CreateTeamDto {
   contactDetails: CreateTeamDtoContactDetails;
   name: string;
+  referredBy?: string;
   user: CreateTeamDtoUser;
 }
