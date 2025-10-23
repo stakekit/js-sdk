@@ -1,6 +1,6 @@
 {
   "name": "@stakekit/common",
-  "version": "0.0.58",
+  "version": "0.0.59",
   "scripts": {
     "clean": "rm -rf lib",
     "build": "yarn clean && tsc -b ./tsconfig.cjs.json && tsc -b ./tsconfig.esm.json",

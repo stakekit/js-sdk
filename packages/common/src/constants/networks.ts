@@ -21,7 +21,7 @@ export const NetworkToCoinGeckoPlatformId: { [x in Networks]?: string } = {
   [Networks.Core]: 'coredaoorg',
   [Networks.HyperEVM]: 'hyperliquid',
   [Networks.Katana]: 'katana',
-  [Networks.Sui]: 'sui-ecosystem',
+  [Networks.Sui]: 'sui',
 
   ...Object.values(CosmosNetworks).reduce(
     (accum, n) => ({
