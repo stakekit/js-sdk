@@ -31,6 +31,7 @@ export const EvmNetworks = {
   viction: 'viction',
   core: 'core',
   sonic: 'sonic',
+  plasma: 'plasma',
   katana: 'katana',
   hyperevm: 'hyperevm',
 } as const;
