@@ -18,6 +18,8 @@ export enum EvmNetworks {
   Linea = 'linea',
   Unichain = 'unichain',
   Katana = 'katana',
+  MonadTestnet = 'monad-testnet',
+  Monad = 'monad',
 
   // Other EVM
   AvalancheC = 'avalanche-c',
