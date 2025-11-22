@@ -20,6 +20,7 @@ export const YieldV2YieldsNetwork = {
   linea: 'linea',
   unichain: 'unichain',
   'monad-testnet': 'monad-testnet',
+  monad: 'monad',
   'avalanche-c': 'avalanche-c',
   'avalanche-c-atomic': 'avalanche-c-atomic',
   'avalanche-p': 'avalanche-p',

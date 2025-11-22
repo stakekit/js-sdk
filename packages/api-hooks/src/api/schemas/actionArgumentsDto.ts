@@ -15,6 +15,7 @@ export interface ActionArgumentsDto {
   signatureVerification?: SignatureVerificationArgumentsDto;
   subnetId?: number;
   tronResource?: TronResourceType;
+  useMaxAmount?: boolean;
   validatorAddress?: string;
   validatorAddresses?: string[];
 }

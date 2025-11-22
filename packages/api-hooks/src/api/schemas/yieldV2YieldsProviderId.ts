@@ -31,6 +31,7 @@ export const YieldV2YieldsProviderId = {
   renzo: 'renzo',
   infstones: 'infstones',
   ethena: 'ethena',
+  upshift: 'upshift',
   fluid: 'fluid',
   'idle-finance': 'idle-finance',
   gearbox: 'gearbox',
@@ -54,4 +55,5 @@ export const YieldV2YieldsProviderId = {
   simplystaking: 'simplystaking',
   coinbase: 'coinbase',
   'validation-cloud': 'validation-cloud',
+  curve: 'curve',
 } as const;
