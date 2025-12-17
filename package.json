@@ -20,6 +20,14 @@
     "test:ci": "turbo run --concurrency=2 test",
     "regen:api-hooks": "yarn workspace @stakekit/api-hooks build && yarn workspace @stakekit/api-hooks orval"
   },
+  "resolutions": {
+    "@babel/traverse": "^7.23.2",
+    "metro-source-map/@babel/traverse": "^7.23.2",
+    "metro-transform-plugins/@babel/traverse": "^7.23.2",
+    "metro/@babel/traverse": "^7.23.2",
+    "jsonpath-plus": "^10.3.0",
+    "nimma/jsonpath-plus": "^10.3.0"
+  },
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
