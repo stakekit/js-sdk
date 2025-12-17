@@ -66,7 +66,7 @@
 		"eslint-config-react-app": "^7.0.1",
 		"lodash": "^4.17.21",
 		"msw": "^2.7.3",
-		"orval": "^6.25.0",
+		"orval": "6.25.0",
 		"prettier": "^3.5.3",
 		"react": "^19.0.0",
 		"tsup": "^8.4.0",
